@@ -21,6 +21,6 @@ public class QuestionPaper {
     private List<Question> question_pool;
     private String date;
     private String duration;
-    private int marks;
+    private int mark;
     private String chapter;
 }
