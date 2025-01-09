@@ -1,7 +1,6 @@
 package com.example.InstaLearn.questionBankManagement.dto;
 
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class QuestionsDTO {
+public class QuestionDTO {
     private int questionId;
     private String chapterName;
     private String question;
