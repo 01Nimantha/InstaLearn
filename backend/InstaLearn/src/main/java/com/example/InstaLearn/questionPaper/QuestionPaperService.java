@@ -8,7 +8,8 @@ public interface QuestionPaperService {
 
     Optional<QuestionPaper> findQuestionPaperById(int id);
 
-    boolean postQuestionPaper(QuestionPaper questionPaper);
+
+
 
     boolean updateQuestionPaper(int id, QuestionPaper questionPaper);
 
