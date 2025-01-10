@@ -27,16 +27,8 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
         return questionPaperRepository.findById(id);
     }
 
-    @Override
-    public boolean postQuestionPaper(QuestionPaper questionPaper) {
-        try {
-            questionPaperRepository.save(questionPaper);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
 
-    }
+
 
     @Override
     public boolean updateQuestionPaper(int id, QuestionPaper questionPaper) {
@@ -47,7 +39,6 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
             }
             QuestionPaper x = questionPaper1.get();
             x.setId(questionPaper.getId());
-            x.setQuestion_pool(questionPaper.getQuestion_pool());
             x.setDate(questionPaper.getDate());
             x.setDuration(questionPaper.getDuration());
             x.setMark(questionPaper.getMark());
