@@ -1,6 +1,5 @@
 package com.example.InstaLearn.questionPaper;
 
-import com.example.InstaLearn.questionPaper.dto.Question;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,9 +17,8 @@ public class QuestionPaper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private List<Question> question_pool;
     private String date;
     private String duration;
-    private int marks;
+    private int mark;
     private String chapter;
 }
