@@ -6,11 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="questions")
+@Table(name="question")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Questions {
+public class Question {
     @Id
     @Column(name = "question_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
