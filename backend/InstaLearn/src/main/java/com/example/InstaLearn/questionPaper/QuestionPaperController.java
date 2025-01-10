@@ -31,16 +31,9 @@ public class QuestionPaperController {
             return new ResponseEntity<>(questionPaper.get(),HttpStatus.NOT_FOUND);
         }
     }
-    @PostMapping
-    public ResponseEntity<String> postQuestionPaper(@RequestBody QuestionPaper questionPaper){
-        boolean isPost= questionPaperService.postQuestionPaper(questionPaper);
-        if(isPost){
-            return new ResponseEntity<>("Successfully Updated Question Paper",HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
 
-    }
+
+
     @PutMapping("/{id}")
     public ResponseEntity<String> updateQuestionPaper(@PathVariable int id,@RequestBody QuestionPaper questionPaper){
         boolean isUpdate = questionPaperService.updateQuestionPaper(id,questionPaper);
