@@ -18,4 +18,10 @@ public class QuestionController {
         questionService.saveQuestion(questionDTO);
         return "saved";
     }
+    @PutMapping("/update")
+    public String updateQuestion(@RequestBody QuestionDTO questionDTO){
+        String msg=questionService.updateQuestion(questionDTO);
+        return msg;
+    }
+
 }

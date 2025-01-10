@@ -27,4 +27,25 @@ public class QuestionServiceIMPL implements QuestionService {
         questionRepo.save(question);
         return question.getQuestion();
     }
+
+    @Override
+    public String updateQuestion(QuestionDTO questionDTO) {
+        if(questionRepo.existsById(questionDTO.getQuestionId())) {
+            Question question=questionRepo.getReferenceById(questionDTO.getQuestionId());
+            question.setChapterName(questionDTO.getChapterName());
+            question.setQuestion(questionDTO.getQuestion());
+            question.setAnswerOne(questionDTO.getAnswerOne());
+            question.setAnswerTwo(questionDTO.getAnswerTwo());
+            question.setAnswerThree(questionDTO.getAnswerThree());
+            question.setAnswerFour(questionDTO.getAnswerFour());
+            question.setCorrectAnswer(questionDTO.getCorrectAnswer());
+
+
+            questionRepo.save(question);
+            return "Question Updated successfully";
+        }
+        else{
+            throw new RuntimeException("Question Not Found");
+        }
+    }
 }
