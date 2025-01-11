@@ -48,4 +48,25 @@ public class QuestionServiceIMPL implements QuestionService {
             throw new RuntimeException("Question Not Found");
         }
     }
+
+    @Override
+    public QuestionDTO getQuestionById(int questionId) {
+        if(questionRepo.existsById(questionId)) {
+            Question question=questionRepo.getReferenceById(questionId);
+            QuestionDTO questionDTO=new QuestionDTO(
+                    question.getQuestionId(),
+                    question.getChapterName(),
+                    question.getQuestion(),
+                    question.getAnswerOne(),
+                    question.getAnswerTwo(),
+                    question.getAnswerThree(),
+                    question.getAnswerFour(),
+                    question.getCorrectAnswer()
+            );
+            return questionDTO;
+        }
+        else {
+            throw new RuntimeException("Question Not Found");
+        }
+    }
 }

@@ -23,5 +23,13 @@ public class QuestionController {
         String msg=questionService.updateQuestion(questionDTO);
         return msg;
     }
+    @GetMapping(
+            path="/get-by-id",
+            params="id"
+    )
+    public QuestionDTO getQuestionById(@RequestParam(value="id") int questionId ){
+        QuestionDTO questionDTO=questionService.getQuestionById(questionId);
+        return questionDTO;
+    }
 
 }
