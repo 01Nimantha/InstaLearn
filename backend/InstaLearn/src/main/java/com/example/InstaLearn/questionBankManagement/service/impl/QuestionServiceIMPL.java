@@ -7,6 +7,9 @@ import com.example.InstaLearn.questionBankManagement.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class QuestionServiceIMPL implements QuestionService {
     @Autowired
@@ -64,6 +67,38 @@ public class QuestionServiceIMPL implements QuestionService {
                     question.getCorrectAnswer()
             );
             return questionDTO;
+        }
+        else {
+            throw new RuntimeException("Question Not Found");
+        }
+    }
+
+    @Override
+    public List<QuestionDTO> getAllQuestion() {
+        List<Question> getAllQuestion=questionRepo.findAll();
+        List<QuestionDTO> questionDTOList=new ArrayList<>();
+
+        for(Question question:getAllQuestion){
+            QuestionDTO questionDTO=new QuestionDTO(
+                    question.getQuestionId(),
+                    question.getChapterName(),
+                    question.getQuestion(),
+                    question.getAnswerOne(),
+                    question.getAnswerTwo(),
+                    question.getAnswerThree(),
+                    question.getAnswerFour(),
+                    question.getCorrectAnswer()
+            );
+            questionDTOList.add(questionDTO);
+        }
+        return questionDTOList;
+    }
+
+    @Override
+    public String deleteQuestion(int questionId) {
+        if(questionRepo.existsById(questionId)) {
+            questionRepo.deleteById(questionId);
+            return questionId+" Question Deleted successfully";
         }
         else {
             throw new RuntimeException("Question Not Found");
