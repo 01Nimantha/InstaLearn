@@ -9,4 +9,6 @@ public interface UserService {
     String updateUser(UserUpdateRequestDTO userUpdateRequestDTO);
 
     String deleteUser(int userId);
+
+    UserSaveRequestDTO getUserById(int userId);
 }

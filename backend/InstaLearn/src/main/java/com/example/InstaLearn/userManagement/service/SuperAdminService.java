@@ -9,4 +9,6 @@ public interface SuperAdminService {
     String updateSuperAdmin(SuperAdminUpdateRequestDTO superAdminUpdateRequestDTO);
 
     String deleteSuperAdmin(int sadminId);
+
+    SuperAdminSaveRequestDTO getSuperAdminById(int superAdminId);
 }
