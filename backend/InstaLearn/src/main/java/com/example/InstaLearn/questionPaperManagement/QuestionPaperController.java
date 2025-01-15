@@ -1,5 +1,6 @@
-package com.example.InstaLearn.questionPaper;
+package com.example.InstaLearn.questionPaperManagement;
 
+import com.example.InstaLearn.questionPaperManagement.dto.QuestionPaperDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,15 +24,24 @@ public class QuestionPaperController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<QuestionPaper> findQuestionPaperById(@PathVariable int id){
-        Optional<QuestionPaper> questionPaper = questionPaperService.findQuestionPaperById(id);
-        if(questionPaper.isEmpty()){
+    public ResponseEntity<QuestionPaper> findQuestionPaperById(@PathVariable int id) {
+        try {
+            QuestionPaper questionPaper = questionPaperService.findQuestionPaperByIdOrThrow(id);
+            return new ResponseEntity<>(questionPaper, HttpStatus.OK);
+        } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else {
-            return new ResponseEntity<>(questionPaper.get(),HttpStatus.NOT_FOUND);
         }
     }
 
+    @PostMapping
+    public ResponseEntity<String> saveQuestionPaper(@RequestBody QuestionPaperDto questionPaperDto) {
+        boolean isCreated = questionPaperService.saveQuestionPaper(questionPaperDto);
+        if (isCreated) {
+            return new ResponseEntity<>("Successfully created QuestionPaper", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("QuestionPaper was not created", HttpStatus.BAD_REQUEST);
+        }
+    }
 
 
     @PutMapping("/{id}")
