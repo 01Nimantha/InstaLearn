@@ -2,10 +2,10 @@ package com.example.InstaLearn.userManagement.controller;
 
 import com.example.InstaLearn.userManagement.dto.SuperAdminSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.SuperAdminUpdateRequestDTO;
-import com.example.InstaLearn.userManagement.dto.TeacherSaveRequestDTO;
-import com.example.InstaLearn.userManagement.dto.TeacherUpdateRequestDTO;
+import com.example.InstaLearn.userManagement.dto.SuperAdminSaveRequestDTO;
+import com.example.InstaLearn.userManagement.dto.SuperAdminUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.service.SuperAdminService;
-import com.example.InstaLearn.userManagement.service.TeacherService;
+import com.example.InstaLearn.userManagement.service.SuperAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +37,15 @@ public class SuperAdminController {
     public String deleteSuperAdmin(@RequestParam(value = "id") int sadminId) {
         String deleted=superAdminService.deleteSuperAdmin(sadminId);
         return deleted;
+    }
+
+    @GetMapping(
+            path="/get-by-id",
+            params = "id"
+
+    )
+    public SuperAdminSaveRequestDTO getSuperAdminById(@RequestParam(value = "id") int superAdminId) {
+        SuperAdminSaveRequestDTO superAdminSaveRequestDTO=superAdminService.getSuperAdminById(superAdminId);
+        return superAdminSaveRequestDTO ;
     }
 }

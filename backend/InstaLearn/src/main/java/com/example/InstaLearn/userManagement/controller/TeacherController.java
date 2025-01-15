@@ -35,4 +35,14 @@ public class TeacherController {
         String deleted=teacherService.deleteTeacher(teacherId);
         return deleted;
     }
+
+    @GetMapping(
+            path="/get-by-id",
+            params = "id"
+
+    )
+    public TeacherSaveRequestDTO getTeacherById(@RequestParam(value = "id") int teacherId) {
+        TeacherSaveRequestDTO teacherSaveRequestDTO=teacherService.getTeacherById(teacherId);
+        return teacherSaveRequestDTO ;
+    }
 }

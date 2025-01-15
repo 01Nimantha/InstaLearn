@@ -1,10 +1,10 @@
 package com.example.InstaLearn.userManagement.controller;
 
-import com.example.InstaLearn.userManagement.dto.TeacherSaveRequestDTO;
-import com.example.InstaLearn.userManagement.dto.TeacherUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.dto.UserSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.UserUpdateRequestDTO;
-import com.example.InstaLearn.userManagement.service.TeacherService;
+import com.example.InstaLearn.userManagement.dto.UserSaveRequestDTO;
+import com.example.InstaLearn.userManagement.dto.UserUpdateRequestDTO;
+import com.example.InstaLearn.userManagement.service.UserService;
 import com.example.InstaLearn.userManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +37,15 @@ public class UserController {
     public String deleteUser(@RequestParam(value = "id") int userId) {
         String deleted=userService.deleteUser(userId);
         return deleted;
+    }
+
+    @GetMapping(
+            path="/get-by-id",
+            params = "id"
+
+    )
+    public UserSaveRequestDTO getUserById(@RequestParam(value = "id") int userId) {
+        UserSaveRequestDTO userSaveRequestDTO=userService.getUserById(userId);
+        return userSaveRequestDTO ;
     }
 }

@@ -1,8 +1,9 @@
 package com.example.InstaLearn.userManagement.service.impl;
 
 import com.example.InstaLearn.userManagement.dto.UserSaveRequestDTO;
+import com.example.InstaLearn.userManagement.dto.UserSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.UserUpdateRequestDTO;
-import com.example.InstaLearn.userManagement.entity.Teacher;
+import com.example.InstaLearn.userManagement.entity.User;
 import com.example.InstaLearn.userManagement.entity.User;
 import com.example.InstaLearn.userManagement.repo.UserRepo;
 import com.example.InstaLearn.userManagement.service.UserService;
@@ -52,6 +53,25 @@ public class UserServiceIMPL implements UserService {
         }
         else{
             throw new RuntimeException("No customer found for that id");
+        }
+    }
+
+    @Override
+    public UserSaveRequestDTO getUserById(int userId) {
+        if(userRepo.existsById(userId)) {
+            User user = userRepo.getReferenceById(userId);
+            UserSaveRequestDTO userSaveRequestDTO = new UserSaveRequestDTO(
+                    user.getUserId(),
+                    user.getUserName(),
+                    user.getRole(),
+                    user.getUserPassword()
+            );
+
+
+            return userSaveRequestDTO;
+        }
+        else{
+            throw new RuntimeException("No User");
         }
     }
 }
