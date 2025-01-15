@@ -1,4 +1,4 @@
-package com.example.InstaLearn.questionPaper;
+package com.example.InstaLearn.questionPaperManagement;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 @Entity
 @Table(name = "Question Paper")
 @Getter
