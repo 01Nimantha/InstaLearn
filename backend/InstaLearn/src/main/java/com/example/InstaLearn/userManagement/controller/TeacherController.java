@@ -41,7 +41,7 @@ public class TeacherController {
             params = "id"
 
     )
-    public TeacherSaveRequestDTO getTeacherById(@RequestParam(value = "id") int teacherId) {
+    public TeacherSaveRequestDTO getTeacherById(@RequestParam(value = "id") String teacherId) {
         TeacherSaveRequestDTO teacherSaveRequestDTO=teacherService.getTeacherById(teacherId);
         return teacherSaveRequestDTO ;
     }

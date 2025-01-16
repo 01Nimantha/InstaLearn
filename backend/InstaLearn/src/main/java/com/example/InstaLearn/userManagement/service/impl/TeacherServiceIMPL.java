@@ -58,7 +58,7 @@ public class TeacherServiceIMPL implements TeacherService {
     }
 
     @Override
-    public TeacherSaveRequestDTO getTeacherById(int teacherId) {
+    public TeacherSaveRequestDTO getTeacherById(String teacherId) {
         if(teacherRepo.existsById(teacherId)) {
             Teacher teacher = teacherRepo.getReferenceById(teacherId);
             TeacherSaveRequestDTO teacherSaveRequestDTO = new TeacherSaveRequestDTO(

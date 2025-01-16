@@ -11,6 +11,6 @@ public interface TeacherService {
 
     String deleteTeacher(String teacherId);
 
-    TeacherSaveRequestDTO getTeacherById(int teacherId);
+    TeacherSaveRequestDTO getTeacherById(String teacherId);
 
 }
