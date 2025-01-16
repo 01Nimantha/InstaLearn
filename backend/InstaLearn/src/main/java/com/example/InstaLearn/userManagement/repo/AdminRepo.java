@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @EnableJpaRepositories
-public interface AdminRepo extends JpaRepository<Admin, Integer> {
+public interface AdminRepo extends JpaRepository<Admin, String> {
 }
