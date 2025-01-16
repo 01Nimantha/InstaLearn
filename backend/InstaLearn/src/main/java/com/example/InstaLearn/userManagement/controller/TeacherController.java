@@ -31,7 +31,7 @@ public class TeacherController {
             path = "delete-teacher",
             params = "id"
     )
-    public String deleteTeacher(@RequestParam(value = "id") int teacherId) {
+    public String deleteTeacher(@RequestParam(value = "id") String teacherId) {
         String deleted=teacherService.deleteTeacher(teacherId);
         return deleted;
     }

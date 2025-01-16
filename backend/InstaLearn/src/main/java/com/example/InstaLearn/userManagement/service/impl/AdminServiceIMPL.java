@@ -26,16 +26,26 @@ public class AdminServiceIMPL implements AdminService {
     }
 
     @Override
-    public String updateAdmin(AdminUpdateRequestDTO adminUpdateRequestDTO) {
+    public String updateAdmin(String adminId,AdminUpdateRequestDTO adminUpdateRequestDTO) {
 
-        if (adminRepo.existsById(adminUpdateRequestDTO.getAdminId())) {
+        if (adminRepo.existsById(adminId)) {
 
-            Admin admin = adminRepo.getReferenceById(adminUpdateRequestDTO.getAdminId());
+            Admin admin = adminRepo.getReferenceById(adminId);
             modelMapper.map(adminUpdateRequestDTO, admin);
             adminRepo.save(admin);
 
             return admin.getAdminName() + " updated successfully";
         } else {
+            throw new RuntimeException("Admin not found");
+        }
+    }
+
+    @Override
+    public String deleteAdmin(String adminId) {
+        if(adminRepo.existsById(adminId)) {
+            adminRepo.deleteById(adminId);
+            return adminId + " deleted successfully";
+        }else{
             throw new RuntimeException("Admin not found");
         }
     }

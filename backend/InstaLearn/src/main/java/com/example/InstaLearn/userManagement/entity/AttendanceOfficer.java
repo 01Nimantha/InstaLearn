@@ -1,21 +1,33 @@
 package com.example.InstaLearn.userManagement.entity;
 
+import com.example.InstaLearn.userManagement.entity.idgenerator.AOfficerIdSequenceGenerator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table
+@Table(name="attendance_officer")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 
 public class AttendanceOfficer {
     @Id
-    @Column(name = "attendanceOfficer_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int attendanceOfficerId;
+    @Column(name = "a_officer_id", updatable = false, nullable = false)
+    private String attendanceOfficerId;
+
+    @PrePersist
+    private void generateId() {
+        if (this.attendanceOfficerId == null) {
+            this.attendanceOfficerId = generateAttendanceOfficerId();
+        }
+    }
+    private String generateAttendanceOfficerId() {
+        String prefix = "AO_2025_";
+        int nextNumber = AOfficerIdSequenceGenerator.getNextId();
+        return prefix + String.format("%05d", nextNumber);
+    }
 
     @Column(name="attendanceOfficer_name")
     private String attendanceOfficerName;
