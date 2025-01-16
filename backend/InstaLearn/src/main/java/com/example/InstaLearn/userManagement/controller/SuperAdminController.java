@@ -34,7 +34,7 @@ public class SuperAdminController {
             path = "delete-sadmin",
             params = "id"
     )
-    public String deleteSuperAdmin(@RequestParam(value = "id") int sadminId) {
+    public String deleteSuperAdmin(@RequestParam(value = "id") String sadminId) {
         String deleted=superAdminService.deleteSuperAdmin(sadminId);
         return deleted;
     }

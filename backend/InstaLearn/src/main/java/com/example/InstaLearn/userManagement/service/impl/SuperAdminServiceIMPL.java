@@ -41,7 +41,7 @@ public class SuperAdminServiceIMPL implements SuperAdminService {
     }
 
     @Override
-    public String deleteSuperAdmin(int sadminId) {
+    public String deleteSuperAdmin(String sadminId) {
         if (superAdminRepo.existsById(sadminId)) {
             superAdminRepo.deleteById(sadminId);
             return "Deleted Successfully "+sadminId;

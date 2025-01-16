@@ -8,5 +8,5 @@ public interface TeacherService {
 
     String updateTeacher(TeacherUpdateRequestDTO teacherUpdateRequestDTO);
 
-    String deleteTeacher(int teacherId);
+    String deleteTeacher(String teacherId);
 }

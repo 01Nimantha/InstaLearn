@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class SuperAdminUpdateRequestDTO {
-    private int sadminId;
+    private String sadminId;
     private String sadminEmail;
 }

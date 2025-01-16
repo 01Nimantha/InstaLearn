@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @EnableJpaRepositories
 //@Transactional
-public interface TeacherRepo extends JpaRepository<Teacher, Integer> {
+public interface TeacherRepo extends JpaRepository<Teacher, String> {
 }

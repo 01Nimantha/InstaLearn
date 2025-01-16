@@ -47,7 +47,7 @@ public class TeacherServiceIMPL implements TeacherService {
     }
 
     @Override
-    public String deleteTeacher(int teacherId) {
+    public String deleteTeacher(String teacherId) {
         if (teacherRepo.existsById(teacherId)) {
             teacherRepo.deleteById(teacherId);
             return "Deleted Successfully "+teacherId;
