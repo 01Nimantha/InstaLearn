@@ -24,7 +24,7 @@ public class Admin {
         }
     }
     private String generateAdminId() {
-        String prefix = "AD/2025/";
+        String prefix = "AD_2025_";
         int nextNumber = AdminIdSequenceGenerator.getNextId();
         return prefix + String.format("%05d", nextNumber);
     }

@@ -7,5 +7,7 @@ public interface AdminService {
 
     String saveAdmin(AdminSaveRequestDTO adminSaveRequestDTO);
 
-    String updateAdmin(AdminUpdateRequestDTO adminUpdateRequestDTO);
+    String updateAdmin(String adminId,AdminUpdateRequestDTO adminUpdateRequestDTO);
+
+    String deleteAdmin(String adminId);
 }

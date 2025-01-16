@@ -19,7 +19,7 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("/save")
-    public ResponseEntity saveAdmin(@RequestBody AdminSaveRequestDTO adminSaveRequestDTO) {
+    public ResponseEntity<StandardResponse> saveAdmin(@RequestBody AdminSaveRequestDTO adminSaveRequestDTO) {
         String message = adminService.saveAdmin(adminSaveRequestDTO);
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(201,"success",message),
@@ -27,9 +27,18 @@ public class AdminController {
         );
     }
 
-    @PutMapping("/update")
-    public ResponseEntity updateAdmin(@RequestBody AdminUpdateRequestDTO adminUpdateRequestDTO) {
-        String message = adminService.updateAdmin(adminUpdateRequestDTO);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<StandardResponse> updateAdmin(@PathVariable(value="id") String adminId,@RequestBody AdminUpdateRequestDTO adminUpdateRequestDTO) {
+        String message = adminService.updateAdmin(adminId,adminUpdateRequestDTO);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200,"success",message),
+                HttpStatus.OK
+        );
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<StandardResponse> deleteAdmin(@PathVariable(value="id") String adminId) {
+        String message = adminService.deleteAdmin(adminId);
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(200,"success",message),
                 HttpStatus.OK
