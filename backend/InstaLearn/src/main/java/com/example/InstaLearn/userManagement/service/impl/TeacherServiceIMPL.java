@@ -53,7 +53,27 @@ public class TeacherServiceIMPL implements TeacherService {
             return "Deleted Successfully "+teacherId;
         }
         else{
-            throw new RuntimeException("No customer found for that id");
+            throw new RuntimeException("No teacher found for that id");
+        }
+    }
+
+    @Override
+    public TeacherSaveRequestDTO getTeacherById(int teacherId) {
+        if(teacherRepo.existsById(teacherId)) {
+            Teacher teacher = teacherRepo.getReferenceById(teacherId);
+            TeacherSaveRequestDTO teacherSaveRequestDTO = new TeacherSaveRequestDTO(
+                    teacher.getTeacherId(),
+                    teacher.getTeacherName(),
+                    teacher.getTeacherEmail(),
+                    teacher.getTeacherContactno(),
+                    teacher.getTeacherAddress()
+            );
+
+
+            return teacherSaveRequestDTO;
+        }
+        else{
+            throw new RuntimeException("No Teacher");
         }
     }
 }

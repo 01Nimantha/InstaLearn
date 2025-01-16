@@ -1,8 +1,9 @@
-package com.example.InstaLearn.questionPaper.impl;
+package com.example.InstaLearn.questionPaperManagement.impl;
 
-import com.example.InstaLearn.questionPaper.QuestionPaper;
-import com.example.InstaLearn.questionPaper.QuestionPaperRepository;
-import com.example.InstaLearn.questionPaper.QuestionPaperService;
+import com.example.InstaLearn.questionPaperManagement.QuestionPaper;
+import com.example.InstaLearn.questionPaperManagement.QuestionPaperRepository;
+import com.example.InstaLearn.questionPaperManagement.QuestionPaperService;
+import com.example.InstaLearn.questionPaperManagement.dto.QuestionPaperDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +24,29 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
     }
 
     @Override
-    public Optional<QuestionPaper> findQuestionPaperById(int id) {
-        return questionPaperRepository.findById(id);
+    public QuestionPaper findQuestionPaperByIdOrThrow(int id) {
+        return questionPaperRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("QuestionPaper not found with id: " + id));
     }
 
+
+    @Override
+    public boolean saveQuestionPaper(QuestionPaperDto questionPaperDto) {
+        try {
+            // Convert DTO to Entity
+            QuestionPaper questionPaper = new QuestionPaper();
+            questionPaper.setDate(questionPaperDto.getDate());
+            questionPaper.setDuration(questionPaperDto.getDuration());
+            questionPaper.setMark(questionPaperDto.getMark());
+            questionPaper.setChapter(questionPaperDto.getChapter());
+
+            // Save the entity
+            questionPaperRepository.save(questionPaper);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 
 
@@ -38,7 +58,6 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
                 throw new Exception();
             }
             QuestionPaper x = questionPaper1.get();
-            x.setId(questionPaper.getId());
             x.setDate(questionPaper.getDate());
             x.setDuration(questionPaper.getDuration());
             x.setMark(questionPaper.getMark());
@@ -59,4 +78,7 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
             return false;
         }
     }
+
+
+
 }

@@ -2,8 +2,9 @@ package com.example.InstaLearn.userManagement.service.impl;
 
 import com.example.InstaLearn.userManagement.dto.SuperAdminSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.SuperAdminUpdateRequestDTO;
+import com.example.InstaLearn.userManagement.dto.SuperAdminSaveRequestDTO;
 import com.example.InstaLearn.userManagement.entity.SuperAdmin;
-import com.example.InstaLearn.userManagement.entity.Teacher;
+import com.example.InstaLearn.userManagement.entity.SuperAdmin;
 import com.example.InstaLearn.userManagement.repo.SuperAdminRepo;
 import com.example.InstaLearn.userManagement.service.SuperAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,23 @@ public class SuperAdminServiceIMPL implements SuperAdminService {
         }
         else{
             throw new RuntimeException("No customer found for that id");
+        }
+    }
+
+    @Override
+    public SuperAdminSaveRequestDTO getSuperAdminById(int superAdminId) {
+        if(superAdminRepo.existsById(superAdminId)) {
+            SuperAdmin superAdmin = superAdminRepo.getReferenceById(superAdminId);
+            SuperAdminSaveRequestDTO superAdminSaveRequestDTO = new SuperAdminSaveRequestDTO(
+                    superAdmin.getSadminId(),
+                    superAdmin.getSadminEmail()
+            );
+
+
+            return superAdminSaveRequestDTO;
+        }
+        else{
+            throw new RuntimeException("No SuperAdmin");
         }
     }
 }
