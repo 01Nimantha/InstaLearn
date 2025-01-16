@@ -1,6 +1,8 @@
 package com.example.InstaLearn.userManagement.entity;
 
 import com.example.InstaLearn.userManagement.entity.idgenerator.AdminIdSequenceGenerator;
+import com.example.InstaLearn.userManagement.entity.idgenerator.SAdminIdSequenceGenerator;
+import com.example.InstaLearn.userManagement.entity.idgenerator.TeacherIdSequenceGenerator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,12 +22,12 @@ public class Teacher {
     @PrePersist
     private void generateId() {
         if (this.teacherId == null) {
-            this.teacherId = generateAdminId();
+            this.teacherId = generateTeacherId();
         }
     }
-    private String generateAdminId() {
+    private String generateTeacherId() {
         String prefix = "TH_2025_";
-        int nextNumber = AdminIdSequenceGenerator.getNextId();
+        int nextNumber = TeacherIdSequenceGenerator.getNextId();
         return prefix + String.format("%05d", nextNumber);
     }
 
