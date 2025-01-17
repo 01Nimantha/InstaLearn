@@ -44,7 +44,7 @@ public class SuperAdminController {
             params = "id"
 
     )
-    public SuperAdminSaveRequestDTO getSuperAdminById(@RequestParam(value = "id") int superAdminId) {
+    public SuperAdminSaveRequestDTO getSuperAdminById(@RequestParam(value = "id") String superAdminId) {
         SuperAdminSaveRequestDTO superAdminSaveRequestDTO=superAdminService.getSuperAdminById(superAdminId);
         return superAdminSaveRequestDTO ;
     }

@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminIdSequenceGenerator {
+public class ParentIdSequenceGenerator {
     private static int currentId;
 
     @Autowired
@@ -14,9 +14,9 @@ public class AdminIdSequenceGenerator {
 
     @PostConstruct
     private void initialize() {
-        // Query the maximum admin_id from the database
+        // Query the maximum parent_id from the database
         Integer maxId = jdbcTemplate.queryForObject(
-                "SELECT MAX(CAST(SUBSTRING(admin_id, 9) AS UNSIGNED)) FROM admin",
+                "SELECT MAX(CAST(SUBSTRING(parent_id, 9) AS UNSIGNED)) FROM parent",
                 Integer.class
         );
 

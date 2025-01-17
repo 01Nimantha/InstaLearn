@@ -10,5 +10,5 @@ public interface SuperAdminService {
 
     String deleteSuperAdmin(String sadminId);
 
-    SuperAdminSaveRequestDTO getSuperAdminById(int superAdminId);
+    SuperAdminSaveRequestDTO getSuperAdminById(String superAdminId);
 }

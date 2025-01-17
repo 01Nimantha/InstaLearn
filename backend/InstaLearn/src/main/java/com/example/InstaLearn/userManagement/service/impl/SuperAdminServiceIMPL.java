@@ -53,15 +53,13 @@ public class SuperAdminServiceIMPL implements SuperAdminService {
     }
 
     @Override
-    public SuperAdminSaveRequestDTO getSuperAdminById(int superAdminId) {
+    public SuperAdminSaveRequestDTO getSuperAdminById(String superAdminId) {
         if(superAdminRepo.existsById(superAdminId)) {
             SuperAdmin superAdmin = superAdminRepo.getReferenceById(superAdminId);
             SuperAdminSaveRequestDTO superAdminSaveRequestDTO = new SuperAdminSaveRequestDTO(
                     superAdmin.getSadminId(),
                     superAdmin.getSadminEmail()
             );
-
-
             return superAdminSaveRequestDTO;
         }
         else{
