@@ -1,5 +1,6 @@
 package com.example.InstaLearn.userManagement.entity;
 
+import com.example.InstaLearn.userManagement.entity.idgenerator.AdminIdSequenceGenerator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,9 +14,20 @@ import lombok.NoArgsConstructor;
 public class Admin {
 
     @Id
-    @Column(name = "admin_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int adminId;
+    @Column(name = "admin_id", updatable = false, nullable = false)
+    private String adminId;
+
+    @PrePersist
+    private void generateId() {
+        if (this.adminId == null) {
+            this.adminId = generateAdminId();
+        }
+    }
+    private String generateAdminId() {
+        String prefix = "AD_2025_";
+        int nextNumber = AdminIdSequenceGenerator.getNextId();
+        return prefix + String.format("%05d", nextNumber);
+    }
 
     @Column(name="admin_name")
     private String adminName;
@@ -29,4 +41,7 @@ public class Admin {
     @Column(name="admin_address")
     private String adminAddress;
 
+
 }
+
+
