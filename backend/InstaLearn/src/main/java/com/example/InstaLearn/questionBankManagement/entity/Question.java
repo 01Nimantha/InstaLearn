@@ -22,17 +22,17 @@ public class Question {
     @Column(name = "question")
     private String question;
 
-    @Column(name = "answer_one")
-    private String answerOne;
+    @Column(name = "option_one")
+    private String optionOne;
 
-    @Column(name = "answer_two")
-    private String answerTwo;
+    @Column(name = "option_two")
+    private String optionTwo;
 
-    @Column(name = "answer_three")
-    private String answerThree;
+    @Column(name = "option_three")
+    private String optionThree;
 
-    @Column(name = "answer_four")
-    private String answerFour;
+    @Column(name = "option_four")
+    private String optionFour;
 
     @Column(name = "correct_answer")
     private String correctAnswer;
