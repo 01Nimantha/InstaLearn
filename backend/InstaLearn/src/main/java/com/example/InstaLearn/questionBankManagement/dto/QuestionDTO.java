@@ -12,9 +12,9 @@ public class QuestionDTO {
     private int questionId;
     private String chapterName;
     private String question;
-    private String answerOne;
-    private String answerTwo;
-    private String answerThree;
-    private String answerFour;
+    private String optionOne;
+    private String optionTwo;
+    private String optionThree;
+    private String optionFour;
     private String correctAnswer;
 }

@@ -21,10 +21,10 @@ public class QuestionServiceIMPL implements QuestionService {
                 questionDTO.getQuestionId(),
                 questionDTO.getChapterName(),
                 questionDTO.getQuestion(),
-                questionDTO.getAnswerOne(),
-                questionDTO.getAnswerTwo(),
-                questionDTO.getAnswerThree(),
-                questionDTO.getAnswerFour(),
+                questionDTO.getOptionOne(),
+                questionDTO.getOptionTwo(),
+                questionDTO.getOptionThree(),
+                questionDTO.getOptionFour(),
                 questionDTO.getCorrectAnswer()
         );
         questionRepo.save(question);
@@ -37,10 +37,10 @@ public class QuestionServiceIMPL implements QuestionService {
             Question question=questionRepo.getReferenceById(questionDTO.getQuestionId());
             question.setChapterName(questionDTO.getChapterName());
             question.setQuestion(questionDTO.getQuestion());
-            question.setAnswerOne(questionDTO.getAnswerOne());
-            question.setAnswerTwo(questionDTO.getAnswerTwo());
-            question.setAnswerThree(questionDTO.getAnswerThree());
-            question.setAnswerFour(questionDTO.getAnswerFour());
+            question.setOptionOne(questionDTO.getOptionOne());
+            question.setOptionTwo(questionDTO.getOptionTwo());
+            question.setOptionThree(questionDTO.getOptionThree());
+            question.setOptionFour(questionDTO.getOptionFour());
             question.setCorrectAnswer(questionDTO.getCorrectAnswer());
 
 
@@ -60,10 +60,10 @@ public class QuestionServiceIMPL implements QuestionService {
                     question.getQuestionId(),
                     question.getChapterName(),
                     question.getQuestion(),
-                    question.getAnswerOne(),
-                    question.getAnswerTwo(),
-                    question.getAnswerThree(),
-                    question.getAnswerFour(),
+                    question.getOptionOne(),
+                    question.getOptionTwo(),
+                    question.getOptionThree(),
+                    question.getOptionFour(),
                     question.getCorrectAnswer()
             );
             return questionDTO;
@@ -83,10 +83,10 @@ public class QuestionServiceIMPL implements QuestionService {
                     question.getQuestionId(),
                     question.getChapterName(),
                     question.getQuestion(),
-                    question.getAnswerOne(),
-                    question.getAnswerTwo(),
-                    question.getAnswerThree(),
-                    question.getAnswerFour(),
+                    question.getOptionOne(),
+                    question.getOptionTwo(),
+                    question.getOptionThree(),
+                    question.getOptionFour(),
                     question.getCorrectAnswer()
             );
             questionDTOList.add(questionDTO);
