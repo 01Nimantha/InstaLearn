@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class StudentAnswerDto {
-    private int st_id;
+    private String st_id;
     private String st_answer;
     private int qp_id;
     private int q_id;
