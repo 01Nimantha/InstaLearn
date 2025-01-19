@@ -81,6 +81,15 @@
 			<artifactId>modelmapper</artifactId>
 			<version>3.1.1</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.stripe/stripe-java -->
+		<dependency>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>20.0.0</version> <!-- Use the latest version -->
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
