@@ -54,5 +54,13 @@ public class PaymentController {
 
     }
 
+    @GetMapping("/success")
+    public String getSuccess() {
+        return "Payment success";
+    }
 
+    @GetMapping("/cancel")
+    public String getCancel() {
+        return "Payment canceled";
+    }
 }
