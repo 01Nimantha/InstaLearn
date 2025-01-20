@@ -2,9 +2,11 @@ package com.example.InstaLearn.userManagement.service.impl;
 
 import com.example.InstaLearn.userManagement.dto.TeacherSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.TeacherUpdateRequestDTO;
+import com.example.InstaLearn.userManagement.entity.Admin;
 import com.example.InstaLearn.userManagement.entity.Teacher;
 import com.example.InstaLearn.userManagement.repo.TeacherRepo;
 import com.example.InstaLearn.userManagement.service.TeacherService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,19 +16,14 @@ public class TeacherServiceIMPL implements TeacherService {
     @Autowired
     private TeacherRepo teacherRepo;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public String saveTeacher(TeacherSaveRequestDTO teacherSaveRequestDTO) {
-        Teacher teacher = new Teacher(
-                teacherSaveRequestDTO.getTeacherId(),
-                teacherSaveRequestDTO.getTeacherName(),
-                teacherSaveRequestDTO.getTeacherEmail(),
-                teacherSaveRequestDTO.getTeacherContactno(),
-                teacherSaveRequestDTO.getTeacherAddress()
-        );
-
+        Teacher teacher = modelMapper.map(teacherSaveRequestDTO, Teacher.class);
         teacherRepo.save(teacher);
-
-        return teacherSaveRequestDTO.getTeacherName();
+        return teacher.getTeacherName() + " Saved successfully";
     }
 
     @Override
@@ -62,7 +59,6 @@ public class TeacherServiceIMPL implements TeacherService {
         if(teacherRepo.existsById(teacherId)) {
             Teacher teacher = teacherRepo.getReferenceById(teacherId);
             TeacherSaveRequestDTO teacherSaveRequestDTO = new TeacherSaveRequestDTO(
-                    teacher.getTeacherId(),
                     teacher.getTeacherName(),
                     teacher.getTeacherEmail(),
                     teacher.getTeacherContactno(),
