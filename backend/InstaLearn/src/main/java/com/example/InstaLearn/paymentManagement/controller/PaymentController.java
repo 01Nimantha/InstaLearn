@@ -29,7 +29,7 @@ public class PaymentController {
                                     .setPriceData(
                                             SessionCreateParams.LineItem.PriceData.builder()
                                                     .setCurrency("lkr")
-                                                    .setUnitAmount(50000L)
+                                                    .setUnitAmount(60000L)
                                                     .setProductData(
                                                             SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                                     .setName("Class Fees")
