@@ -5,7 +5,7 @@ const App = () => {
   return (
     <div>
       <h1>Stripe Checkout Integration</h1>
-      <StripeCheckout />
+      {/* <StripeCheckout /> */}
     </div>
   );
 };
