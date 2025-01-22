@@ -1,10 +1,13 @@
 package com.example.InstaLearn.userManagement.entity;
 
+import com.example.InstaLearn.progressManagement.entity.Marks;
 import com.example.InstaLearn.userManagement.entity.idgenerator.StudentIdSequenceGenerator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name= "student")
@@ -58,6 +61,9 @@ public class Student {
     @JoinColumn(name = "parent_id", referencedColumnName = "parent_id") // FK in Student table
     private Parent parent;
 
+<<<<<<< Updated upstream
     @OneToOne
     private User user;
+=======
+>>>>>>> Stashed changes
 }
