@@ -1,6 +1,9 @@
 package com.example.InstaLearn.userManagement.entity;
 
 import com.example.InstaLearn.attendanceManagement.entity.Attendance;
+
+import com.example.InstaLearn.progressManagement.entity.Marks;
+
 import com.example.InstaLearn.userManagement.entity.idgenerator.StudentIdSequenceGenerator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -66,4 +69,5 @@ public class Student {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attendance> attendanceRecords;
+
 }
