@@ -4,5 +4,5 @@ import com.example.InstaLearn.mailManagement.dto.MailDetailsDTO;
 
 public interface MailService {
 
-    String sendTeacherCredentialsMail(String teacherId, MailDetailsDTO mailDetailsDTO);
+    String sendTeacherCredentialsMail(int userId, MailDetailsDTO mailDetailsDTO);
 }

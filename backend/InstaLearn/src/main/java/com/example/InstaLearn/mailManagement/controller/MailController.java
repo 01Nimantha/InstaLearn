@@ -23,8 +23,8 @@ public class MailController {
     private MailService mailService;
 
     @PostMapping("/send-teacher-credentials{id}")
-    public ResponseEntity<StandardResponse> sendTeacherCredentialsMail(@PathVariable(value="id") String teacherId,@RequestBody MailDetailsDTO mailDetailsDTO) {
-        String message = mailService.sendTeacherCredentialsMail(teacherId,mailDetailsDTO);
+    public ResponseEntity<StandardResponse> sendTeacherCredentialsMail(@PathVariable(value="id") int userId,@RequestBody MailDetailsDTO mailDetailsDTO) {
+        String message = mailService.sendTeacherCredentialsMail(userId,mailDetailsDTO);
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(200,"success",message),
                 HttpStatus.OK
