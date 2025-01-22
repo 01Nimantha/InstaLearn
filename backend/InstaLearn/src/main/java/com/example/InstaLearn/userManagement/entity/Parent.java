@@ -46,4 +46,7 @@ public class Parent {
     @OneToOne(mappedBy = "parent", cascade = CascadeType.ALL) // Bidirectional mapping
     private Student student;
 
+    @OneToOne
+    private User user;
+
 }

@@ -3,7 +3,10 @@ package com.example.InstaLearn.userManagement.service.impl;
 import com.example.InstaLearn.userManagement.dto.AdminSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.AdminUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.entity.Admin;
+import com.example.InstaLearn.userManagement.entity.User;
+import com.example.InstaLearn.userManagement.entity.enums.Role;
 import com.example.InstaLearn.userManagement.repo.AdminRepo;
+import com.example.InstaLearn.userManagement.repo.UserRepo;
 import com.example.InstaLearn.userManagement.service.AdminService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +21,26 @@ public class AdminServiceIMPL implements AdminService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private UserRepo userRepo;
+
     @Override
     public String saveAdmin(AdminSaveRequestDTO adminSaveRequestDTO) {
-          Admin admin = modelMapper.map(adminSaveRequestDTO, Admin.class);
-          adminRepo.save(admin);
+
+        Admin admin = modelMapper.map(adminSaveRequestDTO, Admin.class);
+        adminRepo.save(admin);
+
+        User user = new User();
+        user.setUserName(String.valueOf(admin.getAdminId()));// Set adminId as userName
+        user.setRole(Role.valueOf("ADMIN"));
+        userRepo.save(user);
+
+        // Associate the saved User with the Admin entity
+        admin.setUser(user);
+        adminRepo.save(admin);// Update Admin with the associated User
+
           return admin.getAdminName() + " Saved successfully";
+
     }
 
     @Override

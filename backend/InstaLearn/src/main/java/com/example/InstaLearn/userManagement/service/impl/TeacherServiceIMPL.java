@@ -4,7 +4,10 @@ import com.example.InstaLearn.userManagement.dto.TeacherSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.TeacherUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.entity.Admin;
 import com.example.InstaLearn.userManagement.entity.Teacher;
+import com.example.InstaLearn.userManagement.entity.User;
+import com.example.InstaLearn.userManagement.entity.enums.Role;
 import com.example.InstaLearn.userManagement.repo.TeacherRepo;
+import com.example.InstaLearn.userManagement.repo.UserRepo;
 import com.example.InstaLearn.userManagement.service.TeacherService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +22,24 @@ public class TeacherServiceIMPL implements TeacherService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private UserRepo userRepo;
+
     @Override
     public String saveTeacher(TeacherSaveRequestDTO teacherSaveRequestDTO) {
+
         Teacher teacher = modelMapper.map(teacherSaveRequestDTO, Teacher.class);
         teacherRepo.save(teacher);
+
+        User user = new User();
+        user.setUserName(String.valueOf(teacher.getTeacherId()));// Set teacherId as userName
+        user.setRole(Role.valueOf("TEACHER"));
+        userRepo.save(user);
+
+        // Associate the saved User with the Teacher entity
+        teacher.setUser(user);
+        teacherRepo.save(teacher);// Update Teacher with the associated User
+
         return teacher.getTeacherName() + " Saved successfully";
     }
 

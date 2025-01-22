@@ -57,4 +57,7 @@ public class Student {
     @OneToOne(cascade = CascadeType.ALL) // One-to-one relationship with Parent
     @JoinColumn(name = "parent_id", referencedColumnName = "parent_id") // FK in Student table
     private Parent parent;
+
+    @OneToOne
+    private User user;
 }
