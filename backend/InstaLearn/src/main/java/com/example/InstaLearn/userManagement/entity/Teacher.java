@@ -43,4 +43,7 @@ public class Teacher {
     @Column(name="teacher_address")
     private String teacherAddress;
 
+    @OneToOne
+    private User user;
+
 }

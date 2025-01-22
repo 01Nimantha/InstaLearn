@@ -18,6 +18,9 @@ public class SuperAdmin {
     @Column(name = "sadmin_id", updatable = false, nullable = false)
     private String sadminId;
 
+    public SuperAdmin(String sadminId, String sadminEmail) {
+    }
+
     @PrePersist
     private void generateId() {
         if (this.sadminId == null) {
@@ -32,5 +35,8 @@ public class SuperAdmin {
 
     @Column(name = "sadmin_email")
     private String sadminEmail;
+    
+    @OneToOne
+    private User user;
 
 }

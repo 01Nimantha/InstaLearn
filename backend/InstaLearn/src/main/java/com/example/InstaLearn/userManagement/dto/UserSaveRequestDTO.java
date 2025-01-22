@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 
 public class UserSaveRequestDTO {
 
-    private int userId;
     private String userName;
     private Role role;
-    private String userPassword;
+
 }
