@@ -1,10 +1,13 @@
 package com.example.InstaLearn.userManagement.entity;
 
+import com.example.InstaLearn.attendanceManagement.entity.Attendance;
 import com.example.InstaLearn.userManagement.entity.idgenerator.StudentIdSequenceGenerator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name= "student")
@@ -60,4 +63,7 @@ public class Student {
 
     @OneToOne
     private User user;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Attendance> attendanceRecords;
 }
