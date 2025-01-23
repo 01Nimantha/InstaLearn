@@ -21,6 +21,10 @@ public class ExcelService {
     @Autowired
     private MarksRepo marksRepo;
 
+    public Marks getMarksById(String studentId) {
+        return marksRepo.findByStudentIdEquals(studentId);
+    }
+
     public void importExcel(MultipartFile file) throws Exception {
         InputStream inputStream = file.getInputStream();
         Workbook workbook = WorkbookFactory.create(inputStream);
