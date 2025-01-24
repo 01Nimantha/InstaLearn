@@ -1,6 +1,7 @@
 import React from "react";
 import StripeCheckout from "./components/StripeCheckout";
 
+
 const App = () => {
   return (
     <div>
