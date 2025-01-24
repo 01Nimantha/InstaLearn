@@ -1,12 +1,14 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Sidebar from './components/Sidebar';
-function App() {
+import React from "react";
+import StripeCheckout from "./components/StripeCheckout";
 
+
+const App = () => {
   return (
-    <>
-      <Sidebar></Sidebar>
-    </>
+    <div>
+      <h1>Stripe Checkout Integration</h1>
+      {/* <StripeCheckout /> */}
+    </div>
   );
-}
+};
 
-export default App
+export default App;
