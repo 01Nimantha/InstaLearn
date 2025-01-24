@@ -25,6 +25,7 @@ public class User {
     @Column(name="role" , nullable = false)
     private Role role;
 
-    @Column(name="user_password" , nullable = false)
-    private String userPassword;
+//    @Column(name="user_password")
+//    private String userPassword;
+
 }
