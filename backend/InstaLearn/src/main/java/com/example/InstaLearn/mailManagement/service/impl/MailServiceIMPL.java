@@ -72,7 +72,7 @@ public class MailServiceIMPL implements MailService {
         helper.setFrom("instalearn17@gmail.com");
         helper.setSubject("Welcome to InstaLearn");
         String customizedMessage = "Dear, " + name + "\nYour InstaLearn account credentials are below:\n\nUser Name:" + user.getUserName()
-                + " \nPassword:" + "\n\nThank you-InstaLearn";
+                + " \nPassword:" +user.getUserPassword()+ "\n\nThank you-InstaLearn";
         helper.setText(customizedMessage);
 
         // Attach QR code for students only
@@ -80,7 +80,6 @@ public class MailServiceIMPL implements MailService {
             ByteArrayDataSource dataSource = new ByteArrayDataSource(qrCodeImage, "image/jpeg");
             helper.addAttachment("student-qr.png", dataSource);
         }
-
         javaMailSender.send(message);
 
         return "Email sent";
