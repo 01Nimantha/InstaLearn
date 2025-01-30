@@ -158,7 +158,29 @@ const Homepage = () => {
 
       </div>
       <div align="center"><h4>Our Key Features</h4></div>
-      
+      <div className="feature">
+        <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#e8eaf6' }}>
+        <Slider {...settings}>
+          <div>
+            <Box sx={{ width: 400, height: 400, bgcolor: "black", p: 2 ,justifyContent: "center",alignItems: "center"}}>
+              <img src={qr} width={200} height={200} align="center"/>
+              {/* <div><span align="center"><h5>QR Code Tracking</h5></span></div> */}
+              
+            </Box>
+          </div>
+          <div>
+            <Box sx={{ width: 400, height: 400, bgcolor: "black", p: 2 }}></Box>
+          </div>
+          <div>
+            <Box sx={{ width: 400, height: 400, bgcolor: "black", p: 2 }}></Box>
+          </div>
+          <div>
+          <Box sx={{ width: 400, height: 400, bgcolor: "black", p: 2 }}></Box>
+          </div>
+        </Slider>
+        <br/>
+        </Paper>
+      </div>
       
       <div className="footer"><br/><br/><Footer/></div>
     </div>
