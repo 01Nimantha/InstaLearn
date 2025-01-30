@@ -181,6 +181,40 @@ const Homepage = () => {
         <br/>
         </Paper>
       </div>
+      <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+      <div align="center"><h4><br/>Designed For</h4></div>
+      <div className="dashbords" >
+        <Grid container spacing={3} justifyContent="center">
+      {cards.map((card, index) => (
+        <Grid item key={index} xs={12} sm={4}>
+          <Card
+            style={{
+              backgroundColor: index === 1 ? "#AEE9E6" : "#2AA99D",
+              color: "white",
+              textAlign: "center",
+              borderRadius: "16px",
+              padding: "20px",
+            }}
+          >
+            <CardContent>
+              {card.icon}
+              <Typography
+                variant="body1"
+                style={{ marginTop: "10px", fontSize: "16px" }}
+              >
+                {card.title}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
+  
+          
+        
+
+      </div>
+      </Paper>
       
       <div className="footer"><br/><br/><Footer/></div>
     </div>
