@@ -180,6 +180,61 @@ const AboutPage = () => {
               </Grid>
             </Grid>
           </Paper>
+          <Paper elevation={3} sx={{ p: 3, mb: 2, bgcolor: '#333', color: '#fff' }} id="contact-section">
+            <Typography variant="h6" gutterBottom align="center" color="inherit">
+              Contact Information
+            </Typography>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} md={6}>
+                <Box display="flex" flexDirection="column" alignItems="center">
+                  <Box display="flex" alignItems="center" mb={1}>
+                    <LocationOnIcon sx={{ fontSize: 30, color: '#fff' }} />
+                    <Box ml={1}>
+                      <Typography variant="body1" fontWeight="bold" color="inherit">
+                        Address
+                      </Typography>
+                      <Typography variant="body2" color="inherit">
+                        Department of Computer Science, University of Ruhuna
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box display="flex" alignItems="center" mb={1}>
+                    <EmailIcon sx={{ fontSize: 30, color: '#fff' }} />
+                    <Box ml={1}>
+                      <Typography variant="body1" fontWeight="bold" color="inherit">
+                        Email
+                      </Typography>
+                      <Link href="mailto:support@studenthousing.com" color="inherit">
+                        <Typography variant="body2" color="inherit">
+                          support@studenthousing.com
+                        </Typography>
+                      </Link>
+                    </Box>
+                  </Box>
+                  <Box display="flex" alignItems="center">
+                    <PhoneIcon sx={{ fontSize: 30, color: '#fff' }} />
+                    <Box ml={1}>
+                      <Typography variant="body1" fontWeight="bold" color="inherit">
+                        Phone
+                      </Typography>
+                      <Typography variant="body2" color="inherit">
+                        (123) 456-7890
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+                  <img 
+                    src={img2} 
+                    alt="Contact illustration" 
+                    style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', maxHeight: '150px' }} 
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
           
         </Box>
       </Box>
