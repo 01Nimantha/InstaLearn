@@ -141,6 +141,45 @@ const AboutPage = () => {
               ))}
             </List>
           </Paper>
+          <Paper elevation={3} sx={{ p: 2, mb: 2 }} id="qa-section">
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} md={6}>
+                <Box display="flex" justifyContent="center" alignItems="center">
+                  <img 
+                    src={img3} 
+                    alt="Question illustration" 
+                    style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} 
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography variant="h6" gutterBottom>
+                  Q&A
+                </Typography>
+                <form onSubmit={handleSubmit}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    placeholder="Feel free to Ask..."
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    sx={{ mb: 2 }}
+                  />
+                  <Box display="flex" justifyContent="flex-end">
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+                </form>
+              </Grid>
+            </Grid>
+          </Paper>
           
         </Box>
       </Box>
