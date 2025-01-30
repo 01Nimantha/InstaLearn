@@ -113,6 +113,34 @@ const AboutPage = () => {
               Join thousands of students who have found their ideal university home through our service.
             </Typography>
           </Paper>
+          <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#e8eaf6' }} id="terms-policies-section">
+            <Typography variant="h6" gutterBottom align="justify">
+              Terms & Policies
+            </Typography>
+            <List dense>
+              {[
+                "User Agreement-:  By using our service, you agree to our terms of use and privacy policy.",
+                "Listing Verification-:  We strive to verify all listings but users are advised to exercise due diligence.",
+                "Fair Housing Policy-:  We adhere to all fair housing laws and do not discriminate based on race, color, religion, sex, or national origin.",
+                "Booking and Payments-:  We facilitate connections between students and landlords but are not responsible for individual rental agreements.",
+                "Data Protection-:  We are committed to protecting your personal information in compliance with data protection laws.",
+                "Community Guidelines-:  Users are expected to interact respectfully and report any suspicious activity.",
+                "Cancellation Policy-:  Under to the community restrictions."
+              ].map((item, index) => (
+                <React.Fragment key={index}>
+                  <ListItem alignItems="flex-start">
+                    <ListItemIcon>
+                      <CheckCircleIcon color="primary" fontSize="medium" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={<Typography variant="body2" style={{ fontSize: '0.875rem' }}>{item}</Typography>} 
+                    />
+                  </ListItem>
+                  {index < 6 && <Divider variant="inset" component="li" />}
+                </React.Fragment>
+              ))}
+            </List>
+          </Paper>
           
         </Box>
       </Box>
