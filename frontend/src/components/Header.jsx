@@ -4,11 +4,15 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import logo from '../assets/images/react.svg'
+import logo from '../assets/images/logo1.png'
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
-    <AppBar position="static"  sx={{ bgcolor: 'black' }}>
+    
+    <AppBar position="sticky"  sx={{ bgcolor: 'black' }}>
       <Toolbar>
         {/* Logo */}
         <Typography variant="h4" component="div" >
@@ -24,17 +28,24 @@ const Header = () => {
         
         {/* Navigation Links */}
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-          <Button color="inherit" sx={{ mx: 1 }}>Home</Button>
-          <Button color="inherit" sx={{ mx: 1 }}>About</Button>
-          <Button color="inherit"sx={{ mx: 1 }}>Contact</Button>
+          {/* <Link to="/"> */}
+            <Button  onClick={() => navigate('/')} color="inherit" sx={{ mx: 1 }}>Home</Button>
+          {/* </Link> */}
+          {/* <Link to="/about"> */}
+            <Button  onClick={() => navigate('/about')} color="inherit" sx={{ mx: 1 }}>About</Button>
+          {/* </Link> */}
+          {/* <Link to="/about"> */}
+            <Button  onClick={() => navigate('/about')} color="inherit"sx={{ mx: 1 }}>Contact</Button>
+          {/* </Link> */}
         </Box>
         
         {/* Login Button */}
-        <Button variant="outlined" color="inherit" sx={{ marginLeft: 2 }}>
+        <Button onClick={() => navigate('/login')} variant="outlined" color="inherit" sx={{ marginLeft: 6 ,marginRight:4}}>
           Login
         </Button>
       </Toolbar>
     </AppBar>
+    
   );
 };
 
