@@ -100,7 +100,19 @@ const AboutPage = () => {
               </Grid>
             </Box>
           </Paper>
-
+          <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#e3f2fd' }} id="learn-more-section">
+            <Typography variant="h6" gutterBottom align="left">
+              Learn More
+            </Typography>
+            <Typography variant="body2" gutterBottom align="justify">
+              Discover how our platform works to connect you with the perfect boarding place. 
+              We offer a wide range of verified listings, from shared apartments to private rooms, 
+              all tailored to student needs. Our advanced search filters help you find accommodation 
+              that fits your budget, preferred location, and amenities. We also provide resources on 
+              tenant rights, safety tips, and community integration to ensure a positive living experience. 
+              Join thousands of students who have found their ideal university home through our service.
+            </Typography>
+          </Paper>
           
         </Box>
       </Box>
