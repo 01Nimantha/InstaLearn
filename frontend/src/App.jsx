@@ -1,5 +1,6 @@
 import React from "react";
 import StripeCheckout from "./components/StripeCheckout";
+import Button from "./components/Button";
 
 
 const App = () => {
