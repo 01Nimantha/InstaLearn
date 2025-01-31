@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class SuperAdminSaveRequestDTO {
-    private String sadminId;
+
     private String sadminEmail;
 }

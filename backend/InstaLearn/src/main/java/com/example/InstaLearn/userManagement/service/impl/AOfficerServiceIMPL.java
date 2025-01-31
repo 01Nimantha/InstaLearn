@@ -1,8 +1,12 @@
 package com.example.InstaLearn.userManagement.service.impl;
 import com.example.InstaLearn.userManagement.dto.AOfficerSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.AOfficerUpdateRequestDTO;
+import com.example.InstaLearn.userManagement.entity.Admin;
 import com.example.InstaLearn.userManagement.entity.AttendanceOfficer;
+import com.example.InstaLearn.userManagement.entity.User;
+import com.example.InstaLearn.userManagement.entity.enums.Role;
 import com.example.InstaLearn.userManagement.repo.AOfficerRepo;
+import com.example.InstaLearn.userManagement.repo.UserRepo;
 import com.example.InstaLearn.userManagement.service.AOfficerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +21,23 @@ public class AOfficerServiceIMPL implements AOfficerService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private UserRepo userRepo;
+
     @Override
     public String saveAttendanceOfficer(AOfficerSaveRequestDTO aOfficerSaveRequestDTO) {
         AttendanceOfficer attendanceOfficer = modelMapper.map(aOfficerSaveRequestDTO, AttendanceOfficer.class);
         aOfficerRepo.save(attendanceOfficer);
+
+        User user = new User();
+        user.setUserName(String.valueOf(attendanceOfficer.getAttendanceOfficerId()));// Set attendanceOfficerId as userName
+        user.setRole(Role.valueOf("AOFFICER"));
+        userRepo.save(user);
+
+        // Associate the saved User with the attendanceofficer entity
+        attendanceOfficer.setUser(user);
+        aOfficerRepo.save(attendanceOfficer);// Update attendanceofficer with the associated User
+
         return attendanceOfficer.getAttendanceOfficerName() + " Saved successfully";
     }
 
