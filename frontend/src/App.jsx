@@ -6,18 +6,17 @@ import AboutPage from "./pages/AboutPage";
 import Header from "./components/Header";
 import LoginForm from "./pages/LoginForm";
 
-
-
 const App = () => {
   return (
     <div>
       <BrowserRouter>
-      <Header/>
+      {/* <Header/> */}
         <Routes>
           <Route path="/"element={<Homepage/>}></Route>
           <Route path="/about" element={<AboutPage/>}></Route>
           <Route path="/login" element={<LoginForm/>}></Route>
-        </Routes>
+            </Routes>
+       
       </BrowserRouter>
       
     </div>
