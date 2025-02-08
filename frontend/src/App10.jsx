@@ -6,6 +6,7 @@ import StudentsView from "./pages/admin/StudentsView";
 import ParentsView from "./pages/admin/ParentsView";
 import AdminsView from "./pages/admin/AdminsView";
 import AttendanceOfficerView from "./pages/admin/AttendanceOfficerView";
+
  
  const App10 = () => {
    return (

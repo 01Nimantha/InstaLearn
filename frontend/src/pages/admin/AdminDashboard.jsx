@@ -20,32 +20,32 @@ const AdminDashboard = () => {
       </header>
 
       <div className='grid grid-cols-2 gap-5 p-10 text-4xl'>
-        <div className='shadow'>
-          <Link to={'/teachers-view'} className='w-full h-32 bg-white rounded  flex items-center justify-center gap-10 text-decoration-none text-black'>
+        <div className='shadow rounded-2xl'>
+          <Link to={'/teachers-view'} className='rounded-2xl w-full h-34 bg-white   flex items-center justify-center gap-10 text-decoration-none text-black '>
             <FaRegUserCircle/>
           <span>Teacher</span>
           </Link>
         </div>
-        <div className='shadow'>
-        <Link to={'/students-view'} className='w-full h-32 bg-white rounded flex items-center justify-center gap-10 text-decoration-none text-black'>
+        <div className='shadow rounded-2xl'>
+        <Link to={'/students-view'} className='w-full h-34 bg-white rounded-2xl flex items-center justify-center gap-10 text-decoration-none text-black'>
           <FaGraduationCap/>
           <span>Student</span>
         </Link>
         </div>
-        <div className='shadow'>
-        <Link to={'/parents-view'} className='w-full h-32 bg-white rounded flex items-center justify-center gap-10 text-decoration-none text-black'>
+        <div className='shadow rounded-2xl'>
+        <Link to={'/parents-view'} className='w-full h-34 bg-white rounded-2xl flex items-center justify-center gap-10 text-decoration-none text-black'>
           <FaUser/>
           <span>Parent</span>
         </Link>
         </div>
-        <div className='shadow'>
-        <Link to={'/admins-view'} className='w-full h-32 bg-white rounded flex items-center justify-center gap-10 text-decoration-none text-black'>
+        <div className='shadow rounded-2xl'>
+        <Link to={'/admins-view'} className='w-full h-34 bg-white rounded-2xl flex items-center justify-center gap-10 text-decoration-none text-black'>
           <FaUser/>
           <span>Admin</span>
         </Link>
         </div>
-        <div className='col-span-2 shadow'>
-         <Link to={'/aOfficers-view'} className='w-full h-32 bg-white rounded flex items-center justify-center gap-10 text-decoration-none text-black'>
+        <div className='col-span-2 shadow rounded-2xl'>
+         <Link to={'/aOfficers-view'} className='w-full h-34 bg-white rounded-2xl flex items-center justify-center gap-10 text-decoration-none text-black'>
           <FaUser/>
           <span>Attendance Officer</span>
         </Link> 
