@@ -29,7 +29,7 @@ const loadStudents = async()=>{
 }
 
 const handleDelete = async(studentId)=>{
-  await axios.delete(`http://localhost:8085/api/v1/teacher/delete/${studentId}`);
+  await axios.delete(`http://localhost:8085/api/v1/student/delete/${studentId}`);
   loadStudents();
 }
 
