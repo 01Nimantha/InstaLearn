@@ -40,9 +40,9 @@ const handleDelete = async(studentId)=>{
                 <h1 className="text-2xl font-bold leading-8">Student</h1>
               </div>
               <div className='pr-10'>
-                <button className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] mr-[50px]">
-                  <span className='text-white font-bold font-Nunito text-xl '>Home</span>
-                </button>
+                <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] mr-[50px] text-decoration-none">
+                    <span className='text-white font-bold font-Nunito text-xl '>Home</span>
+                </Link>
               </div>
       </header>
       <div className='mx-10'>
