@@ -45,7 +45,7 @@ const AdminDashboard = () => {
         </Link>
         </div>
         <div className='col-span-2 shadow rounded-2xl'>
-         <Link to={'/aOfficers-view'} className='w-full h-34 bg-white rounded-2xl flex items-center justify-center gap-10 text-decoration-none text-black'>
+         <Link to={'/aOfficer-view'} className='w-full h-34 bg-white rounded-2xl flex items-center justify-center gap-10 text-decoration-none text-black'>
           <FaUser/>
           <span>Attendance Officer</span>
         </Link> 

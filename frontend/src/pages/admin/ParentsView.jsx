@@ -3,6 +3,7 @@ import SearchBar from './common/SearchBar'
 import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import AttendanceOfficerView from './AttendanceOfficerView';
 
 const ParentsView = () => {
 
