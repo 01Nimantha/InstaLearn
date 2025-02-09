@@ -1,8 +1,11 @@
 package com.example.InstaLearn.questionBankManagement.controller;
 
 import com.example.InstaLearn.questionBankManagement.dto.QuestionDTO;
+import com.example.InstaLearn.questionBankManagement.entity.Question;
 import com.example.InstaLearn.questionBankManagement.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +49,16 @@ public class QuestionController {
     public String deleteQuestion(@PathVariable(value="id") int questionId){
         String delete=questionService.deleteQuestion(questionId);
         return delete;
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<List<Question>> getRandomQuestions(@PathVariable int id) {
+        List<Question> questions = questionService.getRandomQuestions(id);
+        if (!questions.isEmpty()) {
+            return new ResponseEntity<>( questions,HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
