@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -104,4 +106,22 @@ public class QuestionServiceIMPL implements QuestionService {
             throw new RuntimeException("Question Not Found");
         }
     }
+
+    @Override
+    public List<Question> getRandomQuestions(int id) {
+        try {
+            List<Question> questions = questionRepo.findAll();
+            Collections.shuffle(questions);
+            List<Question> questions1 = new ArrayList<>();
+            int limit = Math.min(id, questions.size());
+            for (int i = 0; i < limit; i++) {
+                questions1.add(questions.get(i));
+            }
+            return questions1;
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+
 }
