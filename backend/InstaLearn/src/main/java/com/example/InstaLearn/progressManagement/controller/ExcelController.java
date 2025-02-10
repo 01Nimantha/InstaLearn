@@ -1,12 +1,11 @@
 package com.example.InstaLearn.progressManagement.controller;
 
+import com.example.InstaLearn.progressManagement.entity.Marks;
 import com.example.InstaLearn.progressManagement.service.ExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -23,5 +22,23 @@ public class ExcelController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error importing Excel file: " + e.getMessage());
         }
+    }
+
+    @GetMapping(
+            path="/get-by-id",
+            params = "id"
+
+    )
+    public ResponseEntity<Marks> getMarksById(@RequestParam(value = "id") String studentId) {
+        Marks marks = excelService.getMarksById(studentId);
+        return ResponseEntity.ok(marks);
+    }
+
+    @GetMapping("/marks")
+    public Page<Marks> getMarks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return excelService.getPaginatedMarks(page, size);
     }
 }
