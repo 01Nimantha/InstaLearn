@@ -1,7 +1,7 @@
 import Logo from "../assets/Logo.svg"
 import { IoIosLogOut } from "react-icons/io";
 import { useState } from "react";
-const Sidebar = ({Tab1,Tab1Icon,Tab1Funtion,Tab2,Tab2Icon,Tab2Funtion,Tab3,Tab3Icon,Tab3Funtion,Tab4,Tab4Icon,Tab4Funtion,Tab5,Tab5Icon,Tab5Funtion,name,id,imgURL,Logout})=>{
+const Sidebar = ({Tab1,Tab1Icon,Tab1functions,Tab2,Tab2Icon,Tab2functions,Tab3,Tab3Icon,Tab3functions,Tab4,Tab4Icon,Tab4functions,Tab5,Tab5Icon,Tab5functions,Name,Id,ImgURL,Logout})=>{
   const [isDarkMode, setIsDarkMode] = useState(1);
   return (
     <div className="d-flex flex-column flex-shrink-0 p-3" style={{width: "280px", minHeight:"1080px", backgroundColor: "#13A68A"}}>
@@ -12,32 +12,32 @@ const Sidebar = ({Tab1,Tab1Icon,Tab1Funtion,Tab2,Tab2Icon,Tab2Funtion,Tab3,Tab3I
     </a>
     <hr/>
     <ul className="nav nav-pills flex-column mb-auto">
-      <li className="nav-item" onClick={Tab1Funtion}>
+      <li className="nav-item" onClick={Tab1functions}>
         <a href="#" className="nav-link " aria-current="page" style={{backgroundColor: isDarkMode==1 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(1)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#home"></use></svg>
           <span style={{display:"flex",
     color: isDarkMode==1 ? "black" :"white" }}> <Tab1Icon size={24}/><span style={{marginLeft:"5%"}} >{Tab1}</span></span>
         </a>
       </li>
-      <li onClick={Tab2Funtion}>
+      <li onClick={Tab2functions}>
         <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==2 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(2)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#speedometer2"></use></svg>
           <span style={{display:"flex",color: isDarkMode==2 ? "black" :"white"}}> <Tab2Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab2}</span></span>
         </a>
       </li>
-      <li onClick={Tab3Funtion}>
+      <li onClick={Tab3functions}>
         <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==3 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(3)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#table"></use></svg>
           <span style={{display:"flex",color: isDarkMode==3 ? "black" :"white" }}> <Tab3Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab3}</span></span>    
         </a>
       </li>
-      <li onClick={Tab4Funtion}>
+      <li onClick={Tab4functions}>
         <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==4 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(4)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#grid"></use></svg>
           <span style={{display:"flex",color: isDarkMode==4 ? "black" :"white" }}> <Tab4Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab4}</span></span>        
         </a>
       </li>
-      <li onClick={Tab5Funtion}>
+      <li onClick={Tab5functions}>
         <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==5 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(5)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#people-circle"></use></svg>
           <span style={{display:"flex",color: isDarkMode==5 ? "black" :"white" }}> <Tab5Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab5}</span></span>       
@@ -48,10 +48,10 @@ const Sidebar = ({Tab1,Tab1Icon,Tab1Funtion,Tab2,Tab2Icon,Tab2Funtion,Tab3,Tab3I
     <div className="dropdown" style={{display:"flex",backgroundColor:"#13A68A"}}>
       <div style={{marginLeft:"4%"}}>
         <a href="#" className="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src={imgURL} alt="" width="60" height="60" className="rounded-circle me-2"/>
+          <img src={ImgURL} alt="" width="60" height="60" className="rounded-circle me-2"/>
           <div style={{marginRight:"8%",marginTop:"4%"}}>
-          <span style={{color:"#ffffff"}}><strong>{name}</strong></span>
-          <span style={{color:"#ffffff"}}><div style={{fontSize:"50%"}}>{id}</div></span>         
+          <span style={{color:"#ffffff"}}><strong>{Name}</strong></span>
+          <span style={{color:"#ffffff"}}><div style={{fontSize:"50%"}}>{Id}</div></span>         
          </div>
         </a>
       
