@@ -64,5 +64,16 @@ public class QuestionPaperController {
         }
     }
 
+    @PostMapping("/{id}")
+    public ResponseEntity<String> createQuestionPaper(@PathVariable int id){
+        boolean isCrete = questionPaperService.createQuestionPaper(id);
+        if(isCrete){
+            return new ResponseEntity<>("Create Full QuestionPaper",HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("There is an error Creating Full QuestionPaper",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 
 }

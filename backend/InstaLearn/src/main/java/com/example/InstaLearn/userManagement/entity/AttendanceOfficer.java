@@ -41,4 +41,7 @@ public class AttendanceOfficer {
     @Column(name="attendanceOfficer_address")
     private String attendanceOfficerAddress;
 
+    @OneToOne
+    private User user;
+
 }

@@ -16,5 +16,5 @@ public interface QuestionPaperService {
 
     boolean deleteQuestionPaperById(int id);
 
-
+    boolean createQuestionPaper(int id);
 }

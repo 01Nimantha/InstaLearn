@@ -3,11 +3,12 @@ import Homepage from "./pages/Homepage";
 import AboutPage from './pages/AboutPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginForm from './pages/LoginForm';
+import StripeCheckout from './components/StripeCheckout';
 
 
 const App5 = () => {
   return (
-    <div><LoginForm/></div>
+    <div></div>
   )
 }
 

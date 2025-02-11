@@ -41,6 +41,8 @@ public class Admin {
     @Column(name="admin_address")
     private String adminAddress;
 
+    @OneToOne
+    private User user;
 
 }
 

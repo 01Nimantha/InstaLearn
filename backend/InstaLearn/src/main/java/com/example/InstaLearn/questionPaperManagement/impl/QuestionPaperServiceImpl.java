@@ -79,6 +79,16 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
         }
     }
 
+    @Override
+    public boolean createQuestionPaper(int id) {
+        try{
+
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
+    }
 
 
 }
