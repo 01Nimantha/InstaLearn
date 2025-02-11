@@ -1,12 +1,7 @@
 import Logo from "../assets/Logo.svg"
 import { IoIosLogOut } from "react-icons/io";
-import { FaHome } from "react-icons/fa";
-import { MdOutlinePayment } from "react-icons/md";
-import { HiCalendarDateRange } from "react-icons/hi2";
-import { IoIosSettings } from "react-icons/io";
-import { HiMiniDocumentCurrencyDollar } from "react-icons/hi2";
 import { useState } from "react";
-const Sidebar = ({name,id,imgURL,Logout})=>{
+const Sidebar = ({Tab1,Tab1Icon,Tab1Funtion,Tab2,Tab2Icon,Tab2Funtion,Tab3,Tab3Icon,Tab3Funtion,Tab4,Tab4Icon,Tab4Funtion,Tab5,Tab5Icon,Tab5Funtion,name,id,imgURL,Logout})=>{
   const [isDarkMode, setIsDarkMode] = useState(1);
   return (
     <div className="d-flex flex-column flex-shrink-0 p-3" style={{width: "280px", minHeight:"1080px", backgroundColor: "#13A68A"}}>
@@ -17,35 +12,35 @@ const Sidebar = ({name,id,imgURL,Logout})=>{
     </a>
     <hr/>
     <ul className="nav nav-pills flex-column mb-auto">
-      <li className="nav-item" >
+      <li className="nav-item" onClick={Tab1Funtion}>
         <a href="#" className="nav-link " aria-current="page" style={{backgroundColor: isDarkMode==1 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(1)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#home"></use></svg>
           <span style={{color:"#ffffff",display:"flex",
-    color: isDarkMode==1 ? "black" :"white" }}> <FaHome size={24}/><span style={{marginLeft:"5%"}} >Home</span></span>
+    color: isDarkMode==1 ? "black" :"white" }}> <Tab1Icon size={24}/><span style={{marginLeft:"5%"}} >{Tab1}</span></span>
         </a>
       </li>
-      <li>
+      <li onClick={Tab2Funtion}>
         <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==2 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(2)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#speedometer2"></use></svg>
-          <span style={{color:"#ffffff",display:"flex",color: isDarkMode==2 ? "black" :"white"}}> <MdOutlinePayment size={24}/><span style={{marginLeft:"5%"}}>Payment</span></span>
+          <span style={{color:"#ffffff",display:"flex",color: isDarkMode==2 ? "black" :"white"}}> <Tab2Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab2}</span></span>
         </a>
       </li>
-      <li>
+      <li onClick={Tab3Funtion}>
         <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==3 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(3)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#table"></use></svg>
-          <span style={{color:"#ffffff",display:"flex",color: isDarkMode==3 ? "black" :"white" }}> <HiCalendarDateRange size={24}/><span style={{marginLeft:"5%"}}>Timetable</span></span>    
+          <span style={{color:"#ffffff",display:"flex",color: isDarkMode==3 ? "black" :"white" }}> <Tab3Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab3}</span></span>    
         </a>
       </li>
-      <li>
+      <li onClick={Tab4Funtion}>
         <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==4 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(4)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#grid"></use></svg>
-          <span style={{color:"#ffffff",display:"flex",color: isDarkMode==4 ? "black" :"white" }}> <IoIosSettings size={24}/><span style={{marginLeft:"5%"}}>Setting</span></span>        
+          <span style={{color:"#ffffff",display:"flex",color: isDarkMode==4 ? "black" :"white" }}> <Tab4Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab4}</span></span>        
         </a>
       </li>
-      <li>
+      <li onClick={Tab5Funtion}>
         <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==5 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(5)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#people-circle"></use></svg>
-          <span style={{color:"#ffffff",display:"flex",color: isDarkMode==5 ? "black" :"white" }}> <HiMiniDocumentCurrencyDollar size={24}/><span style={{marginLeft:"5%"}}>Payment History</span></span>       
+          <span style={{color:"#ffffff",display:"flex",color: isDarkMode==5 ? "black" :"white" }}> <Tab5Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab5}</span></span>       
         </a>
       </li>
     </ul>
