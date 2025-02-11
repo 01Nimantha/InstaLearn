@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import SearchBar from './common/SearchBar'
 import { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AddButton from './common/AddButton';
 import AddDetailsFormModel from './AddDetailsFormModel';
 
@@ -15,11 +15,7 @@ const AdminsView = () => {
   useEffect(()=>{
     loadadmins();
   },[]);
-
-// const{adminName,adminEmail,adminContactno,adminAddress} = admins;
-  
-
-// 
+ 
 const loadadmins = async()=>{
     const result = await axios.get(
         "http://localhost:8085/api/v1/admin/get-all-admins",{
@@ -50,7 +46,7 @@ const updateAdmin = async(formData)=>{
                 <h1 className="text-2xl font-bold leading-8">Admin</h1>
               </div>
               <div className='pr-10'>
-                <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] mr-[50px] text-decoration-none">
+                <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
                   <span className='text-white font-bold font-Nunito text-xl '>Home</span>
                 </Link>
               </div>
@@ -62,12 +58,28 @@ const updateAdmin = async(formData)=>{
               <AddDetailsFormModel 
                   isvisible={showModal} 
                   onClose={() => setShowModal(false)} 
-                  title="Admin"
+                  title="Add Admin"
                   formArr={[
-                    { labelName: 'Full Name', inputtype: 'text', inputid: 'adminName', inputplaceholder: 'Full Name' },
-                    { labelName: 'Email', inputtype: 'email', inputid: 'adminEmail', inputplaceholder: 'Email' },
-                    { labelName: 'Contact no', inputtype: 'text', inputid: 'adminContactno', inputplaceholder: 'Contact no' },
-                    { labelName: 'Address', inputtype: 'text', inputid: 'adminAddress', inputplaceholder: 'Address' }
+                    { labelName: 'Full Name', 
+                      inputtype: 'text', 
+                      inputid: 'adminName', 
+                      inputplaceholder: 'Full Name' 
+                    },
+                    { labelName: 'Email', 
+                      inputtype: 'email', 
+                      inputid: 'adminEmail', 
+                      inputplaceholder: 'Email' 
+                    },
+                    { labelName: 'Contact no', 
+                      inputtype: 'text', 
+                      inputid: 'adminContactno', 
+                      inputplaceholder: 'Contact no' 
+                    },
+                    { labelName: 'Address', 
+                      inputtype: 'text', 
+                      inputid: 'adminAddress', 
+                      inputplaceholder: 'Address' 
+                    }
                   ]}
                   button={{ btnname: 'Add Admin', onClick: updateAdmin }}
         />

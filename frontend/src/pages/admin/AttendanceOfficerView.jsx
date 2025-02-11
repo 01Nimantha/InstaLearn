@@ -5,11 +5,13 @@ import AddButton from './common/AddButton';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import AddDetailsFormModel from './AddDetailsFormModel';
 
 const AttendanceOfficerView = () => {
 
       const [searchTerm, setSearchTerm] = useState('');
       const [aOfficers, setaOfficer] = useState([]);
+      const [showModal, setShowModal] = useState(false);
     
       useEffect(()=>{
         loadaOfficer();
@@ -33,6 +35,12 @@ const AttendanceOfficerView = () => {
       await axios.delete(`http://localhost:8085/api/v1/attendanceOfficer/delete/${attendanceOfficerId}`);
       loadaOfficer();
     }
+
+    const updateaOfficer = async(formData)=>{
+      await axios.post('http://localhost:8085/api/v1/attendanceOfficer/save', formData);
+      setShowModal(false);
+      loadaOfficer();   
+    };
     
       return (
         <div className=' min-h-screen bg-[#D9D9D9]'>
@@ -41,7 +49,7 @@ const AttendanceOfficerView = () => {
                     <h1 className="text-2xl font-bold leading-8">Attendance Officer</h1>
                   </div>
                   <div className='pr-10'>
-                    <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] mr-[50px] text-decoration-none">
+                    <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
                       <span className='text-white font-bold font-Nunito text-xl '>Home</span>
                     </Link>
                   </div>
@@ -49,7 +57,35 @@ const AttendanceOfficerView = () => {
           <div className='mx-10'>
                 <div className='flex justify-between items-center w-full py-5'>
                   <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-                  <AddButton btnname='Add aOfficer' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' path='/add-aOfficer'/>
+                  <AddButton btnname='Add aOfficer' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12'onClick={()=>setShowModal(true)}/>
+                  <AddDetailsFormModel
+                    isvisible={showModal}
+                    onClose={() => setShowModal(false)}
+                    title="Add AttendanceOfficer"
+                    formArr={[
+                      { labelName: 'Full Name', 
+                        inputtype: 'text', 
+                        inputid: 'attendanceOfficerName', 
+                        inputplaceholder: 'Full Name' 
+                      },
+                      { labelName: 'Email', 
+                        inputtype: 'email', 
+                        inputid: 'attendanceOfficerEmail', 
+                        inputplaceholder: 'Email' 
+                      },
+                      { labelName: 'Contact no', 
+                        inputtype: 'text', 
+                        inputid: 'attendanceOfficerContactno', 
+                        inputplaceholder: 'Contact no' 
+                      },
+                      { labelName: 'Address', 
+                        inputtype: 'text', 
+                        inputid: 'attendanceOfficerAddress', 
+                        inputplaceholder: 'Address' 
+                      }
+                    ]}
+                    button={{ btnname: 'Add AOfficer', onClick: updateaOfficer }}
+                  />
                 </div>
                 
      

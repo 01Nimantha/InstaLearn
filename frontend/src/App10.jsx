@@ -9,7 +9,6 @@ import AttendanceOfficerView from "./pages/admin/AttendanceOfficerView";
 import AddAttendanceOfficer from "./pages/admin/AddAttendanceOfficer";
 import AddTeacher from "./pages/admin/AddTeacher";
 import AddStudent from "./pages/admin/AddStudent";
-import AddAdmin from "./pages/admin/AddAdmin";
 
  const App10 = () => {
    return (
@@ -48,26 +47,6 @@ import AddAdmin from "./pages/admin/AddAdmin";
             path="/aOfficer-view"
             element={<AttendanceOfficerView/>}></Route>
 
-        <Route 
-            exact
-            path="/add-aOfficer" 
-            element={<AddAttendanceOfficer/>}></Route>
-         
-
-         <Route 
-            exact
-            path="/add-teacher" 
-            element={<AddTeacher/>}></Route>
-
-        <Route 
-            exact
-            path="/add-student" 
-            element={<AddStudent/>}></Route>
-
-        <Route 
-            exact
-            path="/add-admin" 
-            element={<AddAdmin/>}></Route>
 
          </Routes>
     

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const AddButton = ({onClick,path,btnname,className,btntype}) => {
+const AddButton = ({onClick,path,btnname,className}) => {
 
   return (
     <div className=''>

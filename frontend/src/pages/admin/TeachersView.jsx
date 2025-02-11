@@ -5,9 +5,11 @@ import AddButton from './common/AddButton';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import AddDetailsFormModel from './AddDetailsFormModel';
 
 const TeachersView = () => {
 
+  const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [teachers, setTeacher] = useState([]);
 
@@ -34,6 +36,12 @@ const handleDelete = async(teacherId)=>{
   loadTeachers();
 }
 
+const updateTeacher = async(formData)=>{
+  await axios.post('http://localhost:8085/api/v1/teacher/save', formData);
+      setShowModal(false);
+      loadTeachers();   
+};
+
   return (
     <div className=' min-h-screen bg-[#D9D9D9]'>
       <header className="flex items-center justify-between bg-black text-white h-[150px]">
@@ -41,7 +49,7 @@ const handleDelete = async(teacherId)=>{
                 <h1 className="text-2xl font-bold leading-8">Teacher</h1>
               </div>
               <div className='pr-10'>
-                <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] mr-[50px] text-decoration-none">
+                <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
                   <span className='text-white font-bold font-Nunito text-xl '>Home</span>
                 </Link>
               </div>
@@ -49,7 +57,35 @@ const handleDelete = async(teacherId)=>{
       <div className='mx-10'>
             <div className='flex justify-between items-center w-full py-5'>
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-              <AddButton btnname='Add Teacher' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' path='/add-teacher'/>
+              <AddButton btnname='Add Teacher' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' onClick={()=>setShowModal(true)}/>
+              <AddDetailsFormModel
+                isvisible={showModal}
+                onClose={() => setShowModal(false)}
+                title="Add Teacher"
+                formArr={[
+                  { labelName: 'Full Name', 
+                    inputtype: 'text', 
+                    inputid: 'teacherName', 
+                    inputplaceholder: 'Full Name' 
+                  },
+                  { labelName: 'Email', 
+                    inputtype: 'email', 
+                    inputid: 'teacherEmail', 
+                    inputplaceholder: 'Email' 
+                  },
+                  { labelName: 'Contact no', 
+                    inputtype: 'text', 
+                    inputid: 'teacherContactno', 
+                    inputplaceholder: 'Contact no' 
+                  },
+                  { labelName: 'Address', 
+                    inputtype: 'text', 
+                    inputid: 'teacherAddress', 
+                    inputplaceholder: 'Address' 
+                  }
+                ]}
+                button={{ btnname: 'Add Teacher', onClick: updateTeacher }}
+                />
             </div>
             
  
