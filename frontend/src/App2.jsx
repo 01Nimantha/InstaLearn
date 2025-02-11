@@ -13,12 +13,17 @@ import QuizCard from "./components/QuizCard";
 import PaperHearderCard from "./components/PaperHearderCard";
 import PaperCard from "./components/PaperCard";
 import UploadPhotoCard from "./components/UploadPhotoCard";
+import { FaHome } from "react-icons/fa";
+import { MdOutlinePayment } from "react-icons/md";
+import { HiCalendarDateRange } from "react-icons/hi2";
+import { IoIosSettings } from "react-icons/io";
+import { HiMiniDocumentCurrencyDollar } from "react-icons/hi2";
 
 const App2 = () => {
   return (
     <div>
       <div className={styles.container}>
-      <Sidebar imgURL={StudentImg} name={"Alia Bhatt"} id={"SC/2021/12405"} Logout={()=>{console.log("Click Logout Button")}}/>
+      <Sidebar imgURL={StudentImg} name={"Alia Bhatt"} id={"SC/2021/12405"} Logout={()=>{console.log("Click Logout Button")}} Tab1={"Home"} Tab1Icon={FaHome} Tab1Funtion={()=>{console.log("Click Tab 1")}} Tab2={"Payment"} Tab2Icon={MdOutlinePayment} Tab2Funtion={()=>{console.log("Click Tab 2")}} Tab3={"Timetable"} Tab3Icon={HiCalendarDateRange} Tab3Funtion={()=>{console.log("Click Tab 3")}} Tab4={"Setting"} Tab4Icon={IoIosSettings} Tab4Funtion={()=>{console.log("Click Tab 4")}} Tab5={"Payment History"} Tab5Icon={HiMiniDocumentCurrencyDollar} Tab5Funtion={()=>{console.log("Click Tab 5")}}/>
       <div>
         <div className={styles.containerbody}>
           <ImgCard ImgCardName={"Alia Bhatt"} ImgCardImg={StudentImg} ImgCardID={"SC/2021/12405"}/>
