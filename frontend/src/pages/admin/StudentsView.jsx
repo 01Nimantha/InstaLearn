@@ -46,14 +46,14 @@ const handleDelete = async(studentId)=>{
               </div>
       </header>
       <div className='mx-10'>
-            <div className='flex justify-between items-center w-full'>
+            <div className='flex justify-between items-center w-full py-5'>
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-              <AddButton btnname='Add Student' className='flex items-end'/>
+              <AddButton path = '/add-student' btnname='Add Student' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12'/>
             </div>
             
  
             <section>
-            <table className='shadow mt-10 w-full'>
+            <table className='shadow w-full'>
               <thead className='bg-[#EBEBEB] h-16'>
                 <tr className='text-center'>
                   <th>Student_id</th>

@@ -41,13 +41,13 @@ const loadParents = async()=>{
               </div>
       </header>
       <div className='mx-10'>
-            <div className='flex justify-between items-center w-full'>
+            <div className='flex justify-between items-center w-full py-5'>
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             </div>
             
  
             <section>
-            <table className='shadow mt-10 w-full'>
+            <table className='shadow w-full'>
               <thead className='bg-[#EBEBEB] h-16'>
                 <tr className='text-center'>
                   <th>Parent_id</th>

@@ -2,15 +2,22 @@ import React, { useEffect } from 'react'
 import SearchBar from './common/SearchBar'
 import { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import AddButton from './common/AddButton';
+import AddDetailsFormModel from './AddDetailsFormModel';
 
 const AdminsView = () => {
+
+  const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-    const [admins, setadmins] = useState([]);
+  const [admins, setadmins] = useState([]);
 
   useEffect(()=>{
     loadadmins();
   },[]);
+
+// const{adminName,adminEmail,adminContactno,adminAddress} = admins;
+  
 
 // 
 const loadadmins = async()=>{
@@ -30,6 +37,12 @@ const handleDelete = async(adminId)=>{
   loadadmins();
 }
 
+const updateAdmin = async(formData)=>{
+  await axios.post('http://localhost:8085/api/v1/admin/save', formData);
+      setShowModal(false);
+      loadadmins();   
+};
+
   return (
     <div className=' min-h-screen bg-[#D9D9D9]'>
       <header className="flex items-center justify-between bg-black text-white h-[150px]">
@@ -43,13 +56,26 @@ const handleDelete = async(adminId)=>{
               </div>
       </header>
       <div className='mx-10'>
-            <div className='flex justify-between items-center w-full'>
+            <div className='flex justify-between items-center w-full py-5'>
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+              <AddButton btnname='Add Admin' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' onClick={()=>setShowModal(true)}/>
+              <AddDetailsFormModel 
+                  isvisible={showModal} 
+                  onClose={() => setShowModal(false)} 
+                  title="Admin"
+                  formArr={[
+                    { labelName: 'Full Name', inputtype: 'text', inputid: 'adminName', inputplaceholder: 'Full Name' },
+                    { labelName: 'Email', inputtype: 'email', inputid: 'adminEmail', inputplaceholder: 'Email' },
+                    { labelName: 'Contact no', inputtype: 'text', inputid: 'adminContactno', inputplaceholder: 'Contact no' },
+                    { labelName: 'Address', inputtype: 'text', inputid: 'adminAddress', inputplaceholder: 'Address' }
+                  ]}
+                  button={{ btnname: 'Add Admin', onClick: updateAdmin }}
+        />
             </div>
             
  
             <section>
-            <table className='shadow mt-10 w-full'>
+            <table className='shadow  w-full'>
               <thead className='bg-[#EBEBEB] h-16'>
                 <tr className='text-center'>
                   <th>Admin_id</th>
