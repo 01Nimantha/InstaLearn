@@ -100,9 +100,9 @@ const Homepage = () => {
   return ( 
     
     <div>
-      {/* <div className="header" >
+      <div className="header" >
         <Header />
-      </div> */}
+      </div>
       <div className="learnmore">
       <Box
   sx={{
