@@ -1,10 +1,11 @@
 import Logo from "../assets/Logo.svg"
 import { IoIosLogOut } from "react-icons/io";
 import { useState } from "react";
-const Sidebar = ({Tab1,Tab1Icon,Tab1functions,Tab2,Tab2Icon,Tab2functions,Tab3,Tab3Icon,Tab3functions,Tab4,Tab4Icon,Tab4functions,Tab5,Tab5Icon,Tab5functions,Name,Id,ImgURL,Logout})=>{
+import { Link } from "react-router-dom";
+const Sidebar = ({Tab1,Tab1Icon,Tab1functions,Tab2,Tab2Icon,Tab2functions,Tab3,Tab3Icon,Tab3functions,Tab4,Tab4Icon,Tab4functions,Tab5,Tab5Icon,Tab5functions,AddNewTab,Tab6,Tab6Icon,Tab6functions,BackgroundColor,Name,Id,ImgURL,Logout})=>{
   const [isDarkMode, setIsDarkMode] = useState(1);
   return (
-    <div className="d-flex flex-column flex-shrink-0 p-3" style={{width: "280px", minHeight:"1080px", backgroundColor: "#13A68A"}}>
+    <div className="d-flex flex-column flex-shrink-0 p-3" style={{width: "280px", minHeight:"1080px", backgroundColor:`${BackgroundColor}` }}>
 
     <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
       <svg className="bi pe-none me-2" width="40" height="32"><use xlinkHref="#bootstrap"></use></svg>
@@ -12,40 +13,47 @@ const Sidebar = ({Tab1,Tab1Icon,Tab1functions,Tab2,Tab2Icon,Tab2functions,Tab3,T
     </a>
     <hr/>
     <ul className="nav nav-pills flex-column mb-auto">
-      <li className="nav-item" onClick={Tab1functions}>
-        <a href="#" className="nav-link " aria-current="page" style={{backgroundColor: isDarkMode==1 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(1)}}>
+      <li className="nav-item">
+        <Link to={Tab1functions} className="nav-link " aria-current="page" style={{backgroundColor: isDarkMode==1 ? "white" : `${BackgroundColor}`,}} onClick={()=>{setIsDarkMode(1)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#home"></use></svg>
           <span style={{display:"flex",
     color: isDarkMode==1 ? "black" :"white" }}> <Tab1Icon size={24}/><span style={{marginLeft:"5%"}} >{Tab1}</span></span>
-        </a>
+        </Link>
       </li>
-      <li onClick={Tab2functions}>
-        <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==2 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(2)}}>
+      <li>
+        <Link to={Tab2functions} className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==2 ? "white" : `${BackgroundColor}`,}} onClick={()=>{setIsDarkMode(2)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#speedometer2"></use></svg>
           <span style={{display:"flex",color: isDarkMode==2 ? "black" :"white"}}> <Tab2Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab2}</span></span>
-        </a>
+        </Link>
       </li>
-      <li onClick={Tab3functions}>
-        <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==3 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(3)}}>
+      <li>
+        <Link to={Tab3functions} className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==3 ? "white" : `${BackgroundColor}`,}} onClick={()=>{setIsDarkMode(3)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#table"></use></svg>
           <span style={{display:"flex",color: isDarkMode==3 ? "black" :"white" }}> <Tab3Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab3}</span></span>    
-        </a>
+        </Link>
       </li>
-      <li onClick={Tab4functions}>
-        <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==4 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(4)}}>
+      <li>
+        <Link to={Tab4functions} className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==4 ? "white" : `${BackgroundColor}`,}} onClick={()=>{setIsDarkMode(4)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#grid"></use></svg>
           <span style={{display:"flex",color: isDarkMode==4 ? "black" :"white" }}> <Tab4Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab4}</span></span>        
-        </a>
+        </Link>
       </li>
-      <li onClick={Tab5functions}>
-        <a href="#" className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==5 ? "white" : "#13A68A",}} onClick={()=>{setIsDarkMode(5)}}>
+      <li>
+        <Link to={Tab5functions} className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==5 ? "white" : `${BackgroundColor}`,}} onClick={()=>{setIsDarkMode(5)}}>
+          <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#grid"></use></svg>
+          <span style={{display:"flex",color: isDarkMode==5 ? "black" :"white" }}> <Tab5Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab5}</span></span>        
+        </Link>
+        {AddNewTab ?<li>
+        <Link to={Tab6functions} className="nav-link link-body-emphasis" style={{backgroundColor: isDarkMode==6 ? "white" : `${BackgroundColor}`,}} onClick={()=>{setIsDarkMode(6)}}>
           <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#people-circle"></use></svg>
-          <span style={{display:"flex",color: isDarkMode==5 ? "black" :"white" }}> <Tab5Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab5}</span></span>       
-        </a>
+          <span style={{display:"flex",color: isDarkMode==6 ? "black" :"white" }}> <Tab6Icon size={24}/><span style={{marginLeft:"5%"}}>{Tab6}</span></span>       
+        </Link>
+      </li>:null}
       </li>
+      
     </ul>
     <hr style={{color:"#ffffff"}}/>
-    <div className="dropdown" style={{display:"flex",backgroundColor:"#13A68A"}}>
+    <div className="dropdown" style={{display:"flex",backgroundColor:`${BackgroundColor}`}}>
       <div style={{marginLeft:"4%"}}>
         <a href="#" className="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
           <img src={ImgURL} alt="" width="60" height="60" className="rounded-circle me-2"/>
