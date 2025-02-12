@@ -1,7 +1,7 @@
 import QuizImg from "../assets/QuizImg.svg"
 import Button from "./Button";
 const QuizCard =({QuizCardDuration,QuizCardDate,QuizCardPrecentage})=>{
-  return <div className="card" style={{marginLeft:"2%",marginTop:"2%", minWidth:"47%", maxWidth:"47%"}}>
+  return <div className="card" style={{marginLeft:"2%",marginTop:"2%", minWidth:"100%", maxWidth:"100%"}}>
     <div style={{display:"flex"}}>
       <div style={{width:"30%"}}>
         <img src={QuizImg}  alt="..." style={{minHeight:"100%"}}/> 
