@@ -12,14 +12,18 @@ import UserHomePage from './pages/student/UserHomePage.jsx'
 import UserPaymentPage from './pages/student/UserPaymentPage.jsx';
 import UserTimetablePage from './pages/student/UserTimetablePage.jsx';
 import UserSettingPage from './pages/student/UserSettingPage.jsx';
+import UserPaymentHistoryPage from './pages/student/UserPaymentHistoryPage.jsx';
+import OnlineQuizPage from './pages/student/OnlineQuizPage.jsx';
+import QuestionPaperPage from './pages/student/QuestionPaperPage.jsx';
 
 const router =createBrowserRouter([{path:"/",element:<App2/>,
                           children:[{path:"/",element:<UserHomePage/>},
                                     {path:"/payment",element:<UserPaymentPage/>},
                                     {path:"/timetable",element:<UserTimetablePage/>},
                                     {path:"/setting",element:<UserSettingPage/>},
-                                    {path:"/payment-history",element:<UserPaymentPage/>},
-                                    {path:"/new-tab",element:<UserPaymentPage/>},
+                                    {path:"/payment-history",element:<UserPaymentHistoryPage/>},
+                                    {path:"/new-tab",element:<OnlineQuizPage/>},
+                                    {path:"/online-quiz",element:<QuestionPaperPage/>},
                                           ]}])
 
 createRoot(document.getElementById('root')).render(
