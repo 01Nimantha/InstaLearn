@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import  { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import {Provider} from "react-redux"
 import App2 from './App2'
 // import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,6 +16,7 @@ import UserSettingPage from './pages/student/UserSettingPage.jsx';
 import UserPaymentHistoryPage from './pages/student/UserPaymentHistoryPage.jsx';
 import OnlineQuizPage from './pages/student/OnlineQuizPage.jsx';
 import QuestionPaperPage from './pages/student/QuestionPaperPage.jsx';
+import mystore from "./store/index.js";
 
 const router =createBrowserRouter([{path:"/",element:<App2/>,
                           children:[{path:"/",element:<UserHomePage/>},
@@ -28,8 +30,9 @@ const router =createBrowserRouter([{path:"/",element:<App2/>,
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <Provider store={mystore}>
     <RouterProvider router={router} />
-    
+    </Provider>
     {/* <App /> */}
     {/* <App2/> */}
     {/* <App3/> */}
