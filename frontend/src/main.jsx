@@ -8,15 +8,17 @@ import './index.css'
 import App5 from './App5.jsx'
 import App from './App.jsx'
 import App3 from './App3.jsx'
+import App10 from './App10.jsx'
 
-const router =createBrowserRouter([{path:"/",element:<App2/>}])
+// const router =createBrowserRouter([{path:"/",element:<App2/>}])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
-    {/* <App /> */}
+    {/* <RouterProvider router={router} /> */}
+    <App />
     {/* <App2/> */}
     {/* <App3/> */}
+    
   </StrictMode>,
 
 )

@@ -164,7 +164,7 @@ const Homepage = () => {
           <div>
             <Box sx={{ width: 400, height: 400, bgcolor: "black", p: 2 ,justifyContent: "center",alignItems: "center"}}>
               <img src={qr} width={200} height={200} align="center"/>
-              {/* <div><span align="center"><h5>QR Code Tracking</h5></span></div> */}
+              {/* <div><span align="center" color="white"><h5>QR Code Tracking</h5></span></div> */}
               
             </Box>
           </div>
