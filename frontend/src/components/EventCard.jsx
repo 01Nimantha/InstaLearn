@@ -1,10 +1,10 @@
 import Button from "./Button";
-
+import { FaBell } from "react-icons/fa";
 const EventCard = ()=>{
   return <div className="card" style={{margin:"2% 2% 2% 0%",maxWidth:"70%", minWidth:"70%"}}>
     <div  style={{backgroundColor:"#13A68A",borderRadius:"5px 5px 0px 0px",marginBottom:"1%",padding:"1%", display:"flex"}}>
       <div style={{marginLeft:"1%"}}>Upcoming events</div>
-      <div style={{marginLeft:"77%"}}>A</div>
+      <div style={{marginLeft:"77%"}}><FaBell size={24} color="red"/></div>
     </div>
     <div className="card" style={{maxWidth:"98%",margin:"0% 2% 2% 2%", backgroundColor:"#78D9C6",minHeight:"80%"}}>
       <p style={{color:"#ffffff", marginLeft:"2%"}}>Kabaddi event </p>
