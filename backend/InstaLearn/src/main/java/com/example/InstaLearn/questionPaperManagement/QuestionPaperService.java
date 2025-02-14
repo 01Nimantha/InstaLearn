@@ -15,4 +15,6 @@ public interface QuestionPaperService {
     boolean updateQuestionPaper(int id, QuestionPaper questionPaper);
 
     boolean deleteQuestionPaperById(int id);
+
+    boolean createQuestionPaper(int id);
 }
