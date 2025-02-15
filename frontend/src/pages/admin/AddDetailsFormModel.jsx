@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import Label from './common/formComponents/Label';
+import LabeledInput from './common/formComponents/LabeledInput';
 import SubmitButton from './common/formComponents/SubmitButton';
+import { Link, useNavigate } from 'react-router-dom';
 
 const prepareForm = (formArr) => {
-    return formArr.reduce((r, v) => ({ ...r, [v.inputid]: "" }), {});
+    return formArr.reduce((r, v) => ({ ...r, [v.id]: "" }), {});
 };
 
     const AddDetailsFormModel = ({isvisible,onClose,title,formArr,button,includeSwitch}) => {
@@ -35,6 +36,7 @@ const prepareForm = (formArr) => {
         if (button.onClick) {
           button.onClick(finalFormData);
         }
+        
       };
 
   return (
@@ -47,14 +49,14 @@ const prepareForm = (formArr) => {
             <form className='p-6 space-y-3 text-sm' onSubmit={handleSubmit}>
                 
                 <div className='space-y-1'>
-                {formArr.map(({labelName,inputtype,inputid,inputplaceholder},index)=>(
-                    <Label 
+                {formArr.map(({labelName,type,id,placeholder},index)=>(
+                    <LabeledInput 
                         key={index} 
                         labelName={labelName} 
-                        inputtype={inputtype} 
-                        inputid={inputid} 
-                        inputplaceholder={inputplaceholder}
-                        inputvalue={form[inputid]}
+                        type={type} 
+                        id={id} 
+                        placeholder={placeholder}
+                        value={form[id]}
 
                         onChange={(e)=>handleInputChange(e)}/>
                 ))}  
@@ -75,7 +77,9 @@ const prepareForm = (formArr) => {
                 </div>
                 )}
                 
-                <SubmitButton btnname={button.btnname}/>
+                <SubmitButton btnname={button.btnname}
+                />
+                
                 
             </form>
             

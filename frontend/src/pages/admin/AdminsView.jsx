@@ -2,15 +2,35 @@ import React, { useEffect } from 'react'
 import SearchBar from './common/SearchBar'
 import { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import AddButton from './common/AddButton';
 import AddDetailsFormModel from './AddDetailsFormModel';
+import EditModel from './EditModel';
 
+const AdminEditModel = ({ onClose,adminId }) => (
+  <EditModel
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/admin/get-admin-by',
+      updateEndpoint: 'http://localhost:8085/api/v1/admin/update'
+    }}
+    fields={[
+      { label: 'Admin Name', name: 'adminName', type: 'text', required: true },
+      { label: 'Admin Email', name: 'adminEmail', type: 'email', required: true },
+      { label: 'Contact No', name: 'adminContactno', type: 'text', required: true },
+      { label: 'Address', name: 'adminAddress', type: 'text', required: true }
+    ]}
+    redirectUrl="/admins-view"
+    onClose={onClose}
+    entityId={adminId}
+  />
+)
 const AdminsView = () => {
 
+  const [selectedAdminId, setSelectedAdminId] = useState(null)
   const [showModal, setShowModal] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState('');
-  const [admins, setadmins] = useState([]);
+  const [admins, setAdmins] = useState([]);
 
   useEffect(()=>{
     loadadmins();
@@ -25,18 +45,19 @@ const loadadmins = async()=>{
         }
     );
     if(result.status == 302){
-        setadmins(result.data);
+        setAdmins(result.data);
     }    
 }
+
 const handleDelete = async(adminId)=>{
   await axios.delete(`http://localhost:8085/api/v1/admin/delete/${adminId}`);
   loadadmins();
 }
 
-const updateAdmin = async(formData)=>{
-  await axios.post('http://localhost:8085/api/v1/admin/save', formData);
-      setShowModal(false);
-      loadadmins();   
+const SaveAdmin = async(formData)=>{
+      const response = await axios.post('http://localhost:8085/api/v1/admin/save', formData);
+      setShowModal(false); 
+      loadadmins();  
 };
 
   return (
@@ -54,35 +75,42 @@ const updateAdmin = async(formData)=>{
       <div className='mx-10'>
             <div className='flex justify-between items-center w-full py-5'>
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-              <AddButton btnname='Add Admin' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' onClick={()=>setShowModal(true)}/>
+              <AddButton btnname='Add Admin' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' 
+                onClick={()=>setShowModal(true)}/>
               <AddDetailsFormModel 
                   isvisible={showModal} 
                   onClose={() => setShowModal(false)} 
                   title="Add Admin"
                   formArr={[
                     { labelName: 'Full Name', 
-                      inputtype: 'text', 
-                      inputid: 'adminName', 
-                      inputplaceholder: 'Full Name' 
+                      type: 'text', 
+                      id: 'adminName', 
+                      placeholder: 'Full Name'
+                      
                     },
                     { labelName: 'Email', 
-                      inputtype: 'email', 
-                      inputid: 'adminEmail', 
-                      inputplaceholder: 'Email' 
+                      type: 'email', 
+                      id: 'adminEmail', 
+                      placeholder: 'Email' 
                     },
                     { labelName: 'Contact no', 
-                      inputtype: 'text', 
-                      inputid: 'adminContactno', 
-                      inputplaceholder: 'Contact no' 
+                      type: 'text', 
+                      id: 'adminContactno', 
+                      placeholder: 'Contact no' 
                     },
                     { labelName: 'Address', 
-                      inputtype: 'text', 
-                      inputid: 'adminAddress', 
-                      inputplaceholder: 'Address' 
+                      type: 'text', 
+                      id: 'adminAddress', 
+                      placeholder: 'Address' 
                     }
                   ]}
-                  button={{ btnname: 'Add Admin', onClick: updateAdmin }}
-        />
+                  button={{ 
+                     btnname: 'Add Admin',
+                     onClick:(formData) => {
+                     SaveAdmin(formData);
+                    }
+                    
+                  }}/>
             </div>
             
  
@@ -103,15 +131,24 @@ const updateAdmin = async(formData)=>{
                       <td>{admin.adminName}</td>
                       <td>{admin.adminEmail}</td>
                       <td>
-                      <Link to={`/admin-profile/${admin.adminId}`} className='btn btn-info w-24 shadow'>
+                      <Link to={`/admin-profile/${admin.adminId}`} className='btn btn-info w-24 shadow' >
                             View
                         </Link>
+                        
                         </td>
                       
                       <td>
-                      <Link to={`/edit-admin/${admin.adminId}`} className='btn btn-warning w-24 shadow'>
+                      <button className='btn btn-warning w-24 shadow' 
+                        onClick={() => setSelectedAdminId(admin.adminId)} >
                             Update
-                        </Link>
+                        </button>
+                        
+                      </td>
+                      <td>
+                      <Link to={`/send-mail/${admin.adminId}`} className='btn btn-info w-24 shadow' >
+                          Email
+                      </Link>
+                        
                       </td>
                       <td >
                       <button 
@@ -127,9 +164,22 @@ const updateAdmin = async(formData)=>{
               </tbody>
             </table>
           </section>
+          {selectedAdminId && (
+          <AdminEditModel
+            adminId={selectedAdminId}
+            onClose={() => {
+              setSelectedAdminId(null)
+              loadadmins()
+            }
+
+            }
+          />
+        )}
       </div>
+      
     </div>
   )
+  
 }
 
 export default AdminsView

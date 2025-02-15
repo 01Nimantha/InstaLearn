@@ -6,9 +6,8 @@ import StudentsView from "./pages/admin/StudentsView";
 import ParentsView from "./pages/admin/ParentsView";
 import AdminsView from "./pages/admin/AdminsView";
 import AttendanceOfficerView from "./pages/admin/AttendanceOfficerView";
-import AddAttendanceOfficer from "./pages/admin/AddAttendanceOfficer";
-import AddTeacher from "./pages/admin/AddTeacher";
-import AddStudent from "./pages/admin/AddStudent";
+import EditModel from "./pages/admin/EditModel";
+import SendEmailModel from "./pages/admin/SendEmailModel";
 
  const App10 = () => {
    return (
@@ -46,6 +45,16 @@ import AddStudent from "./pages/admin/AddStudent";
             exact
             path="/aOfficer-view"
             element={<AttendanceOfficerView/>}></Route>
+
+        <Route
+            exact
+            path="/edit-admin/:adminId"
+            element={<EditModel/>}></Route>
+
+        <Route
+            exact
+            path="/send-mail/:adminId"
+            element={<SendEmailModel/>}></Route>
 
 
          </Routes>

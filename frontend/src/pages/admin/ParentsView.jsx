@@ -3,10 +3,28 @@ import SearchBar from './common/SearchBar'
 import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import AttendanceOfficerView from './AttendanceOfficerView';
+import EditModel from './EditModel';
 
+const ParentEditModel = ({ onClose,parentId }) => (
+  <EditModel
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/parent/get-parent-by',
+      updateEndpoint: 'http://localhost:8085/api/v1/parent/update'
+    }}
+    fields={[
+      { label: 'Parent Name', name: 'parentName', type: 'text', required: true },
+      { label: 'Parent Email', name: 'parentEmail', type: 'email', required: true },
+      { label: 'Contact No', name: 'parentContactno', type: 'text', required: true },
+      { label: 'Address', name: 'parentAddress', type: 'text', required: true }
+    ]}
+    redirectUrl="/parents-view"
+    onClose={onClose}
+    entityId={parentId}
+  />
+)
 const ParentsView = () => {
 
+    const [selectedParentId, setSelectedParentId] = useState(null)
     const [searchTerm, setSearchTerm] = useState('');
     const [parents, setParents] = useState([]);
 
@@ -69,10 +87,12 @@ const loadParents = async()=>{
                         </td>
                       
                       <td>
-                      <Link to={`/edit-parent/${parent.parentId}`} className='btn btn-warning w-24 shadow'>
-                            Update
-                        </Link>
+                      <button className='btn btn-warning w-24 shadow' 
+                        onClick={() => setSelectedParentId(parent.parentId)} >
+                        Update
+                        </button>
                       </td>
+                                            
                   
                       
                     </tr>
@@ -81,6 +101,15 @@ const loadParents = async()=>{
               </tbody>
             </table>
           </section>
+          {selectedParentId && (
+          <ParentEditModel
+            parentId={selectedParentId}
+            onClose={() => {
+              setSelectedParentId(null)
+              loadParents()
+            }}
+          />
+        )}
       </div>
     </div>
   )

@@ -4,11 +4,30 @@ import { useState } from 'react';
 import AddButton from './common/AddButton';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { FaRegTrashAlt } from 'react-icons/fa';
 import AddDetailsFormModel from './AddDetailsFormModel';
+import EditModel from './EditModel';
+
+const TeacherEditModel = ({ onClose,teacherId }) => (
+  <EditModel
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/teacher/get-teacher-by',
+      updateEndpoint: 'http://localhost:8085/api/v1/teacher/update'
+    }}
+    fields={[
+      { label: 'Teacher Name', name: 'teacherName', type: 'text', required: true },
+      { label: 'Teacher Email', name: 'teacherEmail', type: 'email', required: true },
+      { label: 'Contact No', name: 'teacherContactno', type: 'text', required: true },
+      { label: 'Address', name: 'teacherAddress', type: 'text', required: true }
+    ]}
+    redirectUrl="/teachers-view"
+    onClose={onClose}
+    entityId={teacherId}
+  />
+)
 
 const TeachersView = () => {
 
+  const [selectedTeacherId, setSelectedTeacherId] = useState(null)
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [teachers, setTeacher] = useState([]);
@@ -112,9 +131,10 @@ const updateTeacher = async(formData)=>{
                         </td>
                       
                       <td>
-                      <Link to={`/edit-teacher/${teacher.teacherId}`} className='btn btn-warning w-24 shadow'>
+                      <button className='btn btn-warning w-24 shadow' 
+                        onClick={() => setSelectedTeacherId(teacher.teacherId)} >
                             Update
-                        </Link>
+                        </button>
                       </td>
                       <td >
                       <button 
@@ -130,6 +150,17 @@ const updateTeacher = async(formData)=>{
               </tbody>
             </table>
           </section>
+          {selectedTeacherId && (
+          <TeacherEditModel
+            teacherId={selectedTeacherId}
+            onClose={() => {
+              setSelectedTeacherId(null)
+              loadTeachers()
+            }
+
+            }
+          />
+        )}
       </div>
     </div>
   )

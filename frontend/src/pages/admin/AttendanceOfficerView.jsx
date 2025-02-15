@@ -4,11 +4,29 @@ import { useState } from 'react';
 import AddButton from './common/AddButton';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { FaRegTrashAlt } from 'react-icons/fa';
 import AddDetailsFormModel from './AddDetailsFormModel';
+import EditModel from './EditModel';
 
+const AttendanceOfficerEditModel = ({ onClose,attendanceOfficerId }) => (
+  <EditModel
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/get-aOfficer-by',
+      updateEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/update'
+    }}
+    fields={[
+      { label: 'AttendanceOfficer Name', name: 'attendanceOfficerName', type: 'text', required: true },
+      { label: 'AttendanceOfficer Email', name: 'attendanceOfficerEmail', type: 'email', required: true },
+      { label: 'Contact No', name: 'attendanceOfficerContactno', type: 'text', required: true },
+      { label: 'Address', name: 'attendanceOfficerAddress', type: 'text', required: true }
+    ]}
+    redirectUrl="/aOfficer-view"
+    onClose={onClose}
+    entityId={attendanceOfficerId}
+  />
+)
 const AttendanceOfficerView = () => {
 
+      const [selectedAOfficerId, setSelectedAOfficerId] = useState(null)
       const [searchTerm, setSearchTerm] = useState('');
       const [aOfficers, setaOfficer] = useState([]);
       const [showModal, setShowModal] = useState(false);
@@ -112,9 +130,10 @@ const AttendanceOfficerView = () => {
                             </td>
                           
                           <td>
-                          <Link to={`/edit-attendanceOfficer/${aOfficer.attendanceOfficerId}`} className='btn btn-warning w-24 shadow'>
-                                Update
-                            </Link>
+                          <button className='btn btn-warning w-24 shadow' 
+                        onClick={() => setSelectedAOfficerId(aOfficer.attendanceOfficerId)} >
+                            Update
+                        </button>
                           </td>
                           <td >
                           <button 
@@ -130,6 +149,17 @@ const AttendanceOfficerView = () => {
                   </tbody>
                 </table>
               </section>
+              {selectedAOfficerId && (
+          <AttendanceOfficerEditModel
+            attendanceOfficerId={selectedAOfficerId}
+            onClose={() => {
+              setSelectedAOfficerId(null)
+              loadaOfficer()
+            }
+
+            }
+          />
+        )}
           </div>
         </div>
       )
