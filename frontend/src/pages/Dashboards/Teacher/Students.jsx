@@ -44,10 +44,10 @@ const Students = () => {
         ImgURL={StudentImg} Name={"Alia Bhatt"}
          Id={"SC/2021/12405"} 
          Logout={()=>{console.log("Click Logout Button")}} 
-         Tab1={"Home"} Tab1Icon={FaHome} Tab1Funtion={()=>{console.log("Click Tab 1")}} 
-         Tab2={"Students"} Tab2Icon={PiStudentFill} Tab2Funtion={()=>{console.log("Click Tab 2")}} 
-         Tab3={"Manage Schedule"} Tab3Icon={HiCalendarDateRange} Tab3Funtion={()=>{console.log("Click Tab 3")}} 
-         Tab4={"Payments"} Tab4Icon={MdOutlinePayment} Tab4Funtion={()=>{console.log("Click Tab 4")}} 
+         Tab1={"Home"} Tab1Icon={FaHome} Tab1Funtion={()=>{console.log("/home")}} 
+         Tab2={"Students"} Tab2Icon={PiStudentFill} Tab2Funtion={()=>{console.log("/student")}} 
+         Tab3={"Manage Schedule"} Tab3Icon={HiCalendarDateRange} Tab3Funtion={()=>{console.log("/")}} 
+         Tab4={"Payments"} Tab4Icon={MdOutlinePayment} Tab4Funtion={()=>{console.log("payments")}} 
          Tab5={"Attendance"} Tab5Icon={FaRegCalendarCheck} Tab5Funtion={()=>{console.log("Click Tab 5")}} 
          AddNewTab={true} 
          Tab6={"Settings"} Tab6Icon={IoIosSettings} Tab6functions={"/new-tab"}/>
