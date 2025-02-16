@@ -5,6 +5,8 @@ import QuizForm from './pages/Dashboards/Teacher/QuizForm'
 import Test from './pages/Dashboards/Teacher/test'
 import Students from './pages/Dashboards/Teacher/Students'
 import Payments from './pages/Dashboards/Teacher/Payments'
+import Progress from './pages/Dashboards/Teacher/Progress'
+
 
 
 const App3 = () => {
@@ -40,11 +42,18 @@ const App3 = () => {
               
               
           </Routes> */}
-          <Routes>
+          {/* <Routes>
              <Route 
               exact
               path="/" 
               element={<Payments />} />              
+              
+          </Routes> */}
+          <Routes>
+             <Route 
+              exact
+              path="/" 
+              element={<Progress />} />              
               
           </Routes>
 
