@@ -13,7 +13,7 @@ const AdminDashboard = () => {
           <p className="text-sm text-gray-300 leading-7">Manage Users and Access Admin Functions</p>
         </div>
         <div className='pr-10'>
-        <button onClick={() => navigate('/login')} className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] mr-[50px]">
+        <button className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center">
           <FaSignOutAlt className='w-5 h-5'/>
           <span className='text-white font-bold font-Nunito text-xl '>Log out</span>
         </button>
@@ -46,7 +46,7 @@ const AdminDashboard = () => {
         </Link>
         </div>
         <div className='col-span-2 shadow rounded-2xl'>
-         <Link to={'/admin-dashboard/aOfficers-view'} className='w-full h-34 bg-white rounded-2xl flex items-center justify-center gap-10 text-decoration-none text-black'>
+         <Link to={'/aOfficer-view'} className='w-full h-34 bg-white rounded-2xl flex items-center justify-center gap-10 text-decoration-none text-black'>
           <FaUser/>
           <span>Attendance Officer</span>
         </Link> 
