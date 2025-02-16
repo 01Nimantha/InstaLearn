@@ -1,13 +1,26 @@
 import { Avatar, Box, Typography } from '@mui/material'
-import React,{ useEffect, useState } from 'react'
+import React,{ Fragment, useEffect, useState } from 'react'
 import Sidebar from '../../../components/Sidebar'
 import Button from '../../../components/Button'
 import Card from '../../../components/Card'
 import StatCard from '../../../components/StatCard'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import StudentImg from "../../../assets/StudentImg.svg"
+import { FaHome } from "react-icons/fa";
+import { MdOutlinePayment } from "react-icons/md";
+import { HiCalendarDateRange } from "react-icons/hi2";
+import { PiStudentFill } from "react-icons/pi";
+import { FaRegCalendarCheck } from "react-icons/fa6";
+import { IoIosSettings } from "react-icons/io";
+import TeacherQuiz from "../../../assets/TeacherQuiz.svg"
+import Progress from "../../../assets/Progress.svg"
+import Modal from '../../../components/Modal';
+
 
 
 const TeacherDashboard = () => {
+  const[showModal,setShowModal]=useState(false);
+
   const [stats, setStats] = useState({
     totalStudents: 0,
     averageScore: 0,
@@ -38,7 +51,7 @@ const TeacherDashboard = () => {
   //   // Replace this with your actual API call
   //   const fetchData = async () => {
   //     try {
-  //       const response = await fetch("https://your-api-endpoint.com/performance"); // Replace with actual API
+  //       const response = await fetch("http://localhost:8085/api/v1/excel/get-by-id/${studentId}"); // Replace with actual API
   //       const result = await response.json();
   //       setData(result);
   //     } catch (error) {
@@ -64,49 +77,48 @@ const TeacherDashboard = () => {
     { time: "60k", performance: 75 }
   ];
 
+
   return (
-    <div>
-      <div className='d-flex'>
-        <Sidebar />
-        <div className='w-full'>
+    <div className='d-flex'>
+      <div>  
+       <Sidebar BackgroundColor={"#287f93"}
+        ImgURL={StudentImg} Name={"Alia Bhatt"}
+         Id={"SC/2021/12405"} 
+         Logout={()=>{console.log("Click Logout Button")}} 
+         Tab1={"Home"} Tab1Icon={FaHome} Tab1Funtion={()=>{console.log("Click Tab 1")}} 
+         Tab2={"Students"} Tab2Icon={PiStudentFill} Tab2Funtion={()=>{console.log("Click Tab 2")}} 
+         Tab3={"Manage Schedule"} Tab3Icon={HiCalendarDateRange} Tab3Funtion={()=>{console.log("Click Tab 3")}} 
+         Tab4={"Payments"} Tab4Icon={MdOutlinePayment} Tab4Funtion={()=>{console.log("Click Tab 4")}} 
+         Tab5={"Attendance"} Tab5Icon={FaRegCalendarCheck} Tab5Funtion={()=>{console.log("Click Tab 5")}} 
+         AddNewTab={true} 
+         Tab6={"Settings"} Tab6Icon={IoIosSettings} Tab6functions={"/new-tab"}/>
+      </div>
+
+      <div className='w-full'>
           {/* Use Flexbox to align the button to the right */}
-          <Box
-            sx={{
-              width: "100%",
-              backgroundColor: "blue",
-              color: "white",
-              p: 2,
-              display: "flex", // Enable Flexbox
-              justifyContent: "space-between", // Space between title and button
-              alignItems: "center", // Vertically center items
-            }}
-          >
+          <Box className="w-full h-35 bg-[#287f93] text-white p-3 flex justify-between items-center rounded-[8px] ml-2.5" >
             <div>
               <Typography variant="h5">Welcome, Teacher</Typography>
               <Typography variant="subtitle1">
                 Here's what's happening with your classes today
               </Typography>
             </div>
-            <div>
-              <Button
-                name="Add Notice"
-                action={() => alert("Add Notice!")}
-                backgroundColor="white"
-                fontColor="black"
-                cornerRadius={true}
-              />
-            </div>
+            <Fragment>
+            <div className='d-flex'>
+            <Button
+              name={"Add Notice"} 
+              action={()=>{console.log("Nimantha Click")}} 
+              backgroundColor={"#FFFFFF"} 
+              fontColor={"black"} 
+              cornerRadius={false}/> 
+              {/* <Modal/>
+              {/* <button className='bg-yellow-50 text-black onClick={()=>setShowModal(true)}'>Add Notice</button>
+              <Modal isVisible={showModal} onClose={()=>setShowModal(false)}>Add Notice</Modal>  */}
+              </div>
+              </Fragment>
           </Box>
           
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '20px',
-              marginTop: '20px',
-              p: 2,
-            }}
-          >
+          <Box className="grid gap-5 mt-5 p-2 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
             <StatCard
               title="Total Students"
               value={stats.totalStudents}
@@ -128,27 +140,17 @@ const TeacherDashboard = () => {
               description="Percentage of students attempting quizzes"
             />
           </Box>
-        
+
+          <div className='d-flex gap-5 mt-5'>
+            <Card CardImg={TeacherQuiz} CardTitle={"Online Quiz"} CardBody={"Create and manage a comprehensive question pool to design customized quizzes for your students, streamlining test preparation and evaluation."} CardButtonName={"Generate quiz"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} />
+            <Card CardImg={Progress} CardTitle={"View Progress"} CardBody={"Monitor student performance with detailed progress insights, enabling teachers to track academic growth, identify learning gaps, and provide timely interventions for improvement."} CardButtonName={"View"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} />
+          </div>
+
+           
           
 
-          <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
-            <Card />
-            <Card />
-          </div>
-          {/* <div style={{ width: "100%", height: 400, backgroundColor: "#f8f9fa", padding: 20, borderRadius: 10 }}>
-      <h3 style={{ marginBottom: 10 }}>Performance Overview</h3>
-      <ResponsiveContainer width="100%" height={350}>
-        <LineChart data={data}>
-          <XAxis dataKey="time" />
-          <YAxis />
-          <Tooltip />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Line type="monotone" dataKey="performance" stroke="#007bff" dot={{ stroke: "#007bff", strokeWidth: 2 }} />
-        </LineChart>
-      </ResponsiveContainer>
-    </div> */}
-    <div style={{ width: "100%", height: 400, backgroundColor: "#f8f9fa", padding: 20, borderRadius: 10 }}>
-      <h3 style={{ marginBottom: 10 }}>Performance Overview</h3>
+      <div className="w-full h-[400px] bg-[#f8f9fa] p-5 rounded-[10px]">
+      <h3 className='mb-10'>Performance Overview</h3>
       <ResponsiveContainer width="100%" height={350}>
         <LineChart data={sampleData}>
           <XAxis dataKey="time" />
@@ -158,9 +160,8 @@ const TeacherDashboard = () => {
           <Line type="monotone" dataKey="performance" stroke="#007bff" dot={{ stroke: "#007bff", strokeWidth: 2 }} />
         </LineChart>
       </ResponsiveContainer>
-    </div>
-        </div>
       </div>
+    </div>
     </div>
   );
 }
