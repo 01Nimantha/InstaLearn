@@ -19,25 +19,28 @@ import OnlineQuizPage from './pages/student/OnlineQuizPage.jsx';
 import QuestionPaperPage from './pages/student/QuestionPaperPage.jsx';
 import mystore from "./store/index.js";
 
-const router =createBrowserRouter([{path:"/",element:<App2/>,
-                          children:[{path:"/",element:<UserHomePage/>},
-                                    {path:"/payment",element:<UserPaymentPage/>},
-                                    {path:"/timetable",element:<UserTimetablePage/>},
-                                    {path:"/setting",element:<UserSettingPage/>},
-                                    {path:"/payment-history",element:<UserPaymentHistoryPage/>},
-                                    {path:"/new-tab",element:<OnlineQuizPage/>},
-                                    {path:"/online-quiz",element:<QuestionPaperPage/>},
-                                          ]}])
+// const router =createBrowserRouter([{path:"/",element:<App2/>,
+//                           children:[{path:"/",element:<UserHomePage/>},
+//                                     {path:"/payment",element:<UserPaymentPage/>},
+//                                     {path:"/timetable",element:<UserTimetablePage/>},
+//                                     {path:"/setting",element:<UserSettingPage/>},
+//                                     {path:"/payment-history",element:<UserPaymentHistoryPage/>},
+//                                     {path:"/new-tab",element:<OnlineQuizPage/>},
+//                                     {path:"/online-quiz",element:<QuestionPaperPage/>},
+//                                           ]}])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Provider store={mystore}>
+    {/* <Provider store={mystore}>
     <RouterProvider router={router} />
-    </Provider>
+    </Provider> */}
+    {/* <RouterProvider router={router} /> */}
+    
     {/* <App /> */}
     {/* <App2/> */}
     {/* <App3/> */}
     
+    <App3/>
   </StrictMode>,
 
 )
