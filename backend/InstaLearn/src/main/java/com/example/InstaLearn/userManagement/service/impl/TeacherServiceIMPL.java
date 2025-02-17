@@ -2,7 +2,6 @@ package com.example.InstaLearn.userManagement.service.impl;
 
 import com.example.InstaLearn.userManagement.dto.TeacherSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.TeacherUpdateRequestDTO;
-import com.example.InstaLearn.userManagement.entity.Admin;
 import com.example.InstaLearn.userManagement.entity.Teacher;
 import com.example.InstaLearn.userManagement.entity.User;
 import com.example.InstaLearn.userManagement.entity.enums.Role;
@@ -12,6 +11,8 @@ import com.example.InstaLearn.userManagement.service.TeacherService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TeacherServiceIMPL implements TeacherService {
@@ -44,20 +45,25 @@ public class TeacherServiceIMPL implements TeacherService {
     }
 
     @Override
-    public String updateTeacher(TeacherUpdateRequestDTO teacherUpdateRequestDTO) {
-        if(teacherRepo.existsById(teacherUpdateRequestDTO.getTeacherId())) {
-            Teacher teacher = teacherRepo.getReferenceById(teacherUpdateRequestDTO.getTeacherId());
+    public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO){
+        if(teacherRepo.existsById(teacherId)) {
+            Teacher teacher = teacherRepo.getReferenceById(teacherId);
+
             teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
             teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
             teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
             teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
-
             teacherRepo.save(teacher);
             return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
         }
         else{
             throw new RuntimeException("No data found for that id");
         }
+    }
+
+    @Override
+    public List<Teacher> getAllTeachers() {
+        return teacherRepo.findAll();
     }
 
     @Override
@@ -72,21 +78,7 @@ public class TeacherServiceIMPL implements TeacherService {
     }
 
     @Override
-    public TeacherSaveRequestDTO getTeacherById(String teacherId) {
-        if(teacherRepo.existsById(teacherId)) {
-            Teacher teacher = teacherRepo.getReferenceById(teacherId);
-            TeacherSaveRequestDTO teacherSaveRequestDTO = new TeacherSaveRequestDTO(
-                    teacher.getTeacherName(),
-                    teacher.getTeacherEmail(),
-                    teacher.getTeacherContactno(),
-                    teacher.getTeacherAddress()
-            );
-
-
-            return teacherSaveRequestDTO;
-        }
-        else{
-            throw new RuntimeException("No Teacher");
-        }
+    public Teacher getTeacherById(String teacherId) {
+        return teacherRepo.findById(teacherId).orElse(null);
     }
 }

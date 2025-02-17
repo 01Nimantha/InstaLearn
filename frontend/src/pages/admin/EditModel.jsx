@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 const EditModel = ({
@@ -8,12 +7,11 @@ const EditModel = ({
     updateEndpoint
   },
   fields,
-  redirectUrl,
   onClose,
-  entityId
+  entityId,
+  title
 }) => {
 
-  const navigate = useNavigate();
   const[entity,setEntity] = useState({})
 
   useEffect(()=>{
@@ -34,7 +32,7 @@ const handleSubmit = async(e)=>{
   e.preventDefault();
   await axios.put(`${updateEndpoint}/${entityId}`, entity);
   onClose();
-  navigate(redirectUrl);
+
      
 };
 
@@ -47,7 +45,7 @@ const handleClose = (e) =>{
     <div className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center' id="wrapper" onClick={handleClose}>
         <div className='w-1/3 bg-white  rounded-2xl'>
             <header className='flex justify-between items-center p-3 bg-gray-950  rounded-t-2xl border'>
-                <span className='text-2xl text-white'>Update Admin</span>
+                <span className='text-2xl text-white'>{title}</span>
             </header>
 
             <form className='p-6 space-y-3 text-sm' onSubmit={(e)=>handleSubmit(e)}>
@@ -95,6 +93,3 @@ const handleClose = (e) =>{
 }
 
 export default EditModel
-
-// http://localhost:8085/api/v1/admin/get-admin-by/
-// http://localhost:8085/api/v1/admin/update/

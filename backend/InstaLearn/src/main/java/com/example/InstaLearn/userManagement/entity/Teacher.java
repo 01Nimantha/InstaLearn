@@ -46,4 +46,7 @@ public class Teacher {
     @OneToOne
     private User user;
 
+    @Lob
+    private byte[] teacherPhoto;
+
 }

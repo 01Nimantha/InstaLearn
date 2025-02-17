@@ -40,7 +40,7 @@ createRoot(document.getElementById('root')).render(
     {/* <App2/> */}
     {/* <App3/> */}
     
-    <App3/>
+    <App/>
   </StrictMode>,
 
 )

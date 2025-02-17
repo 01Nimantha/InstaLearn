@@ -1,7 +1,4 @@
 package com.example.InstaLearn.userManagement.dto;
-
-import com.example.InstaLearn.userManagement.entity.Parent;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +14,9 @@ public class StudentSaveRequestDTO {
     private String studentParentName;
     private String studentParentEmail;
     private String studentParentContactno;
-    private boolean freeCard;
+
+    public boolean isFreeCard() {
+        return false;
+    }
+    //private boolean freeCard = false;
 }

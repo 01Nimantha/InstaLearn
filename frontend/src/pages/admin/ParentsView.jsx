@@ -4,9 +4,11 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import EditModel from './EditModel';
+import ViewModel from './ViewModel';
 
 const ParentEditModel = ({ onClose,parentId }) => (
   <EditModel
+    title="Update Parent"
     apiEndpoints={{
       getEndpoint: 'http://localhost:8085/api/v1/parent/get-parent-by',
       updateEndpoint: 'http://localhost:8085/api/v1/parent/update'
@@ -17,7 +19,23 @@ const ParentEditModel = ({ onClose,parentId }) => (
       { label: 'Contact No', name: 'parentContactno', type: 'text', required: true },
       { label: 'Address', name: 'parentAddress', type: 'text', required: true }
     ]}
-    redirectUrl="/parents-view"
+    onClose={onClose}
+    entityId={parentId}
+  />
+)
+const ParentViewModel = ({ onClose,parentId }) => (
+  <ViewModel
+    title="Parent Profile"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/parent/get-parent-by'
+    }}
+    fields={[
+      {label: 'parent Id', name: 'parentId'},
+      { label: 'parent Name', name: 'parentName'},
+      { label: 'parent Email', name: 'parentEmail'},
+      { label: 'Contact No', name: 'parentContactno'},
+      { label: 'Address', name: 'parentAddress' }
+    ]}
     onClose={onClose}
     entityId={parentId}
   />
@@ -81,9 +99,10 @@ const loadParents = async()=>{
                       <td>{parent.parentName}</td>
                       <td>{parent.parentEmail}</td>
                       <td>
-                      <Link to={`/parent-profile/${parent.parentId}`} className='btn btn-info w-24 shadow'>
-                            View
-                        </Link>
+                      <button className='btn btn-info w-24 shadow' 
+                        onClick={() => setSelectedParentId(parent.parentId)} >
+                        View
+                        </button>
                         </td>
                       
                       <td>
@@ -103,6 +122,15 @@ const loadParents = async()=>{
           </section>
           {selectedParentId && (
           <ParentEditModel
+            parentId={selectedParentId}
+            onClose={() => {
+              setSelectedParentId(null)
+              loadParents()
+            }}
+          />
+        )}
+        {selectedParentId && (
+          <ParentViewModel
             parentId={selectedParentId}
             onClose={() => {
               setSelectedParentId(null)

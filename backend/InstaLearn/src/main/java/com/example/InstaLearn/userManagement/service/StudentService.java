@@ -2,6 +2,9 @@ package com.example.InstaLearn.userManagement.service;
 
 import com.example.InstaLearn.userManagement.dto.StudentSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.StudentUpdateRequestDTO;
+import com.example.InstaLearn.userManagement.entity.Student;
+
+import java.util.List;
 
 public interface StudentService {
     String saveStudentAndParent(StudentSaveRequestDTO studentSaveRequestDTO);
@@ -10,5 +13,7 @@ public interface StudentService {
 
     String deleteStudentAndParent(String studentId);
 
-    StudentSaveRequestDTO getStudentById(String studentId);
+    List<Student> getAllStudents();
+
+    Student getStudentById(String studentId);
 }
