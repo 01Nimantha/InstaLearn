@@ -44,4 +44,14 @@ public class StudentController {
         );
     }
 
+    @GetMapping(
+            path="/get-by-id",
+            params = "id"
+
+    )
+    public StudentSaveRequestDTO getStudentById(@RequestParam(value = "id") String studentId) {
+        StudentSaveRequestDTO studentSaveRequestDTO=studentService.getStudentById(studentId);
+        return studentSaveRequestDTO ;
+    }
+
 }
