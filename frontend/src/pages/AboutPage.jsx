@@ -64,7 +64,7 @@ const AboutPage = () => {
   };
   return (
     <div>
-      {/* <div className='header'> <Header/></div> */}
+      <div className='header'> <Header/></div>
         
 
         <div>
