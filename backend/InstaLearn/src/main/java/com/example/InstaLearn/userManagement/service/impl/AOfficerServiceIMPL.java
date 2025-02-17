@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AOfficerServiceIMPL implements AOfficerService {
 
@@ -64,5 +66,15 @@ public class AOfficerServiceIMPL implements AOfficerService {
                 throw new RuntimeException("Admin not found");
             }
 
+    }
+
+    @Override
+    public List<AttendanceOfficer> getAllAttandanceOfficers() {
+        return aOfficerRepo.findAll();
+    }
+
+    @Override
+    public AttendanceOfficer getAttendanceOfficerById(String attendanceOfficerId) {
+        return aOfficerRepo.findById(attendanceOfficerId).orElse(null);
     }
 }

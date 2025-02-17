@@ -7,7 +7,6 @@ import ParentsView from "./pages/admin/ParentsView";
 import AdminsView from "./pages/admin/AdminsView";
 import AttendanceOfficerView from "./pages/admin/AttendanceOfficerView";
 
- 
  const App10 = () => {
    return (
      <div>
@@ -21,29 +20,29 @@ import AttendanceOfficerView from "./pages/admin/AttendanceOfficerView";
 
        <Route 
          exact
-         path="/teachers-view" 
+         path="admin-dashboard/teachers-view" 
          element={<TeachersView/>}></Route>
  
        <Route 
          exact
-         path="/students-view" 
+         path="admin-dashboard/students-view" 
          element={<StudentsView/>}></Route>
 
        <Route 
          exact
-         path="/parents-view" 
+         path="admin-dashboard/parents-view" 
          element={<ParentsView/>}></Route>
 
        <Route 
          exact
-         path="/admins-view" 
+         path="admin-dashboard/admins-view" 
          element={<AdminsView/>}></Route>
 
-       <Route 
-         exact
-         path="/aOfficer-view" 
-         element={<AttendanceOfficerView/>}></Route>
-
+    
+        <Route
+            exact
+            path="admin-dashboard/aOfficer-view"
+            element={<AttendanceOfficerView/>}></Route>
          </Routes>
     
    </BrowserRouter>

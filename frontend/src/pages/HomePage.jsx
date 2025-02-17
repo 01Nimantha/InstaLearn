@@ -10,6 +10,9 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import { QrCode } from "@mui/icons-material";
 import qr from "../assets/images/qr.png";
+import qpool from "../assets/images/qpool.png"
+import progress from "../assets/images/progress.png"
+import payment from "../assets/images/payment.png"
 import PeopleIcon from "@mui/icons-material/People";
 import SchoolIcon from "@mui/icons-material/School";
 import GroupIcon from "@mui/icons-material/Group";
@@ -162,20 +165,100 @@ const Homepage = () => {
         <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#e8eaf6' }}>
         <Slider {...settings}>
           <div>
-            <Box sx={{ width: 400, height: 400, bgcolor: "black", p: 2 ,justifyContent: "center",alignItems: "center"}}>
-              <img src={qr} width={200} height={200} align="center"/>
-              {/* <div><span align="center"><h5>QR Code Tracking</h5></span></div> */}
-              
-            </Box>
+            <Box
+      sx={{
+        width: 400,
+        height: 400,
+        bgcolor: "black",
+        p: 2,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 2,
+        textAlign: "center",
+      }}
+    >
+      <img src={qr} width={200} height={200} alt="QR Code" />
+      <Typography variant="h5" color="white" mt={2}>
+        QR Code Tracking
+      </Typography>
+      <Typography variant="body2" color="gray" mt={1} px={2}>
+        Scan the QR code to track real-time details efficiently and securely.
+      </Typography>
+    </Box>
           </div>
           <div>
-            <Box sx={{ width: 400, height: 400, bgcolor: "black", p: 2 }}></Box>
+          <Box
+      sx={{
+        width: 400,
+        height: 400,
+        bgcolor: "black",
+        p: 2,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 2,
+        textAlign: "center",
+      }}
+    >
+      <img src={qpool} width={200} height={200} alt="QPool" />
+      <Typography variant="h5" color="white" mt={2}>
+        Question Pool 
+      </Typography>
+      <Typography variant="body2" color="gray" mt={1} px={2}>
+        Easily upload,categorize and generate exam papers.
+      </Typography>
+    </Box>
           </div>
           <div>
-            <Box sx={{ width: 400, height: 400, bgcolor: "black", p: 2 }}></Box>
+          <Box
+      sx={{
+        width: 400,
+        height: 400,
+        bgcolor: "black",
+        p: 2,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 2,
+        textAlign: "center",
+      }}
+    >
+      <img src={payment} width={200} height={200} alt="Payment" />
+      <Typography variant="h5" color="white" mt={2}>
+        Online Payment
+      </Typography>
+      <Typography variant="body2" color="gray" mt={1} px={2}>
+        Secure payment gateway with automated reminders
+      </Typography>
+    </Box>
           </div>
           <div>
-          <Box sx={{ width: 400, height: 400, bgcolor: "black", p: 2 }}></Box>
+          <Box
+      sx={{
+        width: 400,
+        height: 400,
+        bgcolor: "black",
+        p: 2,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 2,
+        textAlign: "center",
+      }}
+    >
+      <img src={progress} width={200} height={200} alt="Progress" />
+      <Typography variant="h5" color="white" mt={2}>
+        Progress Traking 
+      </Typography>
+      <Typography variant="body2" color="gray" mt={1} px={2}>
+        Real-time dashboard for students,parents and  teachers
+      </Typography>
+    </Box>
           </div>
         </Slider>
         <br/>
