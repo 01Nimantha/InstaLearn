@@ -9,4 +9,6 @@ public interface StudentService {
     String updateStudent(String studentId, StudentUpdateRequestDTO studentUpdateRequestDTO);
 
     String deleteStudentAndParent(String studentId);
+
+    StudentSaveRequestDTO getStudentById(String studentId);
 }
