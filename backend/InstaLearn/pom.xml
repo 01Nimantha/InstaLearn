@@ -98,9 +98,9 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
-<<<<<<< HEAD
+
 		<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
-=======
+
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
@@ -116,7 +116,7 @@
 			<artifactId>javase</artifactId>
 			<version>3.5.2</version>
 		</dependency>
->>>>>>> 6b8bc49a977dd8054462c2687b1a7841b6adbfe9
+
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -135,7 +135,23 @@
 			<version>0.11.5</version>
 			<scope>runtime</scope>
 		</dependency>
-</dependencies>
+
+			<!-- Apache POI -->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>5.2.3</version> <!-- Use the latest version -->
+			</dependency>
+
+			<!-- Apache POI for Excel (if working with .xlsx files) -->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>5.2.3</version>
+			</dependency>
+
+
+	</dependencies>
 
 	<build>
 		<plugins>

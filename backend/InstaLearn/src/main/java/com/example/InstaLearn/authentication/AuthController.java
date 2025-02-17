@@ -1,4 +1,5 @@
 package com.example.InstaLearn.authentication;
+
 import com.example.InstaLearn.authentication.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
