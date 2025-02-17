@@ -1,11 +1,13 @@
 import {configureStore, createSlice} from "@reduxjs/toolkit"
+import logingSlice from "./logingSlice";
+import eventSlice from "./eventSlice";
 
 const testSlice = createSlice({
   name:"test",
-  initialState:{testVal:0},
+  initialState:{testVal:5},
   reducers:{
-    increment:(state,action)=>{
-        console.log(state,action);
+    increment:(state)=>{
+      state.testVal++;
     },
     decrement:(state,action)=>{
         console.log(state,action);
@@ -14,7 +16,9 @@ const testSlice = createSlice({
 });
 
 const mystore=configureStore({reducer:{
-  testreducer:testSlice.reducer
+  testreducer:testSlice.reducer,
+  logingreducer: logingSlice.reducer,
+  eventreducer: eventSlice.reducer
 }});
 
 export const testAction = testSlice.actions;
