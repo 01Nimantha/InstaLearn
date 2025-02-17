@@ -9,6 +9,7 @@ import './index.css'
 import App5 from './App5.jsx'
 import App from './App.jsx'
 import App3 from './App3.jsx'
+
 import UserHomePage from './pages/student/UserHomePage.jsx'
 import UserPaymentPage from './pages/student/UserPaymentPage.jsx';
 import UserTimetablePage from './pages/student/UserTimetablePage.jsx';
@@ -30,9 +31,13 @@ const router =createBrowserRouter([{path:"/",element:<App2/>,
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+
     <Provider store={mystore}>
     <RouterProvider router={router} />
     </Provider>
+
+    {/* <RouterProvider router={router} /> */}
+    
     {/* <App /> */}
     {/* <App2/> */}
     {/* <App3/> */}
