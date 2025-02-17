@@ -30,9 +30,16 @@ public class SecurityConfig {
         http
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login").permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/api/auth/login"
+                        ).permitAll()
                         .anyRequest().authenticated()
-                );
+                )
+                .formLogin()
+                .and()
+                .logout();
 
         return http.build();
     }
