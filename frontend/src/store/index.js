@@ -2,6 +2,7 @@ import {configureStore, createSlice} from "@reduxjs/toolkit"
 import logingSlice from "./logingSlice";
 import eventSlice from "./eventSlice";
 import quizSlice from "./quizSlice";
+import userSlice from "./userSlice";
 
 const testSlice = createSlice({
   name:"test",
@@ -20,7 +21,8 @@ const mystore=configureStore({reducer:{
   testreducer:testSlice.reducer,
   logingreducer: logingSlice.reducer,
   eventreducer: eventSlice.reducer,
-  quizreducer: quizSlice.reducer
+  quizreducer: quizSlice.reducer,
+  userreducer: userSlice.reducer
 }});
 
 export const testAction = testSlice.actions;
