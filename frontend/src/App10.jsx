@@ -46,15 +46,10 @@ import SendEmailModel from "./pages/admin/SendEmailModel";
             path="/aOfficer-view"
             element={<AttendanceOfficerView/>}></Route>
 
-        <Route
-            exact
-            path="/edit-admin/:adminId"
-            element={<EditModel/>}></Route>
-
-        <Route
+        {/* <Route
             exact
             path="/send-mail/:adminId"
-            element={<SendEmailModel/>}></Route>
+            element={<SendEmailModel/>}></Route> */}
 
 
          </Routes>

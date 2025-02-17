@@ -6,9 +6,11 @@ import {Link} from 'react-router-dom';
 import AddButton from './common/AddButton';
 import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
+import SendEmailModel from './SendEmailModel';
 
 const AdminEditModel = ({ onClose,adminId }) => (
   <EditModel
+    title="Update Admin"
     apiEndpoints={{
       getEndpoint: 'http://localhost:8085/api/v1/admin/get-admin-by',
       updateEndpoint: 'http://localhost:8085/api/v1/admin/update'
@@ -24,8 +26,25 @@ const AdminEditModel = ({ onClose,adminId }) => (
     entityId={adminId}
   />
 )
+
+const AdminSendEmailModel = ({ onClose,adminId }) => (
+  <SendEmailModel
+    title="Send Admin Credentials"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/admin/get-admin-by',
+      sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
+    }}
+    fields={[
+      { label: 'Admin Email', name: 'adminEmail', type: 'email', required: true }
+    ]}
+    onClose={onClose}
+    entityId={adminId}
+  />
+)
+
 const AdminsView = () => {
 
+  const [activeModal,setActiveModal] = useState(null);
   const [selectedAdminId, setSelectedAdminId] = useState(null)
   const [showModal, setShowModal] = useState(false);
 
@@ -59,6 +78,7 @@ const SaveAdmin = async(formData)=>{
       setShowModal(false); 
       loadadmins();  
 };
+
 
   return (
     <div className=' min-h-screen bg-[#D9D9D9]'>
@@ -121,7 +141,7 @@ const SaveAdmin = async(formData)=>{
                   <th>Admin_id</th>
                   <th>Name</th>
                   <th>Email</th>
-                  <th colSpan={3}>Actions</th>
+                  <th colSpan={4}>Actions</th>
                 </tr>
               </thead>
               <tbody className='text-center'>
@@ -139,16 +159,22 @@ const SaveAdmin = async(formData)=>{
                       
                       <td>
                       <button className='btn btn-warning w-24 shadow' 
-                        onClick={() => setSelectedAdminId(admin.adminId)} >
+                        onClick={() => {
+                          setSelectedAdminId(admin.adminId);
+                          setActiveModal('edit');
+                          }} >
                             Update
                         </button>
                         
                       </td>
                       <td>
-                      <Link to={`/send-mail/${admin.adminId}`} className='btn btn-info w-24 shadow' >
-                          Email
-                      </Link>
-                        
+                      <button className='btn btn-success w-24 shadow' 
+                        onClick={() => {
+                          setSelectedAdminId(admin.adminId);
+                          setActiveModal('email');
+                          }} >
+                           Email
+                        </button>
                       </td>
                       <td >
                       <button 
@@ -164,12 +190,25 @@ const SaveAdmin = async(formData)=>{
               </tbody>
             </table>
           </section>
-          {selectedAdminId && (
+          {activeModal == 'edit' && selectedAdminId && (
           <AdminEditModel
             adminId={selectedAdminId}
             onClose={() => {
-              setSelectedAdminId(null)
-              loadadmins()
+              setSelectedAdminId(null);
+              setActiveModal(null);
+              loadadmins();
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'email' && selectedAdminId && (
+          <AdminSendEmailModel
+            adminId={selectedAdminId}
+            onClose={() => {
+              setSelectedAdminId(null);
+              setActiveModal(null);
+              loadadmins();
             }
 
             }

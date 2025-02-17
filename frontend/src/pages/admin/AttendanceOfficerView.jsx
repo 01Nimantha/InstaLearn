@@ -6,9 +6,11 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
+import SendEmailModel from './SendEmailModel';
 
 const AttendanceOfficerEditModel = ({ onClose,attendanceOfficerId }) => (
   <EditModel
+    title="Update Attendance Officer"
     apiEndpoints={{
       getEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/get-aOfficer-by',
       updateEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/update'
@@ -24,8 +26,23 @@ const AttendanceOfficerEditModel = ({ onClose,attendanceOfficerId }) => (
     entityId={attendanceOfficerId}
   />
 )
+const AttendanceOffficerSendEmailModel = ({ onClose,attendanceOfficerId }) => (
+  <SendEmailModel
+    title="Send Attendance Officer Credentials"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/get-aOfficer-by',
+      sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
+    }}
+    fields={[
+      { label: 'AOfficer Email', name: 'attendanceOfficerEmail', type: 'email', required: true }
+    ]}
+    onClose={onClose}
+    entityId={attendanceOfficerId}
+  />
+)
 const AttendanceOfficerView = () => {
 
+      const [activeModal,setActiveModal] = useState(null);
       const [selectedAOfficerId, setSelectedAOfficerId] = useState(null)
       const [searchTerm, setSearchTerm] = useState('');
       const [aOfficers, setaOfficer] = useState([]);
@@ -131,10 +148,23 @@ const AttendanceOfficerView = () => {
                           
                           <td>
                           <button className='btn btn-warning w-24 shadow' 
-                        onClick={() => setSelectedAOfficerId(aOfficer.attendanceOfficerId)} >
+                        onClick={() => {
+                          setSelectedAOfficerId(aOfficer.attendanceOfficerId);
+                          setActiveModal('edit');
+
+                          }} >
                             Update
                         </button>
                           </td>
+                          <td>
+                      <button className='btn btn-success w-24 shadow' 
+                        onClick={() => {
+                          setSelectedAOfficerId(aOfficer.attendanceOfficerId);
+                          setActiveModal('email');
+                          }} >
+                           Email
+                        </button>
+                      </td>
                           <td >
                           <button 
                             className='btn btn-danger w-24 flex justify-center items-center shadow'
@@ -149,12 +179,24 @@ const AttendanceOfficerView = () => {
                   </tbody>
                 </table>
               </section>
-              {selectedAOfficerId && (
+          {activeModal == 'edit' && selectedAOfficerId && (
           <AttendanceOfficerEditModel
             attendanceOfficerId={selectedAOfficerId}
             onClose={() => {
               setSelectedAOfficerId(null)
               loadaOfficer()
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'email' && selectedAOfficerId && (
+          <AttendanceOffficerSendEmailModel
+            attendanceOfficerId={selectedAOfficerId}
+            onClose={() => {
+              setSelectedAOfficerId(null);
+              setActiveModal(null);
+              loadaOfficer();
             }
 
             }

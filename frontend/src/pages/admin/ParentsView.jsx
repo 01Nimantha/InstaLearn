@@ -7,6 +7,7 @@ import EditModel from './EditModel';
 
 const ParentEditModel = ({ onClose,parentId }) => (
   <EditModel
+    title="Update Parent"
     apiEndpoints={{
       getEndpoint: 'http://localhost:8085/api/v1/parent/get-parent-by',
       updateEndpoint: 'http://localhost:8085/api/v1/parent/update'
