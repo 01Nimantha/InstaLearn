@@ -104,4 +104,26 @@ public class StudentServiceIMPL implements StudentService {
             }
 
     }
+
+    @Override
+    public StudentSaveRequestDTO getStudentById(String studentId) {
+        if(studentRepo.existsById(studentId)) {
+            Student student = studentRepo.getReferenceById(studentId);
+            StudentSaveRequestDTO studentSaveRequestDTO = new StudentSaveRequestDTO(
+                    student.getStudentName(),
+                    student.getStudentEmail(),
+                    student.getStudentContactno(),
+                    student.getStudentAddress(),
+                    student.getStudentParentName(),
+                    student.getStudentParentEmail(),
+                    student.getStudentParentContactno(),
+                    student.isFreeCard()
+            );
+
+            return studentSaveRequestDTO;
+        }
+        else{
+            throw new RuntimeException("No Student");
+        }
+    }
 }
