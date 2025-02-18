@@ -15,10 +15,12 @@ import { IoIosSettings } from "react-icons/io";
 import TeacherQuiz from "../../../assets/TeacherQuiz.svg"
 import Progress from "../../../assets/Progress.svg"
 import Modal from '../../../components/Modal';
+import { Link, useNavigate } from "react-router-dom";
 
 
 
 const TeacherDashboard = () => {
+  const navigate = useNavigate();
   const[showModal,setShowModal]=useState(false);
 
   const [stats, setStats] = useState({
@@ -83,18 +85,21 @@ const TeacherDashboard = () => {
       <div>  
        <Sidebar BackgroundColor={"#287f93"}
         ImgURL={StudentImg} Name={"Alia Bhatt"}
-         Id={"SC/2021/12405"} 
+         Id="SC/2021/12405"
          Logout={()=>{console.log("Click Logout Button")}} 
-         Tab1={"Home"} Tab1Icon={FaHome} Tab1Funtion={()=>{console.log("/home")}} 
-         Tab2={"Students"} Tab2Icon={PiStudentFill} Tab2Funtion={()=>{console.log("/student")}} 
-         Tab3={"Manage Schedule"} Tab3Icon={HiCalendarDateRange} Tab3Funtion={()=>{console.log("/")}} 
-         Tab4={"Payments"} Tab4Icon={MdOutlinePayment} Tab4Funtion={()=>{console.log("payments")}} 
-         Tab5={"Attendance"} Tab5Icon={FaRegCalendarCheck} Tab5Funtion={()=>{console.log("Click Tab 5")}} 
+         Tab1="Home" Tab1Icon={FaHome} Tab1functions="/"
+         Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='/students'
+         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="/" 
+         Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="/payment"
+         Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="/"
          AddNewTab={true} 
-         Tab6={"Settings"} Tab6Icon={IoIosSettings} Tab6functions={"/new-tab"}/>
+         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="/"/>
+
       </div>
+  
 
       <div className='w-full'>
+      
           {/* Use Flexbox to align the button to the right */}
           <Box className="w-full h-35 bg-[#287f93] text-white p-3 flex justify-between items-center rounded-[8px] ml-2.5" >
             <div>
