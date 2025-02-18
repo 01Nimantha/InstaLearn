@@ -2,6 +2,8 @@ package com.example.InstaLearn.userManagement.entity;
 
 import com.example.InstaLearn.attendanceManagement.entity.Attendance;
 import com.example.InstaLearn.userManagement.entity.idgenerator.StudentIdSequenceGenerator;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -54,9 +56,11 @@ public class Student {
     @Column(name="student_parent_contactno")
     private String studentParentContactno;
 
-    @Column(name="free_card",columnDefinition = "TINYINT default 1")
+    @Column(name="free_card", nullable = false)
     private boolean freeCard;
 
+
+    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL) // One-to-one relationship with Parent
     @JoinColumn(name = "parent_id", referencedColumnName = "parent_id") // FK in Student table
     private Parent parent;
