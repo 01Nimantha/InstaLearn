@@ -5,9 +5,30 @@ import AddButton from './common/AddButton';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AddDetailsFormModel from './AddDetailsFormModel';
+import EditModel from './EditModel';
 
+const StudentEditModel = ({ onClose,studentId }) => (
+  <EditModel
+    title="Update Student"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/student/get-student-by',
+      updateEndpoint: 'http://localhost:8085/api/v1/student/update'
+    }}
+    fields={[
+      { label: 'Student Name', name: 'studentName', type: 'text', required: true },
+      { label: 'Student Email', name: 'studentEmail', type: 'email', required: true },
+      { label: 'Contact No', name: 'studentContactno', type: 'text', required: true },
+      { label: 'Address', name: 'studentAddress', type: 'text', required: true }
+    ]}
+    redirectUrl="/students-view"
+    onClose={onClose}
+    entityId={studentId}
+  />
+)
 const StudentsView = () => {
   
+  const [activeModal,setActiveModal] = useState(null);
+  const [selectedStudentId, setSelectedStudentId] = useState(null)
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [students, setStudents] = useState([]);
@@ -125,11 +146,14 @@ const updateStudentAndParent = async(formData)=>{
                             View
                         </Link>
                         </td>
-                      
                       <td>
-                      <Link to={`/edit-student/${student.studentId}`} className='btn btn-warning w-24 shadow'>
+                      <button className='btn btn-warning w-24 shadow' 
+                        onClick={() => {
+                          setSelectedStudentId(student.studentId);
+                          setActiveModal('edit');
+                          }} >
                             Update
-                        </Link>
+                        </button>
                       </td>
                       <td >
                       <button 
@@ -145,6 +169,18 @@ const updateStudentAndParent = async(formData)=>{
               </tbody>
             </table>
           </section>
+          {activeModal == 'edit' && selectedStudentId && (
+          <StudentEditModel
+            studentId={selectedStudentId}
+            onClose={() => {
+              setSelectedStudentId(null);
+              setActiveModal(null);
+              loadStudents();
+            }
+
+            }
+          />
+        )}
       </div>
     </div>
   )
