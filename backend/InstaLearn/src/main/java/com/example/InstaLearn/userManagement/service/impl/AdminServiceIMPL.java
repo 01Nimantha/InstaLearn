@@ -6,11 +6,15 @@ import com.example.InstaLearn.userManagement.entity.Admin;
 import com.example.InstaLearn.userManagement.entity.User;
 import com.example.InstaLearn.userManagement.entity.enums.Role;
 import com.example.InstaLearn.userManagement.repo.AdminRepo;
+import com.example.InstaLearn.userManagement.repo.StudentRepo;
 import com.example.InstaLearn.userManagement.repo.UserRepo;
 import com.example.InstaLearn.userManagement.service.AdminService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminServiceIMPL implements AdminService {
@@ -23,6 +27,8 @@ public class AdminServiceIMPL implements AdminService {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private StudentRepo studentRepo;
 
     @Override
     public String saveAdmin(AdminSaveRequestDTO adminSaveRequestDTO) {
@@ -67,5 +73,16 @@ public class AdminServiceIMPL implements AdminService {
             throw new RuntimeException("Admin not found");
         }
     }
+
+    @Override
+    public List<Admin> getAllAdmins() {
+        return adminRepo.findAll();
+    }
+
+    @Override
+    public Admin getAdminById(String adminId) {
+        return adminRepo.findById(adminId).orElse(null);
+    }
+
 
 }

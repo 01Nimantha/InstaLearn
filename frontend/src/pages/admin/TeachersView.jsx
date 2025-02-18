@@ -6,9 +6,12 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
+import SendEmailModel from './SendEmailModel';
+import ViewModel from './ViewModel';
 
 const TeacherEditModel = ({ onClose,teacherId }) => (
   <EditModel
+    title="Update Teacher"
     apiEndpoints={{
       getEndpoint: 'http://localhost:8085/api/v1/teacher/get-teacher-by',
       updateEndpoint: 'http://localhost:8085/api/v1/teacher/update'
@@ -19,7 +22,38 @@ const TeacherEditModel = ({ onClose,teacherId }) => (
       { label: 'Contact No', name: 'teacherContactno', type: 'text', required: true },
       { label: 'Address', name: 'teacherAddress', type: 'text', required: true }
     ]}
-    redirectUrl="/teachers-view"
+    onClose={onClose}
+    entityId={teacherId}
+  />
+)
+const TeacherViewModel = ({ onClose,teacherId }) => (
+  <ViewModel
+    title="Teacher Profile"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/teacher/get-teacher-by'
+    }}
+    fields={[
+      {label: 'Teacher Id', name: 'teacherId'},
+      { label: 'Teacher Name', name: 'teacherName'},
+      { label: 'Teacher Email', name: 'teacherEmail'},
+      { label: 'Contact No', name: 'teacherContactno'},
+      { label: 'Address', name: 'teacherAddress' }
+    ]}
+    onClose={onClose}
+    entityId={teacherId}
+  />
+  )
+
+const TeacherSendEmailModel = ({ onClose,teacherId }) => (
+  <SendEmailModel
+    title="Send Teacher Credentials"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/teacher/get-teacher-by',
+      sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
+    }}
+    fields={[
+      { label: 'teacher Email', name: 'teacherEmail', type: 'email', required: true }
+    ]}
     onClose={onClose}
     entityId={teacherId}
   />
@@ -27,6 +61,7 @@ const TeacherEditModel = ({ onClose,teacherId }) => (
 
 const TeachersView = () => {
 
+  const [activeModal,setActiveModal] = useState(null);
   const [selectedTeacherId, setSelectedTeacherId] = useState(null)
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -115,7 +150,7 @@ const updateTeacher = async(formData)=>{
                   <th>Teacher_id</th>
                   <th>Name</th>
                   <th>Email</th>
-                  <th colSpan={3}>Actions</th>
+                  <th colSpan={4}>Actions</th>
                 </tr>
               </thead>
               <tbody className='text-center'>
@@ -125,15 +160,31 @@ const updateTeacher = async(formData)=>{
                       <td>{teacher.teacherName}</td>
                       <td>{teacher.teacherEmail}</td>
                       <td>
-                      <Link to={`/teacher-profile/${teacher.teacherId}`} className='btn btn-info w-24 shadow'>
+                      <button className='btn btn-info w-24 shadow' 
+                        onClick={() => {
+                          setSelectedTeacherId(teacher.teacherId);
+                          setActiveModal('view');
+                          }} >
                             View
-                        </Link>
+                        </button>
                         </td>
                       
                       <td>
                       <button className='btn btn-warning w-24 shadow' 
-                        onClick={() => setSelectedTeacherId(teacher.teacherId)} >
+                        onClick={() => {
+                          setSelectedTeacherId(teacher.teacherId);
+                          setActiveModal('edit');
+                          }} >
                             Update
+                        </button>
+                      </td>
+                      <td>
+                      <button className='btn btn-success w-24 shadow' 
+                        onClick={() => {
+                          setSelectedTeacherId(teacher.teacherId);
+                          setActiveModal('email');
+                          }} >
+                           Email
                         </button>
                       </td>
                       <td >
@@ -150,12 +201,36 @@ const updateTeacher = async(formData)=>{
               </tbody>
             </table>
           </section>
-          {selectedTeacherId && (
+          {activeModal == 'edit' && selectedTeacherId && (
           <TeacherEditModel
             teacherId={selectedTeacherId}
             onClose={() => {
               setSelectedTeacherId(null)
               loadTeachers()
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'email' && selectedTeacherId && (
+          <TeacherSendEmailModel
+            teacherId={selectedTeacherId}
+            onClose={() => {
+              setSelectedTeacherId(null);
+              setActiveModal(null);
+              loadTeachers();
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'view' && selectedTeacherId && (
+          <TeacherViewModel
+            teacherId={selectedTeacherId}
+            onClose={() => {
+              setSelectedTeacherId(null);
+              setActiveModal(null);
+              loadTeachers();
             }
 
             }

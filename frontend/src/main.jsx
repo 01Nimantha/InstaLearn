@@ -23,15 +23,15 @@ import mystore from "./store/index.js";
 import TeacherDashboard from './pages/Dashboards/Teacher/TeacherDashboard.jsx'
 import Students from './pages/Dashboards/Teacher/Students.jsx'
 
-// const router =createBrowserRouter([{path:"/",element:<App2/>,
-//                           children:[{path:"/",element:<UserHomePage/>},
-//                                     {path:"/payment",element:<UserPaymentPage/>},
-//                                     {path:"/timetable",element:<UserTimetablePage/>},
-//                                     {path:"/setting",element:<UserSettingPage/>},
-//                                     {path:"/payment-history",element:<UserPaymentHistoryPage/>},
-//                                     {path:"/new-tab",element:<OnlineQuizPage/>},
-//                                     {path:"/online-quiz",element:<QuestionPaperPage/>},
-//                                           ]}])
+ const router =createBrowserRouter([{path:"/",element:<App2/>,
+                           children:[{path:"/",element:<UserHomePage/>},
+                                     {path:"/payment",element:<UserPaymentPage/>},
+                                     {path:"/timetable",element:<UserTimetablePage/>},
+                                     {path:"/setting",element:<UserSettingPage/>},
+                                     {path:"/payment-history",element:<UserPaymentHistoryPage/>},
+                                     {path:"/new-tab",element:<OnlineQuizPage/>},
+                                     {path:"/online-quiz",element:<QuestionPaperPage/>},
+                                           ]}])
 
 // const router =createBrowserRouter([{path:"/",element:<App3/>,
 //                             children:[{path:"/",element:<TeacherDashboard/>},
@@ -43,8 +43,10 @@ import Students from './pages/Dashboards/Teacher/Students.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <Provider store={mystore}>
+
+    <Provider store={mystore}>
     <RouterProvider router={router} />
+
     </Provider> 
      <RouterProvider router={router} /> */}
     
@@ -52,7 +54,16 @@ createRoot(document.getElementById('root')).render(
     {/* <App2/> */}
     <App3/>
     
+    {/* <App3/> *
+    </Provider>
+
+    {/* <RouterProvider router={router} /> */}
+    
+    {/* <App /> */}
+    {/* <App2/> */}
     {/* <App3/> */}
+    
+
   </StrictMode>,
 
 )
