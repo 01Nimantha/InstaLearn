@@ -105,7 +105,7 @@ const updateStudentAndParent = async(formData)=>{
                 <h1 className="text-2xl font-bold leading-8">Student</h1>
               </div>
               <div className='pr-10'>
-                <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
+                <Link to={'/admin-dashboard'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
                     <span className='text-white font-bold font-Nunito text-xl '>Home</span>
                 </Link>
               </div>
@@ -172,7 +172,11 @@ const updateStudentAndParent = async(formData)=>{
                 </tr>
               </thead>
               <tbody className='text-center'>
-                {students.map((student,index)=>(
+                {students.filter((student) => 
+                  student.studentId 
+                    .toUpperCase()
+                    .includes(searchTerm.toUpperCase()))
+                .map((student,index)=>(
                     <tr key={student.studentId} className='h-16 bg-[#FFFFFF] hover:bg-gray-100 border' >
                       <td>{student.studentId}</td>
                       <td>{student.studentName}</td>

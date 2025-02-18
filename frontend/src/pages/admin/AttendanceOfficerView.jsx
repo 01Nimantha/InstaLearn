@@ -89,10 +89,12 @@ const AttendanceOfficerView = () => {
       loadaOfficer();
     }
 
-    const updateaOfficer = async(formData)=>{
+    const SaveaOfficer = async(formData)=>{
       await axios.post('http://localhost:8085/api/v1/attendanceOfficer/save', formData);
       setShowModal(false);
       loadaOfficer();   
+      
+     
     };
     
       return (
@@ -102,7 +104,7 @@ const AttendanceOfficerView = () => {
                     <h1 className="text-2xl font-bold leading-8">Attendance Officer</h1>
                   </div>
                   <div className='pr-10'>
-                    <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
+                    <Link to={'/admin-dashboard'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
                       <span className='text-white font-bold font-Nunito text-xl '>Home</span>
                     </Link>
                   </div>
@@ -137,7 +139,13 @@ const AttendanceOfficerView = () => {
                         inputplaceholder: 'Address' 
                       }
                     ]}
-                    button={{ btnname: 'Add AOfficer', onClick: updateaOfficer }}
+                    button={{ 
+                      btnname: 'Add AOfficer',
+                      onClick:(formData) => {
+                      SaveaOfficer(formData);
+                     }
+                     
+                   }}
                   />
                 </div>
                 
@@ -153,7 +161,11 @@ const AttendanceOfficerView = () => {
                     </tr>
                   </thead>
                   <tbody className='text-center'>
-                    {aOfficers.map((aOfficer,index)=>(
+                    {aOfficers.filter((aOfficer) => 
+                      aOfficer.attendanceOfficerId
+                      .toUpperCase()
+                      .includes(searchTerm.toUpperCase()))
+                    .map((aOfficer,index)=>(
                         <tr key={aOfficer.attendanceOfficerId} className='h-16 bg-[#FFFFFF] hover:bg-gray-100 border' >
                           <td>{aOfficer.attendanceOfficerId}</td>
                           <td>{aOfficer.attendanceOfficerName}</td>
