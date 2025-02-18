@@ -147,8 +147,8 @@ const TeacherDashboard = () => {
           </Box>
 
           <div className='d-flex gap-5 mt-5'>
-            <Card CardImg={TeacherQuiz} CardTitle={"Online Quiz"} CardBody={"Create and manage a comprehensive question pool to design customized quizzes for your students, streamlining test preparation and evaluation."} CardButtonName={"Generate quiz"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} />
-            <Card CardImg={Progress} CardTitle={"View Progress"} CardBody={"Monitor student performance with detailed progress insights, enabling teachers to track academic growth, identify learning gaps, and provide timely interventions for improvement."} CardButtonName={"View"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} />
+            <Card CardImg={TeacherQuiz} CardTitle={"Online Quiz"} CardBody={"Create and manage a comprehensive question pool to design customized quizzes for your students, streamlining test preparation and evaluation."} CardButtonName={"Generate quiz"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("/quiz")}}/>
+            <Card CardImg={Progress} CardTitle={"View Progress"} CardBody={"Monitor student performance with detailed progress insights, enabling teachers to track academic growth, identify learning gaps, and provide timely interventions for improvement."} CardButtonName={"View"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("/progress")}}/>
           </div>
 
            
