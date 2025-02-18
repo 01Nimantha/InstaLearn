@@ -7,6 +7,7 @@ import AddButton from './common/AddButton';
 import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
 import SendEmailModel from './SendEmailModel';
+import ViewModel from './ViewModel';
 
 const AdminEditModel = ({ onClose,adminId }) => (
   <EditModel
@@ -36,6 +37,24 @@ const AdminSendEmailModel = ({ onClose,adminId }) => (
     }}
     fields={[
       { label: 'Admin Email', name: 'adminEmail', type: 'email', required: true }
+    ]}
+    onClose={onClose}
+    entityId={adminId}
+  />
+)
+
+const AdminViewModel = ({ onClose,adminId }) => (
+  <ViewModel
+    title="Admin Profile"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/admin/get-admin-by'
+    }}
+    fields={[
+      {label: 'Admin Id', name: 'adminId'},
+      { label: 'Admin Name', name: 'adminName'},
+      { label: 'Admin Email', name: 'adminEmail'},
+      { label: 'Contact No', name: 'adminContactno'},
+      { label: 'Address', name: 'adminAddress' }
     ]}
     onClose={onClose}
     entityId={adminId}
@@ -151,9 +170,13 @@ const SaveAdmin = async(formData)=>{
                       <td>{admin.adminName}</td>
                       <td>{admin.adminEmail}</td>
                       <td>
-                      <Link to={`/admin-profile/${admin.adminId}`} className='btn btn-info w-24 shadow' >
+                      <button className='btn btn-info w-24 shadow' 
+                        onClick={() => {
+                          setSelectedAdminId(admin.adminId);
+                          setActiveModal('view');
+                          }} >
                             View
-                        </Link>
+                        </button>
                         
                         </td>
                       
@@ -204,6 +227,18 @@ const SaveAdmin = async(formData)=>{
         )}
         {activeModal == 'email' && selectedAdminId && (
           <AdminSendEmailModel
+            adminId={selectedAdminId}
+            onClose={() => {
+              setSelectedAdminId(null);
+              setActiveModal(null);
+              loadadmins();
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'view' && selectedAdminId && (
+          <AdminViewModel
             adminId={selectedAdminId}
             onClose={() => {
               setSelectedAdminId(null);

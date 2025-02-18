@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
 import SendEmailModel from './SendEmailModel';
+import ViewModel from './ViewModel';
 
 const TeacherEditModel = ({ onClose,teacherId }) => (
   <EditModel
@@ -21,11 +22,27 @@ const TeacherEditModel = ({ onClose,teacherId }) => (
       { label: 'Contact No', name: 'teacherContactno', type: 'text', required: true },
       { label: 'Address', name: 'teacherAddress', type: 'text', required: true }
     ]}
-    redirectUrl="/teachers-view"
     onClose={onClose}
     entityId={teacherId}
   />
 )
+const TeacherViewModel = ({ onClose,teacherId }) => (
+  <ViewModel
+    title="Teacher Profile"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/teacher/get-teacher-by'
+    }}
+    fields={[
+      {label: 'Teacher Id', name: 'teacherId'},
+      { label: 'Teacher Name', name: 'teacherName'},
+      { label: 'Teacher Email', name: 'teacherEmail'},
+      { label: 'Contact No', name: 'teacherContactno'},
+      { label: 'Address', name: 'teacherAddress' }
+    ]}
+    onClose={onClose}
+    entityId={teacherId}
+  />
+  )
 
 const TeacherSendEmailModel = ({ onClose,teacherId }) => (
   <SendEmailModel
@@ -143,9 +160,13 @@ const updateTeacher = async(formData)=>{
                       <td>{teacher.teacherName}</td>
                       <td>{teacher.teacherEmail}</td>
                       <td>
-                      <Link to={`/teacher-profile/${teacher.teacherId}`} className='btn btn-info w-24 shadow'>
+                      <button className='btn btn-info w-24 shadow' 
+                        onClick={() => {
+                          setSelectedTeacherId(teacher.teacherId);
+                          setActiveModal('view');
+                          }} >
                             View
-                        </Link>
+                        </button>
                         </td>
                       
                       <td>
@@ -193,6 +214,18 @@ const updateTeacher = async(formData)=>{
         )}
         {activeModal == 'email' && selectedTeacherId && (
           <TeacherSendEmailModel
+            teacherId={selectedTeacherId}
+            onClose={() => {
+              setSelectedTeacherId(null);
+              setActiveModal(null);
+              loadTeachers();
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'view' && selectedTeacherId && (
+          <TeacherViewModel
             teacherId={selectedTeacherId}
             onClose={() => {
               setSelectedTeacherId(null);

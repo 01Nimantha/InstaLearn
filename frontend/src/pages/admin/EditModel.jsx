@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 const EditModel = ({
@@ -8,13 +7,11 @@ const EditModel = ({
     updateEndpoint
   },
   fields,
-  redirectUrl,
   onClose,
   entityId,
   title
 }) => {
 
-  const navigate = useNavigate();
   const[entity,setEntity] = useState({})
 
   useEffect(()=>{
@@ -35,7 +32,7 @@ const handleSubmit = async(e)=>{
   e.preventDefault();
   await axios.put(`${updateEndpoint}/${entityId}`, entity);
   onClose();
-  navigate(redirectUrl);
+
      
 };
 

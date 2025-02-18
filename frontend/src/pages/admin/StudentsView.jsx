@@ -6,6 +6,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
+import SendEmailModel from './SendEmailModel';
+import ViewModel from './ViewModel';
 
 const StudentEditModel = ({ onClose,studentId }) => (
   <EditModel
@@ -20,7 +22,41 @@ const StudentEditModel = ({ onClose,studentId }) => (
       { label: 'Contact No', name: 'studentContactno', type: 'text', required: true },
       { label: 'Address', name: 'studentAddress', type: 'text', required: true }
     ]}
-    redirectUrl="/students-view"
+    onClose={onClose}
+    entityId={studentId}
+  />
+)
+const StudentSendEmailModel = ({ onClose,studentId }) => (
+  <SendEmailModel
+    title="Send student Credentials"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/student/get-student-by',
+      sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
+    }}
+    fields={[
+      { label: 'Student Email', name: 'studentEmail', type: 'email', required: true }
+    ]}
+    onClose={onClose}
+    entityId={studentId}
+  />
+)
+const StudentViewModel = ({ onClose,studentId }) => (
+  <ViewModel
+    title="Student Profile"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/student/get-student-by'
+    }}
+    fields={[
+      {label: 'Student Id', name: 'studentId'},
+      { label: 'Student Name', name: 'studentName'},
+      { label: 'Student Email', name: 'studentEmail'},
+      { label: 'Contact No', name: 'studentContactno'},
+      { label: 'Address', name: 'studentAddress' },
+      {label: 'Parent Name', name: 'studentParentName' },
+      {label: 'Parent Email', name: 'studentParentEmail' },
+      {label: 'Parent Contact No', name: 'studentParentContactno' },
+      {label:'Free Card', name: 'freeCard' }
+    ]}
     onClose={onClose}
     entityId={studentId}
   />
@@ -132,7 +168,7 @@ const updateStudentAndParent = async(formData)=>{
                   <th>Student_id</th>
                   <th>Name</th>
                   <th>Email</th>
-                  <th colSpan={3}>Actions</th>
+                  <th colSpan={4}>Actions</th>
                 </tr>
               </thead>
               <tbody className='text-center'>
@@ -142,9 +178,13 @@ const updateStudentAndParent = async(formData)=>{
                       <td>{student.studentName}</td>
                       <td>{student.studentEmail}</td>
                       <td>
-                      <Link to={`/student-profile/${student.studentId}`} className='btn btn-info w-24 shadow'>
+                      <button className='btn btn-info w-24 shadow' 
+                        onClick={() => {
+                          setSelectedStudentId(student.studentId);
+                          setActiveModal('view');
+                          }} >
                             View
-                        </Link>
+                        </button>
                         </td>
                       <td>
                       <button className='btn btn-warning w-24 shadow' 
@@ -153,6 +193,15 @@ const updateStudentAndParent = async(formData)=>{
                           setActiveModal('edit');
                           }} >
                             Update
+                        </button>
+                      </td>
+                      <td>
+                      <button className='btn btn-success w-24 shadow' 
+                        onClick={() => {
+                          setSelectedStudentId(student.studentId);
+                          setActiveModal('email');
+                          }} >
+                           Email
                         </button>
                       </td>
                       <td >
@@ -179,6 +228,32 @@ const updateStudentAndParent = async(formData)=>{
             }
 
             }
+
+          />
+        )}
+        {activeModal == 'email' && selectedStudentId && (
+          <StudentSendEmailModel
+            studentId={selectedStudentId}
+            onClose={() => {
+              setSelectedStudentId(null);
+              setActiveModal(null);
+              loadStudents();
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'view' && selectedStudentId && (
+          <StudentViewModel
+            studentId={selectedStudentId}
+            onClose={() => {
+              setSelectedStudentId(null);
+              setActiveModal(null);
+              loadStudents();
+            }
+
+            }
+
           />
         )}
       </div>

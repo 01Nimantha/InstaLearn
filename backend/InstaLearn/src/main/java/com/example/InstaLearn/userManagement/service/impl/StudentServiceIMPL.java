@@ -14,8 +14,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class StudentServiceIMPL implements StudentService {
 
@@ -58,7 +56,7 @@ public class StudentServiceIMPL implements StudentService {
         student.setStudentParentName(studentSaveRequestDTO.getStudentParentName());
         student.setStudentParentEmail(studentSaveRequestDTO.getStudentParentEmail());
         student.setStudentParentContactno(studentSaveRequestDTO.getStudentParentContactno());
-        student.setFreeCard(false);
+        student.setFreeCard(studentSaveRequestDTO.isFreeCard());
 
         studentRepo.save(student);
 
@@ -105,15 +103,5 @@ public class StudentServiceIMPL implements StudentService {
                 throw new RuntimeException("Student not found");
             }
 
-    }
-
-    @Override
-    public List<Student> getAllStudents() {
-        return studentRepo.findAll();
-    }
-
-    @Override
-    public Student getStudentById(String studentId) {
-        return studentRepo.findById(studentId).orElse(null);
     }
 }

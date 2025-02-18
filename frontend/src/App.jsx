@@ -25,7 +25,7 @@ const App = () => {
           <Route path="/admin-dashboard/teachers-view" element={<TeachersView/>} />
           <Route path="/admin-dashboard/students-view" element={<StudentsView/>} />
           <Route path="/admin-dashboard/parents-view" element={<ParentsView/>} />
-          <Route path="/admin-dashboard/admin-view" element={<AdminsView/>} />
+          <Route path="/admin-dashboard/admins-view" element={<AdminsView/>} />
           <Route path="/admin-dashboard/aOfficers-view" element={<AttendanceOfficerView/>} />
 
 

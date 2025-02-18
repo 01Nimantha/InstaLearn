@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
 import SendEmailModel from './SendEmailModel';
+import ViewModel from './ViewModel';
 
 const AttendanceOfficerEditModel = ({ onClose,attendanceOfficerId }) => (
   <EditModel
@@ -21,7 +22,6 @@ const AttendanceOfficerEditModel = ({ onClose,attendanceOfficerId }) => (
       { label: 'Contact No', name: 'attendanceOfficerContactno', type: 'text', required: true },
       { label: 'Address', name: 'attendanceOfficerAddress', type: 'text', required: true }
     ]}
-    redirectUrl="/aOfficer-view"
     onClose={onClose}
     entityId={attendanceOfficerId}
   />
@@ -40,6 +40,24 @@ const AttendanceOffficerSendEmailModel = ({ onClose,attendanceOfficerId }) => (
     entityId={attendanceOfficerId}
   />
 )
+const AttendanceOfficerViewModel = ({ onClose,attendanceOfficerId }) => (
+  <ViewModel
+    title="Attendance Officer Profile"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/get-aOfficer-by'
+    }}
+    fields={[
+      {label: 'AttendanceOfficer Id', name: 'attendanceOfficerId'},
+      { label: 'AttendanceOfficer Name', name: 'attendanceOfficerName'},
+      { label: 'AttendanceOfficer Email', name: 'attendanceOfficerEmail'},
+      { label: 'Contact No', name: 'attendanceOfficerContactno'},
+      { label: 'Address', name: 'attendanceOfficerAddress' }
+    ]}
+    onClose={onClose}
+    entityId={attendanceOfficerId}
+  />
+)
+
 const AttendanceOfficerView = () => {
 
       const [activeModal,setActiveModal] = useState(null);
@@ -141,9 +159,14 @@ const AttendanceOfficerView = () => {
                           <td>{aOfficer.attendanceOfficerName}</td>
                           <td>{aOfficer.attendanceOfficerEmail}</td>
                           <td>
-                          <Link to={`/attendanceOfficer-profile/${aOfficer.attendanceOfficerId}`} className='btn btn-info w-24 shadow'>
-                                View
-                            </Link>
+                          <button className='btn btn-info w-24 shadow' 
+                        onClick={() => {
+                          setSelectedAOfficerId(aOfficer.attendanceOfficerId);
+                          setActiveModal('view');
+
+                          }} >
+                            View
+                        </button>
                             </td>
                           
                           <td>
@@ -192,6 +215,18 @@ const AttendanceOfficerView = () => {
         )}
         {activeModal == 'email' && selectedAOfficerId && (
           <AttendanceOffficerSendEmailModel
+            attendanceOfficerId={selectedAOfficerId}
+            onClose={() => {
+              setSelectedAOfficerId(null);
+              setActiveModal(null);
+              loadaOfficer();
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'view' && selectedAOfficerId && (
+          <AttendanceOfficerViewModel
             attendanceOfficerId={selectedAOfficerId}
             onClose={() => {
               setSelectedAOfficerId(null);
