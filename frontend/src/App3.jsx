@@ -12,35 +12,36 @@ const App3 = () => {
   return (
     <div>
       <BrowserRouter>
-          <Routes>
+           <Routes>
              <Route 
               exact
               path="/" 
               element={<TeacherDashboard />} />   
-          </Routes>
-          <Routes>
+          </Routes> 
+           <Routes>
              <Route 
               exact
               path="/students" 
               element={<Students />}/>
-          </Routes>
-          <Routes>
+          </Routes> 
+           <Routes>
              <Route 
               exact
               path="/quiz" 
               element={<QuizForm />} />
-          </Routes>
-          <Routes>
-             <Route 
-              exact
-              path="/progress" 
-              element={<Progress />} />  
-          </Routes>
+          </Routes> 
+         
           <Routes>
              <Route 
               exact
               path="/payment" 
               element={<Payments />} /> 
+          </Routes> 
+           <Routes>
+             <Route 
+              exact
+              path="/progress" 
+              element={<Progress />} />  
           </Routes>
           </BrowserRouter>
     </div>
