@@ -1,5 +1,5 @@
 const UploadPhotoCard =({ImgURL})=>{
-  return <div className="card" style={{margin:"2%",padding:"2%", minWidth:"96%", maxWidth:"96%",backgroundColor:"#ffffff"}}>
+  return <div className="card" style={{margin:"2%",padding:"2%", minWidth:"74vw", maxWidth:"74vw",backgroundColor:"#ffffff"}}>
     <div style={{display:"flex"}}>
       <div>1</div>
       <div style={{}}>
