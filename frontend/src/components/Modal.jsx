@@ -101,3 +101,4 @@ const Modal = ({ isVisible, onClose }) => {
 };
 
 export default Modal;
+

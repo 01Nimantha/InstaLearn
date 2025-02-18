@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState} from 'react'
 import Sidebar from '../../../components/Sidebar'
+import SearchBar from "../../admin/common/SearchBar";
 import StudentImg from "../../../assets/StudentImg.svg"
 import { FaHome } from "react-icons/fa";
 import { MdOutlinePayment } from "react-icons/md";
