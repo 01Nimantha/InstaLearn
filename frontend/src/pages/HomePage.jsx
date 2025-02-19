@@ -273,7 +273,7 @@ const Homepage = () => {
           <Card
             style={{
               backgroundColor: index === 1 ? "#AEE9E6" : "#2AA99D",
-              color: "white",
+              color: "black,",
               textAlign: "center",
               borderRadius: "16px",
               padding: "20px",

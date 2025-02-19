@@ -100,8 +100,15 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>5.2.3</version>  <!-- Check the latest version -->
+		</dependency>
+
+		<!-- Apache POI for Excel (XSSF - .xlsx support) -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>5.2.0</version>
+			<version>5.2.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.zxing</groupId>
