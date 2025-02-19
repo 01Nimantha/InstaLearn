@@ -11,6 +11,12 @@ import StudentsView from "./pages/admin/StudentsView";
 import ParentsView from "./pages/admin/ParentsView";
 import AdminsView from "./pages/admin/AdminsView";
 import AttendanceOfficerView from "./pages/admin/AttendanceOfficerView";
+import TeacherDashboard from './pages/Dashboards/Teacher/TeacherDashboard'
+import QuizForm from './pages/Dashboards/Teacher/QuizForm'
+import Students from './pages/Dashboards/Teacher/Students'
+import Payments from './pages/Dashboards/Teacher/Payments'
+import Progress from './pages/Dashboards/Teacher/Progress'
+
 
 const App = () => {
   return (
@@ -27,7 +33,11 @@ const App = () => {
           <Route path="/admin-dashboard/parents-view" element={<ParentsView/>} />
           <Route path="/admin-dashboard/admins-view" element={<AdminsView/>} />
           <Route path="/admin-dashboard/aOfficers-view" element={<AttendanceOfficerView/>} />
-
+          <Route exact path="/teacher-dashboard/*" element={<TeacherDashboard />} />   
+          <Route exact path="/teacher-dashboard/students" element={<Students />}/>
+          <Route exact path="/teacher-dashboard/quiz" element={<QuizForm />} />
+          <Route exact path="/teacher-dashboard/progress" element={<Progress />} />  
+          <Route exact path="/teacher-dashboard/payment" element={<Payments />} /> 
 
         </Routes>
       </BrowserRouter>

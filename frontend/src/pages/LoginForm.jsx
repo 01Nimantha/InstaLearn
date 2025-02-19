@@ -29,15 +29,15 @@ import {
         e.preventDefault();
         try {
             const response = await axios.post("http://localhost:8085/api/auth/login", {
-                username,
-                password
+                userName,
+                userPassword
             });
   
             const { data } = response;
             console.log("User role:", data);
-            if (data === "ADMIN") navigate("/admin-dashboard");
-            else if (data === "TEACHER") navigate("/teacher-dashboard");
-            else if (data === "STUDENT") navigate("/student-dashboard");
+            if (data === ADMIN) navigate("/admin-dashboard");
+            else if (data === TEACHER) navigate("/teacher-dashboard");
+            else if (data === STUDENT) navigate("/student-dashboard");
             else navigate("/");
   
         } catch (error) {

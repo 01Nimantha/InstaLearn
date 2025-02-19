@@ -87,13 +87,13 @@ const TeacherDashboard = () => {
         ImgURL={StudentImg} Name={"Alia Bhatt"}
          Id="SC/2021/12405"
          Logout={()=>{console.log("Click Logout Button")}} 
-         Tab1="Home" Tab1Icon={FaHome} Tab1functions="/"
-         Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='/students'
-         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="/" 
-         Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="/payment"
-         Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="/"
+         Tab1="Home" Tab1Icon={FaHome} Tab1functions="/teacher-dashboard"
+         Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='/teacher-dashboard/students'
+         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="/teacher-dashboard/manage-shedules" 
+         Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="/teacher-dashboard/payment"
+         Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="/teacher-dashboard/attendence"
          AddNewTab={true} 
-         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="/"/>
+         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="/teacher-dashboard/setting"/>
 
       </div>
   
@@ -147,8 +147,8 @@ const TeacherDashboard = () => {
           </Box>
 
           <div className='d-flex gap-5 mt-5'>
-            <Card CardImg={TeacherQuiz} CardTitle={"Online Quiz"} CardBody={"Create and manage a comprehensive question pool to design customized quizzes for your students, streamlining test preparation and evaluation."} CardButtonName={"Generate quiz"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("/quiz")}}/>
-            <Card CardImg={Progress} CardTitle={"View Progress"} CardBody={"Monitor student performance with detailed progress insights, enabling teachers to track academic growth, identify learning gaps, and provide timely interventions for improvement."} CardButtonName={"View"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("/progress")}}/>
+            <Card CardImg={TeacherQuiz} CardTitle={"Online Quiz"} CardBody={"Create and manage a comprehensive question pool to design customized quizzes for your students, streamlining test preparation and evaluation."} CardButtonName={"Generate quiz"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("/teacher-dashboard/quiz")}}/>
+            <Card CardImg={Progress} CardTitle={"View Progress"} CardBody={"Monitor student performance with detailed progress insights, enabling teachers to track academic growth, identify learning gaps, and provide timely interventions for improvement."} CardButtonName={"View"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("/teacher-dashboard/progress")}}/>
           </div>
 
            
