@@ -1,7 +1,7 @@
 import PaperCard from "../../components/PaperCard";
 import PaperHearderCard from "../../components/PaperHearderCard";
-
 const QuestionPaperPage=()=>{
+
   return <div>
     <div>
       <PaperHearderCard Date={"2025 - 03 - 25"} Duration={"08.00am - 10.00am"}/>

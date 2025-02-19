@@ -14,6 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentServiceIMPL implements StudentService {
 
@@ -106,24 +108,13 @@ public class StudentServiceIMPL implements StudentService {
     }
 
     @Override
-    public StudentSaveRequestDTO getStudentById(String studentId) {
-        if(studentRepo.existsById(studentId)) {
-            Student student = studentRepo.getReferenceById(studentId);
-            StudentSaveRequestDTO studentSaveRequestDTO = new StudentSaveRequestDTO(
-                    student.getStudentName(),
-                    student.getStudentEmail(),
-                    student.getStudentContactno(),
-                    student.getStudentAddress(),
-                    student.getStudentParentName(),
-                    student.getStudentParentEmail(),
-                    student.getStudentParentContactno(),
-                    student.isFreeCard()
-            );
-
-            return studentSaveRequestDTO;
-        }
-        else{
-            throw new RuntimeException("No Student");
-        }
+    public List<Student> getAllStudents() {
+        return studentRepo.findAll();
     }
+
+    @Override
+    public Student getStudentById(String studentId) {
+        return studentRepo.findById(studentId).orElse(null);
+    }
+
 }

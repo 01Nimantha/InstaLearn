@@ -4,6 +4,9 @@ import com.example.InstaLearn.userManagement.dto.AOfficerSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.AOfficerUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.dto.AdminSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.AdminUpdateRequestDTO;
+import com.example.InstaLearn.userManagement.entity.Admin;
+import com.example.InstaLearn.userManagement.entity.AttendanceOfficer;
+import com.example.InstaLearn.userManagement.entity.Parent;
 import com.example.InstaLearn.userManagement.service.AOfficerService;
 import com.example.InstaLearn.userManagement.service.AdminService;
 import com.example.InstaLearn.userManagement.util.StandardResponse;
@@ -11,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/attendanceOfficer")
@@ -44,5 +49,14 @@ public class AOfficerController {
                 new StandardResponse(200,"success",message),
                 HttpStatus.OK
         );
+    }
+    @GetMapping("/get-all-aOfficers")
+    public ResponseEntity<List<AttendanceOfficer>> getAllAttandanceOfficers(){
+        return new ResponseEntity<>(aOfficerService.getAllAttandanceOfficers(), HttpStatus.FOUND);
+    }
+    @GetMapping("/get-aOfficer-by/{id}")
+    public AttendanceOfficer getAttendanceOfficerById(@PathVariable(value="id") String attendanceOfficerId) {
+        return aOfficerService.getAttendanceOfficerById(attendanceOfficerId);
+
     }
 }

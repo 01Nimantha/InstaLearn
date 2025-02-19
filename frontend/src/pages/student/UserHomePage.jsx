@@ -1,16 +1,18 @@
 import Card from "../../components/Card";
 import EventCard from "../../components/EventCard";
 import ImgCard from "../../components/ImgCard";
-import StudentImg from "../../assets/StudentImg.svg"
 import OnlineQuiz from "../../assets/OnlineQuiz.svg"
 import HomeWork from "../../assets/HomeWork.svg"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const UserHomePage=()=>{
+  const student = useSelector((store)=>store.studentreducer.studentArr[0]);
+  const imageURL = useSelector((store)=>store.imagereducer.imagePath);
   const navigate =useNavigate();
   return <div>
   <div style={{display: "flex"}}>
-    <ImgCard ImgCardName={"Alia Bhatt"} ImgCardImg={StudentImg} ImgCardID={"SC/2021/12405"}/>
+    <ImgCard ImgCardName={student.Name} ImgCardImg={imageURL} ImgCardID={student.Id}/>
     <EventCard />
   </div>
   <div>

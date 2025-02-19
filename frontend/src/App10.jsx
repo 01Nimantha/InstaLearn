@@ -6,8 +6,6 @@ import StudentsView from "./pages/admin/StudentsView";
 import ParentsView from "./pages/admin/ParentsView";
 import AdminsView from "./pages/admin/AdminsView";
 import AttendanceOfficerView from "./pages/admin/AttendanceOfficerView";
-import EditModel from "./pages/admin/EditModel";
-import SendEmailModel from "./pages/admin/SendEmailModel";
 
  const App10 = () => {
    return (
@@ -22,41 +20,29 @@ import SendEmailModel from "./pages/admin/SendEmailModel";
 
        <Route 
          exact
-         path="/teachers-view" 
+         path="admin-dashboard/teachers-view" 
          element={<TeachersView/>}></Route>
  
        <Route 
          exact
-         path="/students-view" 
+         path="admin-dashboard/students-view" 
          element={<StudentsView/>}></Route>
 
        <Route 
          exact
-         path="/parents-view" 
+         path="admin-dashboard/parents-view" 
          element={<ParentsView/>}></Route>
 
        <Route 
          exact
-         path="/admins-view" 
+         path="admin-dashboard/admins-view" 
          element={<AdminsView/>}></Route>
 
     
         <Route
             exact
-            path="/aOfficer-view"
+            path="admin-dashboard/aOfficer-view"
             element={<AttendanceOfficerView/>}></Route>
-
-        <Route
-            exact
-            path="/edit-admin/:adminId"
-            element={<EditModel/>}></Route>
-
-        <Route
-            exact
-            path="/send-mail/:adminId"
-            element={<SendEmailModel/>}></Route>
-
-
          </Routes>
     
    </BrowserRouter>

@@ -1,22 +1,27 @@
-import React, { useState } from 'react'
-import LabeledInput from './common/formComponents/LabeledInput';
-import SubmitButton from './common/formComponents/SubmitButton';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import AddButton from './common/AddButton';
 
-const prepareForm = (formArr) => {
-    return formArr.reduce((r, v) => ({ ...r, [v.id]: "" }), {});
+const prepareForm = (fields) => {
+    return fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {});
 };
 
-    const AddDetailsFormModel = ({isvisible,onClose,title,formArr,button,includeSwitch}) => {
+    const AddDetailsFormModel = ({
+        apiEndpoints: {
+            getEndpoint,
+            saveEndpoint
+          },
+        onClose,
+        title,
+        btnTitle,
+        fields,
+        includeSwitch
+    }) => {
 
-        const initialForm = prepareForm(formArr);
+        const initialForm = prepareForm(fields);
         const[form,setForm] = useState(initialForm);
         const[isSwitchOn,setIsSwitchOn] = useState(false);
 
-    if(!isvisible) return null;
-    const handleClose = (e) =>{
-        if(e.target.id === 'wrapper') onClose();
-    }
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
@@ -30,14 +35,43 @@ const prepareForm = (formArr) => {
         setIsSwitchOn(!isSwitchOn);
       };
 
+      useEffect(()=>{
+        loadEntity();
+      },[]);
+    
+    const loadEntity = async()=>{
+      const result = await axios.get(
+          getEndpoint,{
+            validateStatus:()=>{
+                return true;
+            }
+        }
+        );
+        if(result.status == 302){
+            setForm(result.data); 
+        }    
+                
+        }
+
+        const saveUser = async(formData)=>{
+        const response = await axios.post(
+            saveEndpoint, formData);
+            return response.data;
+        };
     const handleSubmit = (e) => {
         e.preventDefault();
         const finalFormData = includeSwitch ? { ...form, isSwitchOn } : form;
-        if (button.onClick) {
-          button.onClick(finalFormData);
-        }
+        saveUser(finalFormData);
+        window.location.reload(); 
         
       };
+      
+
+        const handleClose = (e) => {
+            if (e.target === e.currentTarget) {
+              onClose();
+            }
+          };
 
   return (
     <div className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center' id="wrapper" onClick={handleClose}>
@@ -49,17 +83,23 @@ const prepareForm = (formArr) => {
             <form className='p-6 space-y-3 text-sm' onSubmit={handleSubmit}>
                 
                 <div className='space-y-1'>
-                {formArr.map(({labelName,type,id,placeholder},index)=>(
-                    <LabeledInput 
-                        key={index} 
-                        labelName={labelName} 
-                        type={type} 
-                        id={id} 
-                        placeholder={placeholder}
-                        value={form[id]}
-
-                        onChange={(e)=>handleInputChange(e)}/>
-                ))}  
+                {fields.map((field)=>(
+                    <div>
+                      <label className='block text-gray-700' htmlFor={field.name}>
+                      {field.label}
+                      </label>
+                      <input className='w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none focus:ring-black focus:border-transparent shadow-sm'
+                      key={field.name}
+                      type={field.type}
+                      name={field.name}
+                      id={field.name}
+                      placeholder={field.placeholder}
+                      required={field.required}
+                      value={form[field.name]}
+                      onChange={handleInputChange}
+                  />
+              </div>
+                  ))}
                 </div>
                 {includeSwitch && (
                     <div className="flex items-center gap-3 mt-4">
@@ -77,8 +117,20 @@ const prepareForm = (formArr) => {
                 </div>
                 )}
                 
-                <SubmitButton btnname={button.btnname}
-                />
+                <div className='px-1 flex justify-between py-1 mr-5'>
+                <div>
+                    <AddButton btnname={btnTitle} className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' type='submit'/>
+                </div>
+                 <div className='col-sm-2'>
+                    <button
+                      type='button'
+                      onClick={onClose}
+                      className='btn btn-outline-warning btn-lg'
+                    >
+                      Cancel
+                    </button>
+                </div> 
+                </div>
                 
                 
             </form>

@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ParentServiceIMPL implements ParentService {
 
@@ -29,5 +31,16 @@ public class ParentServiceIMPL implements ParentService {
         } else {
             throw new RuntimeException("Student not found");
         }
+    }
+
+    @Override
+    public List<Parent> getAllParents() {
+        return parentRepo.findAll();
+
+    }
+
+    @Override
+    public Parent getParentById(String parentId) {
+        return parentRepo.findById(parentId).orElse(null);
     }
 }

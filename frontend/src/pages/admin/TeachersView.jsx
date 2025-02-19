@@ -6,9 +6,12 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
+import SendEmailModel from './SendEmailModel';
+import ViewModel from './ViewModel';
 
 const TeacherEditModel = ({ onClose,teacherId }) => (
   <EditModel
+    title="Update Teacher"
     apiEndpoints={{
       getEndpoint: 'http://localhost:8085/api/v1/teacher/get-teacher-by',
       updateEndpoint: 'http://localhost:8085/api/v1/teacher/update'
@@ -19,14 +22,64 @@ const TeacherEditModel = ({ onClose,teacherId }) => (
       { label: 'Contact No', name: 'teacherContactno', type: 'text', required: true },
       { label: 'Address', name: 'teacherAddress', type: 'text', required: true }
     ]}
-    redirectUrl="/teachers-view"
     onClose={onClose}
     entityId={teacherId}
   />
 )
+const TeacherViewModel = ({ onClose,teacherId }) => (
+  <ViewModel
+    title="Teacher Profile"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/teacher/get-teacher-by'
+    }}
+    fields={[
+      {label: 'Teacher Id', name: 'teacherId'},
+      { label: 'Teacher Name', name: 'teacherName'},
+      { label: 'Teacher Email', name: 'teacherEmail'},
+      { label: 'Contact No', name: 'teacherContactno'},
+      { label: 'Address', name: 'teacherAddress' }
+    ]}
+    onClose={onClose}
+    entityId={teacherId}
+  />
+  )
+
+const TeacherSendEmailModel = ({ onClose,teacherId }) => (
+  <SendEmailModel
+    title="Send Teacher Credentials"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/teacher/get-teacher-by',
+      sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
+    }}
+    fields={[
+      { label: 'teacher Email', name: 'teacherEmail', type: 'email', required: true }
+    ]}
+    onClose={onClose}
+    entityId={teacherId}
+  />
+)
+const TeacherAddDetailsFormModel = ({ onClose }) => (
+  <AddDetailsFormModel 
+          
+    title="Add Teacher"
+    btnTitle='Add Teacher'
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/teacher/get-all-teachers',
+      saveEndpoint: 'http://localhost:8085/api/v1/teacher/save'
+    }}
+    fields={[
+      { label: 'Full Name',type: 'text', name: 'teacherName', placeholder: 'Full Name',required: true},
+      { label: 'Email', type: 'email', name: 'teacherEmail', placeholder: 'Email' ,required: true},
+      { label: 'Contact no', type: 'text',  name: 'teacherContactno',  placeholder: 'Contact no' ,required: true},
+      { label: 'Address', type: 'text', name: 'teacherAddress', placeholder: 'Address' ,required: true}
+          ]}
+    onClose={onClose}
+    />
+)
 
 const TeachersView = () => {
 
+  const [activeModal,setActiveModal] = useState(null);
   const [selectedTeacherId, setSelectedTeacherId] = useState(null)
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -55,12 +108,6 @@ const handleDelete = async(teacherId)=>{
   loadTeachers();
 }
 
-const updateTeacher = async(formData)=>{
-  await axios.post('http://localhost:8085/api/v1/teacher/save', formData);
-      setShowModal(false);
-      loadTeachers();   
-};
-
   return (
     <div className=' min-h-screen bg-[#D9D9D9]'>
       <header className="flex items-center justify-between bg-black text-white h-[150px]">
@@ -68,7 +115,7 @@ const updateTeacher = async(formData)=>{
                 <h1 className="text-2xl font-bold leading-8">Teacher</h1>
               </div>
               <div className='pr-10'>
-                <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
+                <Link to={'/admin-dashboard'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
                   <span className='text-white font-bold font-Nunito text-xl '>Home</span>
                 </Link>
               </div>
@@ -76,35 +123,7 @@ const updateTeacher = async(formData)=>{
       <div className='mx-10'>
             <div className='flex justify-between items-center w-full py-5'>
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-              <AddButton btnname='Add Teacher' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' onClick={()=>setShowModal(true)}/>
-              <AddDetailsFormModel
-                isvisible={showModal}
-                onClose={() => setShowModal(false)}
-                title="Add Teacher"
-                formArr={[
-                  { labelName: 'Full Name', 
-                    inputtype: 'text', 
-                    inputid: 'teacherName', 
-                    inputplaceholder: 'Full Name' 
-                  },
-                  { labelName: 'Email', 
-                    inputtype: 'email', 
-                    inputid: 'teacherEmail', 
-                    inputplaceholder: 'Email' 
-                  },
-                  { labelName: 'Contact no', 
-                    inputtype: 'text', 
-                    inputid: 'teacherContactno', 
-                    inputplaceholder: 'Contact no' 
-                  },
-                  { labelName: 'Address', 
-                    inputtype: 'text', 
-                    inputid: 'teacherAddress', 
-                    inputplaceholder: 'Address' 
-                  }
-                ]}
-                button={{ btnname: 'Add Teacher', onClick: updateTeacher }}
-                />
+              <AddButton btnname='Add Teacher' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' onClick={()=>setActiveModal('add')}/>
             </div>
             
  
@@ -115,25 +134,45 @@ const updateTeacher = async(formData)=>{
                   <th>Teacher_id</th>
                   <th>Name</th>
                   <th>Email</th>
-                  <th colSpan={3}>Actions</th>
+                  <th colSpan={4}>Actions</th>
                 </tr>
               </thead>
               <tbody className='text-center'>
-                {teachers.map((teacher,index)=>(
+                {teachers.filter((teacher) => 
+                  teacher.teacherId
+                    .toUpperCase()
+                    .includes(searchTerm.toUpperCase()))
+                .map((teacher,index)=>(
                     <tr key={teacher.teacherId} className='h-16 bg-[#FFFFFF] hover:bg-gray-100 border' >
                       <td>{teacher.teacherId}</td>
                       <td>{teacher.teacherName}</td>
                       <td>{teacher.teacherEmail}</td>
                       <td>
-                      <Link to={`/teacher-profile/${teacher.teacherId}`} className='btn btn-info w-24 shadow'>
+                      <button className='btn btn-info w-24 shadow' 
+                        onClick={() => {
+                          setSelectedTeacherId(teacher.teacherId);
+                          setActiveModal('view');
+                          }} >
                             View
-                        </Link>
+                        </button>
                         </td>
                       
                       <td>
                       <button className='btn btn-warning w-24 shadow' 
-                        onClick={() => setSelectedTeacherId(teacher.teacherId)} >
+                        onClick={() => {
+                          setSelectedTeacherId(teacher.teacherId);
+                          setActiveModal('edit');
+                          }} >
                             Update
+                        </button>
+                      </td>
+                      <td>
+                      <button className='btn btn-success w-24 shadow' 
+                        onClick={() => {
+                          setSelectedTeacherId(teacher.teacherId);
+                          setActiveModal('email');
+                          }} >
+                           Email
                         </button>
                       </td>
                       <td >
@@ -150,12 +189,47 @@ const updateTeacher = async(formData)=>{
               </tbody>
             </table>
           </section>
-          {selectedTeacherId && (
+          {activeModal == 'add'&&(
+          <TeacherAddDetailsFormModel
+            onClose={() => {
+              setActiveModal(null);
+              loadTeachers();
+            }
+
+            }
+          />
+        )}
+          {activeModal == 'edit' && selectedTeacherId && (
           <TeacherEditModel
             teacherId={selectedTeacherId}
             onClose={() => {
               setSelectedTeacherId(null)
+              setActiveModal(null);
               loadTeachers()
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'email' && selectedTeacherId && (
+          <TeacherSendEmailModel
+            teacherId={selectedTeacherId}
+            onClose={() => {
+              setSelectedTeacherId(null);
+              setActiveModal(null);
+              loadTeachers();
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'view' && selectedTeacherId && (
+          <TeacherViewModel
+            teacherId={selectedTeacherId}
+            onClose={() => {
+              setSelectedTeacherId(null);
+              setActiveModal(null);
+              loadTeachers();
             }
 
             }
