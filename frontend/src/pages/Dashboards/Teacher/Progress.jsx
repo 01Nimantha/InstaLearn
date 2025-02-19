@@ -67,6 +67,26 @@ const Progress = () => {
                     </tr>
                 </tbody>
 
+                <tbody className='bg-[#EBEBEB] h-16'>
+                <tr className='text-center'>
+                        <th>ST000002</th>
+                        <th>95</th>
+                        <th>78</th>
+                        <th>67</th>
+                        <th>80</th>
+                    </tr>
+                </tbody>
+
+                <tbody className='bg-[#ffffff] h-16'>
+                <tr className='text-center'>
+                        <th>ST000003</th>
+                        <th>85</th>
+                        <th>78</th>
+                        <th>67</th>
+                        <th>80</th>
+                    </tr>
+                </tbody>
+
                 </table>
             </section>
       </div>

@@ -97,6 +97,91 @@ const Payments = () => {
                     </tr>
                 </tbody>
 
+                <tbody className='bg-[#EBEBEB] h-16'>
+                <tr className='text-center'>
+                        <th>ST000002</th>
+                        <th>
+                            <Button
+                            name={"Paid"} 
+                            action={()=>{console.log("Nimantha Click")}} 
+                            backgroundColor={"green"} 
+                            fontColor={"black"} 
+                            cornerRadius={false}/> 
+              
+                        </th>
+                        <th>
+                            <Button
+                            name={"Paid"} 
+                            action={()=>{console.log("Nimantha Click")}} 
+                            backgroundColor={"green"} 
+                            fontColor={"black"} 
+                            cornerRadius={false}/> 
+              
+                        </th>
+                        <th>
+                            <Button
+                            name={"Paid"} 
+                            action={()=>{console.log("Nimantha Click")}} 
+                            backgroundColor={"green"} 
+                            fontColor={"white"} 
+                            cornerRadius={false}/> 
+              
+                        </th>
+                        <th>
+                            <Button
+                            name={"Not Paid"} 
+                            action={()=>{console.log("Nimantha Click")}} 
+                            backgroundColor={"red"} 
+                            fontColor={"white"} 
+                            cornerRadius={false}/> 
+              
+                        </th>
+                    </tr>
+                </tbody>
+
+                <tbody className='bg-[#ffffff] h-16'>
+                <tr className='text-center'>
+                        <th>ST000003</th>
+                        <th>
+                            <Button
+                            name={"Paid"} 
+                            action={()=>{console.log("Nimantha Click")}} 
+                            backgroundColor={"green"} 
+                            fontColor={"black"} 
+                            cornerRadius={false}/> 
+              
+                        </th>
+                        <th>
+                            <Button
+                            name={"Not Paid"} 
+                            action={()=>{console.log("Nimantha Click")}} 
+                            backgroundColor={"red"} 
+                            fontColor={"black"} 
+                            cornerRadius={false}/> 
+              
+                        </th>
+                        <th>
+                            <Button
+                            name={"Paid"} 
+                            action={()=>{console.log("Nimantha Click")}} 
+                            backgroundColor={"green"} 
+                            fontColor={"white"} 
+                            cornerRadius={false}/> 
+              
+                        </th>
+                        <th>
+                            <Button
+                            name={"Not Paid"} 
+                            action={()=>{console.log("Nimantha Click")}} 
+                            backgroundColor={"red"} 
+                            fontColor={"white"} 
+                            cornerRadius={false}/> 
+              
+                        </th>
+                    </tr>
+                </tbody>
+                
+
                 </table>
             </section>
       </div>
