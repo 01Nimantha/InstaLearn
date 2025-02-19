@@ -14,14 +14,10 @@ const QuizForm = () => {
   const [correctAnswer, setCorrectAnswer] = useState('');
   const [chapter, setChapter] = useState('Chapter 1');
 
-  const quizData = {
-    chapterName: chapter,
-    question: question,
-    optionOne: answers[0],
-    optionTwo: answers[1],
-    optionThree: answers[2],
-    optionFour: answers[3],
-    correctAnswer: correctAnswer
+  const handleAnswerChange = (index, value) => {
+    const newAnswers = [...answers];
+    newAnswers[index] = value;
+    setAnswers(newAnswers);
   };
 
   const handleSubmit = async (e) => {
@@ -35,7 +31,7 @@ const QuizForm = () => {
       optionFour: answers[3],
       correctAnswer: correctAnswer
     };
-  
+
     try {
       const response = await fetch('http://localhost:8085/api/v1/question/save', {
         method: 'POST',
@@ -46,6 +42,11 @@ const QuizForm = () => {
       });
       if (response.ok) {
         alert('Quiz saved successfully!');
+        // Clear the input fields
+        setQuestion('');
+        setAnswers(['', '', '', '']);
+        setCorrectAnswer('');
+        setChapter('Chapter 1'); // Reset to default chapter if needed
       } else {
         alert('Failed to save quiz.');
       }
