@@ -68,15 +68,15 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
 
-    {/* <Provider store={mystore}>
+    <Provider store={mystore}>
     <RouterProvider router={router} />
-
     </Provider> 
-     <RouterProvider router={router} /> */ }
+
+    {/* <RouterProvider router={router} /> */ }
     
     {/* <App /> */}
     {/* <App2/> */}
-    <App/>
+    {/* <App/> */}
     
     {/* <App3/> *
     </Provider>
