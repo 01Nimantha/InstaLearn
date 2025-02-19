@@ -196,8 +196,13 @@ const handleDelete = async(adminId)=>{
           </section>
           {activeModal == 'add' &&(
           <AdminAddDetailsFormModel
-            onClose={() => {
-              setActiveModal(null);
+            onClose={(savedData) => {
+              if (savedData) {
+                setSelectedAdminId(savedData.adminId);
+                setActiveModal('email');
+              } else {
+                setActiveModal(null);
+              }
               loadadmins();
             }}
           />

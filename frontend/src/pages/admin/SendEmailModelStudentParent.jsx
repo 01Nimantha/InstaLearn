@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import AddButton from './common/AddButton';
 
-
-const SendEmailModel = ({
-  apiEndpoints: {
-    getEndpoint,
-    sendEndpoint
-  },
-  entityId,
-  title,
-  fields,
-  onClose
+const SendEmailModelStudentParent = ({
+    apiEndpoints: {
+        getEndpoint,
+        sendEndpoint
+      },
+      entityId,
+      title,
+      fields,
+      onClose
 }) => {
-
+   
     const[entity,setEntity] = useState({})
 
     useEffect(()=>{
@@ -43,7 +42,8 @@ const SendEmailModel = ({
         if(e.target.id === 'wrapper') onClose();
       }
 
-  return ( 
+    
+  return (
     <div className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center' id="wrapper" onClick={handleClose}>
         <div className='w-1/3 bg-white  rounded-2xl'>
             <header className='flex justify-between items-center p-3 bg-gray-950  rounded-t-2xl border'>
@@ -90,5 +90,4 @@ const SendEmailModel = ({
   )
 }
 
-export default SendEmailModel
-
+export default SendEmailModelStudentParent

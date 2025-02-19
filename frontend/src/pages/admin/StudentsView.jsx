@@ -8,6 +8,7 @@ import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
 import SendEmailModel from './SendEmailModel';
 import ViewModel from './ViewModel';
+import SendEmailModelStudentParent from './SendEmailModelStudentParent';
 
 const StudentEditModel = ({ onClose,studentId }) => (
   <EditModel
@@ -27,14 +28,16 @@ const StudentEditModel = ({ onClose,studentId }) => (
   />
 )
 const StudentSendEmailModel = ({ onClose,studentId }) => (
-  <SendEmailModel
+  <SendEmailModelStudentParent
     title="Send student Credentials"
     apiEndpoints={{
       getEndpoint: 'http://localhost:8085/api/v1/student/get-student-by',
       sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
     }}
     fields={[
-      { label: 'Student Email', name: 'studentEmail', type: 'email', required: true }
+      { label: 'Student Email', name: 'studentEmail', type: 'email', required: true },
+      { label: 'Parent Email', name: 'studentParentEmail', type: 'email', required: true }
+      
     ]}
     onClose={onClose}
     entityId={studentId}
