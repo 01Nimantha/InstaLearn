@@ -25,5 +25,10 @@ public class AttendanceController {
                 HttpStatus.CREATED
         );
     }
+    @GetMapping("/total-students")
+    public ResponseEntity<Long> getTotalAttendance() {
+        long totalStudents = attendanceService.getTotalAttendance();
+        return ResponseEntity.ok(totalStudents);
+    }
 
 }
