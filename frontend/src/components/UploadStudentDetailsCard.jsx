@@ -67,10 +67,10 @@ const UploadStudentDetailsCard = () => {
         </div>
         <div style={{ width: "48vw", marginLeft: "8vw" }}>
           <div>
-            <input type="text" value={id} onChange={(e) => setID(e.target.value)} placeholder={student?.Id || "Index number"} style={{ width: "48vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
+            <input type="text" value={id} onChange={(e) => setID(e.target.value)} placeholder={student?.Id || "Index number"} style={{ width: "48vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} disabled />
           </div>
           <div>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={student?.Name || "Your name"} style={{ width: "48vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
+            <input type="text" maxlength="13" value={name} onChange={(e) => setName(e.target.value)} placeholder={student?.Name || "Your name"} style={{ width: "48vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
           </div>
           <div style={{ display: "flex" }}>
             <MdEmail color="#13A68A" size={25} style={{ marginTop: "0.5%", marginRight: "1%" }} />
