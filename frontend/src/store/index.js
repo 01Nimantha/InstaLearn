@@ -1,21 +1,17 @@
 import {configureStore, createSlice} from "@reduxjs/toolkit"
+import logingSlice from "./logingSlice";
+import eventSlice from "./eventSlice";
+import quizSlice from "./quizSlice";
+import studentSlice from "./studentSlice";
+import imageSlice from "./imageSlice";
 
-const testSlice = createSlice({
-  name:"test",
-  initialState:{testVal:0},
-  reducers:{
-    increment:(state,action)=>{
-        console.log(state,action);
-    },
-    decrement:(state,action)=>{
-        console.log(state,action);
-    }
-  }
-});
 
 const mystore=configureStore({reducer:{
-  testreducer:testSlice.reducer
+  logingreducer: logingSlice.reducer,
+  eventreducer: eventSlice.reducer,
+  quizreducer: quizSlice.reducer,
+  studentreducer: studentSlice.reducer,
+  imagereducer: imageSlice.reducer
 }});
 
-export const testAction = testSlice.actions;
 export default mystore;
