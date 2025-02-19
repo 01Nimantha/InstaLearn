@@ -19,11 +19,11 @@ const Payments = () => {
         ImgURL={StudentImg} Name={"Alia Bhatt"}
          Id="SC/2021/12405"
          Logout={()=>{console.log("Click Logout Button")}} 
-         Tab1="Home" Tab1Icon={FaHome} Tab1functions="/"
-         Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='/students'
-         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="/" 
-         Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="/payment"
-         Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="/"
+         Tab1="Home" Tab1Icon={FaHome} Tab1functions="/teacher-dashboard"
+         Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='/teacher-dashboard/students'
+         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="/teacher-dashboard/manage-shedules" 
+         Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="/teacher-dashboard/payment"
+         Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="/teacher-dashboard/attendence"
          AddNewTab={true} 
          Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="/"/>
       </div>
