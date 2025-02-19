@@ -20,26 +20,50 @@ import UserPaymentHistoryPage from './pages/student/UserPaymentHistoryPage.jsx';
 import OnlineQuizPage from './pages/student/OnlineQuizPage.jsx';
 import QuestionPaperPage from './pages/student/QuestionPaperPage.jsx';
 import mystore from "./store/index.js";
+import Homepage from './pages/Homepage.jsx'
+import AboutPage from './pages/AboutPage.jsx'
+import LoginForm from './pages/LoginForm.jsx'
+import AdminDashboard from './pages/admin/AdminDashboard.jsx'
+import TeachersView from './pages/admin/TeachersView.jsx'
+import StudentsView from './pages/admin/StudentsView.jsx'
+import ParentsView from './pages/admin/ParentsView.jsx'
+import AdminsView from './pages/admin/AdminsView.jsx'
+import AttendanceOfficerView from './pages/admin/AttendanceOfficerView.jsx'
 import TeacherDashboard from './pages/Dashboards/Teacher/TeacherDashboard.jsx'
 import Students from './pages/Dashboards/Teacher/Students.jsx'
 
-//  const router =createBrowserRouter([{path:"/",element:<App2/>,
-//                            children:[{path:"/",element:<UserHomePage/>},
-//                                      {path:"/payment",element:<UserPaymentPage/>},
-//                                      {path:"/timetable",element:<UserTimetablePage/>},
-//                                      {path:"/setting",element:<UserSettingPage/>},
-//                                      {path:"/payment-history",element:<UserPaymentHistoryPage/>},
-//                                      {path:"/new-tab",element:<OnlineQuizPage/>},
-//                                      {path:"/online-quiz",element:<QuestionPaperPage/>},
-//                                            ]}])
+const router = createBrowserRouter([
+  {
+    path: "/student-dashboard",
+    element: <App2 />,
+    children: [
+      { index: true, element: <UserHomePage /> }, // Default child route
+      { path: "payment", element: <UserPaymentPage /> },
+      { path: "timetable", element: <UserTimetablePage /> },
+      { path: "settings", element: <UserSettingPage /> },
+      { path: "payment-history", element: <UserPaymentHistoryPage /> },
+      { path: "new-tab", element: <OnlineQuizPage /> },
+      { path: "online-quiz", element: <QuestionPaperPage /> },
+    ],
+  },
+  { path: "/", element: <Homepage /> },
+  { path: "/about", element: <AboutPage /> },
+  { path: "/login", element: <LoginForm /> },
+  {
+    path: "/admin-dashboard",
+    element: <AdminDashboard />, // Main admin dashboard page
+    children: [
+      { index: true, element: <AdminDashboard /> }, // Default admin page
+      { path: "teachers-view", element: <TeachersView /> },
+      { path: "students-view", element: <StudentsView /> },
+      { path: "parents-view", element: <ParentsView /> },
+      { path: "admins-view", element: <AdminsView /> },
+      { path: "aOfficers-view", element: <AttendanceOfficerView /> },
+    ],
+  },
+]);
 
-// const router =createBrowserRouter([{path:"/",element:<App3/>,
-//                             children:[{path:"/",element:<TeacherDashboard/>},
-//                                       {path:"/student",element:<Students/>},
-//                                       {path:"/progress",element:<Progress/>},
-//                                       {path:"/setting",element:<UserSettingPage/>},
-//                                       {path:"/payment",element:<Payment/>},
-//                                             ]}])
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
