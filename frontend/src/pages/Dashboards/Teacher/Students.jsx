@@ -85,11 +85,12 @@ const Students = () => {
 
   // Filter students when searchTerm changes
   useEffect(() => {
-    const filtered = students.filter((student) =>
-      student.studentID.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = students.filter(
+      (student) => student.studentID && student.studentID.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredStudents(filtered);
   }, [searchTerm, students]);
+  
 
     
 
