@@ -4,7 +4,6 @@ import { FaBell } from "react-icons/fa";
 import { useState } from "react";
 const EventCard = ()=>{
   const event = useSelector((store)=>store.eventreducer);
-  console.log("Event ",event.eventarr.length);
   const [num,setNum] = useState(0);
   const next = () => {
     if (event.eventarr.length > num + 1) {
