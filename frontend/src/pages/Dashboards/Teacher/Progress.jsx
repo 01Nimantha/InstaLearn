@@ -11,7 +11,7 @@ import { IoIosSettings } from "react-icons/io";
 import { FaSearch } from 'react-icons/fa';
 
 
-const Payments = () => {
+const Progress = () => {
   return (
     <div className='d-flex'>
       <div>  
@@ -74,4 +74,4 @@ const Payments = () => {
   )
 }
 
-export default Payments
+export default Progress;
