@@ -61,6 +61,28 @@ const StudentViewModel = ({ onClose,studentId }) => (
     entityId={studentId}
   />
 )
+const StudentAddDetailsFormModel = ({ onClose }) => (
+  <AddDetailsFormModel 
+          
+    title="Add Student"
+    btnTitle='Add Student'
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/student/get-all-students',
+      saveEndpoint: 'http://localhost:8085/api/v1/student/save-student-and-parent'
+    }}
+    fields={[
+      { label: 'Full Name',type: 'text', name: 'studentName', placeholder: 'Full Name',required: true},
+      { label: 'Email',type: 'email',name: 'studentEmail', placeholder: 'Email',required: true },
+      { label: 'Contact no',type: 'text',name: 'studentContactno',  placeholder: 'Contact no',required: true},
+      { label: 'Address', type: 'text', name: 'studentAddress',placeholder: 'Address',required: true},
+      { label: 'Parent Name',type: 'text',name: 'studentParentName',placeholder: 'Parent Name',required: true},
+      { label: 'Parent Email',type: 'email',name: 'studentParentEmail',placeholder: 'Parent Email',required: true},
+      { label: 'Parent Contact no',type: 'text',name: 'studentParentContactno',placeholder: 'Parent Contact no',required: true}
+          ]}
+    includeSwitch={true}
+    onClose={onClose}
+    />
+)
 const StudentsView = () => {
   
   const [activeModal,setActiveModal] = useState(null);
@@ -92,7 +114,7 @@ const handleDelete = async(studentId)=>{
   loadStudents();
 }
 
-const updateStudentAndParent = async(formData)=>{
+const saveStudentAndParent = async(formData)=>{
   await axios.post('http://localhost:8085/api/v1/student/save-student-and-parent', formData);
   setShowModal(false);
   loadStudents();   
@@ -113,51 +135,7 @@ const updateStudentAndParent = async(formData)=>{
       <div className='mx-10'>
             <div className='flex justify-between items-center w-full py-5'>
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-              <AddButton  btnname='Add Student' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' onClick={()=>setShowModal(true)}/>
-              <AddDetailsFormModel 
-                  isvisible={showModal} 
-                  onClose={() => setShowModal(false)} 
-                  title="Add Student"
-                  formArr={[
-                    { labelName: 'Full Name', 
-                      inputtype: 'text', 
-                      inputid: 'studentName', 
-                      inputplaceholder: 'Full Name' 
-                    },
-                    { labelName: 'Email', 
-                      inputtype: 'email', 
-                      inputid: 'studentEmail', 
-                      inputplaceholder: 'Email' 
-                    },
-                    { labelName: 'Contact no', 
-                      inputtype: 'text', 
-                      inputid: 'studentContactno', 
-                      inputplaceholder: 'Contact no' 
-                    },
-                    { labelName: 'Address', 
-                      inputtype: 'text', 
-                      inputid: 'studentAddress', 
-                      inputplaceholder: 'Address' 
-                    },
-                    { labelName: 'Parent Name', 
-                      inputtype: 'text', 
-                      inputid: 'studentParentName', 
-                      inputplaceholder: 'Parent Name' 
-                    },
-                    { labelName: 'Parent Email', 
-                      inputtype: 'email', 
-                      inputid: 'studentParentEmail', 
-                      inputplaceholder: 'Parent Email' 
-                    },
-                    { labelName: 'Parent Contact no', 
-                      inputtype: 'text', 
-                      inputid: 'studentParentContactno', 
-                      inputplaceholder: 'Parent Contact no' 
-                    }
-
-                  ]}
-                  includeSwitch={true}
-                  button={{ btnname: 'Add Student', onClick: updateStudentAndParent }}/>
+              <AddButton  btnname='Add Student' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' onClick={()=>setActiveModal('add')}/>
             </div>
             
  
@@ -222,6 +200,17 @@ const updateStudentAndParent = async(formData)=>{
               </tbody>
             </table>
           </section>
+          {activeModal == 'add' && (
+          <StudentAddDetailsFormModel
+            onClose={() => {
+              setActiveModal(null);
+              loadStudents();
+            }
+
+            }
+
+          />
+        )}
           {activeModal == 'edit' && selectedStudentId && (
           <StudentEditModel
             studentId={selectedStudentId}

@@ -57,6 +57,24 @@ const AttendanceOfficerViewModel = ({ onClose,attendanceOfficerId }) => (
     entityId={attendanceOfficerId}
   />
 )
+const AOfficerAddDetailsFormModel = ({ onClose }) => (
+  <AddDetailsFormModel 
+          
+    title="Add AOfficer"
+    btnTitle='Add AOfficer'
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/get-all-aOfficers',
+      saveEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/save'
+    }}
+    fields={[
+      { label: 'Full Name',type: 'text', name: 'attendanceOfficerName', placeholder: 'Full Name',required: true},
+      { label: 'Email', type: 'email', name: 'attendanceOfficerEmail', placeholder: 'Email' ,required: true},
+      { label: 'Contact no', type: 'text',  name: 'attendanceOfficerContactno',  placeholder: 'Contact no' ,required: true},
+      { label: 'Address', type: 'text', name: 'attendanceOfficerAddress', placeholder: 'Address' ,required: true}
+          ]}
+    onClose={onClose}
+    />
+)
 
 const AttendanceOfficerView = () => {
 
@@ -89,13 +107,6 @@ const AttendanceOfficerView = () => {
       loadaOfficer();
     }
 
-    const SaveaOfficer = async(formData)=>{
-      await axios.post('http://localhost:8085/api/v1/attendanceOfficer/save', formData);
-      setShowModal(false);
-      loadaOfficer();   
-      
-     
-    };
     
       return (
         <div className=' min-h-screen bg-[#D9D9D9]'>
@@ -112,41 +123,7 @@ const AttendanceOfficerView = () => {
           <div className='mx-10'>
                 <div className='flex justify-between items-center w-full py-5'>
                   <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-                  <AddButton btnname='Add aOfficer' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12'onClick={()=>setShowModal(true)}/>
-                  <AddDetailsFormModel
-                    isvisible={showModal}
-                    onClose={() => setShowModal(false)}
-                    title="Add AttendanceOfficer"
-                    formArr={[
-                      { labelName: 'Full Name', 
-                        inputtype: 'text', 
-                        inputid: 'attendanceOfficerName', 
-                        inputplaceholder: 'Full Name' 
-                      },
-                      { labelName: 'Email', 
-                        inputtype: 'email', 
-                        inputid: 'attendanceOfficerEmail', 
-                        inputplaceholder: 'Email' 
-                      },
-                      { labelName: 'Contact no', 
-                        inputtype: 'text', 
-                        inputid: 'attendanceOfficerContactno', 
-                        inputplaceholder: 'Contact no' 
-                      },
-                      { labelName: 'Address', 
-                        inputtype: 'text', 
-                        inputid: 'attendanceOfficerAddress', 
-                        inputplaceholder: 'Address' 
-                      }
-                    ]}
-                    button={{ 
-                      btnname: 'Add AOfficer',
-                      onClick:(formData) => {
-                      SaveaOfficer(formData);
-                     }
-                     
-                   }}
-                  />
+                  <AddButton btnname='Add aOfficer' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12'onClick={()=>setActiveModal('add')}/>
                 </div>
                 
      
@@ -157,7 +134,7 @@ const AttendanceOfficerView = () => {
                       <th>attendanceOfficer_id</th>
                       <th>Name</th>
                       <th>Email</th>
-                      <th colSpan={3}>Actions</th>
+                      <th colSpan={4}>Actions</th>
                     </tr>
                   </thead>
                   <tbody className='text-center'>
@@ -214,11 +191,22 @@ const AttendanceOfficerView = () => {
                   </tbody>
                 </table>
               </section>
+          {activeModal == 'add' &&(
+          <AOfficerAddDetailsFormModel
+            onClose={() => {
+              setActiveModal(null);
+              loadaOfficer()
+            }
+
+            }
+          />
+        )}
           {activeModal == 'edit' && selectedAOfficerId && (
           <AttendanceOfficerEditModel
             attendanceOfficerId={selectedAOfficerId}
             onClose={() => {
               setSelectedAOfficerId(null)
+              setActiveModal(null);
               loadaOfficer()
             }
 

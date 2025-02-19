@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import AddButton from './common/AddButton';
 
 const EditModel = ({
   apiEndpoints: {
@@ -69,11 +70,7 @@ const handleClose = (e) =>{
                 </div>
                 <div className='px-1 flex justify-between py-1 mr-5'>
                 <div className='col-sm-2'>
-                    <button
-                        className='btn btn-outline-success btn-lg'
-                        type='submit'>
-                        Save
-                    </button>
+                <AddButton btnname='Update' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' type='submit'/>
                 </div>
                  <div className='col-sm-2'>
                     <button

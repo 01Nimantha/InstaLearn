@@ -58,6 +58,24 @@ const TeacherSendEmailModel = ({ onClose,teacherId }) => (
     entityId={teacherId}
   />
 )
+const TeacherAddDetailsFormModel = ({ onClose }) => (
+  <AddDetailsFormModel 
+          
+    title="Add Teacher"
+    btnTitle='Add Teacher'
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/teacher/get-all-teachers',
+      saveEndpoint: 'http://localhost:8085/api/v1/teacher/save'
+    }}
+    fields={[
+      { label: 'Full Name',type: 'text', name: 'teacherName', placeholder: 'Full Name',required: true},
+      { label: 'Email', type: 'email', name: 'teacherEmail', placeholder: 'Email' ,required: true},
+      { label: 'Contact no', type: 'text',  name: 'teacherContactno',  placeholder: 'Contact no' ,required: true},
+      { label: 'Address', type: 'text', name: 'teacherAddress', placeholder: 'Address' ,required: true}
+          ]}
+    onClose={onClose}
+    />
+)
 
 const TeachersView = () => {
 
@@ -90,12 +108,6 @@ const handleDelete = async(teacherId)=>{
   loadTeachers();
 }
 
-const updateTeacher = async(formData)=>{
-  await axios.post('http://localhost:8085/api/v1/teacher/save', formData);
-      setShowModal(false);
-      loadTeachers();   
-};
-
   return (
     <div className=' min-h-screen bg-[#D9D9D9]'>
       <header className="flex items-center justify-between bg-black text-white h-[150px]">
@@ -111,35 +123,7 @@ const updateTeacher = async(formData)=>{
       <div className='mx-10'>
             <div className='flex justify-between items-center w-full py-5'>
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-              <AddButton btnname='Add Teacher' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' onClick={()=>setShowModal(true)}/>
-              <AddDetailsFormModel
-                isvisible={showModal}
-                onClose={() => setShowModal(false)}
-                title="Add Teacher"
-                formArr={[
-                  { labelName: 'Full Name', 
-                    inputtype: 'text', 
-                    inputid: 'teacherName', 
-                    inputplaceholder: 'Full Name' 
-                  },
-                  { labelName: 'Email', 
-                    inputtype: 'email', 
-                    inputid: 'teacherEmail', 
-                    inputplaceholder: 'Email' 
-                  },
-                  { labelName: 'Contact no', 
-                    inputtype: 'text', 
-                    inputid: 'teacherContactno', 
-                    inputplaceholder: 'Contact no' 
-                  },
-                  { labelName: 'Address', 
-                    inputtype: 'text', 
-                    inputid: 'teacherAddress', 
-                    inputplaceholder: 'Address' 
-                  }
-                ]}
-                button={{ btnname: 'Add Teacher', onClick: updateTeacher }}
-                />
+              <AddButton btnname='Add Teacher' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' onClick={()=>setActiveModal('add')}/>
             </div>
             
  
@@ -205,11 +189,22 @@ const updateTeacher = async(formData)=>{
               </tbody>
             </table>
           </section>
+          {activeModal == 'add'&&(
+          <TeacherAddDetailsFormModel
+            onClose={() => {
+              setActiveModal(null);
+              loadTeachers();
+            }
+
+            }
+          />
+        )}
           {activeModal == 'edit' && selectedTeacherId && (
           <TeacherEditModel
             teacherId={selectedTeacherId}
             onClose={() => {
               setSelectedTeacherId(null)
+              setActiveModal(null);
               loadTeachers()
             }
 

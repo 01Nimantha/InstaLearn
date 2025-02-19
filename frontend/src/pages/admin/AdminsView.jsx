@@ -60,6 +60,25 @@ const AdminViewModel = ({ onClose,adminId }) => (
     entityId={adminId}
   />
 )
+const AdminAddDetailsFormModel = ({ onClose }) => (
+  <AddDetailsFormModel 
+          
+    title="Add Admin"
+    btnTitle='Add Admin'
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/admin/get-all-admins',
+      saveEndpoint: 'http://localhost:8085/api/v1/admin/save'
+    }}
+    fields={[
+      { label: 'Full Name',type: 'text', name: 'adminName', placeholder: 'Full Name',required: true},
+      { label: 'Email', type: 'email', name: 'adminEmail', placeholder: 'Email' ,required: true},
+      { label: 'Contact no', type: 'text',  name: 'adminContactno',  placeholder: 'Contact no' ,required: true},
+      { label: 'Address', type: 'text', name: 'adminAddress', placeholder: 'Address' ,required: true}
+          ]}
+    onClose={onClose}
+  
+    />
+)
 
 const AdminsView = () => {
 
@@ -92,13 +111,6 @@ const handleDelete = async(adminId)=>{
   loadadmins();
 }
 
-const SaveAdmin = async(formData)=>{
-      const response = await axios.post('http://localhost:8085/api/v1/admin/save', formData);
-      setShowModal(false); 
-      loadadmins();  
-};
-
-
   return (
     <div className=' min-h-screen bg-[#D9D9D9]'>
       <header className="flex items-center justify-between bg-black text-white h-[150px]">
@@ -106,7 +118,7 @@ const SaveAdmin = async(formData)=>{
                 <h1 className="text-2xl font-bold leading-8">Admin</h1>
               </div>
               <div className='pr-10'>
-                <Link to={'/admin-dashboard'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
+                <Link to={'/admin-dashboard'} className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
                   <span className='text-white font-bold font-Nunito text-xl '>Home</span>
                 </Link>
               </div>
@@ -115,43 +127,8 @@ const SaveAdmin = async(formData)=>{
             <div className='flex justify-between items-center w-full py-5'>
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
               <AddButton btnname='Add Admin' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' 
-                onClick={()=>setShowModal(true)}/>
-              <AddDetailsFormModel 
-                  isvisible={showModal} 
-                  onClose={() => setShowModal(false)} 
-                  title="Add Admin"
-                  formArr={[
-                    { labelName: 'Full Name', 
-                      type: 'text', 
-                      id: 'adminName', 
-                      placeholder: 'Full Name'
-                      
-                    },
-                    { labelName: 'Email', 
-                      type: 'email', 
-                      id: 'adminEmail', 
-                      placeholder: 'Email' 
-                    },
-                    { labelName: 'Contact no', 
-                      type: 'text', 
-                      id: 'adminContactno', 
-                      placeholder: 'Contact no' 
-                    },
-                    { labelName: 'Address', 
-                      type: 'text', 
-                      id: 'adminAddress', 
-                      placeholder: 'Address' 
-                    }
-                  ]}
-                  button={{ 
-                     btnname: 'Add Admin',
-                     onClick:(formData) => {
-                     SaveAdmin(formData);
-                    }
-                    
-                  }}/>
+                onClick={()=>setActiveModal('add')}/>
             </div>
-            
  
             <section>
             <table className='shadow  w-full'>
@@ -217,6 +194,14 @@ const SaveAdmin = async(formData)=>{
               </tbody>
             </table>
           </section>
+          {activeModal == 'add' &&(
+          <AdminAddDetailsFormModel
+            onClose={() => {
+              setActiveModal(null);
+              loadadmins();
+            }}
+          />
+        )}
           {activeModal == 'edit' && selectedAdminId && (
           <AdminEditModel
             adminId={selectedAdminId}
