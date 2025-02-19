@@ -48,15 +48,6 @@ const App = () => {
           <Route exact path="/teacher-dashboard/quiz" element={<QuizForm />} />
           <Route exact path="/teacher-dashboard/progress" element={<Progress />} />  
           <Route exact path="/teacher-dashboard/payment" element={<Payments />} /> 
-          <Route path="/student-dashboard" element={<App2 />}>
-          <Route index element={<UserHomePage />} />
-          <Route path="/student-dashboard/payment" element={<UserPaymentPage />} />
-          <Route path="/student-dashboard/timetable" element={<UserTimetablePage />} />
-          <Route path="/student-dashboard/setting" element={<UserSettingPage />} />
-          <Route path="/student-dashboard/payment-history" element={<UserPaymentHistoryPage />} />
-          <Route path="/student-dashboard/new-tab" element={<OnlineQuizPage />} />
-          <Route path="/student-dashboard/online-quiz" element={<QuestionPaperPage />} />
-        </Route>
 
         </Routes>
       </BrowserRouter>

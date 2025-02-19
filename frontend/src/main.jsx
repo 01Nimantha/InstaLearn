@@ -26,6 +26,8 @@ import TeacherDashboard from './pages/Dashboards/Teacher/TeacherDashboard.jsx'
 import Students from './pages/Dashboards/Teacher/Students.jsx'
 import QuizForm from './pages/Dashboards/Teacher/QuizForm.jsx'
 import { Payment } from '@mui/icons-material'
+import Progress from './pages/Dashboards/Teacher/Progress.jsx'
+import Payments from './pages/Dashboards/Teacher/Payments.jsx'
 
 const router = createBrowserRouter([
   {
@@ -37,8 +39,8 @@ const router = createBrowserRouter([
       { path: "timetable", element: <UserTimetablePage /> },
       { path: "settings", element: <UserSettingPage /> },
       { path: "payment-history", element: <UserPaymentHistoryPage /> },
-      { path: "new-tab", element: <OnlineQuizPage /> },
-      { path: "online-quiz", element: <QuestionPaperPage /> },
+      { path: "online-quiz", element:  <OnlineQuizPage />},
+      { path: "online-qpaper", element:  <QuestionPaperPage />},
     ],
   },
   { path: "/", element: <Homepage /> },
@@ -53,8 +55,10 @@ const router = createBrowserRouter([
   {path:"/teacher-dashboard/",element:<TeacherDashboard/>},
   {path:"/teacher-dashboard/students",element:<Students/>},
   {path:"/teacher-dashboard/quiz",element:<QuizForm/>},
-  {path:"/teacher-dashboard/progress",element:<progress/>},
-  {path:"/teacher-dashboard/payment",element:<Payment/>}
+  {path:"/teacher-dashboard/progress",element:<Progress/>},
+  {path:"/teacher-dashboard/payment",element:<Payments/>},
+  {path:"/teacher-dashboard/manage-shedules",element:<TeacherDashboard/>},
+  {path:"/teacher-dashboard/attendence",element:<TeacherDashboard/>}
 ]);
 
 
