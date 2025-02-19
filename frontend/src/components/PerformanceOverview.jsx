@@ -19,7 +19,7 @@ const PerformanceOverview=()=>{
     <h3 className='mb-10'>Performance Overview</h3>
     <ResponsiveContainer width="100%" height={350}>
               <LineChart data={sampleData}>
-                <XAxis dataKey="time" />
+                <XAxis dataKey="time"  />
                 <YAxis />
                 <Tooltip />
                 <CartesianGrid strokeDasharray="3 3" />
