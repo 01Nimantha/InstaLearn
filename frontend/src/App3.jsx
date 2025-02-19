@@ -43,6 +43,12 @@ const App3 = () => {
               path="/progress" 
               element={<Progress />} />  
           </Routes>
+          <Routes>
+             <Route 
+              exact
+              path="/attendence" 
+              element={<Attendance />} />  
+          </Routes>
           </BrowserRouter>
     </div>
   )
