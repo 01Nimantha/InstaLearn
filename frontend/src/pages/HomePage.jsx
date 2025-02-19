@@ -146,7 +146,7 @@ const Homepage = () => {
     <Typography sx={{ padding: "350px" }}>
       <span>
         <b>
-        An Education Institute Management System is a modern solution...</b>
+        An Education Institute Management System is a modern solution..aaaaaaaaaa.</b>
       </span>
       <Box sx={{ display: "flex", justifyContent: "center", p: "50px" }}>
         <Typography align="center">
