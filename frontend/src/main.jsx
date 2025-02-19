@@ -26,6 +26,7 @@ import TeacherDashboard from './pages/Dashboards/Teacher/TeacherDashboard.jsx'
 import Students from './pages/Dashboards/Teacher/Students.jsx'
 import QuizForm from './pages/Dashboards/Teacher/QuizForm.jsx'
 import { Payment } from '@mui/icons-material'
+import Progress from './pages/Dashboards/Teacher/Progress.jsx'
 
 const router = createBrowserRouter([
   {
@@ -53,7 +54,7 @@ const router = createBrowserRouter([
   {path:"/teacher-dashboard/",element:<TeacherDashboard/>},
   {path:"/teacher-dashboard/students",element:<Students/>},
   {path:"/teacher-dashboard/quiz",element:<QuizForm/>},
-  {path:"/teacher-dashboard/progress",element:<progress/>},
+  {path:"/teacher-dashboard/progress",element:<Progress/>},
   {path:"/teacher-dashboard/payment",element:<Payment/>}
 ]);
 
