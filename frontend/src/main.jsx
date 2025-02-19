@@ -3,15 +3,8 @@ import { createRoot } from 'react-dom/client'
 import  { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import {Provider} from "react-redux"
 import App2 from './App2'
-// import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
-import App5 from './App5.jsx'
-import App from './App.jsx'
-import App10 from './App10.jsx'
-import App3 from './App3'
-
-
 import UserHomePage from './pages/student/UserHomePage.jsx'
 import UserPaymentPage from './pages/student/UserPaymentPage.jsx';
 import UserTimetablePage from './pages/student/UserTimetablePage.jsx';
@@ -31,6 +24,8 @@ import AdminsView from './pages/admin/AdminsView.jsx'
 import AttendanceOfficerView from './pages/admin/AttendanceOfficerView.jsx'
 import TeacherDashboard from './pages/Dashboards/Teacher/TeacherDashboard.jsx'
 import Students from './pages/Dashboards/Teacher/Students.jsx'
+import QuizForm from './pages/Dashboards/Teacher/QuizForm.jsx'
+import { Payment } from '@mui/icons-material'
 
 const router = createBrowserRouter([
   {
@@ -49,18 +44,17 @@ const router = createBrowserRouter([
   { path: "/", element: <Homepage /> },
   { path: "/about", element: <AboutPage /> },
   { path: "/login", element: <LoginForm /> },
-  {
-    path: "/admin-dashboard",
-    element: <AdminDashboard />, // Main admin dashboard page
-    children: [
-      { index: true, element: <AdminDashboard /> }, // Default admin page
-      { path: "teachers-view", element: <TeachersView /> },
-      { path: "students-view", element: <StudentsView /> },
-      { path: "parents-view", element: <ParentsView /> },
-      { path: "admins-view", element: <AdminsView /> },
-      { path: "aOfficers-view", element: <AttendanceOfficerView /> },
-    ],
-  },
+  {path: "/admin-dashboard", element: <AdminDashboard />},
+  { path: "/admin-dashboard/teachers-view", element: <TeachersView /> },
+  { path: "/admin-dashboard/students-view", element: <StudentsView /> },
+  { path: "/admin-dashboard/parents-view", element: <ParentsView /> },
+  { path: "/admin-dashboard/admins-view", element: <AdminsView /> },
+  { path: "/admin-dashboard/aOfficers-view", element: <AttendanceOfficerView /> },
+  {path:"/teacher-dashboard/",element:<TeacherDashboard/>},
+  {path:"/teacher-dashboard/students",element:<Students/>},
+  {path:"/teacher-dashboard/quiz",element:<QuizForm/>},
+  {path:"/teacher-dashboard/progress",element:<progress/>},
+  {path:"/teacher-dashboard/payment",element:<Payment/>}
 ]);
 
 
@@ -68,15 +62,18 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
 
-    {/* <Provider store={mystore}>
+    <Provider store={mystore}>
     <RouterProvider router={router} />
-
     </Provider> 
-     <RouterProvider router={router} /> */ }
+
+    {/* <RouterProvider router={router} /> */ }
+
+    {/* </Provider> */}
+     {/* <RouterProvider router={router} />  */}
     
     {/* <App /> */}
     {/* <App2/> */}
-    <App/>
+    {/* <App/> */}
     
     {/* <App3/> *
     </Provider>
