@@ -63,6 +63,25 @@ const TeacherDashboard = () => {
 
   //   fetchData();
   // }, []);
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // Fetch total students
+        const response = await fetch("http://localhost:8085/api/v1/student/total-students");
+        const totalStudents = await response.json();
+
+        setStats((prevStats) => ({
+          ...prevStats,
+          totalStudents,
+        }));
+      } catch (error) {
+        console.error("Error fetching student data:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
 
   const sampleData = [
     { time: "5k", performance: 25 },
