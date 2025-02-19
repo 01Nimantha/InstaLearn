@@ -6,7 +6,8 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
   return (
     <div className="relative flex items-center bg-[#fff] w-96 rounded-l-full shadow h-12">
       <input
-        type="text"
+        type='search'
+        role='search box'
         placeholder="Search by id..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
