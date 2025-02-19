@@ -8,6 +8,7 @@ import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
 import SendEmailModel from './SendEmailModel';
 import ViewModel from './ViewModel';
+import SendEmailModelStudentParent from './SendEmailModelStudentParent';
 
 const StudentEditModel = ({ onClose,studentId }) => (
   <EditModel
@@ -27,14 +28,16 @@ const StudentEditModel = ({ onClose,studentId }) => (
   />
 )
 const StudentSendEmailModel = ({ onClose,studentId }) => (
-  <SendEmailModel
+  <SendEmailModelStudentParent
     title="Send student Credentials"
     apiEndpoints={{
       getEndpoint: 'http://localhost:8085/api/v1/student/get-student-by',
       sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
     }}
     fields={[
-      { label: 'Student Email', name: 'studentEmail', type: 'email', required: true }
+      { label: 'Student Email', name: 'studentEmail', type: 'email', required: true },
+      { label: 'Parent Email', name: 'studentParentEmail', type: 'email', required: true }
+      
     ]}
     onClose={onClose}
     entityId={studentId}
@@ -60,6 +63,28 @@ const StudentViewModel = ({ onClose,studentId }) => (
     onClose={onClose}
     entityId={studentId}
   />
+)
+const StudentAddDetailsFormModel = ({ onClose }) => (
+  <AddDetailsFormModel 
+          
+    title="Add Student"
+    btnTitle='Add Student'
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/student/get-all-students',
+      saveEndpoint: 'http://localhost:8085/api/v1/student/save-student-and-parent'
+    }}
+    fields={[
+      { label: 'Full Name',type: 'text', name: 'studentName', placeholder: 'Full Name',required: true},
+      { label: 'Email',type: 'email',name: 'studentEmail', placeholder: 'Email',required: true },
+      { label: 'Contact no',type: 'text',name: 'studentContactno',  placeholder: 'Contact no',required: true},
+      { label: 'Address', type: 'text', name: 'studentAddress',placeholder: 'Address',required: true},
+      { label: 'Parent Name',type: 'text',name: 'studentParentName',placeholder: 'Parent Name',required: true},
+      { label: 'Parent Email',type: 'email',name: 'studentParentEmail',placeholder: 'Parent Email',required: true},
+      { label: 'Parent Contact no',type: 'text',name: 'studentParentContactno',placeholder: 'Parent Contact no',required: true}
+          ]}
+    includeSwitch={true}
+    onClose={onClose}
+    />
 )
 const StudentsView = () => {
   
@@ -92,7 +117,7 @@ const handleDelete = async(studentId)=>{
   loadStudents();
 }
 
-const updateStudentAndParent = async(formData)=>{
+const saveStudentAndParent = async(formData)=>{
   await axios.post('http://localhost:8085/api/v1/student/save-student-and-parent', formData);
   setShowModal(false);
   loadStudents();   
@@ -105,7 +130,7 @@ const updateStudentAndParent = async(formData)=>{
                 <h1 className="text-2xl font-bold leading-8">Student</h1>
               </div>
               <div className='pr-10'>
-                <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
+                <Link to={'/admin-dashboard'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
                     <span className='text-white font-bold font-Nunito text-xl '>Home</span>
                 </Link>
               </div>
@@ -113,51 +138,7 @@ const updateStudentAndParent = async(formData)=>{
       <div className='mx-10'>
             <div className='flex justify-between items-center w-full py-5'>
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-              <AddButton  btnname='Add Student' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' onClick={()=>setShowModal(true)}/>
-              <AddDetailsFormModel 
-                  isvisible={showModal} 
-                  onClose={() => setShowModal(false)} 
-                  title="Add Student"
-                  formArr={[
-                    { labelName: 'Full Name', 
-                      inputtype: 'text', 
-                      inputid: 'studentName', 
-                      inputplaceholder: 'Full Name' 
-                    },
-                    { labelName: 'Email', 
-                      inputtype: 'email', 
-                      inputid: 'studentEmail', 
-                      inputplaceholder: 'Email' 
-                    },
-                    { labelName: 'Contact no', 
-                      inputtype: 'text', 
-                      inputid: 'studentContactno', 
-                      inputplaceholder: 'Contact no' 
-                    },
-                    { labelName: 'Address', 
-                      inputtype: 'text', 
-                      inputid: 'studentAddress', 
-                      inputplaceholder: 'Address' 
-                    },
-                    { labelName: 'Parent Name', 
-                      inputtype: 'text', 
-                      inputid: 'studentParentName', 
-                      inputplaceholder: 'Parent Name' 
-                    },
-                    { labelName: 'Parent Email', 
-                      inputtype: 'email', 
-                      inputid: 'studentParentEmail', 
-                      inputplaceholder: 'Parent Email' 
-                    },
-                    { labelName: 'Parent Contact no', 
-                      inputtype: 'text', 
-                      inputid: 'studentParentContactno', 
-                      inputplaceholder: 'Parent Contact no' 
-                    }
-
-                  ]}
-                  includeSwitch={true}
-                  button={{ btnname: 'Add Student', onClick: updateStudentAndParent }}/>
+              <AddButton  btnname='Add Student' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' onClick={()=>setActiveModal('add')}/>
             </div>
             
  
@@ -172,7 +153,11 @@ const updateStudentAndParent = async(formData)=>{
                 </tr>
               </thead>
               <tbody className='text-center'>
-                {students.map((student,index)=>(
+                {students.filter((student) => 
+                  student.studentId 
+                    .toUpperCase()
+                    .includes(searchTerm.toUpperCase()))
+                .map((student,index)=>(
                     <tr key={student.studentId} className='h-16 bg-[#FFFFFF] hover:bg-gray-100 border' >
                       <td>{student.studentId}</td>
                       <td>{student.studentName}</td>
@@ -218,6 +203,17 @@ const updateStudentAndParent = async(formData)=>{
               </tbody>
             </table>
           </section>
+          {activeModal == 'add' && (
+          <StudentAddDetailsFormModel
+            onClose={() => {
+              setActiveModal(null);
+              loadStudents();
+            }
+
+            }
+
+          />
+        )}
           {activeModal == 'edit' && selectedStudentId && (
           <StudentEditModel
             studentId={selectedStudentId}

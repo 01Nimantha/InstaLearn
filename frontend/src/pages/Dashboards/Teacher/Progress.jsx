@@ -15,17 +15,17 @@ const Payments = () => {
   return (
     <div className='d-flex'>
       <div>  
-       <Sidebar BackgroundColor={"#287f93"}
+      <Sidebar BackgroundColor={"#287f93"}
         ImgURL={StudentImg} Name={"Alia Bhatt"}
-         Id={"SC/2021/12405"} 
+         Id="SC/2021/12405"
          Logout={()=>{console.log("Click Logout Button")}} 
-         Tab1={"Home"} Tab1Icon={FaHome} Tab1Funtion={()=>{console.log("/home")}} 
-         Tab2={"Students"} Tab2Icon={PiStudentFill} Tab2Funtion={()=>{console.log("/student")}} 
-         Tab3={"Manage Schedule"} Tab3Icon={HiCalendarDateRange} Tab3Funtion={()=>{console.log("/")}} 
-         Tab4={"Payments"} Tab4Icon={MdOutlinePayment} Tab4Funtion={()=>{console.log("payments")}} 
-         Tab5={"Attendance"} Tab5Icon={FaRegCalendarCheck} Tab5Funtion={()=>{console.log("Click Tab 5")}} 
+         Tab1="Home" Tab1Icon={FaHome} Tab1functions="/teacher-dashboard"
+         Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='/teacher-dashboard/students'
+         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="/teacher-dashboard/manage-shedules" 
+         Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="/teacher-dashboard/payment"
+         Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="/teacher-dashboard/attendence"
          AddNewTab={true} 
-         Tab6={"Settings"} Tab6Icon={IoIosSettings} Tab6functions={"/new-tab"}/>
+         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="/"/>
       </div>
 
       <div className="p-4 w-full">

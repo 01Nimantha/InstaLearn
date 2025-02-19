@@ -2,46 +2,47 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import AddButton from './common/AddButton';
 
-const EditModel = ({
-  apiEndpoints: {
-    getEndpoint,
-    updateEndpoint
-  },
-  fields,
-  onClose,
-  entityId,
-  title
+const SendEmailModelStudentParent = ({
+    apiEndpoints: {
+        getEndpoint,
+        sendEndpoint
+      },
+      entityId,
+      title,
+      fields,
+      onClose
 }) => {
+   
+    const[entity,setEntity] = useState({})
 
-  const[entity,setEntity] = useState({})
+    useEffect(()=>{
+        loadEntity();
+      },[]);
+    
+      const loadEntity = async()=>{
+        const result = await axios.get(
+            `${getEndpoint}/${entityId}`);
+            setEntity(result.data);   
+      }
+      const handleInputChange = (e)=>{
+        setEntity({...entity,[e.target.name] : e.target.value});
+      }
 
-  useEffect(()=>{
-    loadEntity();
-  },[]);
+    const sendUserCredentials = async(e)=>{
+ 
+        e.preventDefault();
+        await axios.post(`${sendEndpoint}/${entity.user.userId}`,
 
-const loadEntity = async()=>{
-  const result = await axios.get(
-      `${getEndpoint}/${entityId}`);
-      setEntity(result.data);   
-}
+           {toMail:entity[fields[0].name]}
+        );
+        onClose();
+      }
 
-const handleInputChange = (e)=>{
-  setEntity({...entity,[e.target.name] : e.target.value});
-}
+      const handleClose = (e) =>{
+        if(e.target.id === 'wrapper') onClose();
+      }
 
-const handleSubmit = async(e)=>{
-  e.preventDefault();
-  await axios.put(`${updateEndpoint}/${entityId}`, entity);
-  onClose();
-
-     
-};
-
-const handleClose = (e) =>{
-  if(e.target.id === 'wrapper') onClose();
-}
-
-
+    
   return (
     <div className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center' id="wrapper" onClick={handleClose}>
         <div className='w-1/3 bg-white  rounded-2xl'>
@@ -49,9 +50,9 @@ const handleClose = (e) =>{
                 <span className='text-2xl text-white'>{title}</span>
             </header>
 
-            <form className='p-6 space-y-3 text-sm' onSubmit={(e)=>handleSubmit(e)}>
+            <form className='p-6 space-y-3 text-sm' onSubmit={(e)=>sendUserCredentials(e)}>
                 <div className='space-y-1'>
-                  {fields.map((field)=>(
+                {fields.map((field)=>(
                     <div>
                       <label className='block text-gray-700' htmlFor={field.name}>
                       {field.label}
@@ -64,13 +65,13 @@ const handleClose = (e) =>{
                       required={field.required}
                       value={entity[field.name] || ''}
                       onChange={handleInputChange}
-                  />
-              </div>
-                  ))}
+                      />
+                    </div>
+                      ))}
                 </div>
                 <div className='px-1 flex justify-between py-1 mr-5'>
                 <div className='col-sm-2'>
-                <AddButton btnname='Update' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' type='submit'/>
+                <AddButton btnname='Send' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' type='submit'/>
                 </div>
                  <div className='col-sm-2'>
                     <button
@@ -89,4 +90,4 @@ const handleClose = (e) =>{
   )
 }
 
-export default EditModel
+export default SendEmailModelStudentParent

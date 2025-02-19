@@ -1,13 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const AddButton = ({onClick,path,btnname,className}) => {
+const AddButton = ({onClick,btnname,className,type}) => {
 
   return (
     <div className=''>
-        <Link to={path} className={`hover:bg-gray-800 rounded flex justify-center items-center shadow text-decoration-none ${className}`} onClick={onClick}>
+        <button className={`hover:bg-gray-800 rounded flex justify-center items-center shadow text-decoration-none ${className}`} 
+          onClick={onClick} 
+          type={type}>
           <span className='text-white text-xl '>{btnname}</span>
-        </Link>
+        </button>
     </div>
   )
 }

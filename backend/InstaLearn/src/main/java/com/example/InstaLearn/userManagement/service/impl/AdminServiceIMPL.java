@@ -1,5 +1,6 @@
 package com.example.InstaLearn.userManagement.service.impl;
 
+import com.example.InstaLearn.mailManagement.dto.MailDetailsDTO;
 import com.example.InstaLearn.userManagement.dto.AdminSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.AdminUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.entity.Admin;
@@ -11,7 +12,9 @@ import com.example.InstaLearn.userManagement.repo.UserRepo;
 import com.example.InstaLearn.userManagement.service.AdminService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +30,6 @@ public class AdminServiceIMPL implements AdminService {
 
     @Autowired
     private UserRepo userRepo;
-    @Autowired
-    private StudentRepo studentRepo;
 
     @Override
     public String saveAdmin(AdminSaveRequestDTO adminSaveRequestDTO) {
@@ -45,7 +46,7 @@ public class AdminServiceIMPL implements AdminService {
         admin.setUser(user);
         adminRepo.save(admin);// Update Admin with the associated User
 
-          return admin.getAdminName() + " Saved successfully";
+        return admin.getAdminName() + " Saved successfully";
 
     }
 

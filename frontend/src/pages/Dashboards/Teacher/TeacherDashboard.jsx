@@ -15,10 +15,12 @@ import { IoIosSettings } from "react-icons/io";
 import TeacherQuiz from "../../../assets/TeacherQuiz.svg"
 import Progress from "../../../assets/Progress.svg"
 import Modal from '../../../components/Modal';
+import { Link, useNavigate } from "react-router-dom";
 
 
 
 const TeacherDashboard = () => {
+  const navigate = useNavigate();
   const[showModal,setShowModal]=useState(false);
 
   const [stats, setStats] = useState({
@@ -83,41 +85,43 @@ const TeacherDashboard = () => {
       <div>  
        <Sidebar BackgroundColor={"#287f93"}
         ImgURL={StudentImg} Name={"Alia Bhatt"}
-         Id={"SC/2021/12405"} 
+         Id="SC/2021/12405"
          Logout={()=>{console.log("Click Logout Button")}} 
-         Tab1={"Home"} Tab1Icon={FaHome} Tab1Funtion={()=>{console.log("/home")}} 
-         Tab2={"Students"} Tab2Icon={PiStudentFill} Tab2Funtion={()=>{console.log("/student")}} 
-         Tab3={"Manage Schedule"} Tab3Icon={HiCalendarDateRange} Tab3Funtion={()=>{console.log("/")}} 
-         Tab4={"Payments"} Tab4Icon={MdOutlinePayment} Tab4Funtion={()=>{console.log("payments")}} 
-         Tab5={"Attendance"} Tab5Icon={FaRegCalendarCheck} Tab5Funtion={()=>{console.log("Click Tab 5")}} 
+         Tab1="Home" Tab1Icon={FaHome} Tab1functions="/teacher-dashboard"
+         Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='/teacher-dashboard/students'
+         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="/teacher-dashboard/manage-shedules" 
+         Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="/teacher-dashboard/payment"
+         Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="/teacher-dashboard/attendence"
          AddNewTab={true} 
-         Tab6={"Settings"} Tab6Icon={IoIosSettings} Tab6functions={"/new-tab"}/>
+         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="/"/>
       </div>
-
+  
       <div className='w-full'>
+      
           {/* Use Flexbox to align the button to the right */}
           <Box className="w-full h-35 bg-[#287f93] text-white p-3 flex justify-between items-center rounded-[8px] ml-2.5" >
-            <div>
-              <Typography variant="h5">Welcome, Teacher</Typography>
-              <Typography variant="subtitle1">
-                Here's what's happening with your classes today
-              </Typography>
-            </div>
-            <Fragment>
-            <div className='d-flex'>
-            <Button
-              name={"Add Notice"} 
-              action={()=>{console.log("Nimantha Click")}} 
-              backgroundColor={"#FFFFFF"} 
-              fontColor={"black"} 
-              cornerRadius={false}/> 
-              {/* <Modal/>
-              {/* <button className='bg-yellow-50 text-black onClick={()=>setShowModal(true)}'>Add Notice</button>
-              <Modal isVisible={showModal} onClose={()=>setShowModal(false)}>Add Notice</Modal>  */}
+              <div>
+                  <Typography variant="h5">Welcome, Teacher</Typography>
+                  <Typography variant="subtitle1">
+                    Here's what's happening with your classes today
+                  </Typography>
               </div>
-              </Fragment>
+              <div className='d-flex'>
+                <Button
+                    name={"Add Notice"}
+                    action={() => setShowModal(true)} // Open the modal on click
+                    backgroundColor={"#FFFFFF"}
+                    fontColor={"black"}
+                    cornerRadius={false}
+                  />
+                <div className='z-50'>
+                <Modal 
+                  isVisible={showModal} 
+                  onClose={() => setShowModal(false)}
+                  children='Add'/>
+                </div>
+              </div>
           </Box>
-          
           <Box className="grid gap-5 mt-5 p-2 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
             <StatCard
               title="Total Students"
@@ -140,27 +144,22 @@ const TeacherDashboard = () => {
               description="Percentage of students attempting quizzes"
             />
           </Box>
-
-          <div className='d-flex gap-5 mt-5'>
-            <Card CardImg={TeacherQuiz} CardTitle={"Online Quiz"} CardBody={"Create and manage a comprehensive question pool to design customized quizzes for your students, streamlining test preparation and evaluation."} CardButtonName={"Generate quiz"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} />
-            <Card CardImg={Progress} CardTitle={"View Progress"} CardBody={"Monitor student performance with detailed progress insights, enabling teachers to track academic growth, identify learning gaps, and provide timely interventions for improvement."} CardButtonName={"View"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} />
+          <div className='flex gap-5 mt-5'>
+            <Card CardImg={TeacherQuiz} CardTitle={"Online Quiz"} CardBody={"Create and manage a comprehensive question pool to design customized quizzes for your students, streamlining test preparation and evaluation."} CardButtonName={"Generate quiz"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("/quiz")}}/>
+            <Card CardImg={Progress} CardTitle={"View Progress"} CardBody={"Monitor student performance with detailed progress insights, enabling teachers to track academic growth, identify learning gaps, and provide timely interventions for improvement."} CardButtonName={"View"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("/progress")}}/>
           </div>
-
-           
-          
-
-      <div className="w-full h-[400px] bg-[#f8f9fa] p-5 rounded-[10px]">
-      <h3 className='mb-10'>Performance Overview</h3>
-      <ResponsiveContainer width="100%" height={350}>
-        <LineChart data={sampleData}>
-          <XAxis dataKey="time" />
-          <YAxis />
-          <Tooltip />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Line type="monotone" dataKey="performance" stroke="#007bff" dot={{ stroke: "#007bff", strokeWidth: 2 }} />
-        </LineChart>
-      </ResponsiveContainer>
-      </div>
+          <div className="w-full h-[400px] bg-[#f8f9fa] p-5 rounded-[10px]">
+          <h3 className='mb-10'>Performance Overview</h3>
+          <ResponsiveContainer width="100%" height={350}>
+            <LineChart data={sampleData}>
+              <XAxis dataKey="time" />
+              <YAxis />
+              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" />
+              <Line type="monotone" dataKey="performance" stroke="#007bff" dot={{ stroke: "#007bff", strokeWidth: 2 }} />
+            </LineChart>
+          </ResponsiveContainer>
+          </div>
     </div>
     </div>
   );

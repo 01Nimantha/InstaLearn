@@ -71,7 +71,7 @@ const loadParents = async()=>{
                 <h1 className="text-2xl font-bold leading-8">Parent</h1>
               </div>
               <div className='pr-10'>
-                <Link to={'/'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
+                <Link to={'/admin-dashboard'}className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center gap-[10px] text-decoration-none">
                    <span className='text-white font-bold font-Nunito text-xl '>Home</span>
                 </Link>
               </div>
@@ -93,7 +93,11 @@ const loadParents = async()=>{
                 </tr>
               </thead>
               <tbody className='text-center'>
-                {parents.map((parent,index)=>(
+                {parents.filter((parent) => 
+                  parent.parentId 
+                    .toUpperCase()
+                    .includes(searchTerm.toUpperCase()))
+                .map((parent,index)=>(
                     <tr key={parent.parentId} className='h-16 bg-[#FFFFFF] hover:bg-gray-100 border' >
                       <td>{parent.parentId}</td>
                       <td>{parent.parentName}</td>

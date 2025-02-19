@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import AddButton from './common/AddButton';
 
 
 const SendEmailModel = ({
@@ -14,7 +14,6 @@ const SendEmailModel = ({
   onClose
 }) => {
 
-    const navigate = useNavigate();
     const[entity,setEntity] = useState({})
 
     useEffect(()=>{
@@ -34,6 +33,7 @@ const SendEmailModel = ({
  
         e.preventDefault();
         await axios.post(`${sendEndpoint}/${entity.user.userId}`,
+
            {toMail:entity[fields[0].name]}
         );
         onClose();
@@ -71,11 +71,7 @@ const SendEmailModel = ({
                 </div>
                 <div className='px-1 flex justify-between py-1 mr-5'>
                 <div className='col-sm-2'>
-                    <button
-                        className='btn btn-outline-success btn-lg'
-                        type='submit'>
-                        Send
-                    </button>
+                <AddButton btnname='Send' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' type='submit'/>
                 </div>
                  <div className='col-sm-2'>
                     <button
