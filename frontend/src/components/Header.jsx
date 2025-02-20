@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  
   const navigate = useNavigate();
   return (
     
@@ -35,7 +36,7 @@ const Header = () => {
             <Button  onClick={() => navigate('/about')} color="inherit" sx={{ mx: 1 }}>About</Button>
           {/* </Link> */}
           {/* <Link to="/about"> */}
-            <Button  onClick={() => navigate('/about')} color="inherit"sx={{ mx: 1 }}>Contact</Button>
+            <Button  onClick={() => navigate('/contact') } color="inherit"sx={{ mx: 1 }}>Contact</Button>
           {/* </Link> */}
         </Box>
         

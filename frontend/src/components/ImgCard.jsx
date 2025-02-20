@@ -4,8 +4,8 @@ const ImgCard =({ImgCardImg,ImgCardName,ImgCardID})=>{
   <div style={{alignItems: 'center',marginTop:"4%"}}>
     <img src={ImgCardImg} className="img-fluid rounded-start" alt="..." style={{minHeight:"100%"}}/>
   </div>
-  <div style={{textAlign:"center"}}>{ImgCardName}</div>
-  <div style={{textAlign:"center"}}>{ImgCardID}</div>
+  <div style={{textAlign:"center",backgroundColor:"#13A68A",color:"#ffffff"}}>{ImgCardName}</div>
+  <div style={{textAlign:"center",backgroundColor:"#13A68A",color:"#ffffff",borderRadius:"0px 0px 5px 5px"}}>{ImgCardID}</div>
   </div>;
 }
 

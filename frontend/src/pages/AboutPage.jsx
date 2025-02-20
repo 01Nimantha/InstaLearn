@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { useState } from 'react';
+import { useState,useRef } from 'react';
 import { 
   Typography, 
   Box, 
@@ -23,7 +23,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import img1 from "../assets/images/aboutUs_1.jpeg";
-import img2 from "../assets/images/aboutUs_2.png";
+// import img2 from "../assets/images/aboutUs_2.png";
 import img3 from "../assets/images/aboutUs_3.png";
 
 
@@ -56,12 +56,24 @@ const theme = createTheme({
 
 const AboutPage = () => {
   const [question, setQuestion] = useState('');
+  // const sectionRef = useRef(null);
+  // const location = useLocation();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('Question submitted:', question);
     setQuestion('');
   };
+
+  
+    
+  
+    // useEffect(() => {
+    //   // Scroll to the section if the location contains '#learn-more'
+    //   if (location.hash === "#learn-more") {
+    //     sectionRef.current?.scrollIntoView({ behavior: "smooth" });
+    //   }
+    // }, [location]);
   return (
     <div>
       <div className='header'> <Header/></div>
@@ -180,7 +192,7 @@ const AboutPage = () => {
               </Grid>
             </Grid>
           </Paper>
-          <Paper elevation={3} sx={{ p: 3, mb: 2, bgcolor: '#333', color: '#fff' }} id="contact-section">
+          {/* <Paper elevation={3} sx={{ p: 3, mb: 2, bgcolor: '#333', color: '#fff' }} id="contact-section">
             <Typography variant="h6" gutterBottom align="center" color="inherit">
               Contact Information
             </Typography>
@@ -234,7 +246,7 @@ const AboutPage = () => {
                 </Box>
               </Grid>
             </Grid>
-          </Paper>
+          </Paper> */}
           
         </Box>
       </Box>
