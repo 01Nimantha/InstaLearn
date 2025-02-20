@@ -129,7 +129,7 @@ const Homepage = () => {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      filter: "brightness(50%) contrast(100%)", // Apply filter only to the overlay
+      filter: "brightness(100%) contrast(100%)", // Apply filter only to the overlay
       zIndex: 1,
     },
   }}
