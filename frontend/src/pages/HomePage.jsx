@@ -109,7 +109,7 @@ const Homepage = () => {
       <div className="header" >
         <Header />
       </div>
-      <div className="bg-[#84AEB0]">
+      <div className="bg-[#5BB9BD]">
       <div className="learnmore">
       <Box
   sx={{
@@ -133,7 +133,7 @@ const Homepage = () => {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      filter: "brightness(100%) contrast(50%)", // Apply filter only to the overlay
+      filter: "brightness(100%) contrast(70%)", // Apply filter only to the overlay
       zIndex: 1,
     },
   }}
@@ -152,8 +152,8 @@ const Homepage = () => {
     One Platform, <br/>Infinite Learning Possibilities
   </Typography>
     <Typography sx={{ padding: "50px" }}>
-      <span className="font-sans">
-        An Education Institute Management System streamlines administration by <br/>integrating enrollment, attendance, fees, and performance tracking into one platform. 
+      <span className="font-sans text-[20px]" >
+        <b>An Education Institute Management System streamlines administration by <br/>integrating enrollment, attendance, fees, and performance tracking into one platform. </b>
       </span>
       <Box sx={{ display: "flex", justifyContent: "center", p: "50px" }}>
         <Typography align="center">
@@ -170,7 +170,7 @@ const Homepage = () => {
       </div>
       <div align="center"><h4>Our Key Features</h4></div>
       <div className="feature">
-        <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#84AEB0' }}>
+        <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#84D4D8' }}>
         <Slider {...settings}>
           <div>
             <Box
@@ -187,7 +187,7 @@ const Homepage = () => {
         textAlign: "center",
       }}
     >
-      <img src={qr} width={200} height={200} alt="QR Code" />
+      <img src={qr} width={300} height={300} alt="QR Code" />
       <Typography variant="h5" color="white" mt={2}>
         QR Code Tracking
       </Typography>
@@ -211,7 +211,7 @@ const Homepage = () => {
         textAlign: "center",
       }}
     >
-      <img src={qpool} width={200} height={200} alt="QPool" />
+      <img src={qpool} width={400} height={400} alt="QPool" />
       <Typography variant="h5" color="white" mt={2}>
         Question Pool 
       </Typography>
@@ -235,7 +235,7 @@ const Homepage = () => {
         textAlign: "center",
       }}
     >
-      <img src={payment} width={200} height={200} alt="Payment" />
+      <img src={payment} width={300} height={300} alt="Payment" />
       <Typography variant="h5" color="white" mt={2}>
         Online Payment
       </Typography>
@@ -259,7 +259,7 @@ const Homepage = () => {
         textAlign: "center",
       }}
     >
-      <img src={progress} width={200} height={200} alt="Progress" />
+      <img src={progress} width={400} height={400} alt="Progress" />
       <Typography variant="h5" color="white" mt={2}>
         Progress Traking 
       </Typography>
