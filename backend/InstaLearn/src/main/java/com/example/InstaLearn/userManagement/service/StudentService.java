@@ -18,4 +18,5 @@ public interface StudentService {
 
     Student getStudentById(String studentId);
 
+    Parent getParentByStudentId(String studentId);
 }

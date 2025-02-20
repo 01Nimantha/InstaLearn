@@ -31,12 +31,13 @@ const StudentSendEmailModel = ({ onClose,studentId }) => (
   <SendEmailModelStudentParent
     title="Send student Credentials"
     apiEndpoints={{
-      getEndpoint: 'http://localhost:8085/api/v1/student/get-student-by',
+      getEndpoint1: 'http://localhost:8085/api/v1/student/get-student-by',
+      getEndpoint2: 'http://localhost:8085/api/v1/student/get-parent-by-student',
       sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
     }}
     fields={[
       { label: 'Student Email', name: 'studentEmail', type: 'email', required: true },
-      { label: 'Parent Email', name: 'studentParentEmail', type: 'email', required: true }
+      { label: 'Parent Email', name: 'parentEmail', type: 'email', required: true }
       
     ]}
     onClose={onClose}

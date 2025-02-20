@@ -31,6 +31,7 @@ import App2 from './App2'
 const App = () => {
   return (
     <div>
+      
       <BrowserRouter>
       
         <Routes>

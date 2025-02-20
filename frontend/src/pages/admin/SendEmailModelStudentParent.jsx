@@ -4,7 +4,8 @@ import AddButton from './common/AddButton';
 
 const SendEmailModelStudentParent = ({
     apiEndpoints: {
-        getEndpoint,
+        getEndpoint1,
+        getEndpoint2,
         sendEndpoint
       },
       entityId,
@@ -13,30 +14,46 @@ const SendEmailModelStudentParent = ({
       onClose
 }) => {
    
-    const[entity,setEntity] = useState({})
+    const[student,setStudent] = useState({})
+    const[parent,setParent] = useState({})
 
     useEffect(()=>{
-        loadEntity();
+        loadStudent();
+        loadParent();
       },[]);
     
-      const loadEntity = async()=>{
+      const loadStudent = async()=>{
         const result = await axios.get(
-            `${getEndpoint}/${entityId}`);
-            setEntity(result.data);   
+            `${getEndpoint1}/${entityId}`);
+            setStudent(result.data);   
       }
-      const handleInputChange = (e)=>{
-        setEntity({...entity,[e.target.name] : e.target.value});
+      const loadParent = async()=>{
+        const result = await axios.get(
+            `${getEndpoint2}/${entityId}`);
+            setParent(result.data);   
       }
-
-    const sendUserCredentials = async(e)=>{
- 
+      const handleStudentInputChange = (e)=>{
+        setStudent({...student,[e.target.name] : e.target.value});   
+      }
+      const handleParentInputChange = (e)=>{
+        setParent({...parent,[e.target.name] : e.target.value});
+      }
+      
+      const handleSubmit = async (e) => {
         e.preventDefault();
-        await axios.post(`${sendEndpoint}/${entity.user.userId}`,
-
-           {toMail:entity[fields[0].name]}
-        );
-        onClose();
-      }
+        await Promise.all([
+         axios.post(`${sendEndpoint}/${parent.user.userId}`, {
+            toMail: parent[fields[1].name],
+          }),
+         axios.post(`${sendEndpoint}/${student.user.userId}`, {
+            toMail: student[fields[0].name],
+          }),
+        ]);
+          onClose();
+        
+       
+      };
+      
 
       const handleClose = (e) =>{
         if(e.target.id === 'wrapper') onClose();
@@ -50,22 +67,30 @@ const SendEmailModelStudentParent = ({
                 <span className='text-2xl text-white'>{title}</span>
             </header>
 
-            <form className='p-6 space-y-3 text-sm' onSubmit={(e)=>sendUserCredentials(e)}>
+            <form className='p-6 space-y-3 text-sm' onSubmit={handleSubmit}>
                 <div className='space-y-1'>
-                {fields.map((field)=>(
-                    <div>
+                {fields.map((field,index)=>(
+                    <div key={field.name}>
                       <label className='block text-gray-700' htmlFor={field.name}>
                       {field.label}
                       </label>
                       <input className='w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none focus:ring-black focus:border-transparent shadow-sm'
-                      key={field.name}
                       type={field.type}
                       name={field.name}
                       id={field.name}
                       required={field.required}
-                      value={entity[field.name] || ''}
-                      onChange={handleInputChange}
-                      />
+                      value={
+                        index === 0 
+                            ? student[field.name] || '' 
+                            : parent[field.name] || ''
+                        }
+                      onChange={
+                        index === 0 
+                            ? handleStudentInputChange 
+                            : handleParentInputChange
+                            }
+                        />
+                    
                     </div>
                       ))}
                 </div>
