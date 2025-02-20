@@ -185,7 +185,7 @@ const AboutPage = () => {
                       variant="contained"
                       color="primary"
                     >
-                      Submit
+                      Send
                     </Button>
                   </Box>
                 </form>

@@ -25,7 +25,7 @@ const Header = () => {
           </Box>
           
         </Typography>
-        <Typography variant='h6' sx={{ flexGrow: 2}}>InstaLearn</Typography>
+        <Typography variant='h4' sx={{ flexGrow: 2}}>InstaLearn</Typography>
         
         {/* Navigation Links */}
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
