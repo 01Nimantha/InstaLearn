@@ -77,18 +77,14 @@ const TeacherDashboard = () => {
 
 
   const sampleData = [
-    { time: "5k", performance: 25 },
-    { time: "10k", performance: 50 },
-    { time: "15k", performance: 40 },
-    { time: "20k", performance: 95 }, 
-    { time: "25k", performance: 60 },
-    { time: "30k", performance: 55 },
-    { time: "35k", performance: 20 },
-    { time: "40k", performance: 80 },
-    { time: "45k", performance: 65 },
-    { time: "50k", performance: 70 },
-    { time: "55k", performance: 60 },
-    { time: "60k", performance: 75 }
+    { time: "January", performance: 25 },
+    { time: "February", performance: 50 },
+    { time: "March", performance: 40 },
+    { time: "April", performance: 95 }, 
+    { time: "May", performance: 60 },
+    { time: "June", performance: 55 },
+    { time: "July", performance: 20 },
+    { time: "August", performance: 80 }
   ];
 
 
@@ -152,8 +148,8 @@ const TeacherDashboard = () => {
           <h3 className='mb-10'>Performance Overview</h3>
           <ResponsiveContainer width="100%" height={350}>
             <LineChart data={sampleData}>
-              <XAxis dataKey="time" />
-              <YAxis />
+            <XAxis dataKey="time" label={{ value: "Month", position: "insideBottom", offset: -5 }} />
+            <YAxis label={{ value: "Average Marks", angle: -90, position: "insideLeft",fontColor:"Black"}} />
               <Tooltip />
               <CartesianGrid strokeDasharray="3 3" />
               <Line type="monotone" dataKey="performance" stroke="#007bff" dot={{ stroke: "#007bff", strokeWidth: 2 }} />
