@@ -81,7 +81,7 @@ const AboutPage = () => {
 
         <div>
         <ThemeProvider theme={theme}>
-      <Box sx={{ px: { xs: '60px' ,lg : '100px' }, maxWidth: '100%', overflow: 'hidden' }}>
+      <Box sx={{ px: { xs: '80px' ,lg : '50px' }, maxWidth: '100%', overflow: 'hidden' }}>
         <Box my={4}>
           <Paper elevation={3} sx={{ p: 2, mb: 2 }} id="about-us-section">
             <Box display="flex" flexDirection="column" alignItems="center">
@@ -96,7 +96,7 @@ const AboutPage = () => {
                     We understand the unique needs of academic life and strive to provide safe, comfortable, 
                     and affordable housing options. Our team works tirelessly to verify listings, 
                     ensure fair practices, and foster a supportive community for students transitioning 
-                    to university life. We're committed to making your housing search as smooth as possible, 
+                    to university life. We're committed to making your housing search as smooth as possible 
                     allowing you to focus on what matters most - your education and university experience.
                   </Typography>
                 </Grid>
@@ -155,7 +155,7 @@ const AboutPage = () => {
           </Paper>
           <Paper elevation={3} sx={{ p: 2, mb: 2 }} id="qa-section">
             <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} md={6}>
+              {/* <Grid item xs={12} md={6}>
                 <Box display="flex" justifyContent="center" alignItems="center">
                   <img 
                     src={img3} 
@@ -163,8 +163,8 @@ const AboutPage = () => {
                     style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} 
                   />
                 </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
+              </Grid> */}
+              <Grid item xs={12} md={12}>
                 <Typography variant="h6" gutterBottom>
                   Q&A
                 </Typography>
