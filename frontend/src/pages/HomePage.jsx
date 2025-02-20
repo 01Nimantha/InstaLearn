@@ -277,7 +277,7 @@ const Homepage = () => {
       </div>
       
       <div align="center"><h4><br/>Designed For</h4></div>
-      <div className="dashbords" >
+      <div className="dashbords" style={{ paddingLeft: "10px", paddingRight: "10px" }}>
         <Grid container spacing={3} justifyContent="center">
       {cards.map((card, index) => (
         <Grid item key={index} xs={12} sm={4}>
