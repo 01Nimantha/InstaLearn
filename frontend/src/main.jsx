@@ -13,8 +13,9 @@ import UserPaymentHistoryPage from './pages/student/UserPaymentHistoryPage.jsx';
 import OnlineQuizPage from './pages/student/OnlineQuizPage.jsx';
 import QuestionPaperPage from './pages/student/QuestionPaperPage.jsx';
 import mystore from "./store/index.js";
-import Homepage from './pages/Homepage.jsx'
+import Homepage from './pages/HomePage.jsx'
 import AboutPage from './pages/AboutPage.jsx'
+import ContactPage from './pages/ContactPage.jsx'
 import LoginForm from './pages/LoginForm.jsx'
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import TeachersView from './pages/admin/TeachersView.jsx'
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
   },
   { path: "/", element: <Homepage /> },
   { path: "/about", element: <AboutPage /> },
+  { path: "/contact", element: <ContactPage/> },
   { path: "/login", element: <LoginForm /> },
   {path: "/admin-dashboard", element: <AdminDashboard />},
   { path: "/admin-dashboard/teachers-view", element: <TeachersView /> },
