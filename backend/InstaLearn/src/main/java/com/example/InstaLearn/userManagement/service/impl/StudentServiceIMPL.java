@@ -117,4 +117,10 @@ public class StudentServiceIMPL implements StudentService {
         return studentRepo.findById(studentId).orElse(null);
     }
 
+    @Override
+    public Parent getParentByStudentId(String studentId) {
+        Student student = studentRepo.findById(studentId).orElse(null);
+        return student.getParent();
+    }
+
 }
