@@ -18,7 +18,7 @@ const App2 = () => {
   return (
     <div>
       <div className={styles.container}>
-        <Sidebar BackgroundColor={"#13A68A"} ImgURL={imageURL} Name={student.Name} Id={student.Id} Logout={()=>{console.log("Click Logout Button")}} Tab1={"Home"} Tab1Icon={FaHome} Tab1functions={"/"} Tab2={"Payment"} Tab2Icon={MdOutlinePayment} Tab2functions={"/payment"} Tab3={"Timetable"} Tab3Icon={HiCalendarDateRange} Tab3functions={"/timetable"} Tab4={"Setting"} Tab4Icon={IoIosSettings} Tab4functions={"/setting"} Tab5={"Payment History"} Tab5Icon={HiMiniDocumentCurrencyDollar} Tab5functions={"/payment-history"} AddNewTab={true} Tab6={"New Tab"} Tab6Icon={FaHome} Tab6functions={"/new-tab"}/>
+        <Sidebar BackgroundColor={"#13A68A"} ImgURL={imageURL} Name={student.Name} Id={student.Id} Logout={()=>{console.log("Click Logout Button")}} Tab1={"Home"} Tab1Icon={FaHome} Tab1functions={"/student-dashboard"} Tab2={"Payment"} Tab2Icon={MdOutlinePayment} Tab2functions={"payment"} Tab3={"Timetable"} Tab3Icon={HiCalendarDateRange} Tab3functions={"timetable"} Tab4={"Setting"} Tab4Icon={IoIosSettings} Tab4functions={"settings"} Tab5={"Payment History"} Tab5Icon={HiMiniDocumentCurrencyDollar} Tab5functions={"payment-history"} AddNewTab={false}/>
         <div>
           <Outlet/>
         </div>

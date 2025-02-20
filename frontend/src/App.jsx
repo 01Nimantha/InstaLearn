@@ -16,7 +16,16 @@ import QuizForm from './pages/Dashboards/Teacher/QuizForm'
 import Students from './pages/Dashboards/Teacher/Students'
 import Payments from './pages/Dashboards/Teacher/Payments'
 import Progress from './pages/Dashboards/Teacher/Progress'
-import StripeCheckout from "./components/StripeCheckout";
+import UserHomePage from './pages/student/UserHomePage.jsx'
+import UserPaymentPage from './pages/student/UserPaymentPage.jsx';
+import UserTimetablePage from './pages/student/UserTimetablePage.jsx';
+import UserSettingPage from './pages/student/UserSettingPage.jsx';
+import UserPaymentHistoryPage from './pages/student/UserPaymentHistoryPage.jsx';
+import OnlineQuizPage from './pages/student/OnlineQuizPage.jsx';
+import QuestionPaperPage from './pages/student/QuestionPaperPage.jsx';
+import mystore from "./store/index.js";
+import App2 from './App2'
+
 
 
 const App = () => {
