@@ -1,30 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa';
+import SearchBar from '../../admin/common/SearchBar';
+import AddButton from '../../admin/common/AddButton';
 
 
 const Progress = () => {
+
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <div className='d-flex'>
      
 
       <div className="p-4 w-full">
       <h2 className="text-xl font-bold">Progress</h2>
-            <div className="relative flex items-center bg-[#fff] w-96 rounded-l-full shadow mt-10 h-14">
-                    <input
-                      type="text"
-                      placeholder="Search by id..."
-                      // value={searchTerm}
-                      // onChange={(e) => setSearchTerm(e.target.value)}
-                      className="px-4 py-2 rounded-l-full border-gray-300"
-                    />
-                    <button className="absolute right-0 bg-[#287f93] text-[#fff] h-14 w-14 flex items-center  justify-center rounded-lg">
-                      <FaSearch/>
-                    </button>
-            </div>
-        
-
             
-
+            <div className='flex justify-between items-center w-full py-5 ml-5'>
+              <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+              <AddButton btnname='Add Excel sheet' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' 
+             />
+            </div>
+      
             <section>
                 <table className='shadow mt-10 'style={{margin:"2%",padding:"2%", minWidth:"74vw", maxWidth:"74vw",backgroundColor:"#ffffff"}}>
                 <thead className='bg-[#EBEBEB] h-16'>

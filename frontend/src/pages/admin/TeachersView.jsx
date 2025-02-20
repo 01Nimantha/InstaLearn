@@ -8,6 +8,7 @@ import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
 import SendEmailModel from './SendEmailModel';
 import ViewModel from './ViewModel';
+import DeleteModel from './common/DeleteModel';
 
 const TeacherEditModel = ({ onClose,teacherId }) => (
   <EditModel
@@ -52,7 +53,7 @@ const TeacherSendEmailModel = ({ onClose,teacherId }) => (
       sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
     }}
     fields={[
-      { label: 'teacher Email', name: 'teacherEmail', type: 'email', required: true }
+      { label: 'Teacher Email', name: 'teacherEmail', type: 'email', required: true }
     ]}
     onClose={onClose}
     entityId={teacherId}
@@ -102,6 +103,16 @@ const loadTeachers = async()=>{
         setTeacher(result.data);
     }    
 }
+const TeacherDeleteModel = ({ onClose,teacherId }) => (
+  <DeleteModel
+    title="Delete Teacher"
+    apiEndpoints={{
+      deleteEndpoint: 'http://localhost:8085/api/v1/teacher/delete-teacher'
+    }}
+    onClose={onClose}
+    entityId={teacherId}
+  /> 
+)
 
 const handleDelete = async(teacherId)=>{
   await axios.delete(`http://localhost:8085/api/v1/teacher/delete-teacher/${teacherId}`);
@@ -178,7 +189,10 @@ const handleDelete = async(teacherId)=>{
                       <td >
                       <button 
                         className='btn btn-danger w-24 flex justify-center items-center shadow'
-                        onClick={()=>handleDelete(teacher.teacherId)}>
+                        onClick={() => {
+                          setSelectedTeacherId(teacher.teacherId);
+                          setActiveModal('delete');
+                          }}>
                        Delete
                         </button>
                     </td>
@@ -225,6 +239,18 @@ const handleDelete = async(teacherId)=>{
         )}
         {activeModal == 'view' && selectedTeacherId && (
           <TeacherViewModel
+            teacherId={selectedTeacherId}
+            onClose={() => {
+              setSelectedTeacherId(null);
+              setActiveModal(null);
+              loadTeachers();
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'delete' && selectedTeacherId && (
+          <TeacherDeleteModel
             teacherId={selectedTeacherId}
             onClose={() => {
               setSelectedTeacherId(null);

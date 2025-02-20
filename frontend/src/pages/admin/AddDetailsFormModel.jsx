@@ -60,7 +60,7 @@ const prepareForm = (fields) => {
         };
     const handleSubmit = (e) => {
         e.preventDefault();
-        const finalFormData = includeSwitch ? { ...form, isSwitchOn } : form;
+        const finalFormData = includeSwitch ? { ...form, freeCard:isSwitchOn } : form;
         saveUser(finalFormData);
         window.location.reload(); 
         
@@ -104,11 +104,12 @@ const prepareForm = (fields) => {
                 {includeSwitch && (
                     <div className="flex items-center gap-3 mt-4">
                     <span className="text-sm">Enable Free Card:</span>
-                    <label className="relative inline-flex items-center cursor-pointer">
+                    <label className="relative inline-flex items-center cursor-pointer" htmlFor='freeCard'>
                         <input
                             type="checkbox"
                             className="sr-only peer"
-                            id="Free_Card"
+                            id="freeCard"
+                            name='freeCard'
                             checked={isSwitchOn}
                             onChange={handleSwitchChange}
                         />

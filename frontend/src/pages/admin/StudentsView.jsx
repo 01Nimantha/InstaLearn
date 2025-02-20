@@ -9,6 +9,7 @@ import EditModel from './EditModel';
 import SendEmailModel from './SendEmailModel';
 import ViewModel from './ViewModel';
 import SendEmailModelStudentParent from './SendEmailModelStudentParent';
+import DeleteModel from './common/DeleteModel';
 
 const StudentEditModel = ({ onClose,studentId }) => (
   <EditModel
@@ -25,6 +26,7 @@ const StudentEditModel = ({ onClose,studentId }) => (
     ]}
     onClose={onClose}
     entityId={studentId}
+    includeSwitch={true}
   />
 )
 const StudentSendEmailModel = ({ onClose,studentId }) => (
@@ -112,11 +114,16 @@ const loadStudents = async()=>{
         setStudents(result.data);
     }    
 }
-
-const handleDelete = async(studentId)=>{
-  await axios.delete(`http://localhost:8085/api/v1/student/delete/${studentId}`);
-  loadStudents();
-}
+const StudentDeleteModel = ({ onClose,studentId }) => (
+  <DeleteModel
+    title="Delete Student with Parent"
+    apiEndpoints={{
+      deleteEndpoint: 'http://localhost:8085/api/v1/student/delete'
+    }}
+    onClose={onClose}
+    entityId={studentId}
+  /> 
+)
 
 const saveStudentAndParent = async(formData)=>{
   await axios.post('http://localhost:8085/api/v1/student/save-student-and-parent', formData);
@@ -193,7 +200,10 @@ const saveStudentAndParent = async(formData)=>{
                       <td >
                       <button 
                         className='btn btn-danger w-24 flex justify-center items-center shadow'
-                        onClick={()=>handleDelete(student.studentId)}>
+                        onClick={() => {
+                          setSelectedStudentId(student.studentId);
+                          setActiveModal('delete');
+                          }}>
                        Delete
                         </button>
                     </td>
@@ -242,6 +252,19 @@ const saveStudentAndParent = async(formData)=>{
         )}
         {activeModal == 'view' && selectedStudentId && (
           <StudentViewModel
+            studentId={selectedStudentId}
+            onClose={() => {
+              setSelectedStudentId(null);
+              setActiveModal(null);
+              loadStudents();
+            }
+
+            }
+
+          />
+        )}
+        {activeModal == 'delete' && selectedStudentId && (
+          <StudentDeleteModel
             studentId={selectedStudentId}
             onClose={() => {
               setSelectedStudentId(null);

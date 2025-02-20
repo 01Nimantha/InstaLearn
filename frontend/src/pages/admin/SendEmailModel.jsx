@@ -15,6 +15,7 @@ const SendEmailModel = ({
 }) => {
 
     const[entity,setEntity] = useState({})
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(()=>{
         loadEntity();
@@ -32,11 +33,13 @@ const SendEmailModel = ({
     const sendUserCredentials = async(e)=>{
  
         e.preventDefault();
+        setIsLoading(true);
         await axios.post(`${sendEndpoint}/${entity.user.userId}`,
 
            {toMail:entity[fields[0].name]}
         );
         onClose();
+        setIsLoading(false);
       }
 
       const handleClose = (e) =>{
@@ -71,13 +74,46 @@ const SendEmailModel = ({
                 </div>
                 <div className='px-1 flex justify-between py-1 mr-5'>
                 <div className='col-sm-2'>
-                <AddButton btnname='Send' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' type='submit'/>
+                <AddButton 
+                   btnname={isLoading ? 'Sending...' : 'Send'}
+                   className={`flex items-center justify-center bg-gray-950 text-white w-48 h-12 rounded-lg ${
+                     isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                   }`}
+                  type='submit' disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <svg
+                      className="animate-spin h-5 w-5 mr-2 text-white"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        fill="none"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      />
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  'Send'
+                )}
+                </AddButton>
                 </div>
                  <div className='col-sm-2'>
                     <button
                       type='button'
                       onClick={onClose}
                       className='btn btn-outline-warning btn-lg'
+                      disabled={isLoading}
                     >
                       Cancel
                     </button>
