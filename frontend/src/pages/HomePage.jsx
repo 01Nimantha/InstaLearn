@@ -157,9 +157,11 @@ const Homepage = () => {
       </span>
       <Box sx={{ display: "flex", justifyContent: "center", p: "50px" }}>
         <Typography align="center">
-          <Button onClick={() => navigate('/about')} variant="outlined" color="inherit">
-            Learn More
+          <paper>
+          <Button onClick={() => navigate('/about')} variant="outlined" color="inherit" sx={{ backgroundColor: 'white' }}>
+            <b>Learn More</b>
           </Button>
+          </paper>
         </Typography>
       </Box>
     </Typography>
@@ -170,7 +172,7 @@ const Homepage = () => {
       </div>
       <div align="center"><h4>Our Key Features</h4></div>
       <div className="feature">
-        <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#84D4D8' }}>
+        <Paper elevation={3} sx={{ p: 0, mb: 2, bgcolor: '#84D4D8' }}>
         <Slider {...settings}>
           <div>
             <Box
@@ -187,7 +189,8 @@ const Homepage = () => {
         textAlign: "center",
       }}
     >
-      <img src={qr} width={300} height={300} alt="QR Code" />
+      <img src={qr} width={300} height={300}
+     alt="QR Code" />
       <Typography variant="h5" color="white" mt={2}>
         QR Code Tracking
       </Typography>
@@ -211,14 +214,14 @@ const Homepage = () => {
         textAlign: "center",
       }}
     >
-      <img src={qpool} width={400} height={400} alt="QPool" />
+      <img src={qpool} width={300} height={300} alt="QPool" />
       <Typography variant="h5" color="white" mt={2}>
         Question Pool 
       </Typography>
       <Typography variant="body2" color="gray" mt={1} px={2}>
         Easily upload,categorize and generate exam papers.
       </Typography>
-    </Box>
+          </Box>
           </div>
           <div>
           <Box
@@ -259,7 +262,7 @@ const Homepage = () => {
         textAlign: "center",
       }}
     >
-      <img src={progress} width={400} height={400} alt="Progress" />
+      <img src={progress} width={300} height={300} alt="Progress" />
       <Typography variant="h5" color="white" mt={2}>
         Progress Traking 
       </Typography>
