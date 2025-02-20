@@ -1,49 +1,34 @@
 import React from 'react'
-import {BrowserRouter, Route,Routes} from 'react-router-dom'
-import TeacherDashboard from './pages/Dashboards/Teacher/TeacherDashboard'
-import QuizForm from './pages/Dashboards/Teacher/QuizForm'
-import Students from './pages/Dashboards/Teacher/Students'
-import Payments from './pages/Dashboards/Teacher/Payments'
-import Progress from './pages/Dashboards/Teacher/Progress'
-
+import { Outlet } from "react-router-dom";
+import Sidebar from './components/Sidebar';
+import StudentImg from "./assets/StudentImg.svg"
+import { FaHome } from "react-icons/fa";
+import { MdOutlinePayment } from "react-icons/md";
+import { HiCalendarDateRange } from "react-icons/hi2";
+import { PiStudentFill } from "react-icons/pi";
+import { FaRegCalendarCheck } from "react-icons/fa6";
+import { IoIosSettings } from "react-icons/io";
 
 
 const App3 = () => {
   return (
-    <div>
-      <BrowserRouter>
-           <Routes>
-             <Route 
-              exact
-              path="/" 
-              element={<TeacherDashboard />} />   
-          </Routes> 
-           <Routes>
-             <Route 
-              exact
-              path="/students" 
-              element={<Students />}/>
-          </Routes> 
-           <Routes>
-             <Route 
-              exact
-              path="/quiz" 
-              element={<QuizForm />} />
-          </Routes> 
-         
-          <Routes>
-             <Route 
-              exact
-              path="/payment" 
-              element={<Payments />} /> 
-          </Routes> 
-           <Routes>
-             <Route 
-              exact
-              path="/progress" 
-              element={<Progress />} />  
-          </Routes>
-          </BrowserRouter>
+    <div style={{display:"flex"}}>
+      <div>  
+       <Sidebar BackgroundColor={"#287f93"}
+        ImgURL={StudentImg} Name={"Alia Bhatt"}
+         Id="SC/2021/12405"
+         Logout={()=>{console.log("Click Logout Button")}} 
+         Tab1="Home" Tab1Icon={FaHome} Tab1functions="/teacher-dashboard"
+         Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='students'
+         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="manage-shedules" 
+         Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="payment"
+         Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="attendence"
+         AddNewTab={true} 
+         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="/"/>
+      </div>
+      <div>
+        <Outlet/>
+      </div>
     </div>
   )
 }

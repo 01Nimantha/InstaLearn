@@ -1,17 +1,10 @@
 import { Avatar, Box, Typography } from '@mui/material'
 import React,{ Fragment, useEffect, useState } from 'react'
-import Sidebar from '../../../components/Sidebar'
 import Button from '../../../components/Button'
 import Card from '../../../components/Card'
 import StatCard from '../../../components/StatCard'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
-import StudentImg from "../../../assets/StudentImg.svg"
-import { FaHome } from "react-icons/fa";
-import { MdOutlinePayment } from "react-icons/md";
-import { HiCalendarDateRange } from "react-icons/hi2";
-import { PiStudentFill } from "react-icons/pi";
-import { FaRegCalendarCheck } from "react-icons/fa6";
-import { IoIosSettings } from "react-icons/io";
+
 import TeacherQuiz from "../../../assets/TeacherQuiz.svg"
 import Progress from "../../../assets/Progress.svg"
 import Modal from '../../../components/Modal';
@@ -63,6 +56,25 @@ const TeacherDashboard = () => {
 
   //   fetchData();
   // }, []);
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // Fetch total students
+        const response = await fetch("http://localhost:8085/api/v1/student/total-students");
+        const totalStudents = await response.json();
+
+        setStats((prevStats) => ({
+          ...prevStats,
+          totalStudents,
+        }));
+      } catch (error) {
+        console.error("Error fetching student data:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
 
   const sampleData = [
     { time: "5k", performance: 25 },
@@ -82,19 +94,7 @@ const TeacherDashboard = () => {
 
   return (
     <div className='d-flex'>
-      <div>  
-       <Sidebar BackgroundColor={"#287f93"}
-        ImgURL={StudentImg} Name={"Alia Bhatt"}
-         Id="SC/2021/12405"
-         Logout={()=>{console.log("Click Logout Button")}} 
-         Tab1="Home" Tab1Icon={FaHome} Tab1functions="/teacher-dashboard"
-         Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='/teacher-dashboard/students'
-         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="/teacher-dashboard/manage-shedules" 
-         Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="/teacher-dashboard/payment"
-         Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="/teacher-dashboard/attendence"
-         AddNewTab={true} 
-         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="/"/>
-      </div>
+      
   
       <div className='w-full'>
       
@@ -145,8 +145,8 @@ const TeacherDashboard = () => {
             />
           </Box>
           <div className='flex gap-5 mt-5'>
-            <Card CardImg={TeacherQuiz} CardTitle={"Online Quiz"} CardBody={"Create and manage a comprehensive question pool to design customized quizzes for your students, streamlining test preparation and evaluation."} CardButtonName={"Generate quiz"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("/teacher-dashboard/quiz")}}/>
-            <Card CardImg={Progress} CardTitle={"View Progress"} CardBody={"Monitor student performance with detailed progress insights, enabling teachers to track academic growth, identify learning gaps, and provide timely interventions for improvement."} CardButtonName={"View"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("/teacher-dashboard/progress")}}/>
+            <Card CardImg={TeacherQuiz} CardTitle={"Online Quiz"} CardBody={"Create and manage a comprehensive question pool to design customized quizzes for your students, streamlining test preparation and evaluation."} CardButtonName={"Generate quiz"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("quiz")}}/>
+            <Card CardImg={Progress} CardTitle={"View Progress"} CardBody={"Monitor student performance with detailed progress insights, enabling teachers to track academic growth, identify learning gaps, and provide timely interventions for improvement."} CardButtonName={"View"} CardButtonBackgroundColor={"#287f93"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("progress")}}/>
           </div>
           <div className="w-full h-[400px] bg-[#f8f9fa] p-5 rounded-[10px]">
           <h3 className='mb-10'>Performance Overview</h3>
