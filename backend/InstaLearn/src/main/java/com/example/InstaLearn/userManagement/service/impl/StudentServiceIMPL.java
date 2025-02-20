@@ -121,7 +121,8 @@ public class StudentServiceIMPL implements StudentService {
 
     public long getTotalStudents() {
         return studentRepo.count();
-
+    }
+    @Override
     public Parent getParentByStudentId(String studentId) {
         Student student = studentRepo.findById(studentId).orElse(null);
         return student.getParent();
