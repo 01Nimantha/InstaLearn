@@ -13,19 +13,19 @@ const Header = () => {
   const navigate = useNavigate();
   return (
     
-    <AppBar position="sticky"  sx={{ bgcolor: 'black' }}>
+    <AppBar position="sticky"  sx={{ bgcolor: '#004c5c' }}>
       <Toolbar>
         {/* Logo */}
         <Typography variant="h4" component="div" >
           <Box component="img" 
              src={logo} 
              alt="Logo" 
-             sx={{ height: 40, marginRight: 3 }}  >
+             sx={{ height: 50, marginRight: 3 }}  >
                
           </Box>
           
         </Typography>
-        <Typography variant='h4' sx={{ flexGrow: 2}}>InstaLearn</Typography>
+        <Typography variant='h4'sx={{ flexGrow: 2}}>InstaLearn</Typography>
         
         {/* Navigation Links */}
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
