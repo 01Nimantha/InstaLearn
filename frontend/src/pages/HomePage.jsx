@@ -149,7 +149,7 @@ const Homepage = () => {
     }}
   >
     <Typography sx={{ fontSize: "4rem", fontWeight: "light-bold",fontFamily:"'Poppins','sans-serif'" }}>
-    One Platform, <br/>Infinite Learning Possibilities
+    One Platform, <br/>Endless Learning Opportunities
   </Typography>
     <Typography sx={{ padding: "50px" }}>
       <span className="font-sans text-[20px]" >
