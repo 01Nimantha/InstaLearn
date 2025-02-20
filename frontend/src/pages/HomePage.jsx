@@ -88,15 +88,18 @@ const Homepage = () => {
   const cards = [
     {
       icon: <PeopleIcon style={{ fontSize: 50 }} />,
-      title: "View grades, attendance, and personal dashboard",
+      title: "Teacher",
+      description: "Manage attendance, create exams, track student progress",
     },
     {
       icon: <SchoolIcon style={{ fontSize: 50 }} />,
-      title: "Manage attendance, create exams, track student progress",
+      title: "Student",
+      description: "Manage attendance, create exams, track student progress",
     },
     {
       icon: <GroupIcon style={{ fontSize: 50 }} />,
-      title: "Monitor child's academic performance and payments",
+      title: "Parent",
+      description: "Monitor child's academic performance and payments",
     },
   ];
 
@@ -129,11 +132,12 @@ const Homepage = () => {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      filter: "brightness(50%) contrast(100%)", // Apply filter only to the overlay
+      filter: "brightness(50%) contrast(70%)", // Apply filter only to the overlay
       zIndex: 1,
     },
   }}
 >
+
   <Box
     sx={{
       position: "relative",
@@ -146,7 +150,10 @@ const Homepage = () => {
     <Typography sx={{ padding: "350px" }}>
       <span>
         <b>
-        An Education Institute Management System is a modern solution..aaaaaaaaaa.</b>
+        An Education Institute Management System is a modern solution designed to streamline 
+      and enhance the administration of educational institutions. This system integrates 
+      various functionalities such as student enrollment, attendance tracking, fee management, 
+      and academic performance monitoring into a single platform. </b>
       </span>
       <Box sx={{ display: "flex", justifyContent: "center", p: "50px" }}>
         <Typography align="center">
@@ -157,6 +164,7 @@ const Homepage = () => {
       </Box>
     </Typography>
   </Box>
+  
 </Box>
 
       </div>
@@ -285,7 +293,8 @@ const Homepage = () => {
                 variant="body1"
                 style={{ marginTop: "10px", fontSize: "16px" }}
               >
-                {card.title}
+                <b>{card.title}</b><br/>
+                {card.description}
               </Typography>
             </CardContent>
           </Card>

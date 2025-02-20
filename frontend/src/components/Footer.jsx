@@ -2,8 +2,10 @@ import React from 'react';
 import { Grid, Box, Typography, TextField, Button, IconButton } from '@mui/material';
 import { Facebook, LinkedIn, GitHub } from '@mui/icons-material';
 import logo from '../assets/images/logo1.png'
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <Box component="footer" sx={{ backgroundColor: 'black', p: { xs: 3, md: 5 }, textAlign: { xs: 'center', md: 'left' } }}>
       <Grid container spacing={3}>
@@ -64,21 +66,21 @@ const Footer = () => {
               <Box component="ul" sx={{ listStyle: 'none', p: 0 }}>
                 <li>
                   
-                    <Button variant="text" color='primary'>
+                    <Button variant="text" color='primary'onClick={() => navigate('/contact')}>
                       Contact Us
                     </Button>
                   
                 </li>
                 <li>
                   
-                    <Button variant="text" color='primary'>
+                    <Button variant="text" color='primary'onClick={() => navigate('/about')}>
                       About
                     </Button>
                   
                 </li>
                 <li>
                   
-                    <Button variant="text" color='primary'>
+                    <Button variant="text" color='primary'onClick={() => navigate('/about')}>
                       Learn More
                     </Button>
                   
@@ -86,14 +88,14 @@ const Footer = () => {
                 
                 <li>
                   
-                    <Button variant="text" color='primary'>
+                    <Button variant="text" color='primary'onClick={() => navigate('/about')}>
                       Terms & Policies
                     </Button>
                   
                 </li>
                 <li>
                   
-                    <Button variant="text" color='primary'>
+                    <Button variant="text" color='primary'onClick={() => navigate('/about')}>
                       Q&A
                     </Button>
                   
