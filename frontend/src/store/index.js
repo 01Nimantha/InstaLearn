@@ -4,6 +4,7 @@ import eventSlice from "./eventSlice";
 import quizSlice from "./quizSlice";
 import studentSlice from "./studentSlice";
 import imageSlice from "./imageSlice";
+import quistionSlice from "./quistionSlice";
 
 
 const mystore=configureStore({reducer:{
@@ -11,7 +12,8 @@ const mystore=configureStore({reducer:{
   eventreducer: eventSlice.reducer,
   quizreducer: quizSlice.reducer,
   studentreducer: studentSlice.reducer,
-  imagereducer: imageSlice.reducer
+  imagereducer: imageSlice.reducer,
+  quistionreducer: quistionSlice.reducer
 }});
 
 export default mystore;
