@@ -16,11 +16,13 @@ import QuizForm from './pages/Dashboards/Teacher/QuizForm'
 import Students from './pages/Dashboards/Teacher/Students'
 import Payments from './pages/Dashboards/Teacher/Payments'
 import Progress from './pages/Dashboards/Teacher/Progress'
+import StripeCheckout from "./components/StripeCheckout";
 
 
 const App = () => {
   return (
     <div>
+      
       <BrowserRouter>
       
         <Routes>

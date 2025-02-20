@@ -46,11 +46,13 @@ createRoot(document.getElementById('root')).render(
 
     {/* <Provider store={mystore}>
     <RouterProvider router={router} />
+    {/* <App2/> */}
 
-    </Provider> 
-     <RouterProvider router={router} /> */ }
+    {/* </Provider>  */} 
+     {/* <RouterProvider router={router} />  */}
     
     {/* <App /> */}
+    {/* <App2/> */}
     {/* <App2/> */}
     <App/>
     
