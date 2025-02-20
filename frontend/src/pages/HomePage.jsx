@@ -109,6 +109,7 @@ const Homepage = () => {
       <div className="header" >
         <Header />
       </div>
+      <div className="bg-[#84AEB0]">
       <div className="learnmore">
       <Box
   sx={{
@@ -132,7 +133,7 @@ const Homepage = () => {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      filter: "brightness(100%) contrast(100%)", // Apply filter only to the overlay
+      filter: "brightness(100%) contrast(50%)", // Apply filter only to the overlay
       zIndex: 1,
     },
   }}
@@ -147,13 +148,12 @@ const Homepage = () => {
       p: 2,
     }}
   >
-    <Typography sx={{ padding: "350px" }}>
-      <span>
-        <b>
-        An Education Institute Management System is a modern solution designed to streamline 
-      and enhance the administration of educational institutions. This system integrates 
-      various functionalities such as student enrollment, attendance tracking, fee management, 
-      and academic performance monitoring into a single platform. </b>
+    <Typography sx={{ fontSize: "4rem", fontWeight: "light-bold",fontFamily:"'Poppins','sans-serif'" }}>
+    One Platform, <br/>Infinite Learning Possibilities
+  </Typography>
+    <Typography sx={{ padding: "50px" }}>
+      <span className="font-sans">
+        An Education Institute Management System streamlines administration by <br/>integrating enrollment, attendance, fees, and performance tracking into one platform. 
       </span>
       <Box sx={{ display: "flex", justifyContent: "center", p: "50px" }}>
         <Typography align="center">
@@ -170,7 +170,7 @@ const Homepage = () => {
       </div>
       <div align="center"><h4>Our Key Features</h4></div>
       <div className="feature">
-        <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#e8eaf6' }}>
+        <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#84AEB0' }}>
         <Slider {...settings}>
           <div>
             <Box
@@ -272,7 +272,7 @@ const Homepage = () => {
         <br/>
         </Paper>
       </div>
-      <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+      
       <div align="center"><h4><br/>Designed For</h4></div>
       <div className="dashbords" >
         <Grid container spacing={3} justifyContent="center">
@@ -280,7 +280,7 @@ const Homepage = () => {
         <Grid item key={index} xs={12} sm={4}>
           <Card
             style={{
-              backgroundColor: index === 1 ? "#AEE9E6" : "#2AA99D",
+              backgroundColor: index === 1 ? "#E5EAEA" : "white",
               color: "black,",
               textAlign: "center",
               borderRadius: "16px",
@@ -306,9 +306,11 @@ const Homepage = () => {
         
 
       </div>
-      </Paper>
+      
+      
       
       <div className="footer"><br/><br/><Footer/></div>
+      </div>
     </div>
   );
 };
