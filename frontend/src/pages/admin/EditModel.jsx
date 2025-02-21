@@ -33,8 +33,6 @@ const handleSubmit = async(e)=>{
   e.preventDefault();
   await axios.put(`${updateEndpoint}/${entityId}`, entity);
   onClose();
-
-     
 };
 
 const handleClose = (e) =>{

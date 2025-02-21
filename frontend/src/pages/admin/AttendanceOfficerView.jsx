@@ -8,6 +8,7 @@ import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
 import SendEmailModel from './SendEmailModel';
 import ViewModel from './ViewModel';
+import DeleteModel from './common/DeleteModel';
 
 const AttendanceOfficerEditModel = ({ onClose,attendanceOfficerId }) => (
   <EditModel
@@ -76,6 +77,17 @@ const AOfficerAddDetailsFormModel = ({ onClose }) => (
     />
 )
 
+const AttendanceOfficerDeleteModel = ({ onClose,attendanceOfficerId }) => (
+  <DeleteModel
+    title="Delete Admin"
+    apiEndpoints={{
+      deleteEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/delete'
+    }}
+    onClose={onClose}
+    entityId={attendanceOfficerId}
+  /> 
+)
+
 const AttendanceOfficerView = () => {
 
       const [activeModal,setActiveModal] = useState(null);
@@ -101,13 +113,7 @@ const AttendanceOfficerView = () => {
             setaOfficer(result.data);
         }    
     }
-    
-    const handleDelete = async(attendanceOfficerId)=>{
-      await axios.delete(`http://localhost:8085/api/v1/attendanceOfficer/delete/${attendanceOfficerId}`);
-      loadaOfficer();
-    }
 
-    
       return (
         <div className=' min-h-screen bg-[#D9D9D9]'>
           <header className="flex items-center justify-between bg-black text-white h-[150px]">
@@ -180,7 +186,10 @@ const AttendanceOfficerView = () => {
                           <td >
                           <button 
                             className='btn btn-danger w-24 flex justify-center items-center shadow'
-                            onClick={()=>handleDelete(aOfficer.attendanceOfficerId)}>
+                            onClick={() => {
+                              setSelectedAOfficerId(aOfficer.attendanceOfficerId);
+                              setActiveModal('delete');
+                              }}>
                            Delete
                             </button>
                         </td>
@@ -227,6 +236,18 @@ const AttendanceOfficerView = () => {
         )}
         {activeModal == 'view' && selectedAOfficerId && (
           <AttendanceOfficerViewModel
+            attendanceOfficerId={selectedAOfficerId}
+            onClose={() => {
+              setSelectedAOfficerId(null);
+              setActiveModal(null);
+              loadaOfficer();
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'delete' && selectedAOfficerId && (
+          <AttendanceOfficerDeleteModel
             attendanceOfficerId={selectedAOfficerId}
             onClose={() => {
               setSelectedAOfficerId(null);
