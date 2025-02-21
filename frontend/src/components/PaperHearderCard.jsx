@@ -1,6 +1,6 @@
 import Logo from "../assets/Logo.svg"
 const PaperHearderCard =({Date,Duration})=>{
-  return <div className="card" style={{margin:"2%", minWidth:"96%", maxWidth:"96%",backgroundColor:"#13A68A"}}>
+  return <div className="card" style={{margin:"2%",padding:"2%", minWidth:"74vw", maxWidth:"74vw",backgroundColor:"#13A68A"}}>
     <div style={{display:"flex"}}>
       <div style={{marginLeft:"12%",marginTop:"3%",color:"#ffffff"}}>
         <div>For Information and Communications Technology</div>

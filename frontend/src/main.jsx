@@ -13,8 +13,9 @@ import UserPaymentHistoryPage from './pages/student/UserPaymentHistoryPage.jsx';
 import OnlineQuizPage from './pages/student/OnlineQuizPage.jsx';
 import QuestionPaperPage from './pages/student/QuestionPaperPage.jsx';
 import mystore from "./store/index.js";
-import Homepage from './pages/Homepage.jsx'
+import Homepage from './pages/HomePage.jsx'
 import AboutPage from './pages/AboutPage.jsx'
+import ContactPage from './pages/ContactPage.jsx'
 import LoginForm from './pages/LoginForm.jsx'
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import TeachersView from './pages/admin/TeachersView.jsx'
@@ -28,7 +29,8 @@ import QuizForm from './pages/Dashboards/Teacher/QuizForm.jsx'
 import { Payment } from '@mui/icons-material'
 import Progress from './pages/Dashboards/Teacher/Progress.jsx'
 import Payments from './pages/Dashboards/Teacher/Payments.jsx'
-import AOfficerDashboard from './pages/attendanceOfficer/AOfficerDashboard.jsx'
+import Attendance from './pages/Dashboards/Teacher/Attendance.jsx'
+import App3 from './App3.jsx'
 
 const router = createBrowserRouter([
   {
@@ -40,12 +42,13 @@ const router = createBrowserRouter([
       { path: "timetable", element: <UserTimetablePage /> },
       { path: "settings", element: <UserSettingPage /> },
       { path: "payment-history", element: <UserPaymentHistoryPage /> },
-      { path: "new-tab", element: <OnlineQuizPage /> },
-      { path: "online-quiz", element: <QuestionPaperPage /> },
+      { path: "online-quiz", element:  <OnlineQuizPage />},
+      { path: "online-qpaper", element:  <QuestionPaperPage />},
     ],
   },
   { path: "/", element: <Homepage /> },
   { path: "/about", element: <AboutPage /> },
+  { path: "/contact", element: <ContactPage/> },
   { path: "/login", element: <LoginForm /> },
   {path: "/admin-dashboard", element: <AdminDashboard />},
   { path: "/admin-dashboard/teachers-view", element: <TeachersView /> },
@@ -53,15 +56,18 @@ const router = createBrowserRouter([
   { path: "/admin-dashboard/parents-view", element: <ParentsView /> },
   { path: "/admin-dashboard/admins-view", element: <AdminsView /> },
   { path: "/admin-dashboard/aOfficers-view", element: <AttendanceOfficerView /> },
-  {path:"/teacher-dashboard/",element:<TeacherDashboard/>},
-  {path:"/teacher-dashboard/students",element:<Students/>},
-  {path:"/teacher-dashboard/quiz",element:<QuizForm/>},
-  {path:"/teacher-dashboard/progress",element:<Progress/>},
-  {path:"/teacher-dashboard/payment",element:<Payments/>},
-  {path:"/teacher-dashboard/manage-shedules",element:<TeacherDashboard/>},
-  {path:"/teacher-dashboard/attendence",element:<TeacherDashboard/>},
-  {path: "/aOfficer-dashboard", element: <AOfficerDashboard/>},
-
+  { path: "/teacher-dashboard", element: <App3/> ,
+    children: [
+      { index: true, element: <TeacherDashboard/> },
+      {path:"students",element:<Students/>},
+      {path:"quiz",element:<QuizForm/>},
+      {path:"progress",element:<Progress/>},
+      {path:"payment",element:<Payments/>},
+      {path:"manage-shedules",element:<TeacherDashboard/>},
+      {path:"attendence",element:<Attendance/>}
+    ]
+  },
+  
 ]);
 
 

@@ -145,7 +145,7 @@ import {
             
             <form onSubmit={handleLogin}>
             <div style={{ marginTop: "30px", width: "100%" }}>
-              <Typography>UserName:</Typography>
+              <Typography>Username:</Typography>
               <TextField
                 className="custom-textfield"
                 type="text"
@@ -231,7 +231,7 @@ import {
                     color: "blue",
                     textDecoration: "none",
                   }}
-                  href="/about"
+                  href="/contact"
                 >
                   Contact Administrator
                 </a>

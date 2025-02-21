@@ -36,4 +36,9 @@ public class AttendanceServiceIMPL implements AttendanceService {
         return "attendance has been saved";
 
     }
+
+    @Override
+    public long getTotalAttendance() {
+        return attendanceRepo.count();
+    }
 }

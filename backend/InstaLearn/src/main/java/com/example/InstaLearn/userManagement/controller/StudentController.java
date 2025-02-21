@@ -62,4 +62,10 @@ public class StudentController {
 
     }
 
+    @GetMapping("/total-students")
+    public ResponseEntity<Long> getTotalStudents() {
+        long totalStudents = studentService.getTotalStudents();
+        return ResponseEntity.ok(totalStudents);
+    }
+
 }
