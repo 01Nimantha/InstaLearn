@@ -26,6 +26,7 @@ const StudentEditModel = ({ onClose,studentId }) => (
     ]}
     onClose={onClose}
     entityId={studentId}
+    includeSwitch={true}
   />
 )
 const StudentSendEmailModel = ({ onClose,studentId }) => (

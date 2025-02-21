@@ -10,14 +10,20 @@ const EditModel = ({
   fields,
   onClose,
   entityId,
-  title
+  title,
+  includeSwitch
 }) => {
 
+  const[isSwitchOn, setIsSwitchOn] = useState(false);
   const[entity,setEntity] = useState({})
 
   useEffect(()=>{
     loadEntity();
   },[]);
+
+  const handleSwitchChange = (e) => {
+    setIsSwitchOn(!isSwitchOn);
+  };
 
 const loadEntity = async()=>{
   const result = await axios.get(
@@ -31,7 +37,8 @@ const handleInputChange = (e)=>{
 
 const handleSubmit = async(e)=>{
   e.preventDefault();
-  await axios.put(`${updateEndpoint}/${entityId}`, entity);
+  const finalFormData = includeSwitch ? { ...entity, freeCard:isSwitchOn } : entity;
+  await axios.put(`${updateEndpoint}/${entityId}`, finalFormData);
   onClose();
 };
 
@@ -66,6 +73,22 @@ const handleClose = (e) =>{
               </div>
                   ))}
                 </div>
+                {includeSwitch && (
+                    <div className="flex items-center gap-3 mt-4">
+                    <span className="text-sm">Enable Free Card:</span>
+                    <label className="relative inline-flex items-center cursor-pointer" htmlFor='freeCard'>
+                        <input
+                            type="checkbox"
+                            className="sr-only peer"
+                            id="freeCard"
+                            name='freeCard'
+                            checked={isSwitchOn}
+                            onChange={handleSwitchChange}
+                        />
+                        <div className="w-14 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-gray-950 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-950"></div>
+                    </label>
+                </div>
+                )}
                 <div className='px-1 flex justify-between py-1 mr-5'>
                 <div className='col-sm-2'>
                 <AddButton btnname='Update' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' type='submit'/>

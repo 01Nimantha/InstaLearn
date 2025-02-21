@@ -34,14 +34,18 @@ const handleClose = (e) =>{
             </header>
 
             <div className="p-6 space-y-3 text-sm">
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {fields.map((field) => (
                     <div key={field.name}>
                       <label className="block text-gray-700 font-bold">
                         {field.label}:
                       </label>
                       <div className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg">
-                        {entity[field.name] || '-'}
+                        {typeof entity[field.name] === "boolean" ? (
+                            entity[field.name] ? "Yes" : "No"
+                          ) : (
+                            entity[field.name] || "Not Available"
+                          )}
                       </div>
                     </div>
                   ))}

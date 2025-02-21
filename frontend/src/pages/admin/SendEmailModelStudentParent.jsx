@@ -16,6 +16,7 @@ const SendEmailModelStudentParent = ({
    
     const[student,setStudent] = useState({})
     const[parent,setParent] = useState({})
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(()=>{
         loadStudent();
@@ -41,6 +42,7 @@ const SendEmailModelStudentParent = ({
       
       const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         await Promise.all([
          axios.post(`${sendEndpoint}/${parent.user.userId}`, {
             toMail: parent[fields[1].name],
@@ -50,6 +52,7 @@ const SendEmailModelStudentParent = ({
           }),
         ]);
           onClose();
+          setIsLoading(false);
         
        
       };
@@ -96,13 +99,47 @@ const SendEmailModelStudentParent = ({
                 </div>
                 <div className='px-1 flex justify-between py-1 mr-5'>
                 <div className='col-sm-2'>
-                <AddButton btnname='Send' className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' type='submit'/>
+                <AddButton 
+                  btnname={isLoading ? 'Sending...' : 'Send'}
+                  className={`flex items-center justify-center bg-gray-950 text-white w-48 h-12 rounded-lg ${
+                    isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                 type='submit' disabled={isLoading}
+                >
+                  {isLoading ? (
+                  <>
+                    <svg
+                      className="animate-spin h-5 w-5 mr-2 text-white"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        fill="none"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      />
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  'Send'
+                )}
+                </AddButton>
                 </div>
                  <div className='col-sm-2'>
                     <button
                       type='button'
                       onClick={onClose}
                       className='btn btn-outline-warning btn-lg'
+                      disabled={isLoading}
                     >
                       Cancel
                     </button>

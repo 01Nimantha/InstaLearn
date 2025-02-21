@@ -79,7 +79,7 @@ const AOfficerAddDetailsFormModel = ({ onClose }) => (
 
 const AttendanceOfficerDeleteModel = ({ onClose,attendanceOfficerId }) => (
   <DeleteModel
-    title="Delete Admin"
+    title="Delete Attendance Officer"
     apiEndpoints={{
       deleteEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/delete'
     }}

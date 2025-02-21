@@ -53,7 +53,7 @@ const TeacherSendEmailModel = ({ onClose,teacherId }) => (
       sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
     }}
     fields={[
-      { label: 'teacher Email', name: 'teacherEmail', type: 'email', required: true }
+      { label: 'Teacher Email', name: 'teacherEmail', type: 'email', required: true }
     ]}
     onClose={onClose}
     entityId={teacherId}
