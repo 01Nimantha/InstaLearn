@@ -14,9 +14,5 @@ public class StudentSaveRequestDTO {
     private String studentParentName;
     private String studentParentEmail;
     private String studentParentContactno;
-
-    public boolean isFreeCard() {
-        return false;
-    }
-    //private boolean freeCard = false;
+    private boolean freeCard;
 }

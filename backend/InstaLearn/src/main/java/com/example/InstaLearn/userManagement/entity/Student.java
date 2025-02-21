@@ -56,9 +56,8 @@ public class Student {
     @Column(name="student_parent_contactno")
     private String studentParentContactno;
 
-    @Column(name="free_card", nullable = false)
+    @Column(name="free_card")
     private boolean freeCard;
-
 
     @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL) // One-to-one relationship with Parent
@@ -70,5 +69,6 @@ public class Student {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attendance> attendanceRecords;
+
 
 }
