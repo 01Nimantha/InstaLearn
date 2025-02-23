@@ -2,7 +2,6 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import  { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import {Provider} from "react-redux"
-import App2 from './App2'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 import UserHomePage from './pages/student/UserHomePage.jsx'
@@ -30,6 +29,7 @@ import Progress from './pages/Dashboards/Teacher/Progress.jsx'
 import Payments from './pages/Dashboards/Teacher/Payments.jsx'
 import Attendance from './pages/Dashboards/Teacher/Attendance.jsx'
 import App3 from './App3.jsx'
+import App2 from './App2'
 
 const router = createBrowserRouter([
   {
