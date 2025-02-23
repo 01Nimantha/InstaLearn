@@ -60,7 +60,7 @@ const TeacherDashboard = () => {
     const fetchStats = async () => {
       try {
         // Fetch total students
-        const response = await fetch("http://localhost:8085/api/v1/student/total-students");
+        const response = await fetch("http://localhost:8085/api/v1/student/count");
         const totalStudents = await response.json();
 
         setStats((prevStats) => ({
