@@ -26,7 +26,6 @@ import AttendanceOfficerView from './pages/admin/AttendanceOfficerView.jsx'
 import TeacherDashboard from './pages/Dashboards/Teacher/TeacherDashboard.jsx'
 import Students from './pages/Dashboards/Teacher/Students.jsx'
 import QuizForm from './pages/Dashboards/Teacher/QuizForm.jsx'
-import { Payment } from '@mui/icons-material'
 import Progress from './pages/Dashboards/Teacher/Progress.jsx'
 import Payments from './pages/Dashboards/Teacher/Payments.jsx'
 import Attendance from './pages/Dashboards/Teacher/Attendance.jsx'
@@ -74,30 +73,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-
     <Provider store={mystore}>
     <RouterProvider router={router} />
     </Provider> 
-
-    {/* <RouterProvider router={router} /> */ }
-
-    {/* </Provider> */}
-     {/* <RouterProvider router={router} />  */}
-    
-    {/* <App /> */}
-    {/* <App2/> */}
-    {/* <App/> */}
-    
-    {/* <App3/> *
-    </Provider>
-
-    {/* <RouterProvider router={router} /> */}
-    
-    {/* <App /> */}
-    {/* <App2/> */}
-    {/* <App3/> */}
-    
-
   </StrictMode>,
 
 )
