@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+
 @RestController
 @RequestMapping("api/v1/excel")
 public class ExcelController {
@@ -40,5 +43,24 @@ public class ExcelController {
             @RequestParam(defaultValue = "10") int size
     ) {
         return excelService.getPaginatedMarks(page, size);
+    }
+
+    private static final String UPLOAD_DIR = "uploads/";
+
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            File uploadDir = new File(UPLOAD_DIR);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            String filePath = UPLOAD_DIR + file.getOriginalFilename();
+            file.transferTo(new File(filePath));
+
+            return "File uploaded successfully: " + file.getOriginalFilename();
+        } catch (IOException e) {
+            return "Upload failed: " + e.getMessage();
+        }
     }
 }

@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @RestController
 @RequestMapping("api/v1/attendance")
 @CrossOrigin
@@ -29,6 +32,12 @@ public class AttendanceController {
     public ResponseEntity<Long> getTotalAttendance() {
         long totalStudents = attendanceService.getTotalAttendance();
         return ResponseEntity.ok(totalStudents);
+    }
+
+    @GetMapping("/count")
+    public int getPresentCount(@RequestParam("date") String date) {
+        LocalDate localDate = LocalDate.parse(date);
+        return attendanceService.getPresentCountByDate(localDate);
     }
 
 }

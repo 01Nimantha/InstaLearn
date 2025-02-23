@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -28,7 +29,7 @@ public class Attendance {
     private Student student;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "present_state")
     private boolean presentState;
