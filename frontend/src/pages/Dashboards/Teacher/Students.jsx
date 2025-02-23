@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import SearchBar from "../../admin/common/SearchBar";
+// import SearchBar from "../../ad/SearchBar";
+import SearchBar from './SearchBar';
 
 const Students = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -10,7 +11,7 @@ const Students = () => {
     const fetchStudentData = async (studentID) => {
         if (!studentID) return;
         try {
-            const response = await axios.get(`http://localhost:8085/api/v1/student/${studentID}`);
+            const response = await axios.get(`http://localhost:8085/api/v1/student/get-student-by/${studentID}`);
             if (response.status === 200) {
                 setStudentData(response.data);
             } else {
@@ -24,12 +25,13 @@ const Students = () => {
 
     // Handle search input changes
     useEffect(() => {
-        if (searchTerm.trim() !== "") {
-            fetchStudentData(searchTerm);
-        } else {
-            setStudentData(null);
-        }
-    }, [searchTerm]);
+      if (searchTerm) {
+          fetchStudentData(searchTerm);
+      } else {
+          setStudentData(null);
+      }
+  }, [searchTerm]); 
+  
 
     return (
         <div className='d-flex'>
@@ -39,13 +41,15 @@ const Students = () => {
                     <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 </div>
                 <br />
+                <br/>
+                <br/>
                 <div className="bg-white rounded-lg shadow-lg -mt-12 max-w-4xl mx-auto h-auto">
                     <div className="max-w-4xl mx-auto h-15 bg-[#287f93] rounded-lg"></div>
                     <div className='p-6'>
                         <div className="flex items-center space-x-4">
                             <img src="student.jpg" alt="Profile" className="w-16 h-16 rounded-full border-2 border-white" />
                             <div>
-                                <h3 className="text-lg font-bold">{studentData ? studentData.fullName : "Student Name"}</h3>
+                                <h3 className="text-lg font-bold">{studentData ? studentData.studentName : "Student Name"}</h3>
                                 <p className="text-gray-500">{studentData ? studentData.studentID : "Student ID"}</p>
                             </div>
                         </div>
