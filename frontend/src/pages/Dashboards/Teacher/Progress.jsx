@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import SearchBar from "../../admin/common/SearchBar";
+import SearchBar from "./SearchBar";
 
 const Progress = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,7 +42,7 @@ const Progress = () => {
       <div className="p-4 w-full">
         <h2 className="text-xl font-bold">Progress</h2>
 
-        <div className="flex justify-between items-center w-full py-5 ml-5">
+        <div className="d-flex justify-between items-center w-full py-5 ml-5">
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
           {/* Single button for choosing and uploading file */}

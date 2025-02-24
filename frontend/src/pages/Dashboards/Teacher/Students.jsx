@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import SearchBar from "../../ad/SearchBar";
 import SearchBar from './SearchBar';
 
 const Students = () => {
