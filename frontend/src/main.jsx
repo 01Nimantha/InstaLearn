@@ -31,6 +31,7 @@ import Progress from './pages/Dashboards/Teacher/Progress.jsx'
 import Payments from './pages/Dashboards/Teacher/Payments.jsx'
 import Attendance from './pages/Dashboards/Teacher/Attendance.jsx'
 import App3 from './App3.jsx'
+import SchedulePage from './pages/Dashboards/Teacher/SchedulePage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
       {path:"quiz",element:<QuizForm/>},
       {path:"progress",element:<Progress/>},
       {path:"payment",element:<Payments/>},
-      {path:"manage-shedules",element:<TeacherDashboard/>},
+      {path:"schedule",element:<SchedulePage/>},
       {path:"attendence",element:<Attendance/>}
     ]
   },
