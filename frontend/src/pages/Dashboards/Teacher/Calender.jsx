@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isToday } from "date-fns";
 import EventForm from "./EventForm";
 
-const SchedulePage = () => {
+const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState({});
@@ -78,4 +78,4 @@ const SchedulePage = () => {
   );
 };
 
-export default SchedulePage;
+export default Calendar;
