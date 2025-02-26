@@ -17,7 +17,7 @@ const PaperCard =({QuestionID,Question,Answer1,Answer2,Answer3,Answer4,CorrectAn
         question: Question,
         options: [Answer1, Answer2, Answer3, Answer4],
         correctAnswer: CorrectAnswer,
-        disable: !Disable,
+        disable: Disable,
         mark: selectedAnswer === CorrectAnswer,
         studentAnswer: selectedAnswer
       }));
@@ -30,27 +30,27 @@ const PaperCard =({QuestionID,Question,Answer1,Answer2,Answer3,Answer4,CorrectAn
     <div style={{display:"flex",marginLeft:"20%"}}>
       <div >
         <div>
-          <input type="radio" name={QuestionID} value={Answer1} onChange={handleChange}  disabled={Disable}/>
+          <input type="radio" name={QuestionID} value={Answer1} onChange={handleChange} checked={(StudentAnswer==Answer1)?true:false}  disabled={Disable}/>
           {Answer1}
         </div>
         <div>
-          <input type="radio" name={QuestionID} value={Answer2} onChange={handleChange} disabled={Disable}/>
+          <input type="radio" name={QuestionID} value={Answer2} onChange={handleChange} checked={(StudentAnswer==Answer2)?true:false} disabled={Disable}/>
           {Answer2}
         </div>
       </div>
 
       <div style={{marginLeft:"2vw"}}>
         <div>
-          <input type="radio" name={QuestionID} value={Answer3} onChange={handleChange} disabled={Disable}/>
+          <input type="radio" name={QuestionID} value={Answer3} checked={(StudentAnswer==Answer3)?true:false} onChange={handleChange} disabled={Disable}/>
           {Answer3}
         </div>
         <div>
-          <input type="radio" name={QuestionID} value={Answer4} onChange={handleChange} disabled={Disable}/>
+          <input type="radio" name={QuestionID} value={Answer4} onChange={handleChange} checked={(StudentAnswer==Answer4)?true:false} disabled={Disable}/>
           {Answer4}
         </div>
       </div>
     </div>
-    <div style={{ marginTop: "10px", fontWeight: "bold", color: (selectedAnswer || StudentAnswer) === CorrectAnswer ? "green" : "red" }}>
+    {(Disable)?<div style={{ marginTop: "10px", fontWeight: "bold", color:({Disable}&&((selectedAnswer || StudentAnswer) === CorrectAnswer)) ? "green" : "red" }}>
     {selectedAnswer || StudentAnswer ? 
         ((selectedAnswer || StudentAnswer) === CorrectAnswer ?
         <div>
@@ -62,8 +62,11 @@ const PaperCard =({QuestionID,Question,Answer1,Answer2,Answer3,Answer4,CorrectAn
           ❌ Your answer is not correct.  
           <span style={{ color: "green" }}>correct answer [{CorrectAnswer}]</span>
         </div>) 
-        : <div style={{ color: "black" }}>Please select an answer.</div>}
-    </div>
+        : <div style={{ color: "black" }}>
+          You didn't select an answer.
+          <span style={{ color: "green" }}>correct answer [{CorrectAnswer}]</span>
+        </div>}
+    </div>:null}
 
   </div>;
 }
