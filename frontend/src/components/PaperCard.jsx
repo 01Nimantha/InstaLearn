@@ -62,7 +62,7 @@ const PaperCard =({QuestionID,Question,Answer1,Answer2,Answer3,Answer4,CorrectAn
           ❌ Your answer is not correct.  
           <span style={{ color: "green" }}>correct answer [{CorrectAnswer}]</span>
         </div>) 
-        : <div style={{ color: "black" }}>
+        : <div style={{ color: "purple" }}>
           You didn't select an answer.
           <span style={{ color: "green" }}>correct answer [{CorrectAnswer}]</span>
         </div>}
