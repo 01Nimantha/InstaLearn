@@ -19,11 +19,11 @@ const PaperHeaderCard = ({ examDate, examDuration }) => {
         dispatch(quistionAction.makeDisable());
         setHasLogged(true);
       }
-    }, 1000*60*60); // 1 hour = 60 minutes * 60 seconds * 1000 ms
+    }, 1000*60); // 1 hour = 60 minutes * 60 seconds * 1000 ms
 
     return () => {
-      clearInterval(timeInterval); 
-      clearInterval(logInterval); 
+      clearInterval(timeInterval);
+      clearInterval(logInterval);
     };
   }, [hasLogged]); 
 
