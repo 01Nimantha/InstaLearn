@@ -149,7 +149,7 @@ const Homepage = () => {
     }}
   >
     <Typography sx={{ fontSize: "4rem", fontWeight: "light-bold",fontFamily:"'Poppins','sans-serif'" }}>
-    One Platform, <br/>Infinite Learning Possibilities
+    One Platform, <br/>Endless Learning Opportunities
   </Typography>
     <Typography sx={{ padding: "50px" }}>
       <span className="font-sans text-[20px]" >
@@ -277,7 +277,7 @@ const Homepage = () => {
       </div>
       
       <div align="center"><h4><br/>Designed For</h4></div>
-      <div className="dashbords" >
+      <div className="dashbords" style={{ paddingLeft: "10px", paddingRight: "10px" }}>
         <Grid container spacing={3} justifyContent="center">
       {cards.map((card, index) => (
         <Grid item key={index} xs={12} sm={4}>
