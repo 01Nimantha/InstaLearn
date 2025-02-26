@@ -8,6 +8,7 @@ import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
 import SendEmailModel from './SendEmailModel';
 import ViewModel from './ViewModel';
+import DeleteModel from './common/DeleteModel';
 
 const AdminEditModel = ({ onClose,adminId }) => (
   <EditModel
@@ -79,6 +80,16 @@ const AdminAddDetailsFormModel = ({ onClose }) => (
   
     />
 )
+const AdminDeleteModel = ({ onClose,adminId }) => (
+  <DeleteModel
+    title="Delete Admin"
+    apiEndpoints={{
+      deleteEndpoint: 'http://localhost:8085/api/v1/admin/delete'
+    }}
+    onClose={onClose}
+    entityId={adminId}
+  /> 
+)
 
 const AdminsView = () => {
 
@@ -104,11 +115,6 @@ const loadadmins = async()=>{
     if(result.status == 302){
         setAdmins(result.data);
     }    
-}
-
-const handleDelete = async(adminId)=>{
-  await axios.delete(`http://localhost:8085/api/v1/admin/delete/${adminId}`);
-  loadadmins();
 }
 
   return (
@@ -183,7 +189,10 @@ const handleDelete = async(adminId)=>{
                       <td >
                       <button 
                         className='btn btn-danger w-24 flex justify-center items-center shadow'
-                        onClick={()=>handleDelete(admin.adminId)}>
+                        onClick={() => {
+                          setSelectedAdminId(admin.adminId);
+                          setActiveModal('delete');
+                          }}>
                        Delete
                         </button>
                     </td>
@@ -233,6 +242,18 @@ const handleDelete = async(adminId)=>{
         )}
         {activeModal == 'view' && selectedAdminId && (
           <AdminViewModel
+            adminId={selectedAdminId}
+            onClose={() => {
+              setSelectedAdminId(null);
+              setActiveModal(null);
+              loadadmins();
+            }
+
+            }
+          />
+        )}
+        {activeModal == 'delete' && selectedAdminId && (
+          <AdminDeleteModel
             adminId={selectedAdminId}
             onClose={() => {
               setSelectedAdminId(null);

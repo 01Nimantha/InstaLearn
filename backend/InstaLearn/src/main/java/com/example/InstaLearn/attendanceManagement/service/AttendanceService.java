@@ -5,4 +5,6 @@ import com.example.InstaLearn.userManagement.entity.Student;
 
 public interface AttendanceService {
     String saveAttendance(AttendanceDTO attendanceDTO);
+
+    long getTotalAttendance();
 }

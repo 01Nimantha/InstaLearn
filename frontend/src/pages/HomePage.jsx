@@ -88,15 +88,18 @@ const Homepage = () => {
   const cards = [
     {
       icon: <PeopleIcon style={{ fontSize: 50 }} />,
-      title: "View grades, attendance, and personal dashboard",
+      title: "Teacher",
+      description: "Manage attendance, create exams, track student progress",
     },
     {
       icon: <SchoolIcon style={{ fontSize: 50 }} />,
-      title: "Manage attendance, create exams, track student progress",
+      title: "Student",
+      description: "Manage attendance, create exams, track student progress",
     },
     {
       icon: <GroupIcon style={{ fontSize: 50 }} />,
-      title: "Monitor child's academic performance and payments",
+      title: "Parent",
+      description: "Monitor child's academic performance and payments",
     },
   ];
 
@@ -106,6 +109,7 @@ const Homepage = () => {
       <div className="header" >
         <Header />
       </div>
+      <div className="bg-[#5BB9BD]">
       <div className="learnmore">
       <Box
   sx={{
@@ -129,11 +133,12 @@ const Homepage = () => {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      filter: "brightness(50%) contrast(100%)", // Apply filter only to the overlay
+      filter: "brightness(100%) contrast(70%)", // Apply filter only to the overlay
       zIndex: 1,
     },
   }}
 >
+
   <Box
     sx={{
       position: "relative",
@@ -143,26 +148,31 @@ const Homepage = () => {
       p: 2,
     }}
   >
-    <Typography sx={{ padding: "350px" }}>
-      <span>
-        <b>
-        An Education Institute Management System is a modern solution..aaaaaaaaaa.</b>
+    <Typography sx={{ fontSize: "4rem", fontWeight: "light-bold",fontFamily:"'Poppins','sans-serif'" }}>
+    One Platform, <br/>Endless Learning Opportunities
+  </Typography>
+    <Typography sx={{ padding: "50px" }}>
+      <span className="font-sans text-[20px]" >
+        <b>An Education Institute Management System streamlines administration by <br/>integrating enrollment, attendance, fees, and performance tracking into one platform. </b>
       </span>
       <Box sx={{ display: "flex", justifyContent: "center", p: "50px" }}>
         <Typography align="center">
-          <Button onClick={() => navigate('/about')} variant="outlined" color="inherit">
-            Learn More
+          <paper>
+          <Button onClick={() => navigate('/about')} variant="outlined" color="inherit" sx={{ backgroundColor: 'white' }}>
+            <b>Learn More</b>
           </Button>
+          </paper>
         </Typography>
       </Box>
     </Typography>
   </Box>
+  
 </Box>
 
       </div>
       <div align="center"><h4>Our Key Features</h4></div>
       <div className="feature">
-        <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#e8eaf6' }}>
+        <Paper elevation={3} sx={{ p: 0, mb: 2, bgcolor: '#84D4D8' }}>
         <Slider {...settings}>
           <div>
             <Box
@@ -179,7 +189,8 @@ const Homepage = () => {
         textAlign: "center",
       }}
     >
-      <img src={qr} width={200} height={200} alt="QR Code" />
+      <img src={qr} width={300} height={300}
+     alt="QR Code" />
       <Typography variant="h5" color="white" mt={2}>
         QR Code Tracking
       </Typography>
@@ -203,14 +214,14 @@ const Homepage = () => {
         textAlign: "center",
       }}
     >
-      <img src={qpool} width={200} height={200} alt="QPool" />
+      <img src={qpool} width={300} height={300} alt="QPool" />
       <Typography variant="h5" color="white" mt={2}>
         Question Pool 
       </Typography>
       <Typography variant="body2" color="gray" mt={1} px={2}>
         Easily upload,categorize and generate exam papers.
       </Typography>
-    </Box>
+          </Box>
           </div>
           <div>
           <Box
@@ -227,7 +238,7 @@ const Homepage = () => {
         textAlign: "center",
       }}
     >
-      <img src={payment} width={200} height={200} alt="Payment" />
+      <img src={payment} width={300} height={300} alt="Payment" />
       <Typography variant="h5" color="white" mt={2}>
         Online Payment
       </Typography>
@@ -251,7 +262,7 @@ const Homepage = () => {
         textAlign: "center",
       }}
     >
-      <img src={progress} width={200} height={200} alt="Progress" />
+      <img src={progress} width={300} height={300} alt="Progress" />
       <Typography variant="h5" color="white" mt={2}>
         Progress Traking 
       </Typography>
@@ -264,15 +275,15 @@ const Homepage = () => {
         <br/>
         </Paper>
       </div>
-      <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+      
       <div align="center"><h4><br/>Designed For</h4></div>
-      <div className="dashbords" >
+      <div className="dashbords" style={{ paddingLeft: "10px", paddingRight: "10px" }}>
         <Grid container spacing={3} justifyContent="center">
       {cards.map((card, index) => (
         <Grid item key={index} xs={12} sm={4}>
           <Card
             style={{
-              backgroundColor: index === 1 ? "#AEE9E6" : "#2AA99D",
+              backgroundColor: index === 1 ? "#E5EAEA" : "white",
               color: "black,",
               textAlign: "center",
               borderRadius: "16px",
@@ -285,7 +296,8 @@ const Homepage = () => {
                 variant="body1"
                 style={{ marginTop: "10px", fontSize: "16px" }}
               >
-                {card.title}
+                <b>{card.title}</b><br/>
+                {card.description}
               </Typography>
             </CardContent>
           </Card>
@@ -297,9 +309,11 @@ const Homepage = () => {
         
 
       </div>
-      </Paper>
+      
+      
       
       <div className="footer"><br/><br/><Footer/></div>
+      </div>
     </div>
   );
 };

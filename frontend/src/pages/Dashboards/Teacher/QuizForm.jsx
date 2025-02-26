@@ -1,12 +1,4 @@
 import React, { useState } from 'react';
-import Sidebar from '../../../components/Sidebar';
-import { FaHome } from "react-icons/fa";
-import { MdOutlinePayment } from "react-icons/md";
-import { HiCalendarDateRange } from "react-icons/hi2";
-import { FaRegCalendarCheck } from "react-icons/fa6";
-import { IoIosSettings } from "react-icons/io";
-import { PiStudentFill } from "react-icons/pi";
-import StudentImg from "../../../assets/StudentImg.svg";
 
 const QuizForm = () => {
   const [question, setQuestion] = useState('');
@@ -58,23 +50,9 @@ const QuizForm = () => {
 
   return (
     <div className='flex'>
-      <div>  
-      <Sidebar BackgroundColor={"#287f93"}
-        ImgURL={StudentImg} Name={"Alia Bhatt"}
-         Id="SC/2021/12405"
-         Logout={()=>{console.log("Click Logout Button")}} 
-         Tab1="Home" Tab1Icon={FaHome} Tab1functions="/teacher-dashboard"
-         Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='/teacher-dashboard/students'
-         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="/teacher-dashboard/manage-shedules" 
-         Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="/teacher-dashboard/payment"
-         Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="/teacher-dashboard/attendence"
-         AddNewTab={true} 
-         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="/"/>
-      </div>
-
       <div className="p-4 w-full">
         <h2 className="text-xl font-bold">Online Quiz</h2>
-        <div className='flex'>
+        <div className='flex'style={{margin:"2%",padding:"2%", minWidth:"74vw", maxWidth:"74vw",backgroundColor:"#ffffff"}}>
           <div className="mb-4">
             <label className="block"></label>
             <select

@@ -56,5 +56,16 @@ public class StudentController {
         return studentService.getStudentById(studentId);
 
     }
+    @GetMapping("/get-parent-by-student/{id}")
+    public Parent getParentByStudentId(@PathVariable(value="id") String studentId) {
+        return studentService.getParentByStudentId(studentId);
+
+    }
+
+    @GetMapping("/total-students")
+    public ResponseEntity<Long> getTotalStudents() {
+        long totalStudents = studentService.getTotalStudents();
+        return ResponseEntity.ok(totalStudents);
+    }
 
 }

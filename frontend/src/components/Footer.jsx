@@ -2,15 +2,17 @@ import React from 'react';
 import { Grid, Box, Typography, TextField, Button, IconButton } from '@mui/material';
 import { Facebook, LinkedIn, GitHub } from '@mui/icons-material';
 import logo from '../assets/images/logo1.png'
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
-    <Box component="footer" sx={{ backgroundColor: 'black', p: { xs: 3, md: 5 }, textAlign: { xs: 'center', md: 'left' } }}>
+    <Box component="footer" sx={{ backgroundColor: '#002b36', p: { xs: 3, md: 5 }, textAlign: { xs: 'center', md: 'left' } }}>
       <Grid container spacing={3}>
         {/* Logo and Newsletter */}
         <Grid item xs={12} md={4}>
           <Box>
-            <img src={logo} alt="logo" style={{ width: '6rem' }} />
+            {/* <img src={logo} alt="logo" style={{ width: '6rem' }} /> */}
             <Typography variant="body1" mt={2} color='white'>
               Stay up to date on our latest features and releases by joining our newsletter.
             </Typography>
@@ -48,9 +50,9 @@ const Footer = () => {
             
             {/* About Us Column */}
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" component="h4" gutterBottom color='white'>
+              {/* <Typography variant="h6" component="h4" gutterBottom color='white'>
                 About Us
-              </Typography>
+              </Typography> */}
               <Typography variant="body2" color='white'>
                 We are a company dedicated to providing the best platform to connect students with affordable accommodation options.
               </Typography>
@@ -58,27 +60,27 @@ const Footer = () => {
 
             {/* Quick Links Column */}
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" component="h4" gutterBottom color='white'> 
+              {/* <Typography variant="h6" component="h4" gutterBottom color='white'> 
                 Quick Links
-              </Typography>
+              </Typography> */}
               <Box component="ul" sx={{ listStyle: 'none', p: 0 }}>
                 <li>
                   
-                    <Button variant="text" color='primary'>
+                    <Button variant="text" color='primary'onClick={() => navigate('/contact')}>
                       Contact Us
                     </Button>
                   
                 </li>
                 <li>
                   
-                    <Button variant="text" color='primary'>
+                    <Button variant="text" color='primary'onClick={() => navigate('/about')}>
                       About
                     </Button>
                   
                 </li>
                 <li>
                   
-                    <Button variant="text" color='primary'>
+                    <Button variant="text" color='primary'onClick={() => navigate('/about')}>
                       Learn More
                     </Button>
                   
@@ -86,14 +88,14 @@ const Footer = () => {
                 
                 <li>
                   
-                    <Button variant="text" color='primary'>
+                    <Button variant="text" color='primary'onClick={() => navigate('/about')}>
                       Terms & Policies
                     </Button>
                   
                 </li>
                 <li>
                   
-                    <Button variant="text" color='primary'>
+                    <Button variant="text" color='primary'onClick={() => navigate('/about')}>
                       Q&A
                     </Button>
                   
@@ -103,9 +105,9 @@ const Footer = () => {
 
             {/* Contact Us Column */}
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" component="h4" gutterBottom color='white'>
+              {/* <Typography variant="h6" component="h4" gutterBottom color='white'>
                 Contact Us
-              </Typography>
+              </Typography> */}
              
 
               {/* Social Links */}

@@ -16,8 +16,16 @@ public class StudentAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String st_id;
+
+    @Column(name = "st_id")
+    private String stId;  // Changed to camelCase
+
     private String st_answer;
-    private int qp_id;
+
+    @Column(name = "qp_id")
+    private int qpId;  // Changed to camelCase
+
     private int q_id;
+    private boolean mark;
+    private boolean disable;
 }

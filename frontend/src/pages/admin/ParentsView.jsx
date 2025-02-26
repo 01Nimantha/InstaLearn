@@ -42,6 +42,7 @@ const ParentViewModel = ({ onClose,parentId }) => (
 )
 const ParentsView = () => {
 
+    const [activeModal,setActiveModal] = useState(null);
     const [selectedParentId, setSelectedParentId] = useState(null)
     const [searchTerm, setSearchTerm] = useState('');
     const [parents, setParents] = useState([]);
@@ -104,14 +105,20 @@ const loadParents = async()=>{
                       <td>{parent.parentEmail}</td>
                       <td>
                       <button className='btn btn-info w-24 shadow' 
-                        onClick={() => setSelectedParentId(parent.parentId)} >
+                        onClick={() => {
+                          setSelectedParentId(parent.parentId);
+                          setActiveModal('view');
+                          }} >
                         View
                         </button>
                         </td>
                       
                       <td>
                       <button className='btn btn-warning w-24 shadow' 
-                        onClick={() => setSelectedParentId(parent.parentId)} >
+                        onClick={() => {
+                          setSelectedParentId(parent.parentId);
+                          setActiveModal('edit');
+                          }} >
                         Update
                         </button>
                       </td>
@@ -124,20 +131,22 @@ const loadParents = async()=>{
               </tbody>
             </table>
           </section>
-          {selectedParentId && (
+          {activeModal == 'edit' &&selectedParentId && (
           <ParentEditModel
             parentId={selectedParentId}
             onClose={() => {
               setSelectedParentId(null)
+              setActiveModal(null);
               loadParents()
             }}
           />
         )}
-        {selectedParentId && (
+        {activeModal == 'view'&& selectedParentId && (
           <ParentViewModel
             parentId={selectedParentId}
             onClose={() => {
               setSelectedParentId(null)
+              setActiveModal(null);
               loadParents()
             }}
           />
