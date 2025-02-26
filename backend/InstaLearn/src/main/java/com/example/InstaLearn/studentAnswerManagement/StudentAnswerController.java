@@ -1,5 +1,6 @@
 package com.example.InstaLearn.studentAnswerManagement;
 
+import com.example.InstaLearn.questionPaperManagement.external.Question;
 import com.example.InstaLearn.studentAnswerManagement.dto.StudentAnswerDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class StudentAnswerController {
         }
     }
 
+
     @PostMapping
     public ResponseEntity<String> saveStudentAnswer(@RequestBody StudentAnswerDto studentAnswerDto){
         boolean isSave = studentAnswerService.saveStudentAnswer(studentAnswerDto);
@@ -57,6 +59,16 @@ public class StudentAnswerController {
             return new ResponseEntity<>("Student Answer is Deleted",HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/{qp_id}/{st_id}")
+    public ResponseEntity<List<Integer>> getAllQuestionIDByqpIdandstId(@PathVariable int qp_id, @PathVariable String st_id){
+        List<Integer> questionList = studentAnswerService.getAllQuestionIDByqpIdandstId(qp_id,st_id);
+        if(questionList.isEmpty()){
+            return new ResponseEntity<>(questionList,HttpStatus.BAD_REQUEST);
+        }else {
+            return new ResponseEntity<>(questionList,HttpStatus.OK);
         }
     }
 
