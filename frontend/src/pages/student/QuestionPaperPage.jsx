@@ -12,7 +12,7 @@ const QuestionPaperPage=()=>{
   
   return <div>
     <div>
-      <PaperHearderCard Date={"2025 - 03 - 25"} Duration={"08.00am - 10.00am"}/>
+    <PaperHearderCard examDate="2025-02-26" examDuration="1 Hours" />
     </div>
     <div>
       {quistions.map((item, index) => (<PaperCard key={index} QuestionID={item.id} Question={item.question} Answer1={item.options[0]} Answer2={item.options[1]} Answer3={item.options[2]} Answer4={item.options[3]} CorrectAnswer={item.correctAnswer} Disable={item.disable}  StudentAnswer={item.studentAnswer}/>))}
