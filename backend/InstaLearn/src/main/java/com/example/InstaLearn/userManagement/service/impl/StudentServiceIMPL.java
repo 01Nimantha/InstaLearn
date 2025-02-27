@@ -1,5 +1,7 @@
 package com.example.InstaLearn.userManagement.service.impl;
 
+import com.example.InstaLearn.userManagement.dto.ParentDTO;
+import com.example.InstaLearn.userManagement.dto.StudentDTO;
 import com.example.InstaLearn.userManagement.dto.StudentSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.StudentUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.entity.Parent;
@@ -14,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -123,10 +126,61 @@ public class StudentServiceIMPL implements StudentService {
         return studentRepo.count();
     }
     @Override
-    public Parent getParentByStudentId(String studentId) {
-        Student student = studentRepo.findById(studentId).orElse(null);
-        return student.getParent();
 
+    public ParentDTO getParentByStudentId(String studentId) {
+        Student student = studentRepo.findById(studentId).orElse(null);
+
+        if(student != null) {
+            Parent parent = student.getParent();
+            return modelMapper.map(parent, ParentDTO.class);
+        }
+        return null;
+
+    }
+
+    @Override
+    public List<StudentDTO> getOnlyStudents() {
+        List<Student> getAllStudents =  studentRepo.findAll();
+
+        if (getAllStudents.size()>0) {
+            List<StudentDTO> studentDTOList = new ArrayList<>();
+
+            for (Student student:getAllStudents) {
+                StudentDTO studentDTO = new StudentDTO(
+                        student.getStudentId(),
+                        student.getStudentName(),
+                        student.getStudentEmail(),
+                        student.getUser().getUserId()
+                );
+                studentDTOList.add(studentDTO);
+            }
+            return studentDTOList;
+
+        } else {
+            throw new RuntimeException("No Student found");
+        }
+    }
+
+    @Override
+    public StudentDTO getOnlyStudentById(String studentId) {
+        Student student = studentRepo.findById(studentId).orElse(null);
+
+        if (student != null) {
+            StudentDTO studentDTO = new StudentDTO(
+                    student.getStudentId(),
+                    student.getStudentName(),
+                    student.getStudentEmail(),
+                    student.getUser().getUserId()
+            );
+            return studentDTO;
+        } else {
+            throw new RuntimeException("No Student found");
+        }
+    }
+
+    @Override
+    public List<String> getAllStudentIds() {
+        return studentRepo.findAllStudentIds();
     }
 
 }
