@@ -39,17 +39,17 @@ const handleUpload = async (event) => {
       <div className="p-4 w-full">
         <h2 className="text-xl font-bold">Progress</h2>
 
-        <div className="d-flex justify-between items-center w-full py-5 ml-5">
+        <div className="flex justify-between items-center">
+        <div className="justify-between items-center w-1/2 py-5 ml-5">
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
+          </div>
           {/* Single button for choosing and uploading file */}
-          <label className="cursor-pointer bg-[#287f93] text-white py-2 px-4 rounded">
+          <label className="cursor-pointer bg-[#287f93] text-white py-2 px-4 rounded w-1/4">
             {/* Upload Excel Sheet */}
             <input type="file" onChange={handleUpload} />
 {/* <button onClick={handleUpload}></button> */}
-
           </label>
-        </div>
+       </div>
 
         <section>
           <table
