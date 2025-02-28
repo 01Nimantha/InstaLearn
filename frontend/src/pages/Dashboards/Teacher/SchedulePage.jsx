@@ -232,21 +232,21 @@ function App() {
   };
 
   return (
-    <div className="h-full w-100% bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       
 
-      <div>
+      
 
         {/* Main content */}
         <main className="flex-1 p-6 w-full">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-6 w-full">
             <div>
               <h2 className="text-2xl font-bold text-gray-800">Manage Schedule</h2>
               <p className="text-gray-600">plan your classes and events</p>
             </div>
             <button 
               onClick={() => setShowModal(true)}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center space-x-2"
+              className="bg-[#287f93] hover:bg-[#287f93] text-white px-4 py-2 rounded-md flex items-center space-x-2 corner-radius-8"
             >
               <Plus size={18} />
               <span>Add Event</span>
@@ -288,7 +288,7 @@ function App() {
                                   key={event.id}
                                   className={`p-2 rounded-md mb-1 text-xs relative ${
                                     event.classType === 'Theory' ? 'bg-pink-100 text-pink-800' :
-                                    'bg-blue-100 text-blue-800'
+                                    'bg-blue-100 text-[#287f93]'
                                   }`}
                                 >
                                   <div className="flex justify-between items-start">
@@ -358,7 +358,7 @@ function App() {
             </div>
           </div>
         </main>
-      </div>
+     
 
       {/* Event Tooltip */}
       {tooltipInfo && (
@@ -399,7 +399,7 @@ function App() {
             </div>
             
             <div className="space-y-4">
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Event Title
                 </label>
@@ -412,7 +412,7 @@ function App() {
                   placeholder="Enter event title"
                   required
                 />
-              </div>
+              </div> */}
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -454,7 +454,7 @@ function App() {
                   name="startTime"
                   value={formData.startTime}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#287f93]"
                 >
                   {times.map(time => (
                     <option key={time} value={time}>{time}</option>
@@ -470,7 +470,7 @@ function App() {
                   name="duration"
                   value={formData.duration}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#287f93]"
                 >
                   {[1, 2, 3, 4].map(hour => (
                     <option key={hour} value={hour}>{hour}</option>
@@ -487,7 +487,7 @@ function App() {
                 </button>
                 <button
                   onClick={handleAddEvent}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                  className="px-4 py-2 bg-[#287f93] text-white rounded-md hover:bg-[#287f93]"
                 >
                   Submit
                 </button>
@@ -512,7 +512,7 @@ function App() {
             </div>
             
             <div className="space-y-4">
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Event Title
                 </label>
@@ -525,7 +525,7 @@ function App() {
                   placeholder="Enter event title"
                   required
                 />
-              </div>
+              </div> */}
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -535,7 +535,7 @@ function App() {
                   name="classType"
                   value={formData.classType}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#287f93]"
                 >
                   {classTypes.map(type => (
                     <option key={type} value={type}>{type}</option>
@@ -551,7 +551,7 @@ function App() {
                   name="day"
                   value={formData.day}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#287f93]"
                 >
                   {days.map(day => (
                     <option key={day} value={day}>{day}</option>
@@ -567,7 +567,7 @@ function App() {
                   name="startTime"
                   value={formData.startTime}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#287f93]"
                 >
                   {times.map(time => (
                     <option key={time} value={time}>{time}</option>
@@ -583,7 +583,7 @@ function App() {
                   name="duration"
                   value={formData.duration}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#287f93]"
                 >
                   {[1, 2, 3, 4].map(hour => (
                     <option key={hour} value={hour}>{hour}</option>
@@ -600,7 +600,7 @@ function App() {
                 </button>
                 <button
                   onClick={handleEditEvent}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                  className="px-4 py-2 bg-[#287f93] text-white rounded-md hover:bg-[#287f93]"
                 >
                   Save Changes
                 </button>
