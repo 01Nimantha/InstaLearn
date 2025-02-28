@@ -2,7 +2,6 @@ package com.example.InstaLearn.progressManagement.service;
 
 import com.example.InstaLearn.progressManagement.entity.Marks;
 import com.example.InstaLearn.progressManagement.repo.MarksRepo;
-import com.example.InstaLearn.userManagement.entity.Student;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -13,6 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,35 +25,57 @@ public class ExcelService {
     @Autowired
     private MarksRepo marksRepo;
 
+    /**
+     * Fetches marks by student ID.
+     */
     public Marks getMarksById(String studentId) {
         return marksRepo.findByStudentIdEquals(studentId);
     }
 
+    /**
+     * Imports data from an uploaded Excel file (from frontend).
+     */
     public void importExcel(MultipartFile file) throws Exception {
-        InputStream inputStream = file.getInputStream();
-        Workbook workbook = WorkbookFactory.create(inputStream);
+        try (InputStream inputStream = file.getInputStream();
+             Workbook workbook = WorkbookFactory.create(inputStream)) {
+            importDataFromWorkbook(workbook);
+        }
+    }
+
+    /**
+     * Imports data from an existing Excel file stored on disk.
+     */
+    public void importExcel(File file) throws Exception {
+        try (FileInputStream fis = new FileInputStream(file);
+             Workbook workbook = WorkbookFactory.create(fis)) {
+            importDataFromWorkbook(workbook);
+        }
+    }
+
+    /**
+     * Reads the Excel file and stores data in the database.
+     */
+    private void importDataFromWorkbook(Workbook workbook) {
         Sheet sheet = workbook.getSheetAt(0);
+        List<Marks> marksList = new ArrayList<>();
 
-        Student student = new Student();
-
-        List<Marks> markss = new ArrayList<>();
         for (Row row : sheet) {
-            if (row.getRowNum() == 0) { // Skip header
-                continue;
-            }
+            if (row.getRowNum() == 0) continue; // Skip header row
 
             Marks marks = new Marks();
             marks.setMarks(row.getCell(0).getNumericCellValue());
             marks.setMonth(row.getCell(1).getLocalDateTimeCellValue().toLocalDate());
             marks.setStudentId(row.getCell(2).getStringCellValue());
 
-            markss.add(marks);
+            marksList.add(marks);
         }
 
-        marksRepo.saveAll(markss);
-        workbook.close();
+        marksRepo.saveAll(marksList);
     }
 
+    /**
+     * Retrieves paginated marks data.
+     */
     public Page<Marks> getPaginatedMarks(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return marksRepo.findAll(pageable);
