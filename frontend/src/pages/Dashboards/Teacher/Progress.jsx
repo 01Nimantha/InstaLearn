@@ -4,38 +4,35 @@ import SearchBar from "./SearchBar";
 
 const Progress = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [file, setFile] = useState(null);
+  // const [file, setFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = async (event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      await handleUpload(selectedFile);
-    }
-  };
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+};
 
-  const handleUpload = async (selectedFile) => {
-    if (!selectedFile) {
-      alert("Please select a file");
-      return;
-  }
-
+const handleUpload = async (event) => {
   const formData = new FormData();
-  formData.append("file", selectedFile);
+  formData.append("file", event.target.files[0]);
 
   try {
-      const response = await axios.post("http://localhost:8085/api/v1/excel/upload", formData, {
-          headers: {
-              "Content-Type": "multipart/form-data",
-          },
+      const response = await fetch("http://localhost:8085/api/v1/excel/upload", {
+          method: "POST",
+          body: formData,
       });
-      console.log("Upload Response:", response);
+
+      if (!response.ok) {
+          throw new Error("Upload failed");
+      }
+
+      // Trigger success message if file is uploaded successfully
       alert("File uploaded successfully!");
   } catch (error) {
-      console.error("Error uploading file:", error.response?.data || error.message);
-      alert("Upload failed! Check console for details.");
+      console.error("Error uploading file:", error);
+      alert("Error uploading file: " + error.message);
   }
 };
+
 
   return (
     <div className="d-flex">
@@ -47,13 +44,10 @@ const Progress = () => {
 
           {/* Single button for choosing and uploading file */}
           <label className="cursor-pointer bg-[#287f93] text-white py-2 px-4 rounded">
-            Upload Excel Sheet
-            <input
-              type="file"
-              accept=".xlsx, .xls"
-              onChange={handleFileChange}
-              className="hidden"
-            />
+            {/* Upload Excel Sheet */}
+            <input type="file" onChange={handleUpload} />
+{/* <button onClick={handleUpload}></button> */}
+
           </label>
         </div>
 
