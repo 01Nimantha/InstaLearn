@@ -44,10 +44,10 @@ const SendEmailModelStudentParent = ({
         e.preventDefault();
         setIsLoading(true);
         await Promise.all([
-         axios.post(`${sendEndpoint}/${parent.user.userId}`, {
+         axios.post(`${sendEndpoint}/${parent.userId}`, {
             toMail: parent[fields[1].name],
           }),
-         axios.post(`${sendEndpoint}/${student.user.userId}`, {
+         axios.post(`${sendEndpoint}/${student.userId}`, {
             toMail: student[fields[0].name],
           }),
         ]);

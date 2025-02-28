@@ -33,7 +33,7 @@ const StudentSendEmailModel = ({ onClose,studentId }) => (
   <SendEmailModelStudentParent
     title="Send student Credentials"
     apiEndpoints={{
-      getEndpoint1: 'http://localhost:8085/api/v1/student/get-student-by',
+      getEndpoint1: 'http://localhost:8085/api/v1/student/get-only-student-by',
       getEndpoint2: 'http://localhost:8085/api/v1/student/get-parent-by-student',
       sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
     }}
@@ -104,14 +104,14 @@ const StudentsView = () => {
 // 
 const loadStudents = async()=>{
     const result = await axios.get(
-        'http://localhost:8085/api/v1/student/get-all-students',{
+        'http://localhost:8085/api/v1/student/get-only-students',{
             validateStatus:()=>{
                 return true;
             }
         }
     );
-    if(result.status == 302){
-        setStudents(result.data);
+    if(result.status == 200){
+        setStudents(result.data.data);
     }    
 }
 const StudentDeleteModel = ({ onClose,studentId }) => (
