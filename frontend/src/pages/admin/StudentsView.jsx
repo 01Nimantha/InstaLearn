@@ -86,6 +86,8 @@ const StudentAddDetailsFormModel = ({ onClose }) => (
       { label: 'Parent Contact no',type: 'text',name: 'studentParentContactno',placeholder: 'Parent Contact no',required: true}
           ]}
     includeSwitch={true}
+    includeDropDown={true}
+    includeCheckbox={true}
     onClose={onClose}
     />
 )

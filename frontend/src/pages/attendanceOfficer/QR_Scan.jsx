@@ -130,7 +130,15 @@ const QR_Scan = () => {
                 value={student.studentId}
               />
             </div>
-            <div className="flex justify-end items-end md:mt-56">
+            <div>
+              <label className="block text-gray-700 mb-2">Payment</label>
+              <input
+                type="text"
+                placeholder="Paid/Not Paid"
+                className="w-full p-2 border rounded bg-white text-black"
+              />
+            </div>
+            <div className="flex justify-end items-end md:mt-36">
               <Link to={"/aOfficer-dashboard"} className="btn btn-danger w-20">
                 Exit
               </Link>
