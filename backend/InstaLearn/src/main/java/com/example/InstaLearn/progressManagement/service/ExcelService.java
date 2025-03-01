@@ -1,5 +1,6 @@
 package com.example.InstaLearn.progressManagement.service;
 
+import com.example.InstaLearn.progressManagement.dto.MarksDTO;
 import com.example.InstaLearn.progressManagement.entity.Marks;
 import com.example.InstaLearn.progressManagement.repo.MarksRepo;
 import org.apache.poi.ss.usermodel.Row;
@@ -18,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ExcelService {
@@ -28,8 +30,8 @@ public class ExcelService {
     /**
      * Fetches marks by student ID.
      */
-    public Marks getMarksById(String studentId) {
-        return marksRepo.findByStudentIdEquals(studentId);
+    public List<Marks> getMarksById(String studentId) {
+        return marksRepo.findByStudentId(studentId);
     }
 
     /**
@@ -64,7 +66,7 @@ public class ExcelService {
 
             Marks marks = new Marks();
             marks.setMarks(row.getCell(0).getNumericCellValue());
-            marks.setMonth(row.getCell(1).getLocalDateTimeCellValue().toLocalDate());
+            marks.setMonth(row.getCell(1).getStringCellValue());
             marks.setStudentId(row.getCell(2).getStringCellValue());
 
             marksList.add(marks);
@@ -79,5 +81,12 @@ public class ExcelService {
     public Page<Marks> getPaginatedMarks(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return marksRepo.findAll(pageable);
+    }
+
+    public List<MarksDTO> getAllMarks() {
+        return marksRepo.findAll()
+                .stream()
+                .map(m->new MarksDTO(m.getStudentId(),m.getMarks(),m.getMonth()))
+                .collect(Collectors.toList());
     }
 }

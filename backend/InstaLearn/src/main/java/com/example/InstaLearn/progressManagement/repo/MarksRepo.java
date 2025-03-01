@@ -18,8 +18,9 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface MarksRepo extends JpaRepository<Marks, Integer> {
 
-    Marks findByStudentIdEquals(String studentId);
+//    Marks findByStudentIdEquals(String studentId);
 
+    List<Marks> findByStudentId(String studentId);
     Page<Marks> findAll(Pageable pageable);
 
 

@@ -4,20 +4,24 @@ import com.example.InstaLearn.progressManagement.entity.Marks;
 import com.example.InstaLearn.progressManagement.service.ExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/excel")
 @CrossOrigin(origins = "http://localhost:5173")
+
 public class ExcelController {
 
     private static final String UPLOAD_DIR = "src/main/resources/upload/";
@@ -37,7 +41,7 @@ public class ExcelController {
             Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
             Files.write(path, file.getBytes());
 
-            // ✅ Directly process the file after saving
+            // Process the file after saving
             excelService.importExcel(file);
 
             return ResponseEntity.ok("File uploaded and imported successfully");
@@ -48,18 +52,20 @@ public class ExcelController {
         }
     }
 
-
     /**
-     * Retrieves marks for a student by ID.
+     * Retrieves marks for a specific student by ID.
      */
-    @GetMapping(path = "/get-by-id", params = "id")
-    public ResponseEntity<Marks> getMarksById(@RequestParam(value = "id") String studentId) {
-        Marks marks = excelService.getMarksById(studentId);
-        return ResponseEntity.ok(marks);
+    @GetMapping("/get-by-id")
+    public ResponseEntity<?> getMarksById(@RequestParam(value = "id") String studentId) {
+        System.out.println("Received request for studentId: " + studentId); // ✅ Debug log
+        List<Marks> markList = excelService.getMarksById(studentId);
+        return markList != null ? ResponseEntity.ok(markList) :
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found");
     }
 
+
     /**
-     * Retrieves paginated marks.
+     * Retrieves all students' marks with pagination.
      */
     @GetMapping("/marks")
     public Page<Marks> getMarks(
@@ -67,5 +73,6 @@ public class ExcelController {
             @RequestParam(defaultValue = "10") int size
     ) {
         return excelService.getPaginatedMarks(page, size);
+
     }
 }
