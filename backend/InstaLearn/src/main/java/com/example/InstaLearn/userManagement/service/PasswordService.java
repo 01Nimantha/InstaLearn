@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PasswordService {
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
+    public PasswordService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     // Hash a password
     public String hashPassword(String plainPassword) {
