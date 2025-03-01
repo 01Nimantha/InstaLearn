@@ -47,11 +47,9 @@ public class Parent {
 
     @JsonManagedReference
     @OneToOne(mappedBy = "parent", cascade = CascadeType.ALL) // Bidirectional mapping
-    @JsonIgnore
     private Student student;
 
     @OneToOne
-    @JsonIgnore
     private User user;
 
 }

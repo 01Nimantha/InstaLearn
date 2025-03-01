@@ -1,5 +1,8 @@
 package com.example.InstaLearn.userManagement.service.impl;
 
+import com.example.InstaLearn.classTypeManagement.dto.ClassTypeSaveRequestDTO;
+import com.example.InstaLearn.classTypeManagement.entity.ClassType;
+import com.example.InstaLearn.classTypeManagement.repo.ClassTypeRepo;
 import com.example.InstaLearn.userManagement.dto.ParentDTO;
 import com.example.InstaLearn.userManagement.dto.StudentDTO;
 import com.example.InstaLearn.userManagement.dto.StudentSaveRequestDTO;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceIMPL implements StudentService {
@@ -34,8 +38,17 @@ public class StudentServiceIMPL implements StudentService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private ClassTypeRepo classTypeRepo;
+
     @Override
     public String saveStudentAndParent(StudentSaveRequestDTO studentSaveRequestDTO) {
+        // Ensure classTypes is not null
+        if (studentSaveRequestDTO.getClassTypes() == null) {
+            studentSaveRequestDTO.setClassTypes(new ArrayList<>());
+        }
+
+        // Save Parent
         Parent parent = new Parent();
         parent.setParentName(studentSaveRequestDTO.getStudentParentName());
         parent.setParentEmail(studentSaveRequestDTO.getStudentParentEmail());
@@ -43,15 +56,17 @@ public class StudentServiceIMPL implements StudentService {
         parent.setParentAddress(studentSaveRequestDTO.getStudentAddress());
         Parent savedParent = parentRepo.save(parent);
 
+        // Save User for Parent
         User user1 = new User();
-        user1.setUserName(String.valueOf(parent.getParentId()));// Set parentId as userName
+        user1.setUserName(String.valueOf(parent.getParentId())); // Set parentId as userName
         user1.setRole(Role.valueOf("PARENT"));
         userRepo.save(user1);
 
-        // Associate the saved User with the Parent entity
+        // Associate User with Parent
         parent.setUser(user1);
-        parentRepo.save(parent);// Update Parent with the associated User
+        parentRepo.save(parent);
 
+        // Save Student
         Student student = new Student();
         student.setParent(savedParent);
         student.setStudentName(studentSaveRequestDTO.getStudentName());
@@ -63,16 +78,35 @@ public class StudentServiceIMPL implements StudentService {
         student.setStudentParentContactno(studentSaveRequestDTO.getStudentParentContactno());
         student.setFreeCard(studentSaveRequestDTO.isFreeCard());
 
+        // Process ClassTypes
+        List<ClassType> classTypes = new ArrayList<>();
+        for (ClassTypeSaveRequestDTO classTypeDTO : studentSaveRequestDTO.getClassTypes()) {
+            Optional<ClassType> existingClassType = classTypeRepo.findByClassTypeNameAndType(
+                    classTypeDTO.getClassTypeName(), classTypeDTO.getType());
+
+            ClassType classType;
+            if (existingClassType.isPresent()) {
+                classType = existingClassType.get();
+            } else {
+                classType = new ClassType();
+                classType.setClassTypeName(classTypeDTO.getClassTypeName());
+                classType.setType(classTypeDTO.getType());
+                classTypeRepo.save(classType);
+            }
+            classTypes.add(classType);
+        }
+        student.setClassTypes(classTypes); // Assign ClassTypes to Student
         studentRepo.save(student);
 
+        // Save User for Student
         User user2 = new User();
-        user2.setUserName(String.valueOf(student.getStudentId()));// Set studentId as userName
+        user2.setUserName(String.valueOf(student.getStudentId())); // Set studentId as userName
         user2.setRole(Role.valueOf("STUDENT"));
         userRepo.save(user2);
 
-        // Associate the saved User with the Student entity
+        // Associate User with Student
         student.setUser(user2);
-        studentRepo.save(student);// Update Student with the associated User
+        studentRepo.save(student);
 
         return "Saved Successfully";
     }
