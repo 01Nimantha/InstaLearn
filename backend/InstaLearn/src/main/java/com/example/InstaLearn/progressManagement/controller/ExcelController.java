@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,11 +87,12 @@ public class ExcelController {
 
         if (average == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No records found for the month of " + month);
+                    .body("{\"average\": 0}"); // Ensure JSON format
         }
 
-        return ResponseEntity.ok("Average marks " + month + " is: " + average);
+        return ResponseEntity.ok(Collections.singletonMap("average", average));
     }
+
 
     /**
      * Retrieves the average marks for each month.
