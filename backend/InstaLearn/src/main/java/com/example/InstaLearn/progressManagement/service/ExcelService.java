@@ -1,6 +1,7 @@
 package com.example.InstaLearn.progressManagement.service;
 
 import com.example.InstaLearn.progressManagement.dto.MarksDTO;
+import com.example.InstaLearn.progressManagement.dto.MonthlyAverageDTO;
 import com.example.InstaLearn.progressManagement.entity.Marks;
 import com.example.InstaLearn.progressManagement.repo.MarksRepo;
 import org.apache.poi.ss.usermodel.Row;
@@ -87,6 +88,25 @@ public class ExcelService {
         return marksRepo.findAll()
                 .stream()
                 .map(m->new MarksDTO(m.getStudentId(),m.getMarks(),m.getMonth()))
+                .collect(Collectors.toList());
+    }
+
+
+    public Double calculateAverageMarksForAll(String month) {
+        List<Marks> marksList = marksRepo.findByMonth(month);
+
+        if (marksList.isEmpty()) {
+            return null;
+        }
+
+        double total = marksList.stream().mapToDouble(Marks::getMarks).sum();
+        return total / marksList.size();
+    }
+
+    public List<MonthlyAverageDTO> getMonthlyAverageMarks() {
+        List<Object[]> results = marksRepo.calculateMonthlyAverageMarks();
+        return results.stream()
+                .map(row -> new MonthlyAverageDTO((String) row[0], (Double) row[1]))
                 .collect(Collectors.toList());
     }
 }

@@ -1,5 +1,6 @@
 package com.example.InstaLearn.progressManagement.controller;
 
+import com.example.InstaLearn.progressManagement.dto.MonthlyAverageDTO;
 import com.example.InstaLearn.progressManagement.entity.Marks;
 import com.example.InstaLearn.progressManagement.service.ExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/excel")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 
 public class ExcelController {
 
@@ -75,4 +76,37 @@ public class ExcelController {
         return excelService.getPaginatedMarks(page, size);
 
     }
+
+    /**
+     * Retrieves the average marks of all students for a specific month.
+     */
+    @GetMapping("/average-marks/all")
+    public ResponseEntity<?> getAverageMarksForAll(@RequestParam("month") String month) {
+        Double average = excelService.calculateAverageMarksForAll(month);
+
+        if (average == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No records found for the month of " + month);
+        }
+
+        return ResponseEntity.ok("Average marks " + month + " is: " + average);
+    }
+
+    /**
+     * Retrieves the average marks for each month.
+     */
+    @GetMapping("/monthly-average-marks")
+    public ResponseEntity<List<MonthlyAverageDTO>> getMonthlyAverageMarks() {
+        List<MonthlyAverageDTO> monthlyAverages = excelService.getMonthlyAverageMarks();
+
+        if (monthlyAverages.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+
+        return ResponseEntity.ok(monthlyAverages);
+    }
+
+
+
 }
