@@ -32,7 +32,7 @@ const TeacherDashboard = () => {
       // Simulate an API response
       const data = {
         totalStudents: 120,
-        averageScore: 87,
+        averageScore: 50,
         attendanceRate: 92,
         quizAttemptRate: 78,
       };
@@ -73,6 +73,34 @@ const TeacherDashboard = () => {
 
     fetchStats();
   }, []);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      
+      try {
+        const currentMonth = new Date().toLocaleString('en-US', { month: 'long' }); 
+        // Fetch average marks
+      
+        const marksResponse = await fetch(`http://localhost:8085/api/v1/excel/average-marks/all?month=${currentMonth}`);
+        if (!marksResponse.ok) throw new Error(`Failed to fetch average marks. Status: ${marksResponse.status}`);
+        
+        const marksData = await marksResponse.json();
+        console.log("Marks Data Response:", marksData); // Debugging
+        const averageScore = marksData?.average || 0;
+        // Ensure fallback to 0 if data is missing
+    
+        setStats((prevStats) => ({
+          ...prevStats,
+          averageScore, 
+        }));
+        
+      } catch (error) {
+        console.error("Error fetching average score:", error);
+      }
+    };
+    fetchStats();
+  }, []);
+
   useEffect(() => {
     const fetchChartData = async () => {
       try {
@@ -100,16 +128,16 @@ const TeacherDashboard = () => {
   
 
 
-  const sampleData = [
-    { time: "January", performance: 25 },
-    { time: "February", performance: 50 },
-    { time: "March", performance: 40 },
-    { time: "April", performance: 95 }, 
-    { time: "May", performance: 60 },
-    { time: "June", performance: 55 },
-    { time: "July", performance: 20 },
-    { time: "August", performance: 80 }
-  ];
+  // const sampleData = [
+  //   { time: "January", performance: 25 },
+  //   { time: "February", performance: 50 },
+  //   { time: "March", performance: 40 },
+  //   { time: "April", performance: 95 }, 
+  //   { time: "May", performance: 60 },
+  //   { time: "June", performance: 55 },
+  //   { time: "July", performance: 20 },
+  //   { time: "August", performance: 80 }
+  // ];
 
 
   return (
