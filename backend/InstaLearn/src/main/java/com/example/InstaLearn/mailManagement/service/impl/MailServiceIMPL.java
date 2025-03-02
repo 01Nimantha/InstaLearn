@@ -47,8 +47,8 @@ public class MailServiceIMPL implements MailService {
     public String sendTeacherCredentialsMail(int userId, MailDetailsDTO mailDetailsDTO) throws IOException, WriterException, MessagingException {
         User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 
-        String password = PasswordStorage.getPassword(userId);
-        String password1 = PasswordStorage.getPassword(userId);
+//        String password = PasswordStorage.getPassword(userId);
+//        String password1 = PasswordStorage.getPassword(userId);
 
         // Retrieve stored password
         String name = null;
@@ -78,7 +78,7 @@ public class MailServiceIMPL implements MailService {
         helper.setSubject("Welcome to InstaLearn");
 
             String customizedMessage = "Dear " + name + ",\nYour InstaLearn account credentials are below:\n\nUser Name:" + user.getUserName()
-                    + " \nPassword:" + password + "\n\nThank you-InstaLearn";
+                    + " \nPassword:" + user.getUserPassword() + "\n\nThank you-InstaLearn";
 
         helper.setText(customizedMessage);
 

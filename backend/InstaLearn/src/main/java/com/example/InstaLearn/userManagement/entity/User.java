@@ -31,12 +31,12 @@ public class User {
     @Column(name="user_password" , nullable = false)
     private String userPassword;
 
-//    @PrePersist
-//    private void generateId() {
-//        if (this.userPassword == null) {
-//            this.userPassword = generatePassword();
-//        }
-//    }
+    @PrePersist
+    private void generateId() {
+        if (this.userPassword == null) {
+            this.userPassword = generatePassword();
+        }
+    }
     public String generatePassword() {
 
             String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";

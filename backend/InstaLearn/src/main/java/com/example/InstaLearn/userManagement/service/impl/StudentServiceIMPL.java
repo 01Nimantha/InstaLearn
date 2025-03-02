@@ -52,12 +52,12 @@ public class StudentServiceIMPL implements StudentService {
         user1.setUserName(String.valueOf(parent.getParentId()));// Set parentId as userName
         user1.setRole(Role.valueOf("PARENT"));
 
-        String password=user1.generatePassword();
-        System.out.println(password);
-        user1.setUserPassword(passwordService.hashPassword(password));
+//        String password=user1.generatePassword();
+//        System.out.println(password);
+//        user1.setUserPassword(passwordService.hashPassword(password));
 
         userRepo.save(user1);
-        PasswordStorage.storePassword(user1.getUserId(), password);
+//        PasswordStorage.storePassword(user1.getUserId(), password);
 
         // Associate the saved User with the Parent entity
         parent.setUser(user1);
@@ -80,13 +80,13 @@ public class StudentServiceIMPL implements StudentService {
         user2.setUserName(String.valueOf(student.getStudentId()));// Set studentId as userName
         user2.setRole(Role.valueOf("STUDENT"));
 
-        String password1=user2.generatePassword();
-        System.out.println(password1);
-        user1.setUserPassword(passwordService.hashPassword(password1));
+//        String password1=user2.generatePassword();
+//        System.out.println(password1);
+//        user1.setUserPassword(passwordService.hashPassword(password1));
 
         userRepo.save(user2);
 
-        PasswordStorage.storePassword(user1.getUserId(), password1);
+//        PasswordStorage.storePassword(user1.getUserId(), password1);
 
         // Associate the saved User with the Student entity
         student.setUser(user2);
