@@ -30,6 +30,7 @@ import { Payment } from '@mui/icons-material'
 import Progress from './pages/Dashboards/Teacher/Progress.jsx'
 import Payments from './pages/Dashboards/Teacher/Payments.jsx'
 import Attendance from './pages/Dashboards/Teacher/Attendance.jsx'
+import TeacherSettings from './pages/Dashboards/Teacher/TeacherSettings.jsx'
 import App3 from './App3.jsx'
 import SchedulePage from './pages/Dashboards/Teacher/SchedulePage.jsx'
 import { Settings } from 'lucide-react'
@@ -67,7 +68,7 @@ const router = createBrowserRouter([
       {path:"payment",element:<Payments/>},
       {path:"schedule",element:<SchedulePage/>},
       {path:"attendence",element:<Attendance/>},
-      {path:"settings",element:<Settings/>}
+      {path:"settings",element:<TeacherSettings/>}
     ]
   },
   
