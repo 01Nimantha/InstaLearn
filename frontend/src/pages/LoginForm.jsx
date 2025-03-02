@@ -1,180 +1,206 @@
 import {
-    //Box,
-    TextField,
-    Typography,
-    Button,
-    Grid,
-    Container,
-    Link
-  } from "@mui/material";
-  
-  import {  useState } from "react";
-  import logo from "../assets/images/logo1.png" 
-  import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-  import InputAdornment from "@mui/material/InputAdornment";
-  import IconButton from "@mui/material/IconButton";
-  import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-  import CloseIcon from '@mui/icons-material/Close';
-  import { useNavigate } from "react-router-dom";
-  import axios from "axios";
+  TextField,
+  Typography,
+  Button,
+  Grid,
+  Container,
+  Link,
+  IconButton,
+  InputAdornment,
+  Box,
+} from "@mui/material";
+import { useState } from "react";
+import logo from "../assets/images/logo1.png";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
-  
-  const LoginForm = () => {
-    const [firstPassShow, setFirstPassShow] = useState(false);
-    const [username, setUsername] = useState("");
-      const [password, setPassword] = useState("");
-      const navigate = useNavigate();
-  
-      const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post("http://localhost:8085/api/auth/login", {
-                userName,
-                userPassword
-            });
-  
-            const { data } = response;
-            console.log("User role:", data);
-            if (data === ADMIN) navigate("/admin-dashboard");
-            else if (data === TEACHER) navigate("/teacher-dashboard");
-            else if (data === STUDENT) navigate("/student-dashboard");
-            else navigate("/");
-  
-        } catch (error) {
-            alert("Invalid credentials!");
-        }
-    };
-  
-  
-    return (
-      <Container  
-      maxWidth={"md"}
-  
+const LoginForm = () => {
+   const [showPassword, setShowPassword] = useState(false);
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axios.post("http://localhost:8085/api/auth/login", {
+  //       userName: username,
+  //       userPassword: password,
+  //     });
+
+  //     const { data } = response;
+  //     console.log("User role:", data);
+  //     if (data === "ADMIN") navigate("/admin-dashboard");
+  //     else if (data === "TEACHER") navigate("/teacher-dashboard");
+  //     else if (data === "STUDENT") navigate("/student-dashboard");
+  //     else navigate("/");
+  //   } catch (error) {
+  //     alert("Invalid credentials!");
+  //   }
+  // };
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const response = await fetch("http://localhost:8085/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userName: username, userPassword: password }),
+    });
+
+    const token = await response.text();
+    console.log("token: " + token);
+    if (token !== "Invalid credentials") {
+      localStorage.setItem("jwtToken", token);
+      console.log("test" );
+      alert("Login successful!");
+      const decoded = jwtDecode(token);
+      console.log("Decoded Token:", decoded);
+      const userRole = decoded.role;
+      console.log("User role:", userRole);
+
+      // Navigate based on role
+      switch (userRole) {
+        case "ADMIN":
+          navigate("/admin-dashboard");
+          break;
+        case "TEACHER":
+          navigate("/teacher-dashboard");
+          break;
+        case "STUDENT":
+          navigate("/student-dashboard");
+          break;
+        case "PARENT":
+          navigate("/parent-dashboard");
+          break;
+        default:
+          navigate("/unauthorized");
+    } 
+    }else {
+      alert("Invalid credentials");
+    }
+  };
+
+  return (
+    <Container
+      maxWidth="md"
       sx={{
-        bgcolor: "black",
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop:"10px",
-        marginBottom:"10px",
-        flexDirection:"column",
-        position:"relative"    
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        padding: "20px",
+        position: "relative",
       }}
+    >
+      <IconButton
+        sx={{
+          position: "absolute",
+          top: { xs: "10px", md: "20px" },
+          right: { xs: "10px", md: "20px" },
+          color: "black",
+          zIndex: 2,
+        }}
+        onClick={() => navigate(-1)}
       >
-         <IconButton
-          sx={
-            {
-              position:"absolute",color: 'white',
-              right:{
-                xs:"10px",
-                md:"10px",
-                sm:"10px",
-                lg:"10px"
-              },
-              top:{
-                xs:"10px",
-                md:"10px",
-                sm:"10px",
-                lg:"10px"
-              },
-        
-            }
-          }
-          onClick={() => navigate(-1)}>
-          <CloseIcon/>
-        </IconButton>
-        
+        <CloseIcon />
+      </IconButton>
+
+      <Grid
+        container
+        sx={{
+          borderRadius: "16px",
+          overflow: "hidden",
+          boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.1)",
+          backgroundColor: "white",
+          maxWidth: "800px", // Reduced overall container width
+        }}
+      >
+        {/* Left Side - Logo (Reduced Size) */}
         <Grid
-          container
-          className="container"
+          item
+          xs={12}
+          md={4}
           sx={{
             display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            height: "auto",
-            padding: "10px"
-            
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#004c5c",
+            padding: "20px",
           }}
         >
-         
-        
-          <Grid
-            item
-            xs={12}
-            md={5}
-            sm={6}
-            className="imageSide"
+          <img
+            src={logo}
+            alt="logo"
+            style={{ maxWidth: "80%", height: "auto" }}
+          />
+        </Grid>
+
+        {/* Right Side - Login Form (Compact Design) */}
+        <Grid
+          item
+          xs={12}
+          md={8}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: { xs: "10px", md: "30px" }, // Reduced padding
+          }}
+        >
+          <Box
             sx={{
-              bgcolor: "black",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height:"100%"
-            }}
-          >
-            <img
-              src={logo}
-              alt="sideimages"
-              style={{ marginTop: "100px", maxWidth: "100%", height: "auto" }}
-            />
-          </Grid>
-          <Grid 
-            item
-            xs={12}
-            sm={6}
-            md={6}
-            className="signinSide"
-            sx={{
-              bgcolor: "white",
-              marginTop: "77px",
-              marginBottom: "78px",
-              padding: "20px",
+              width: "100%",
+              maxWidth: "320px", // Further reduced width for the form
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
-              height:"100%",
-              position:"relative"
+              justifyContent: "center",
             }}
-            
           >
             <Typography
-              sx={{ color: "#1A1A1A", fontSize: "16px", fontWeight: "600" }}
+              variant="h5"
+              sx={{
+                fontWeight: 600,
+                color: "#333",
+                marginBottom: "16px", // Reduced margin
+                textAlign: "center",
+                fontSize: { xs: "1.5rem", md: "1.75rem" }, // Adjusted font size
+              }}
             >
-              Login to your account
+              Login to Your Account
             </Typography>
-            
+
             <form onSubmit={handleLogin}>
-            <div style={{ marginTop: "30px", width: "100%" }}>
-              <Typography>Username:</Typography>
               <TextField
-                className="custom-textfield"
-                type="text"
+                fullWidth
+                label="Username"
+                variant="outlined"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
-                fullWidth
-                variant="outlined"
-                size="small"
+                sx={{ marginBottom: "16px" }} // Reduced margin
                 required
               />
-            </div>
-            
-  
-             <div style={{ marginTop: "30px", width: "100%" }}>
-              <Typography>Password:</Typography>
+
               <TextField
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+                fullWidth
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                variant="outlined"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        sx={{ cursor: "pointer" }}
-                        onClick={() => {
-                          setFirstPassShow(!firstPassShow);
-                        }}
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
                       >
-                        {firstPassShow ? (
+                        {showPassword ? (
                           <VisibilityOutlinedIcon />
                         ) : (
                           <VisibilityOffOutlinedIcon />
@@ -183,71 +209,76 @@ import {
                     </InputAdornment>
                   ),
                 }}
-                className="custom-textfield"
-                
-                type={firstPassShow ? "text" : "password"}
-                fullWidth
-                variant="outlined"
-                size="small"
-                placeholder="Password"
+                sx={{ marginBottom: "16px" }} // Reduced margin
                 required
-               
               />
-              
-               
-            </div>
-            <div>
-            
-            <Link
-                href="#forgot"
+
+              <Box sx={{ textAlign: "right", marginBottom: "16px" }}>
+                <Link
+                  href="#forgot"
+                  sx={{
+                    fontSize: "14px",
+                    color: "#007BFF",
+                    textDecoration: "none",
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  Forgot Password?
+                </Link>
+              </Box>
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
                 sx={{
-                  position: "absolute",
-                  right: "30px",
-                  top: "250px",
-                  transform: "translateY(-50%)",
-                  fontSize: "12px",
-                  color: "#007BFF",
+                  backgroundColor: "#FF6B6B",
+                  color: "white",
+                  padding: "10px", // Reduced padding
+                  borderRadius: "8px",
+                  fontWeight: 600,
+                  fontSize: "14px", // Adjusted font size
+                  "&:hover": {
+                    backgroundColor: "#FF5252",
+                    transform: "scale(1.02)",
+                  },
+                  transition: "all 0.3s ease",
                 }}
               >
-                Forgot?
-              </Link>
-            </div>
-            
-            <div style={{ marginTop: "45px", width: "100%" }}>
-              <Button type="submit" sx={{ bgcolor: "#9EC9F7", width: "100%" }}>Login Now</Button>
-            </div>
+                Login Now
+              </Button>
             </form>
-            
-            <div className="register">
-              <Typography
-                sx={{ justifyContent: "space-between", marginTop: "10px" }}
-                className="loggintext"
+
+            <Typography
+              sx={{
+                textAlign: "center",
+                marginTop: "16px", // Reduced margin
+                fontSize: "14px",
+                color: "#666",
+              }}
+            >
+              Don't have an account?{" "}
+              <Link
+                href="/contact"
+                sx={{
+                  color: "#007BFF",
+                  textDecoration: "none",
+                  fontWeight: 600,
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
+                }}
               >
-                <span>Don't have an account?</span>
-                <a
-                  style={{
-                    cursor: "pointer",
-                    marginLeft: "4px",
-                    color: "blue",
-                    textDecoration: "none",
-                  }}
-                  href="/contact"
-                >
-                  Contact Administrator
-                </a>
-              </Typography>
-            </div>
-          </Grid>
+                Contact Administrator
+              </Link>
+            </Typography>
+          </Box>
         </Grid>
-      </Container>
-    );
-  };
-  
-  export default LoginForm;
-  
-  
-  
-  
-  
-  
-  
+      </Grid>
+    </Container>
+  );
+};
+
+export default LoginForm;
