@@ -1,5 +1,6 @@
 package com.example.InstaLearn.classTypeManagement.entity;
 
+import com.example.InstaLearn.attendanceManagement.entity.Attendance;
 import com.example.InstaLearn.classTypeManagement.entity.enums.Type;
 import com.example.InstaLearn.userManagement.entity.Student;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,7 +33,6 @@ public class ClassType {
     @ManyToMany(mappedBy = "classTypes")
     @JsonIgnore
     private List<Student> students;
-
 
 
 }

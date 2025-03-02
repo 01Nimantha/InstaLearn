@@ -64,7 +64,10 @@ public class ClassTypeServiceIMPL implements ClassTypeService {
 
     @Override
     public List<String> getAllClassTypes() {
-        return classTypeRepo.findAllClassTypes();
+        return classTypeRepo.findAllClassTypes()
+                .stream()
+                .distinct()
+                .toList();
     }
 
 
