@@ -27,6 +27,4 @@ public interface StudentService {
     List<StudentDTO> getOnlyStudents();
 
     StudentDTO getOnlyStudentById(String studentId);
-
-    List<String> getAllStudentIds();
 }
