@@ -32,6 +32,7 @@ import Payments from './pages/Dashboards/Teacher/Payments.jsx'
 import Attendance from './pages/Dashboards/Teacher/Attendance.jsx'
 import App3 from './App3.jsx'
 import SchedulePage from './pages/Dashboards/Teacher/SchedulePage.jsx'
+import { Settings } from 'lucide-react'
 
 const router = createBrowserRouter([
   {
@@ -65,7 +66,8 @@ const router = createBrowserRouter([
       {path:"progress",element:<Progress/>},
       {path:"payment",element:<Payments/>},
       {path:"schedule",element:<SchedulePage/>},
-      {path:"attendence",element:<Attendance/>}
+      {path:"attendence",element:<Attendance/>},
+      {path:"settings",element:<Settings/>}
     ]
   },
   

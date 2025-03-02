@@ -24,7 +24,7 @@ const App3 = () => {
          Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="payment"
          Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="attendence"
          AddNewTab={true} 
-         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="/"/>
+         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="settings"/>
       </div>
       <div>
         <Outlet/>
