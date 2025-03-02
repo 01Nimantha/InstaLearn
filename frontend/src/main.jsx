@@ -28,6 +28,7 @@ import QuizForm from './pages/Dashboards/Teacher/QuizForm.jsx'
 import Progress from './pages/Dashboards/Teacher/Progress.jsx'
 import Payments from './pages/Dashboards/Teacher/Payments.jsx'
 import Attendance from './pages/Dashboards/Teacher/Attendance.jsx'
+import ProtectedRoute from './routes/ProtectedRoute.jsx'
 import App3 from './App3.jsx'
 import AOfficerDashboard from './pages/attendanceOfficer/AOfficerDashboard.jsx'
 import QR_Scan from './pages/attendanceOfficer/QR_Scan.jsx'
@@ -52,15 +53,25 @@ const router = createBrowserRouter([
   { path: "/about", element: <AboutPage /> },
   { path: "/contact", element: <ContactPage/> },
   { path: "/login", element: <LoginForm /> },
+
   {path: "/admin-dashboard", element: <AdminDashboard />},
   { path: "/admin-dashboard/teachers-view", element: <TeachersView /> },
   { path: "/admin-dashboard/students-view", element: <StudentsView /> },
   { path: "/admin-dashboard/parents-view", element: <ParentsView /> },
   { path: "/admin-dashboard/admins-view", element: <AdminsView /> },
   { path: "/admin-dashboard/aOfficers-view", element: <AttendanceOfficerView /> },
+
+
+  { path: "/teacher-dashboard", element: (
+    
+      <App3 />
+   
+  ), 
+
   {path: "/aOfficer-dashboard", element: <AOfficerDashboard />},
   {path:'/qr-scanner',element:<QR_Scan/>},
   { path: "/teacher-dashboard", element: <App3/> ,
+
     children: [
       { index: true, element: <TeacherDashboard/> },
       {path:"students",element:<Students/>},
@@ -82,4 +93,9 @@ createRoot(document.getElementById('root')).render(
       <RouterProvider router={router} />
     </Provider> 
   </StrictMode>,
+
+
 )
+
+)
+
