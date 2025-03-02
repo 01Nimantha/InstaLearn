@@ -28,4 +28,7 @@ public interface MarksRepo extends JpaRepository<Marks, Integer> {
 
     @Query("SELECT m.month, AVG(m.marks) FROM Marks m GROUP BY m.month ORDER BY FIELD(m.month, 'January', 'February', 'March', 'April')")
     List<Object[]> calculateMonthlyAverageMarks();
+
+
+    Page<Marks> findByStudentId(String studentId, Pageable pageable);
 }

@@ -2,6 +2,7 @@ package com.example.InstaLearn.progressManagement.controller;
 
 import com.example.InstaLearn.progressManagement.dto.MonthlyAverageDTO;
 import com.example.InstaLearn.progressManagement.entity.Marks;
+import com.example.InstaLearn.progressManagement.repo.MarksRepo;
 import com.example.InstaLearn.progressManagement.service.ExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,9 @@ public class ExcelController {
 
     @Autowired
     private ExcelService excelService;
+
+    @Autowired
+    private MarksRepo marksRepo;
 
     /**
      * Uploads an Excel file and automatically imports it into the database.
@@ -71,12 +75,20 @@ public class ExcelController {
      */
     @GetMapping("/marks")
     public Page<Marks> getMarks(
+            @RequestParam(required = false) String studentId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        return excelService.getPaginatedMarks(page, size);
+            @RequestParam(defaultValue = "5") int size) {
 
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (studentId != null && !studentId.isEmpty()) {
+            return (Page<Marks>) marksRepo.findByStudentId(studentId, pageable);
+        }
+
+        return marksRepo.findAll(pageable);
     }
+
+
 
     /**
      * Retrieves the average marks of all students for a specific month.
