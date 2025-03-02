@@ -87,7 +87,7 @@ const TeacherDashboard = () => {
         const marksData = await marksResponse.json();
         console.log("Marks Data Response:", marksData); // Debugging
         const averageScore = marksData?.average || 0;
-        // Ensure fallback to 0 if data is missing
+         // Ensure fallback to 0 if data is missing
     
         setStats((prevStats) => ({
           ...prevStats,

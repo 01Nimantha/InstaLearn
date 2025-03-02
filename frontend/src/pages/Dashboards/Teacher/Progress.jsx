@@ -9,32 +9,56 @@ const Progress = () => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
 
+  // ✅ Fetch marks from API
   useEffect(() => {
     fetchMarks();
-  }, [page]); // Fetch marks whenever the page changes
+  }, [page]); // Runs whenever page changes
 
-  const fetchMarks = async (id = "") => {
+  const fetchMarks = async () => {
     try {
-      if (id) {
-        const response = await axios.get(`http://localhost:8085/api/v1/excel/get-by-id`, { params: { id } });
-        setMarks(groupMarks([response.data])); // Convert object to array and group
-        setTotalPages(1);
-      } else {
-        const response = await axios.get(`http://localhost:8085/api/v1/excel/marks`, {
-          params: { page, size: 5 },
-        });
-        setMarks(groupMarks(response.data.content)); // Group data correctly
-        setTotalPages(response.data.totalPages);
-      }
+      const response = await axios.get(`http://localhost:8085/api/v1/excel/marks`, {
+        params: { page, size: 5, studentId: searchTerm.trim() }, // Include studentId in API request
+      });
+  
+      console.log("Fetched Data:", response.data.content);
+      const processedMarks = groupMarks(response.data.content);
+      console.log("Processed Data:", processedMarks);
+  
+      setMarks(processedMarks);
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error("Error fetching marks:", error);
-      setMarks([]);
+      setMarks([]); // Set empty marks if API fails
     }
+  };
+  
+
+  // ✅ Group marks by studentId & assign marks to the correct month
+  const groupMarks = (marksList) => {
+    const grouped = {};
+
+    marksList.forEach(({ studentId, marks, month }) => {
+      if (!grouped[studentId]) {
+        grouped[studentId] = { studentId, january: "-", february: "-", march: "-", april: "-" };
+      }
+
+      const monthKey = month.toLowerCase(); // Normalize month name
+      if (grouped[studentId].hasOwnProperty(monthKey)) {
+        grouped[studentId][monthKey] = marks;
+      }
+    });
+
+    return Object.values(grouped);
   };
 
   const handleSearch = () => {
-    fetchMarks(searchTerm.trim());
+    if (searchTerm.trim() !== "") {
+      fetchMarks(); // Fetch marks for entered studentId
+    } else {
+      alert("Please enter a Student ID");
+    }
   };
+  
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -62,20 +86,6 @@ const Progress = () => {
     }
   };
 
-  // ✅ Group marks by studentId & format months correctly
-  const groupMarks = (marksList) => {
-    const grouped = {};
-    
-    marksList.forEach(({ studentId, marks, month }) => {
-      if (!grouped[studentId]) {
-        grouped[studentId] = { studentId };
-      }
-      grouped[studentId][month.toLowerCase()] = marks; // Ensure case consistency
-    });
-
-    return Object.values(grouped); // Convert object to array
-  };
-
   return (
     <div className="d-flex">
       <div className="p-4 w-full">
@@ -83,8 +93,19 @@ const Progress = () => {
 
         <div className="flex justify-between items-center">
           <div className="w-1/2 py-5 ml-5">
-            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-            <button onClick={handleSearch} className="ml-2 bg-[#287f93] text-white py-2 px-4 rounded">Search</button>
+            {/* <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            <button onClick={handleSearch} className="ml-2 bg-[#287f93] text-white py-2 px-4 rounded">Search</button> */}
+            <input
+  type="text"
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  placeholder="Enter Student ID"
+  className="border px-4 py-2"
+/>
+<button onClick={handleSearch} className="ml-2 bg-[#287f93] text-white py-2 px-4 rounded">
+  Search
+</button>
+
           </div>
 
           <div className="flex gap-2">
@@ -106,22 +127,27 @@ const Progress = () => {
               </tr>
             </thead>
             <tbody>
-              {marks.length > 0 ? (
-                marks.map(({ studentId, january, february, march, april }, index) => (
-                  <tr key={studentId} className={index % 2 === 0 ? "bg-[#ffffff]" : "bg-[#EBEBEB] h-16 text-center"}>
-                    <td>{studentId}</td>
-                    <td>{january || "-"}</td>
-                    <td>{february || "-"}</td>
-                    <td>{march || "-"}</td>
-                    <td>{april || "-"}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5" className="text-center">No data available</td>
-                </tr>
-              )}
-            </tbody>
+  {marks.length > 0 ? (
+    marks.map(({ studentId, january, february, march, april }, index) => (
+      <tr
+        key={studentId}
+        className={`text-center ${index % 2 === 0 ? "bg-[#ffffff]" : "bg-[#EBEBEB]"}`}
+      >
+        <td className="py-3 px-4">{studentId}</td>
+        <td className="py-3 px-4">{january || "-"}</td>
+        <td className="py-3 px-4">{february || "-"}</td>
+        <td className="py-3 px-4">{march || "-"}</td>
+        <td className="py-3 px-4">{april || "-"}</td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="5" className="text-center py-4">No data available</td>
+    </tr>
+  )}
+</tbody>
+
+
           </table>
 
           {/* Pagination Controls */}
