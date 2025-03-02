@@ -13,6 +13,9 @@ public class PasswordService {
 
     // Hash a password
     public String hashPassword(String plainPassword) {
+        if (plainPassword == null || plainPassword.isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
         return passwordEncoder.encode(plainPassword);
     }
 

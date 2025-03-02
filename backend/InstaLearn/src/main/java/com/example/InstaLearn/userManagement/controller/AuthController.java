@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin("http://localhost:5173")
 public class AuthController {
 
     private final AuthService authService;
@@ -16,6 +17,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest loginRequest) {
+        if (loginRequest.getUserPassword() == null || loginRequest.getUserPassword().isEmpty()) {
+            return "Password is required";
+        }
         String token = authService.authenticateUser(loginRequest.getUserName(), loginRequest.getUserPassword());
         return token != null ? token : "Invalid credentials";
     }

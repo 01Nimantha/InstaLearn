@@ -48,10 +48,16 @@ public class AuthService implements UserDetailsService {
 
     public String authenticateUser(String username, String rawPassword) {
         User user = userRepo.findByUserName(username);
+        if (rawPassword == null || rawPassword.isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
         String check=passwordService.hashPassword(rawPassword);
         boolean test=check.equals(user.getUserPassword());
-        if (user != null && passwordService.verifyPassword(rawPassword, user.getUserPassword())) {
-            return jwtUtil.generateToken(username); // Return JWT token
+
+//        if (user != null && passwordService.verifyPassword(rawPassword, user.getUserPassword()))
+        if (user != null && rawPassword.equals(user.getUserPassword())) {
+            String role=user.getRole().toString();
+            return jwtUtil.generateToken(username,role); // Return JWT token
         }
         return null; // Authentication failed
     }
