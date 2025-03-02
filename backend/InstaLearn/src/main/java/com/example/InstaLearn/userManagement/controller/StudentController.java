@@ -1,5 +1,7 @@
 package com.example.InstaLearn.userManagement.controller;
 
+import com.example.InstaLearn.userManagement.dto.ParentDTO;
+import com.example.InstaLearn.userManagement.dto.StudentDTO;
 import com.example.InstaLearn.userManagement.dto.StudentSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.StudentUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.entity.Parent;
@@ -57,7 +59,7 @@ public class StudentController {
 
     }
     @GetMapping("/get-parent-by-student/{id}")
-    public Parent getParentByStudentId(@PathVariable(value="id") String studentId) {
+    public ParentDTO getParentByStudentId(@PathVariable(value="id") String studentId) {
         return studentService.getParentByStudentId(studentId);
 
     }
@@ -68,4 +70,28 @@ public class StudentController {
         return ResponseEntity.ok(totalStudents);
     }
 
+    @GetMapping("/get-only-students")
+    public ResponseEntity<StandardResponse> getOnlyStudents(){
+        List<StudentDTO> allStudents = studentService.getOnlyStudents();
+
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200,"success",allStudents),
+                HttpStatus.OK
+        );
+    }
+    @GetMapping("/get-only-student-by/{id}")
+    public StudentDTO getOnlyStudentById(@PathVariable(value="id") String studentId) {
+        return studentService.getOnlyStudentById(studentId);
+
+    }
+
+    @GetMapping("/get-all-student-ids")
+    public ResponseEntity<StandardResponse> getAllStudentIds(){
+        List<String> allStudentIds = studentService.getAllStudentIds();
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200,"success",allStudentIds),
+                HttpStatus.OK
+        );
+    }
 }

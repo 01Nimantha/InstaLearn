@@ -1,6 +1,7 @@
 package com.example.InstaLearn.questionPaperManagement;
 
 import com.example.InstaLearn.questionPaperManagement.dto.QuestionPaperDto;
+import com.example.InstaLearn.questionPaperManagement.external.Question;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +18,6 @@ public interface QuestionPaperService {
     boolean deleteQuestionPaperById(int id);
 
     boolean createQuestionPaper(int id);
+
+    List<Question> getAllQuestionByqpIdandstId(int qpId, String stId);
 }

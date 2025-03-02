@@ -2,7 +2,6 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import  { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import {Provider} from "react-redux"
-import App2 from './App2'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 import UserHomePage from './pages/student/UserHomePage.jsx'
@@ -26,12 +25,15 @@ import AttendanceOfficerView from './pages/admin/AttendanceOfficerView.jsx'
 import TeacherDashboard from './pages/Dashboards/Teacher/TeacherDashboard.jsx'
 import Students from './pages/Dashboards/Teacher/Students.jsx'
 import QuizForm from './pages/Dashboards/Teacher/QuizForm.jsx'
-import { Payment } from '@mui/icons-material'
 import Progress from './pages/Dashboards/Teacher/Progress.jsx'
 import Payments from './pages/Dashboards/Teacher/Payments.jsx'
 import Attendance from './pages/Dashboards/Teacher/Attendance.jsx'
 import ProtectedRoute from './routes/ProtectedRoute.jsx'
 import App3 from './App3.jsx'
+import AOfficerDashboard from './pages/attendanceOfficer/AOfficerDashboard.jsx'
+import QR_Scan from './pages/attendanceOfficer/QR_Scan.jsx'
+import App2 from './App2'
+
 
 const router = createBrowserRouter([
   {
@@ -59,11 +61,17 @@ const router = createBrowserRouter([
   { path: "/admin-dashboard/admins-view", element: <AdminsView /> },
   { path: "/admin-dashboard/aOfficers-view", element: <AttendanceOfficerView /> },
 
+
   { path: "/teacher-dashboard", element: (
     
       <App3 />
    
   ), 
+
+  {path: "/aOfficer-dashboard", element: <AOfficerDashboard />},
+  {path:'/qr-scanner',element:<QR_Scan/>},
+  { path: "/teacher-dashboard", element: <App3/> ,
+
     children: [
       { index: true, element: <TeacherDashboard/> },
       {path:"students",element:<Students/>},
@@ -81,30 +89,13 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-
     <Provider store={mystore}>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </Provider> 
-
-    {/* <RouterProvider router={router} /> */ }
-
-    {/* </Provider> */}
-     {/* <RouterProvider router={router} />  */}
-    
-    {/* <App /> */}
-    {/* <App2/> */}
-    {/* <App/> */}
-    
-    {/* <App3/> *
-    </Provider>
-
-    {/* <RouterProvider router={router} /> */}
-    
-    {/* <App /> */}
-    {/* <App2/> */}
-    {/* <App3/> */}
-    
-
   </StrictMode>,
 
+
 )
+
+)
+
