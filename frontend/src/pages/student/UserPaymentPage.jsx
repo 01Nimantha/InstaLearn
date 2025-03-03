@@ -59,6 +59,27 @@ const UserPaymentPage = () => {
     }
 
     try {
+
+      const recordResponse = await fetch("http://localhost:8085/api/v1/payment/store-payment-record", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          studentId,
+          studentName,
+          classType: selectedClass,
+          month: selectedMonth,
+          amount: parseFloat(amount),
+          status: "Pending", // Initially set to Pending until payment is successful
+        }),
+      });
+  
+      if (!recordResponse.ok) {
+        throw new Error("Failed to store payment record");
+      }
+
+      
       const response = await fetch("http://localhost:8085/api/v1/payment/create-checkout-session", {
         method: "POST",
         headers: {

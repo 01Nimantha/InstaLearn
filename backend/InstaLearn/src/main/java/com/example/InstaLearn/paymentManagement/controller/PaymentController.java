@@ -1,12 +1,16 @@
 package com.example.InstaLearn.paymentManagement.controller;
 
+import com.example.InstaLearn.paymentManagement.entity.PaymentRecord;
+import com.example.InstaLearn.paymentManagement.service.PaymentRecordService;
 import com.stripe.Stripe;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -14,6 +18,8 @@ import java.util.Map;
 @CrossOrigin("http://localhost:5173")
 public class PaymentController {
 
+    @Autowired
+    private PaymentRecordService paymentRecordService;
 
     @PostMapping("/create-checkout-session")
     public ResponseEntity<Map<String, Object>> createCheckoutSession(@RequestBody Map<String, Object> request) {
@@ -65,5 +71,25 @@ public class PaymentController {
     @GetMapping("/cancel")
     public String getCancel() {
         return "Payment canceled";
+    }
+
+    @PostMapping("/store-payment-record")
+    public ResponseEntity<?> storePaymentRecord(@RequestBody PaymentRecord paymentRecord) {
+        paymentRecord.setStatus("Paid"); // Default status before payment
+        PaymentRecord savedRecord = paymentRecordService.savePaymentRecord(paymentRecord);
+        return ResponseEntity.ok(savedRecord);
+    }
+
+    // Get all payment records
+    @GetMapping("/all")
+    public ResponseEntity<List<PaymentRecord>> getAllPayments() {
+        return ResponseEntity.ok(paymentRecordService.getAllPayments());
+    }
+
+    // Update payment status (e.g., from "Pending" to "Paid")
+    @PutMapping("/update-status/{id}")
+    public ResponseEntity<String> updatePaymentStatus(@PathVariable Long id, @RequestParam String status) {
+        paymentRecordService.updatePaymentStatus(id, status);
+        return ResponseEntity.ok("Payment status updated successfully");
     }
 }
