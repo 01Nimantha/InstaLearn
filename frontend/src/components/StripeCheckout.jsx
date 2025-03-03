@@ -28,6 +28,7 @@ const StripeCheckout = () => {
         console.error("Error:", error);
       });
   };
+  
 
   return (
     <button onClick={handleCheckout} id="checkout-button" className="bg-teal-200 text-gray-800 font-medium py-2 px-6 rounded-md hover:bg-teal-300 transition-colors w-24">
