@@ -1,20 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Home, Settings, ChevronDown, LogOut, Menu, X } from 'lucide-react';
 import Side from './Side';
 import Header from './Header';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const AOfficerDashboard = () => {
-  const [selectedClass, setSelectedClass] = useState('Theory class for 2026 GCE A/L ICT');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedClass, setSelectedClass] = useState('Select Class Name');
+  const [selectedType, setSelectedType] = useState('Select Class Type');
+  const [isClassDropdownOpen, setIsClassDropdownOpen] = useState(false);
+  const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [classTypes, setClassTypes] = useState([]);
+  const[types,setTypes] = useState([]);
 
-  const classes = [
-    'Theory class for 2026 GCE A/L ICT',
-    'Paper class for 2026 GCE A/L ICT',
-    'Paper class for 2027 GCE A/L ICT',
-    'Theory class for 2027 GCE A/L ICT'
-  ];
+  useEffect(() => {
+    loadClasses();
+    loadTypes();
+  }, []);
+  const loadClasses = async () => {
+    try {
+        const response = await axios.get("http://localhost:8085/classType/get-all-class-names");
+        const classes = Array.isArray(response.data) ? response.data : [];
+        setClassTypes(classes);
+    } catch (error) {
+        console.error('Failed to load classes:', error);
+    }
+};
+
+const loadTypes = async () => {
+  try {
+      const response = await axios.get("http://localhost:8085/classType/get-all-class-types");
+      const types = Array.isArray(response.data) ? response.data : [];
+      setTypes(types);
+  } catch (error) {
+      console.error('Failed to load types:', error);
+  }
+};
 
   return (
     <div className="flex min-h-screen bg-gray-50 relative">
@@ -53,27 +75,59 @@ const AOfficerDashboard = () => {
             <div className="mb-8">
               <div className="relative">
                 <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  onClick={() => setIsClassDropdownOpen(!isClassDropdownOpen)}
                   className="w-full bg-white p-3 lg:p-4 rounded-lg shadow flex items-center justify-between"
                 >
                   <span className="text-base lg:text-lg truncate">{selectedClass}</span>
-                  <ChevronDown className={`w-5 h-5 flex-shrink-0 transition-transform ${isDropdownOpen ? 'transform rotate-180' : ''}`} />
+                  <ChevronDown className={`w-5 h-5 flex-shrink-0 transition-transform ${isClassDropdownOpen ? 'transform rotate-180' : ''}`} />
                 </button>
 
-                {isDropdownOpen && (
+                {isClassDropdownOpen && (
                   <div className="absolute w-full mt-2 bg-white rounded-lg shadow-lg z-10">
-                    {classes.map((classItem) => (
+                    {classTypes.map((classItem) => (
                       <button
                         key={classItem}
                         onClick={() => {
                           setSelectedClass(classItem);
-                          setIsDropdownOpen(false);
+                          setIsClassDropdownOpen(false);
                         }}
                         className={`w-full p-3 lg:p-4 text-left hover:bg-gray-50 text-sm lg:text-base ${
                           selectedClass === classItem ? 'bg-green-50 text-green-600' : ''
                         }`}
                       >
                         {classItem}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Class Type Selector */}
+            <div className="mb-8">
+              <div className="relative">
+                <button
+                  onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
+                  className="w-full bg-white p-3 lg:p-4 rounded-lg shadow flex items-center justify-between"
+                >
+                  <span className="text-base lg:text-lg truncate">{selectedType}</span>
+                  <ChevronDown className={`w-5 h-5 flex-shrink-0 transition-transform ${isTypeDropdownOpen ? 'transform rotate-180' : ''}`} />
+                </button>
+
+                {isTypeDropdownOpen && (
+                  <div className="absolute w-full mt-2 bg-white rounded-lg shadow-lg z-10">
+                    {types.map((type) => (
+                      <button
+                        key={type}
+                        onClick={() => {
+                          setSelectedType(type);
+                          setIsTypeDropdownOpen(false);
+                        }}
+                        className={`w-full p-3 lg:p-4 text-left hover:bg-gray-50 text-sm lg:text-base ${
+                          selectedType === type ? 'bg-green-50 text-green-600' : ''
+                        }`}
+                      >
+                        {type}
                       </button>
                     ))}
                   </div>

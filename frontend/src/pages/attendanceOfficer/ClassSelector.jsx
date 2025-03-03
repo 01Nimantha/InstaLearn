@@ -1,6 +1,6 @@
 import { ChevronDown } from 'lucide-react';
 
-export default function ClassSelector({ selectedClass, isDropdownOpen, setIsDropdownOpen, setSelectedClass, classes }) {
+export default function ClassSelector({ selectedClass, isDropdownOpen, setIsDropdownOpen, setSelectedClass,classTypes }) {
   return (
     <div className="mb-8">
       <div className="relative">
@@ -14,7 +14,7 @@ export default function ClassSelector({ selectedClass, isDropdownOpen, setIsDrop
 
         {isDropdownOpen && (
           <div className="absolute w-full mt-2 bg-white rounded-lg shadow-lg z-10">
-            {classes.map((classItem) => (
+            {classTypes.map((classItem) => (
               <button
                 key={classItem}
                 onClick={() => {

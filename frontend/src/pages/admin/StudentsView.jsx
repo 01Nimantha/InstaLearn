@@ -6,7 +6,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
-import SendEmailModel from './SendEmailModel';
 import ViewModel from './ViewModel';
 import SendEmailModelStudentParent from './SendEmailModelStudentParent';
 import DeleteModel from './common/DeleteModel';
