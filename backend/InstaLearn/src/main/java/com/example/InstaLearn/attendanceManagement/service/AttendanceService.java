@@ -16,4 +16,6 @@ public interface AttendanceService {
     List<StudentAttendanceDTO> getStudentsWithAttendance();
 
     List<ClassedBasedAttendanceDTO> getAttendanceByClassId(long classId);
+
+    String saveAttendanceByClassId(long classId, AttendanceSaveRequestDTO attendanceDTO);
 }

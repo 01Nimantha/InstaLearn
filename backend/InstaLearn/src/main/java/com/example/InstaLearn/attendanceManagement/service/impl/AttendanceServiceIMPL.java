@@ -6,7 +6,6 @@ import com.example.InstaLearn.attendanceManagement.repo.AttendanceRepo;
 import com.example.InstaLearn.attendanceManagement.service.AttendanceService;
 import com.example.InstaLearn.classTypeManagement.entity.ClassType;
 import com.example.InstaLearn.classTypeManagement.repo.ClassTypeRepo;
-import com.example.InstaLearn.userManagement.dto.StudentDTO;
 import com.example.InstaLearn.userManagement.entity.Student;
 import com.example.InstaLearn.userManagement.repo.StudentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,6 +120,26 @@ public class AttendanceServiceIMPL implements AttendanceService {
                 .map(entry -> new ClassedBasedAttendanceDTO(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String saveAttendanceByClassId(long classId, AttendanceSaveRequestDTO attendanceDTO) {
+
+        Student student = studentRepo.findById(attendanceDTO.getStudentId())
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        Attendance attendance = new Attendance();
+
+        attendance.setStudent(student);
+        attendance.setCreatedAt(LocalDate.now());
+        attendance.setTimeRecorded(LocalTime.now());
+        attendance.setPresentState(attendanceDTO.isPresentState());
+        attendance.setClassType(classTypeRepo.findById(classId).orElseThrow(() -> new RuntimeException("Class type not found")));
+
+        attendanceRepo.save(attendance);
+
+        return "attendance has been saved";
+    }
+
 
 
 }

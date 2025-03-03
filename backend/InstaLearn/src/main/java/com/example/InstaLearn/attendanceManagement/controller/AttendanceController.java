@@ -55,6 +55,14 @@ public class AttendanceController {
         return ResponseEntity.ok(attendance);
     }
 
+    @PostMapping("save-by-class-id/{id}")
+    public ResponseEntity<StandardResponse> saveAttendanceByClassId(@PathVariable(value="id") long classId,@RequestBody AttendanceSaveRequestDTO attendanceDTO) {
+        String message = attendanceService.saveAttendanceByClassId(classId,attendanceDTO);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(201,"success",message),
+                HttpStatus.CREATED
+        );
+    }
 
 
 
