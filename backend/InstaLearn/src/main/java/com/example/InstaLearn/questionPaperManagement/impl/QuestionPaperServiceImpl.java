@@ -4,8 +4,13 @@ import com.example.InstaLearn.questionPaperManagement.QuestionPaper;
 import com.example.InstaLearn.questionPaperManagement.QuestionPaperRepository;
 import com.example.InstaLearn.questionPaperManagement.QuestionPaperService;
 import com.example.InstaLearn.questionPaperManagement.dto.QuestionPaperDto;
+import com.example.InstaLearn.questionPaperManagement.external.Question;
+import com.example.InstaLearn.questionPaperManagement.external.Student;
+import com.example.InstaLearn.questionPaperManagement.external.StudentAnswer;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,12 +87,64 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
     @Override
     public boolean createQuestionPaper(int id) {
         try{
+            RestTemplate restTemplate = new RestTemplate();
+            Question[] questionsArray = restTemplate.getForObject(
+                    "http://localhost:8085/api/v1/question/" + id,
+                    Question[].class
+            );
+
+            if (questionsArray == null || questionsArray.length == 0) {
+                System.err.println("No questions received from API.");
+                return false;
+            }
+
+            Student[] studentArray = restTemplate.getForObject(
+                    "http://localhost:8085/api/v1/student/get-all-id",
+                    Student[].class
+            );
+
+            if (studentArray == null || studentArray.length == 0) {
+                System.err.println("No student IDs received from API.");
+                return false;
+            }
+
+            QuestionPaper questionPaper = new QuestionPaper();
+
+            for(Student x : studentArray){
+                for(Question y : questionsArray){
+                    StudentAnswer studentAnswer = new StudentAnswer(
+                            x.getStudentID(),
+                            "",
+                            questionPaper.getId(),
+                            y.getQuestionId(),
+                            false,
+                            false
+                    );
+
+                    restTemplate.postForLocation(
+                            "http://localhost:8085/StudentAnswer",
+                            studentAnswer
+                    );
+                }
+            }
 
             return true;
         }catch (Exception e){
             return false;
         }
 
+    }
+
+    @Override
+    public List<Question> getAllQuestionByqpIdandstId(int qpId, String stId) {
+        RestTemplate restTemplate = new RestTemplate();
+        List<Integer> questionIds = restTemplate.getForObject("http://localhost:8085/StudentAnswer/{qpId}/{stId}", List.class, qpId, stId);
+        List<Question> questionList=new ArrayList<>();
+        for(int x:questionIds){
+            Question question= restTemplate.getForObject("http://localhost:8085/api/v1/question/get-by-id?id="+x,Question.class);
+            questionList.add(question);
+        }
+        return questionList;
     }
 
 

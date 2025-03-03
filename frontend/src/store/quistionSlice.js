@@ -194,7 +194,12 @@ const quistionSlice = createSlice({
       state.quistionArr = state.quistionArr.map(question =>
         question.id === action.payload.id ? { ...question, ...action.payload } : question
       );
-    }    
+    },
+    makeDisable: (state) => {
+      state.quistionArr.forEach((item) => {
+        item.disable = true;
+      });
+    }
   }
 });
 

@@ -7,6 +7,8 @@ import com.example.InstaLearn.userManagement.entity.User;
 import com.example.InstaLearn.userManagement.entity.enums.Role;
 import com.example.InstaLearn.userManagement.repo.TeacherRepo;
 import com.example.InstaLearn.userManagement.repo.UserRepo;
+import com.example.InstaLearn.userManagement.service.PasswordService;
+import com.example.InstaLearn.userManagement.service.PasswordStorage;
 import com.example.InstaLearn.userManagement.service.TeacherService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class TeacherServiceIMPL implements TeacherService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private PasswordService passwordService;
+
     @Override
     public String saveTeacher(TeacherSaveRequestDTO teacherSaveRequestDTO) {
 
@@ -35,7 +40,13 @@ public class TeacherServiceIMPL implements TeacherService {
         User user = new User();
         user.setUserName(String.valueOf(teacher.getTeacherId()));// Set teacherId as userName
         user.setRole(Role.valueOf("TEACHER"));
+        String password=user.generatePassword();
+        System.out.println(password);
+        user.setUserPassword(passwordService.hashPassword(password));
+
         userRepo.save(user);
+
+        PasswordStorage.storePassword(user.getUserId(), password);
 
         // Associate the saved User with the Teacher entity
         teacher.setUser(user);
