@@ -64,7 +64,7 @@ const Homepage = () => {
   const settings = {
     centerMode: true,
     centerPadding: "150px",
-    slidesToShow: 1.5,
+    slidesToShow: 2,
     infinite: true,
     speed: 500,
     autoplay: true,
@@ -111,203 +111,249 @@ const Homepage = () => {
       </div>
       <div className="bg-[#5BB9BD]">
       <div className="learnmore">
-      <Box
-  sx={{
-    position: "relative",
-    height: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundImage: `url(${background})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      backgroundImage: `url(${background})`, // Reuse the background image
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      filter: "brightness(100%) contrast(70%)", // Apply filter only to the overlay
-      zIndex: 1,
-    },
-  }}
->
-
   <Box
     sx={{
       position: "relative",
-      zIndex: 2, // Ensure content is above the darkened background
-      color: "black", // Adjust text color if needed
-      textAlign: "center",
-      p: 2,
+      height: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundImage: `url(${background})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      overflow: "hidden",
+      "&::before": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay for better text contrast
+        zIndex: 1,
+      },
     }}
   >
-    <Typography sx={{ fontSize: "4rem", fontWeight: "light-bold",fontFamily:"'Poppins','sans-serif'" }}>
-    One Platform, <br/>Infinite Learning Possibilities
-  </Typography>
-    <Typography sx={{ padding: "50px" }}>
-      <span className="font-sans text-[20px]" >
-        <b>An Education Institute Management System streamlines administration by <br/>integrating enrollment, attendance, fees, and performance tracking into one platform. </b>
-      </span>
-      <Box sx={{ display: "flex", justifyContent: "center", p: "50px" }}>
-        <Typography align="center">
-          <paper>
-          <Button onClick={() => navigate('/about')} variant="outlined" color="inherit" sx={{ backgroundColor: 'white' }}>
-            <b>Learn More</b>
-          </Button>
-          </paper>
-        </Typography>
+    <Box
+      sx={{
+        position: "relative",
+        zIndex: 2,
+        color: "white", // Light text for better contrast
+        textAlign: "center",
+        maxWidth: "800px",
+        px: 3,
+      }}
+    >
+      <Typography
+        sx={{
+          fontSize: { xs: "2.5rem", md: "4rem" },
+          fontWeight: 700,
+          fontFamily: "'Poppins', sans-serif",
+          lineHeight: 1.2,
+          mb: 3,
+          animation: "fadeIn 1.5s ease-in-out", // Subtle fade-in animation
+        }}
+      >
+        One Platform, <br />
+        Endless Learning Opportunities
+      </Typography>
+      <Typography
+        sx={{
+          fontSize: { xs: "16px", md: "20px" },
+          fontWeight: 400,
+          fontFamily: "'Poppins', sans-serif",
+          mb: 4,
+          animation: "fadeIn 2s ease-in-out", // Delayed fade-in animation
+        }}
+      >
+        An Education Institute Management System streamlines administration by
+        integrating enrollment, attendance, fees, and performance tracking into
+        one platform.
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          animation: "fadeInUp 1s ease-in-out", // Fade-in with upward motion
+        }}
+      >
+        <Button
+          onClick={() => navigate("/about")}
+          variant="contained"
+          sx={{
+            backgroundColor: "#FF6B6B", // Vibrant button color
+            color: "white",
+            fontSize: "1rem",
+            fontWeight: 600,
+            padding: "12px 24px",
+            borderRadius: "8px",
+            textTransform: "none",
+            "&:hover": {
+              backgroundColor: "#FF5252", // Slightly darker on hover
+              transform: "scale(1.05)", // Subtle scale effect on hover
+            },
+            transition: "all 0.3s ease",
+          }}
+        >
+          Learn More
+        </Button>
       </Box>
-    </Typography>
+    </Box>
   </Box>
-  
-</Box>
-
-      </div>
+</div>
       <div align="center"><h4>Our Key Features</h4></div>
       <div className="feature">
-        <Paper elevation={3} sx={{ p: 0, mb: 2, bgcolor: '#84D4D8' }}>
-        <Slider {...settings}>
-          <div>
-            <Box
-      sx={{
-        width: 400,
-        height: 400,
-        bgcolor: "black",
-        p: 2,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 2,
-        textAlign: "center",
-      }}
-    >
-      <img src={qr} width={300} height={300}
-     alt="QR Code" />
-      <Typography variant="h5" color="white" mt={2}>
-        QR Code Tracking
-      </Typography>
-      <Typography variant="body2" color="gray" mt={1} px={2}>
-        Scan the QR code to track real-time details efficiently and securely.
-      </Typography>
-    </Box>
-          </div>
-          <div>
+      <Paper 
+  elevation={3} 
+  sx={{ 
+    p: 2.5, 
+    mb: 1, 
+    background: 'linear-gradient(135deg, #84D4D8 0%, #6ABAC0 100%)',
+    overflow: 'hidden',
+    position: 'relative',
+    maxWidth: '100%', // Ensure the Paper doesn't exceed the screen width
+    mx: 'auto', // Center the Paper horizontally
+  }}
+>
+  <Slider {...settings}>
+    {[qr, qpool, payment, progress].map((img, index) => (
+      <div key={index}>
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: 350, // Adjusted maxWidth for better proportion
+            height: { xs: 320, sm: 360 }, // Adjusted height for better proportion
+            mx: 'auto',
+            bgcolor: 'rgba(0,0,0,0.9)',
+            p: { xs: 1.5, sm: 2 },
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderRadius: 3,
+            textAlign: 'center',
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              transform: 'translateY(-5px)',
+              boxShadow: 8
+            },
+            position: 'relative',
+            overflow: 'hidden',
+            border: '1px solid rgba(255,255,255,0.15)'
+          }}
+        >
           <Box
-      sx={{
-        width: 400,
-        height: 400,
-        bgcolor: "black",
-        p: 2,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 2,
-        textAlign: "center",
-      }}
-    >
-      <img src={qpool} width={300} height={300} alt="QPool" />
-      <Typography variant="h5" color="white" mt={2}>
-        Question Pool 
-      </Typography>
-      <Typography variant="body2" color="gray" mt={1} px={2}>
-        Easily upload,categorize and generate exam papers.
-      </Typography>
+            sx={{
+              width: '100%',
+              height: '90%',
+              minHeight: 180, // Adjusted minHeight for better proportion
+              position: 'relative',
+              mb: 1,
+              borderRadius: 2,
+              overflow: 'hidden',
+              bgcolor: 'rgba(255,255,255,0.05)',
+              '&:hover img': {
+                transform: 'scale(1.05)'
+              }
+            }}
+          >
+            <img 
+              src={img} 
+              alt="Feature"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                transition: 'transform 0.3s ease',
+                padding: 2,
+                boxSizing: 'border-box'
+              }}
+            />
           </Box>
-          </div>
-          <div>
-          <Box
-      sx={{
-        width: 400,
-        height: 400,
-        bgcolor: "black",
-        p: 2,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 2,
-        textAlign: "center",
-      }}
-    >
-      <img src={payment} width={300} height={300} alt="Payment" />
-      <Typography variant="h5" color="white" mt={2}>
-        Online Payment
-      </Typography>
-      <Typography variant="body2" color="gray" mt={1} px={2}>
-        Secure payment gateway with automated reminders
-      </Typography>
-    </Box>
-          </div>
-          <div>
-          <Box
-      sx={{
-        width: 400,
-        height: 400,
-        bgcolor: "black",
-        p: 2,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 2,
-        textAlign: "center",
-      }}
-    >
-      <img src={progress} width={300} height={300} alt="Progress" />
-      <Typography variant="h5" color="white" mt={2}>
-        Progress Traking 
-      </Typography>
-      <Typography variant="body2" color="gray" mt={1} px={2}>
-        Real-time dashboard for students,parents and  teachers
-      </Typography>
-    </Box>
-          </div>
-        </Slider>
-        <br/>
-        </Paper>
+
+          <Box sx={{ 
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            px: 1 
+          }}>
+            <Typography variant="h6" color="white" sx={{
+              fontSize: { xs: '1rem', sm: '1.2rem' }, // Adjusted font size
+              fontWeight: 600,
+              lineHeight: 1.2,
+              mb: 0.5,
+              textShadow: '0 2px 2px rgba(0,0,0,0.3)'
+            }}>
+              {['QR Tracking', 'Question Pool', 'Online Payments', 'Progress Tracking'][index]}
+            </Typography>
+            
+            <Typography variant="body2" color="rgba(255,255,255,0.85)" sx={{
+              fontSize: { xs: '0.7rem', sm: '0.8rem' }, // Adjusted font size
+              lineHeight: 1.4,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden'
+            }}>
+              {[
+                'Instant scanning for real-time tracking updates',
+                'Smart categorization and exam paper generation',
+                'Secure transactions with auto-reminders',
+                'Live dashboard for all stakeholders'
+              ][index]}
+            </Typography>
+          </Box>
+        </Box>
+      </div>
+    ))}
+  </Slider>
+</Paper>
       </div>
       
       <div align="center"><h4><br/>Designed For</h4></div>
-      <div className="dashbords" >
-        <Grid container spacing={3} justifyContent="center">
-      {cards.map((card, index) => (
-        <Grid item key={index} xs={12} sm={4}>
-          <Card
-            style={{
-              backgroundColor: index === 1 ? "#E5EAEA" : "white",
-              color: "black,",
-              textAlign: "center",
-              borderRadius: "16px",
-              padding: "20px",
-            }}
-          >
-            <CardContent>
+      <div className="dashbords" style={{ paddingLeft: "10px", paddingRight: "10px" }}>
+  <Grid container spacing={3} justifyContent="center">
+    {cards.map((card, index) => (
+      <Grid item key={index} xs={12} sm={4}>
+        <Card
+          style={{
+            backgroundColor: index === 1 ? "#E5EAEA" : "white",
+            color: "black",
+            textAlign: "center",
+            borderRadius: "16px",
+            padding: "20px",
+            transition: "transform 0.3s ease, box-shadow 0.3s ease", // Smooth transition for transform and shadow
+            transform: "scale(1)", // Default scale
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Default shadow
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.05)"; // Scale up on hover
+            e.currentTarget.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.2)"; // Increase shadow on hover
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)"; // Reset scale
+            e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)"; // Reset shadow
+          }}
+        >
+          <CardContent>
+            <div style={{ transition: "transform 0.3s ease" }}>
               {card.icon}
-              <Typography
-                variant="body1"
-                style={{ marginTop: "10px", fontSize: "16px" }}
-              >
-                <b>{card.title}</b><br/>
-                {card.description}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
-  
-          
-        
-
+            </div>
+            <Typography
+              variant="body1"
+              style={{ marginTop: "10px", fontSize: "16px" }}
+            >
+              <b>{card.title}</b>
+              <br />
+              {card.description}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+    ))}
+  </Grid>
       </div>
       
       

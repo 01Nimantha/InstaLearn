@@ -4,6 +4,7 @@ import com.example.InstaLearn.userManagement.entity.Admin;
 import com.example.InstaLearn.userManagement.entity.Student;
 import com.example.InstaLearn.userManagement.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +14,6 @@ import java.util.List;
 @EnableJpaRepositories
 public interface StudentRepo extends JpaRepository<Student, String>{
 
-
+    @Query("SELECT s.studentId FROM Student s")
+    List<String> findAllStudentIds();
 }

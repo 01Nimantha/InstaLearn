@@ -1,6 +1,7 @@
 package com.example.InstaLearn.questionPaperManagement;
 
 import com.example.InstaLearn.questionPaperManagement.dto.QuestionPaperDto;
+import com.example.InstaLearn.questionPaperManagement.external.Question;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +75,15 @@ public class QuestionPaperController {
         }
     }
 
+    @GetMapping("/{qpId}/{stId}")
+    public ResponseEntity<List<Question>> getAllQuestionByqpIdandstId(@PathVariable int qpId,@PathVariable String stId){
+        List<Question> questionList = questionPaperService.getAllQuestionByqpIdandstId(qpId,stId);
+        if(questionList.isEmpty()){
+            return new ResponseEntity<>(questionList,HttpStatus.BAD_REQUEST);
+        }else {
+            return new ResponseEntity<>(questionList,HttpStatus.OK);
+        }
+    }
 
 
 }
