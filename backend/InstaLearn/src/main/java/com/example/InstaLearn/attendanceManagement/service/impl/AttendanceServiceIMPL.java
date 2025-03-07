@@ -123,6 +123,11 @@ public class AttendanceServiceIMPL implements AttendanceService {
 
         Student student = studentRepo.findById(attendanceDTO.getStudentId())
                 .orElseThrow(() -> new RuntimeException("Student not found"));
+        ClassType classType = classTypeRepo.findById(classId)
+                .orElseThrow(() -> new RuntimeException("Class type not found with ID: " + classId));
+        if (!student.getClassTypes().contains(classType)) {
+            throw new RuntimeException("Student " + student.getStudentId() + " is not enrolled in class ID: " + classId);
+        }
 
         Attendance attendance = new Attendance();
 
