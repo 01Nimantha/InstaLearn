@@ -20,11 +20,11 @@ const App3 = () => {
          Logout={()=>{console.log("Click Logout Button")}} 
          Tab1="Home" Tab1Icon={FaHome} Tab1functions="/teacher-dashboard"
          Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='students'
-         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="manage-shedules" 
+         Tab3="Manage Schedule" Tab3Icon={HiCalendarDateRange} Tab3functions="schedule" 
          Tab4="Payments" Tab4Icon={MdOutlinePayment} Tab4functions="payment"
          Tab5="Attendance" Tab5Icon={FaRegCalendarCheck} Tab5functions="attendence"
          AddNewTab={true} 
-         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="/"/>
+         Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="settings"/>
       </div>
       <div>
         <Outlet/>

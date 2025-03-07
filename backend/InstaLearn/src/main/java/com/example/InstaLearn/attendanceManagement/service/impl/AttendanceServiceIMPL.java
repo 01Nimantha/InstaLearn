@@ -9,6 +9,9 @@ import com.example.InstaLearn.userManagement.repo.StudentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Service
 public class AttendanceServiceIMPL implements AttendanceService {
 
@@ -41,4 +44,10 @@ public class AttendanceServiceIMPL implements AttendanceService {
     public long getTotalAttendance() {
         return attendanceRepo.count();
     }
+
+    @Override
+    public int getPresentCountByDate(LocalDate date) {
+        return attendanceRepo.countByDateAndPresentState(date, true);
+    }
+
 }
