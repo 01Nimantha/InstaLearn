@@ -78,7 +78,7 @@ public class MailServiceIMPL implements MailService {
         helper.setSubject("Welcome to InstaLearn");
 
             String customizedMessage = "Dear " + name + ",\nYour InstaLearn account credentials are below:\n\nUser Name:" + user.getUserName()
-                    + " \nPassword:" + password + "\n\nThank you-InstaLearn";
+                    + " \nPassword:" + user.getUserPassword() + "\n\nThank you-InstaLearn";
 
         helper.setText(customizedMessage);
 

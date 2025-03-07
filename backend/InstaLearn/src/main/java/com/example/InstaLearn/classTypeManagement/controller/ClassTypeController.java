@@ -2,6 +2,7 @@ package com.example.InstaLearn.classTypeManagement.controller;
 
 import com.example.InstaLearn.classTypeManagement.dto.ClassTypeSaveRequestDTO;
 import com.example.InstaLearn.classTypeManagement.entity.ClassType;
+import com.example.InstaLearn.classTypeManagement.entity.enums.Type;
 import com.example.InstaLearn.classTypeManagement.service.ClassTypeService;
 import com.example.InstaLearn.userManagement.util.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +57,13 @@ public class ClassTypeController {
     @GetMapping("/get-all-class-types")
     public ResponseEntity<List<String>> getAllClassTypes(){
         return new ResponseEntity<>(classTypeService.getAllClassTypes(), HttpStatus.OK);
+    }
+
+    @GetMapping("get-class-type-id")
+    public ResponseEntity<Long> getClassTypeId(
+            @RequestParam String className,
+            @RequestParam Type type) {
+        Long classTypeId = classTypeService.getClassTypeId(className, type);
+        return ResponseEntity.ok(classTypeId);
     }
 }

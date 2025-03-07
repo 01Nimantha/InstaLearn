@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -132,7 +129,7 @@ public class AttendanceServiceIMPL implements AttendanceService {
         attendance.setStudent(student);
         attendance.setCreatedAt(LocalDate.now());
         attendance.setTimeRecorded(LocalTime.now());
-        attendance.setPresentState(attendanceDTO.isPresentState());
+        attendance.setPresentState(true);
         attendance.setClassType(classTypeRepo.findById(classId).orElseThrow(() -> new RuntimeException("Class type not found")));
 
         attendanceRepo.save(attendance);
@@ -140,6 +137,40 @@ public class AttendanceServiceIMPL implements AttendanceService {
         return "attendance has been saved";
     }
 
+    @Override
+    public String finalizeAttendanceByClassId(long classId) {
+        // Get the class type
+        ClassType classType = classTypeRepo.findById(classId)
+                .orElseThrow(() -> new RuntimeException("Class type not found"));
+
+        // Fetch all students enrolled in this class
+        List<Student> enrolledStudents = studentRepo.findStudentsByClassId(classId);
+
+        // Get the current date for filtering attendance
+        LocalDate today = LocalDate.now();
+
+        // Fetch all students already marked present for this class today
+        List<Attendance> attendanceList = attendanceRepo.findByClassTypeAndCreatedAt(classType, today);
+        List<String> presentStudentIds = attendanceList.stream()
+                .filter(Attendance::isPresentState)
+                .map(attendance -> attendance.getStudent().getStudentId()) // Use String type for studentId
+                .collect(Collectors.toList());
+
+        // Mark absent students who are enrolled but not marked present
+        for (Student student : enrolledStudents) {
+            if (!presentStudentIds.contains(student.getStudentId())) {
+                Attendance attendance = new Attendance();
+                attendance.setStudent(student);
+                attendance.setCreatedAt(today);
+                attendance.setTimeRecorded(LocalTime.now());
+                attendance.setPresentState(false);
+                attendance.setClassType(classType);
+                attendanceRepo.save(attendance);
+            }
+        }
+
+        return "Attendance finalized for class ID: " + classId;
+    }
 
 
 }

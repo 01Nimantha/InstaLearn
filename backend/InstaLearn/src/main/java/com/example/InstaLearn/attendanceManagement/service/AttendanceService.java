@@ -18,4 +18,6 @@ public interface AttendanceService {
     List<ClassedBasedAttendanceDTO> getAttendanceByClassId(long classId);
 
     String saveAttendanceByClassId(long classId, AttendanceSaveRequestDTO attendanceDTO);
+
+    String finalizeAttendanceByClassId(long classId);
 }

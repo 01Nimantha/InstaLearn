@@ -2,6 +2,7 @@ package com.example.InstaLearn.classTypeManagement.service.impl;
 
 import com.example.InstaLearn.classTypeManagement.dto.ClassTypeSaveRequestDTO;
 import com.example.InstaLearn.classTypeManagement.entity.ClassType;
+import com.example.InstaLearn.classTypeManagement.entity.enums.Type;
 import com.example.InstaLearn.classTypeManagement.repo.ClassTypeRepo;
 import com.example.InstaLearn.classTypeManagement.service.ClassTypeService;
 import org.modelmapper.ModelMapper;
@@ -68,6 +69,12 @@ public class ClassTypeServiceIMPL implements ClassTypeService {
                 .stream()
                 .distinct()
                 .toList();
+    }
+
+    @Override
+    public Long getClassTypeId(String className, Type type) {
+        return classTypeRepo.findClassTypeIdByClassNameAndClassType(className, type)
+                .orElseThrow(() -> new RuntimeException("ClassType not found"));
     }
 
 

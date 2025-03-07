@@ -11,6 +11,5 @@ import java.time.LocalDate;
 @Data
 public class AttendanceSaveRequestDTO {
     private String studentId;
-    private boolean presentState;
 
 }

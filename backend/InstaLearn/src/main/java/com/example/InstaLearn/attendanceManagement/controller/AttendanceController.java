@@ -1,7 +1,6 @@
 package com.example.InstaLearn.attendanceManagement.controller;
 
 import com.example.InstaLearn.attendanceManagement.dto.*;
-import com.example.InstaLearn.attendanceManagement.entity.Attendance;
 import com.example.InstaLearn.attendanceManagement.service.AttendanceService;
 import com.example.InstaLearn.userManagement.util.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +62,19 @@ public class AttendanceController {
                 HttpStatus.CREATED
         );
     }
+
+    @PostMapping("finalize-attendance/{id}")
+    public ResponseEntity<StandardResponse> finalizeAttendanceByClassId(@PathVariable(value = "id") long classId) {
+        String message = attendanceService.finalizeAttendanceByClassId(classId);
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200, "success", message),
+                HttpStatus.OK
+        );
+    }
+
+
+
+
 
 
 

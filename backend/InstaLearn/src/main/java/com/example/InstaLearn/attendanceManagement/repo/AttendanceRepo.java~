@@ -18,5 +18,5 @@ public interface AttendanceRepo extends JpaRepository<Attendance, Integer> {
 
     List<Attendance> findByClassType_ClassTypeId(long classId);
 
-    List<Attendance> findByClassTypeAndCreatedAt(ClassType classType, LocalDate createdAt);
+    List<Attendance> findByClassTypeAndCreatedAt(ClassType classType, LocalDate today);
 }

@@ -5,6 +5,7 @@ import com.example.InstaLearn.classTypeManagement.entity.enums.Type;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,4 +22,9 @@ public interface ClassTypeRepo extends JpaRepository<ClassType, Long> {
     List<String> findAllClassTypes();
 
     Optional<ClassType> findByClassTypeNameAndType(String classTypeName, Type type);
+
+    @Query("SELECT c.classTypeId FROM ClassType c WHERE c.classTypeName = :classTypeName AND c.type = :type")
+    Optional<Long> findClassTypeIdByClassNameAndClassType(@Param("classTypeName") String classTypeName,
+                                                          @Param("type") Type type);
+
 }
