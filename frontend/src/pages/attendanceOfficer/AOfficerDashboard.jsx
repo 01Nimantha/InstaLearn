@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Home, Settings, ChevronDown, LogOut, Menu, X } from 'lucide-react';
 import Side from './Side';
 import Header from './Header';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const AOfficerDashboard = () => {
+  const navigate = useNavigate();
   const [selectedClass, setSelectedClass] = useState('Select Class Name');
   const [selectedType, setSelectedType] = useState('Select Class Type');
   const [isClassDropdownOpen, setIsClassDropdownOpen] = useState(false);
@@ -37,6 +38,31 @@ const loadTypes = async () => {
       console.error('Failed to load types:', error);
   }
 };
+
+const handleNavigate = async () => {
+  if (selectedClass !== "Select Class Name" && selectedType !== "Select Class Type") {
+
+    try {
+      const response = await axios.get("http://localhost:8085/classType/get-class-type-id", {
+        params: { className: selectedClass, type: selectedType.toUpperCase() } // 🔥 Ensure it's uppercase
+      });
+      const classTypeId = response.data;
+
+        if (!classTypeId) {
+          alert("No class type ID found. Please check your selections.");
+          return;
+        }
+
+      navigate(`/qr-scanner?classTypeId=${classTypeId}`);
+    } catch (error) {
+    
+      alert("Failed to retrieve class type ID. Check console for details.");
+    }
+  } else {
+    alert("Please select a class name and type first!");
+  }
+};
+
 
   return (
     <div className="flex min-h-screen bg-gray-50 relative">
@@ -136,9 +162,10 @@ const loadTypes = async () => {
             </div>
 
             {/* Attendance Card */}
-            <Link to={'/qr-scanner'} className="bg-green-500 rounded-lg p-6 lg:p-8 text-center w-full flex items-center justify-center shadow hover:bg-green-600 transition-colors duration/2 rounded text-decoration-none">
+            <button onClick={handleNavigate} 
+                    className="bg-green-500 rounded-lg p-6 lg:p-8 text-center w-full flex items-center justify-center shadow hover:bg-green-600 transition-colors duration/2 rounded text-decoration-none">
               <h2 className="text-xl lg:text-2xl font-semibold text-white">Mark Attendance</h2>
-            </Link>
+            </button>
           </div>
         </main>
       </div>

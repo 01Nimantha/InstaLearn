@@ -62,12 +62,6 @@ const router = createBrowserRouter([
   { path: "/admin-dashboard/aOfficers-view", element: <AttendanceOfficerView /> },
 
 
-  { path: "/teacher-dashboard", element: (
-    
-      <App3 />
-   
-  ), 
-
   {path: "/aOfficer-dashboard", element: <AOfficerDashboard />},
   {path:'/qr-scanner',element:<QR_Scan/>},
   { path: "/teacher-dashboard", element: <App3/> ,
@@ -85,8 +79,6 @@ const router = createBrowserRouter([
   
 ]);
 
-
-
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={mystore}>
@@ -95,7 +87,7 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 
 
-)
+);
 
-)
+
 
