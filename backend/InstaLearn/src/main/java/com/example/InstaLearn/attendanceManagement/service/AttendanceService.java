@@ -6,6 +6,9 @@ import com.example.InstaLearn.userManagement.entity.Student;
 
 import java.util.List;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public interface AttendanceService {
     String saveAttendance(AttendanceDTO attendanceDTO);
 
@@ -20,4 +23,6 @@ public interface AttendanceService {
     String saveAttendanceByClassId(long classId, AttendanceSaveRequestDTO attendanceDTO);
 
     String finalizeAttendanceByClassId(long classId);
+
+    int getPresentCountByDate(LocalDate date);
 }

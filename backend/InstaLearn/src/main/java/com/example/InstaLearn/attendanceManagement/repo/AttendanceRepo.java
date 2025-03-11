@@ -8,8 +8,19 @@ import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 public interface AttendanceRepo extends JpaRepository<Attendance, Integer> {
+
+    int countByDateAndPresentState(LocalDate date, boolean presentState);
+
+    @Query("SELECT COUNT(a) FROM Attendance a WHERE a.date = :date AND a.presentState = true")
+
+    int getPresentCount(@Param("date") LocalDate date);
 
     List<Attendance> findByStudent_StudentId(String studentId);
 

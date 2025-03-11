@@ -47,8 +47,8 @@ public class MailServiceIMPL implements MailService {
     public String sendTeacherCredentialsMail(int userId, MailDetailsDTO mailDetailsDTO) throws IOException, WriterException, MessagingException {
         User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 
-        String password = PasswordStorage.getPassword(userId);
-        String password1 = PasswordStorage.getPassword(userId);
+//        String password = PasswordStorage.getPassword(userId);
+//        String password1 = PasswordStorage.getPassword(userId);
 
         // Retrieve stored password
         String name = null;

@@ -66,7 +66,13 @@ public class StudentServiceIMPL implements StudentService {
         User user1 = new User();
         user1.setUserName(String.valueOf(parent.getParentId())); // Set parentId as userName
         user1.setRole(Role.valueOf("PARENT"));
+
+//        String password=user1.generatePassword();
+//        System.out.println(password);
+//        user1.setUserPassword(passwordService.hashPassword(password));
+
         userRepo.save(user1);
+//        PasswordStorage.storePassword(user1.getUserId(), password);
 
         // Associate User with Parent
         parent.setUser(user1);
@@ -108,9 +114,17 @@ public class StudentServiceIMPL implements StudentService {
         User user2 = new User();
         user2.setUserName(String.valueOf(student.getStudentId())); // Set studentId as userName
         user2.setRole(Role.valueOf("STUDENT"));
+
+//        String password1=user2.generatePassword();
+//        System.out.println(password1);
+//        user1.setUserPassword(passwordService.hashPassword(password1));
+
         userRepo.save(user2);
 
         // Associate User with Student
+//        PasswordStorage.storePassword(user1.getUserId(), password1);
+
+        // Associate the saved User with the Student entity
         student.setUser(user2);
         studentRepo.save(student);
 

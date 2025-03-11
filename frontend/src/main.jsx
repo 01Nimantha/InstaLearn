@@ -29,12 +29,15 @@ import Progress from './pages/Dashboards/Teacher/Progress.jsx'
 import Payments from './pages/Dashboards/Teacher/Payments.jsx'
 import Attendance from './pages/Dashboards/Teacher/Attendance.jsx'
 import ProtectedRoute from './routes/ProtectedRoute.jsx'
+import TeacherSettings from './pages/Dashboards/Teacher/TeacherSettings.jsx'
 import App3 from './App3.jsx'
 import AOfficerDashboard from './pages/attendanceOfficer/AOfficerDashboard.jsx'
 import QR_Scan from './pages/attendanceOfficer/QR_Scan.jsx'
 import App2 from './App2'
 import EditAOfficer from './pages/attendanceOfficer/EditAOfficer.jsx';
 
+import SchedulePage from './pages/Dashboards/Teacher/SchedulePage.jsx'
+import { Settings } from 'lucide-react'
 
 const router = createBrowserRouter([
   {
@@ -66,16 +69,17 @@ const router = createBrowserRouter([
   {path: "/aOfficer-dashboard", element: <AOfficerDashboard />},
   {path: "/aOfficer-dashboard/edit-profile", element: <EditAOfficer />},
   {path:'/qr-scanner',element:<QR_Scan/>},
-  { path: "/teacher-dashboard", element: <App3/> ,
 
+  { path: "/teacher-dashboard", element: <App3/> ,
     children: [
       { index: true, element: <TeacherDashboard/> },
       {path:"students",element:<Students/>},
       {path:"quiz",element:<QuizForm/>},
       {path:"progress",element:<Progress/>},
       {path:"payment",element:<Payments/>},
-      {path:"manage-shedules",element:<TeacherDashboard/>},
-      {path:"attendence",element:<Attendance/>}
+      {path:"schedule",element:<SchedulePage/>},
+      {path:"attendence",element:<Attendance/>},
+      {path:"settings",element:<TeacherSettings/>}
     ]
   },
   
@@ -90,6 +94,7 @@ createRoot(document.getElementById('root')).render(
 
 
 );
+)
 
 
 

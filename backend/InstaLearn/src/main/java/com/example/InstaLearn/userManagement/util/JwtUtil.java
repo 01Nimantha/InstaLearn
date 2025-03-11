@@ -19,13 +19,19 @@ public class JwtUtil {
     }
 
     // Generate JWT Token
-    public String generateToken(String username) {
+    public String generateToken(String username,String role) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey())
                 .compact();
+    }
+
+    // Extract Role from Token
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
     // Extract Username

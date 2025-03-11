@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @RestController
 @RequestMapping("api/v1/attendance")
 @CrossOrigin
@@ -77,5 +80,11 @@ public class AttendanceController {
 
 
 
+
+    @GetMapping("/count")
+    public int getPresentCount(@RequestParam("date") String date) {
+        LocalDate localDate = LocalDate.parse(date);
+        return attendanceService.getPresentCountByDate(localDate);
+    }
 
 }

@@ -17,6 +17,9 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Service
 public class AttendanceServiceIMPL implements AttendanceService {
 
@@ -177,5 +180,11 @@ public class AttendanceServiceIMPL implements AttendanceService {
         return "Attendance finalized for class ID: " + classId;
     }
 
+
+
+    @Override
+    public int getPresentCountByDate(LocalDate date) {
+        return attendanceRepo.countByDateAndPresentState(date, true);
+    }
 
 }
