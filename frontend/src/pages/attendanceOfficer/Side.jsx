@@ -1,9 +1,12 @@
-import { Home, LogOut, Settings } from 'lucide-react'
-import React from 'react'
+import { ChevronDown, Home, LogOut, Settings } from 'lucide-react'
+import React, { useState } from 'react'
 import logo from '../../assets/Logo.svg'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
-const Side = ({isSidebarOpen,navigationItems,officer_name,AO_ID}) => {
+const Side = ({isSidebarOpen,navigationItems,officer_name,AO_ID,editPath,changePath}) => {
+  const location = useLocation();
+  const [isSettingsDropdownOpen, setIsSettingsDropdownOpen] = useState(false); 
+
   return (
     <div className={`mr-2
       fixed lg:static inset-y-0 left-0 z-40 w-64 bg-green-500 text-white flex flex-col
@@ -20,16 +23,44 @@ const Side = ({isSidebarOpen,navigationItems,officer_name,AO_ID}) => {
       
       <nav className="flex-1 mt-3">
         {navigationItems.map((item) => (
-          <Link
-            key={item.name}
-            to={item.href}
-            className="flex items-center px-6 py-3 text-white hover:!bg-white hover:!text-black hover:rounded-lg transition duration-300 text-decoration-none mx-2 rounded"
-          >
-            <item.icon className="w-5 h-5 mr-3" />
-            <span>{item.name}</span>
-          </Link>
+          <div key={item.name}>
+            <div
+              onClick={() => {
+                if (item.name === 'Settings') {
+                  setIsSettingsDropdownOpen(!isSettingsDropdownOpen); // Toggle dropdown
+                } else {
+                  setIsSettingsDropdownOpen(false); // Close dropdown if another item is clicked
+                }
+              }}
+              className="flex items-center px-6 py-3 text-white hover:!bg-white hover:!text-black hover:rounded-lg transition duration-300 text-decoration-none mx-2 rounded cursor-pointer"
+            >
+              <item.icon className="w-5 h-5 mr-3" />
+              <span>{item.name}</span>
+              {item.name === 'Settings' && (
+                <ChevronDown className={`w-4 h-4 ml-auto transition-transform ${isSettingsDropdownOpen ? 'transform rotate-180' : ''}`} />
+              )}
+            </div>
+
+            {/* Settings Dropdown */}
+            {item.name === 'Settings' && isSettingsDropdownOpen && (
+              <div className="ml-12 mt-1 bg-green-600 rounded-lg shadow-lg">
+                <Link
+                  to={editPath}
+                  className="block px-6 py-3 text-sm text-white hover:bg-green-700 rounded-lg"
+                >
+                  Edit Profile
+                </Link>
+                <Link
+                  to={changePath}
+                  className="block px-6 py-3 text-sm text-white hover:bg-green-700 rounded-lg"
+                >
+                  Change Password
+                </Link>
+              </div>
+            )}
+          </div>
         ))}
-    </nav>
+      </nav>
 
       <div className="p-4 border-t border-green-600">
         <div className="flex items-center">

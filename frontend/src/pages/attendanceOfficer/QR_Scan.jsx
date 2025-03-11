@@ -63,7 +63,6 @@ const QR_Scan = () => {
       setStudent(result.data);
       await handleSaveAttendance(result.data);
     } catch (error) {
-      console.error("Error loading student:", error);
       alert("Failed to load student data.");
     }
   };
@@ -78,8 +77,7 @@ const QR_Scan = () => {
       await axios.post(`http://localhost:8085/api/v1/attendance/save-by-class-id/${classId}`, attendanceData);
       alert("Attendance saved successfully!");
     } catch (error) {
-      console.error("Error saving attendance:", error);
-      alert("Failed to save attendance.");
+      alert("This Student is Not belong to this Class");
     }
   };
 
@@ -121,7 +119,6 @@ const QR_Scan = () => {
       setIsModalOpen(false); // Close the modal
       setManualStudent({ studentId: "", studentName: "" }); // Reset manual student state
     } catch (error) {
-      console.error("Error adding manual attendance:", error);
       alert("Failed to save manual attendance.");
     }
   };
@@ -140,7 +137,6 @@ const QR_Scan = () => {
       alert(response.data.message); // Show success message from backend
       navigate("/aOfficer-dashboard"); // Redirect to dashboard after finishing
     } catch (error) {
-      console.error("Error finalizing attendance:", error);
       alert("Failed to finalize attendance.");
     }
   };

@@ -33,6 +33,7 @@ import App3 from './App3.jsx'
 import AOfficerDashboard from './pages/attendanceOfficer/AOfficerDashboard.jsx'
 import QR_Scan from './pages/attendanceOfficer/QR_Scan.jsx'
 import App2 from './App2'
+import EditAOfficer from './pages/attendanceOfficer/EditAOfficer.jsx';
 
 
 const router = createBrowserRouter([
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
 
 
   {path: "/aOfficer-dashboard", element: <AOfficerDashboard />},
+  {path: "/aOfficer-dashboard/edit-profile", element: <EditAOfficer />},
   {path:'/qr-scanner',element:<QR_Scan/>},
   { path: "/teacher-dashboard", element: <App3/> ,
 
