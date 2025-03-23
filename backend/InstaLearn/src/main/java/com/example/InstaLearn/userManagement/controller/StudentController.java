@@ -1,10 +1,10 @@
 package com.example.InstaLearn.userManagement.controller;
 
+import com.example.InstaLearn.attendanceManagement.dto.AttendanceDTO;
 import com.example.InstaLearn.userManagement.dto.ParentDTO;
 import com.example.InstaLearn.userManagement.dto.StudentDTO;
 import com.example.InstaLearn.userManagement.dto.StudentSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.StudentUpdateRequestDTO;
-import com.example.InstaLearn.userManagement.entity.Parent;
 import com.example.InstaLearn.userManagement.entity.Student;
 import com.example.InstaLearn.userManagement.service.StudentService;
 import com.example.InstaLearn.userManagement.util.StandardResponse;
@@ -94,4 +94,5 @@ public class StudentController {
                 HttpStatus.OK
         );
     }
+
 }

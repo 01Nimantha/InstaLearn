@@ -5,7 +5,6 @@ import com.example.InstaLearn.classTypeManagement.entity.ClassType;
 import com.example.InstaLearn.classTypeManagement.entity.enums.Type;
 import com.example.InstaLearn.userManagement.entity.idgenerator.StudentIdSequenceGenerator;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -70,7 +69,6 @@ public class Student {
     private User user;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
     private List<Attendance> attendanceRecords;
 
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
