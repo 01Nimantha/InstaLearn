@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Home, Settings, ChevronDown, LogOut, Menu, X } from 'lucide-react';
 import Side from './Side';
 import Header from './Header';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import ChangePassword from './ChangePassword';
 
 const AOfficerDashboard = () => {
+
+  const {id} = useParams();
+  const[aOfficer,setaOfficer] = useState([]);
+
   const navigate = useNavigate();
   const [selectedClass, setSelectedClass] = useState('Select Class Name');
   const [selectedType, setSelectedType] = useState('Select Class Type');
@@ -14,6 +19,16 @@ const AOfficerDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [classTypes, setClassTypes] = useState([]);
   const [types, setTypes] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    fetch(`http://localhost:8085/api/v1/attendanceOfficer/get-aOfficer-by/${id}`)
+        .then(response => response.json())
+        .then(data => setaOfficer(data))
+        .catch(error => console.error("Error fetching attendance officer:", error));
+    }, [id]);
+
+    if (!aOfficer) return <p>Loading...</p>;
 
   useEffect(() => {
     loadClasses();
@@ -53,7 +68,7 @@ const AOfficerDashboard = () => {
           return;
         }
 
-        navigate(`/qr-scanner?classTypeId=${classTypeId}`);
+       navigate(`/qr-scanner?classTypeId=${classTypeId}&aOfficerId=${id}`);
       } catch (error) {
         alert("Failed to retrieve class type ID. Check console for details.");
       }
@@ -76,18 +91,14 @@ const AOfficerDashboard = () => {
       <Side
         isSidebarOpen={isSidebarOpen}
         navigationItems={[
-          { name: 'Home', href: '/aOfficer-dashboard', icon: Home },
-          { name: 'Logout', href: '#', icon: LogOut },
+          { name: 'Home', href: '/aOfficer-dashboard/${id}', icon: Home },
           { name: 'Settings', href: '#', icon: Settings },
         ]}
-        settingItems={[
-          { name: 'Edit Profile', path: `/edit-profile/AO_2025_10001` },
-          { name: 'Change Password', path: '/change-password' },
-        ]}
-        officer_name="Maleesha"
-        AO_ID="AO_2025_10001"
-        editPath={`/aOfficer-dashboard/edit-profile`}
-        changePath="/change-password"
+       
+        officer_name={aOfficer.attendanceOfficerName}
+        AO_ID={aOfficer.attendanceOfficerId}
+        editPath={`/aOfficer-dashboard/edit-profile/${id}`}
+        changePath={() => setShowModal(true)}
       />
 
       {/* Overlay for mobile */}
@@ -100,7 +111,9 @@ const AOfficerDashboard = () => {
 
       {/* Main Content */}
       <div className="flex-1">
-        <Header />
+        <Header 
+          name={aOfficer.attendanceOfficerName}
+          officerId={aOfficer.attendanceOfficerId}/>
 
         {/* Content */}
         <main className="p-4 lg:p-8">
@@ -172,14 +185,17 @@ const AOfficerDashboard = () => {
             {/* Attendance Card */}
             <button
               onClick={handleNavigate}
-              className="bg-green-500 rounded-lg p-6 lg:p-8 text-center w-full flex items-center justify-center shadow hover:bg-green-600 transition-colors duration-200 text-decoration-none"
+              className="bg-green-500 rounded p-6 lg:p-8 text-center w-full flex items-center justify-center shadow hover:bg-green-600 transition-colors duration-200 text-decoration-none"
             >
               <h2 className="text-xl lg:text-2xl font-semibold text-white">Mark Attendance</h2>
             </button>
           </div>
         </main>
       </div>
+      {showModal && <ChangePassword setShowModal={setShowModal} />}
     </div>
+    
+
   );
 };
 

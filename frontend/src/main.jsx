@@ -66,8 +66,8 @@ const router = createBrowserRouter([
   { path: "/admin-dashboard/aOfficers-view", element: <AttendanceOfficerView /> },
 
 
-  {path: "/aOfficer-dashboard", element: <AOfficerDashboard />},
-  {path: "/aOfficer-dashboard/edit-profile", element: <EditAOfficer />},
+  {path: "/aOfficer-dashboard/:id", element: <AOfficerDashboard />},
+  {path: "/aOfficer-dashboard/edit-profile/:id", element: <EditAOfficer />},
   {path:'/qr-scanner',element:<QR_Scan/>},
 
   { path: "/teacher-dashboard", element: <App3/> ,
@@ -94,7 +94,7 @@ createRoot(document.getElementById('root')).render(
 
 
 );
-)
+
 
 
 

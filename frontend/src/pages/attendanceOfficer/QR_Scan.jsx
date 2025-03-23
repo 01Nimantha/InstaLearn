@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Added useNavigate for redirection
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"; // Added useNavigate for redirection
 import { QrReader } from "@blackbox-vision/react-qr-reader";
 import axios from "axios";
 
 const QR_Scan = () => {
+
+  const [searchParams] = useSearchParams(); // Access query parameters
+  const aOfficerID = searchParams.get("aOfficerId"); // Get aOfficerId from query par
   const image = "/src/assets/images/QRbg.jpg";
   const [currentTime, setCurrentTime] = useState(new Date());
   const [scanResult, setScanResult] = useState(null);
@@ -135,7 +138,7 @@ const QR_Scan = () => {
     try {
       const response = await axios.post(`http://localhost:8085/api/v1/attendance/finalize-attendance/${classId}`);
       alert(response.data.message); // Show success message from backend
-      navigate("/aOfficer-dashboard"); // Redirect to dashboard after finishing
+      navigate(`/aOfficer-dashboard/${aOfficerID}`); // Redirect to dashboard after finishing
     } catch (error) {
       alert("Failed to finalize attendance.");
     }
@@ -238,7 +241,7 @@ const QR_Scan = () => {
               />
             </div>
             <div className="flex justify-end items-end md:mt-36">
-              <Link to={"/aOfficer-dashboard"} className="btn btn-danger w-20">
+              <Link to={`/aOfficer-dashboard/${aOfficerID}`} className="btn btn-danger w-20">
                 Exit
               </Link>
             </div>
