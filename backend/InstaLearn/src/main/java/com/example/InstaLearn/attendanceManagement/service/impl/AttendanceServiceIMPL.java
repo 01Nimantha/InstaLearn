@@ -12,13 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import java.time.LocalDate;
-import java.util.Date;
 
 @Service
 public class AttendanceServiceIMPL implements AttendanceService {
@@ -183,8 +180,8 @@ public class AttendanceServiceIMPL implements AttendanceService {
 
 
     @Override
-    public int getPresentCountByDate(LocalDate date) {
-        return attendanceRepo.countByDateAndPresentState(date, true);
+    public int getPresentCountByDate(LocalDate localDate) {
+        return attendanceRepo.countByCreatedAtAndPresentState(localDate, true);
     }
 
 }

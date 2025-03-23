@@ -75,15 +75,9 @@ public class AttendanceController {
         );
     }
 
-
-
-
-
-
-
     @GetMapping("/count")
-    public int getPresentCount(@RequestParam("date") String date) {
-        LocalDate localDate = LocalDate.parse(date);
+    public int getPresentCount(@RequestParam("createdAt") String createdAt) {
+        LocalDate localDate = LocalDate.parse(createdAt);
         return attendanceService.getPresentCountByDate(localDate);
     }
 

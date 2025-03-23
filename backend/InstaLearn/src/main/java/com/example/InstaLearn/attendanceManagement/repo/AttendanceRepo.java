@@ -15,12 +15,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public interface AttendanceRepo extends JpaRepository<Attendance, Integer> {
-
-    int countByDateAndPresentState(LocalDate date, boolean presentState);
-
-    @Query("SELECT COUNT(a) FROM Attendance a WHERE a.date = :date AND a.presentState = true")
-
-    int getPresentCount(@Param("date") LocalDate date);
+    
 
     List<Attendance> findByStudent_StudentId(String studentId);
 
@@ -30,4 +25,6 @@ public interface AttendanceRepo extends JpaRepository<Attendance, Integer> {
     List<Attendance> findByClassType_ClassTypeId(long classId);
 
     List<Attendance> findByClassTypeAndCreatedAt(ClassType classType, LocalDate createdAt);
+
+    int countByCreatedAtAndPresentState(LocalDate localDate, boolean b);
 }

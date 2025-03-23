@@ -24,5 +24,6 @@ public interface AttendanceService {
 
     String finalizeAttendanceByClassId(long classId);
 
-    int getPresentCountByDate(LocalDate date);
+
+    int getPresentCountByDate(LocalDate localDate);
 }
