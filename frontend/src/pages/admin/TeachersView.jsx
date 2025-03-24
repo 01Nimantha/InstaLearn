@@ -85,24 +85,38 @@ const TeachersView = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [teachers, setTeacher] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [pageSize] = useState(5); // Match backend default size
 
   useEffect(()=>{
     loadTeachers();
-},[]);
+},[currentPage]);
 
 // 
 const loadTeachers = async()=>{
+  try {
     const result = await axios.get(
-        "http://localhost:8085/api/v1/teacher/get-all-teachers",{
-            validateStatus:()=>{
-                return true;
-            }
-        }
+      `http://localhost:8085/api/v1/teacher/get-all-teachers?page=${currentPage}&size=${pageSize}`,
+      {
+        validateStatus: () => true
+      }
     );
-    if(result.status == 302){
-        setTeacher(result.data);
-    }    
+    
+    if (result.status === 200) {
+      setTeacher(result.data.content); // Paginated content
+      setTotalPages(result.data.totalPages); // Total pages from response
+    }
+  } catch (error) {
+    console.error('Error loading attendance officers:', error);
+  }   
 }
+const handlePageChange = (newPage) => {
+  if (newPage >= 0 && newPage < totalPages) {
+    setCurrentPage(newPage);
+  }
+};
+
 const TeacherDeleteModel = ({ onClose,teacherId }) => (
   <DeleteModel
     title="Delete Teacher"
@@ -202,6 +216,26 @@ const handleDelete = async(teacherId)=>{
                 
               </tbody>
             </table>
+            {/* Pagination Controls */}
+          <div className="flex justify-center items-center mt-4 gap-4">
+            <button
+              className="btn btn-secondary"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 0}
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage + 1} of {totalPages}
+            </span>
+            <button
+              className="btn btn-secondary"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages - 1}
+            >
+              Next
+            </button>
+          </div>
           </section>
           {activeModal == 'add'&&(
           <TeacherAddDetailsFormModel

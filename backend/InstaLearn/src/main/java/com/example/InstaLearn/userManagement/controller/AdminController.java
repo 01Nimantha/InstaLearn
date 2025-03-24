@@ -3,10 +3,14 @@ package com.example.InstaLearn.userManagement.controller;
 import com.example.InstaLearn.userManagement.dto.AdminSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.AdminUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.entity.Admin;
+import com.example.InstaLearn.userManagement.entity.AttendanceOfficer;
 import com.example.InstaLearn.userManagement.service.AdminService;
 import com.example.InstaLearn.userManagement.service.StudentService;
 import com.example.InstaLearn.userManagement.util.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -50,8 +54,14 @@ public class AdminController {
         );
     }
     @GetMapping("/get-all-admins")
-    public ResponseEntity<List<Admin>> getAllAdmins(){
-        return new ResponseEntity<>(adminService.getAllAdmins(), HttpStatus.FOUND);
+    public ResponseEntity<Page<Admin>> getAllAdmins(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Admin> admins = adminService.getAllAdmins(pageable);
+        return new ResponseEntity<>(admins,HttpStatus.OK);
     }
     @GetMapping("/get-admin-by/{id}")
     public Admin getAdminById(@PathVariable(value="id") String adminId) {

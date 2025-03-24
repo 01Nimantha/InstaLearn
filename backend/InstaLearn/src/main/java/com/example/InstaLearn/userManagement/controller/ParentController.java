@@ -3,13 +3,18 @@ package com.example.InstaLearn.userManagement.controller;
 import com.example.InstaLearn.userManagement.dto.ParentUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.dto.StudentUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.entity.Admin;
+import com.example.InstaLearn.userManagement.entity.AttendanceOfficer;
 import com.example.InstaLearn.userManagement.entity.Parent;
 import com.example.InstaLearn.userManagement.entity.Student;
 import com.example.InstaLearn.userManagement.service.ParentService;
 import com.example.InstaLearn.userManagement.util.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +37,16 @@ public class ParentController {
     }
 
     @GetMapping("/get-all-parents")
-    public ResponseEntity<List<Parent>> getAllParents(){
-        return new ResponseEntity<>(parentService.getAllParents(), HttpStatus.FOUND);
+    public ResponseEntity<Page<Parent>> getAllParents(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Parent> parents = parentService.getAllParents(pageable);
+
+        return new ResponseEntity<>(parents, HttpStatus.OK);
     }
 
     @GetMapping("/get-parent-by/{id}")

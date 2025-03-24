@@ -49,6 +49,10 @@ public class Parent {
     @OneToOne(mappedBy = "parent", cascade = CascadeType.ALL) // Bidirectional mapping
     private Student student;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "imageId")
+    private Image image;
+
     @OneToOne
     private User user;
 

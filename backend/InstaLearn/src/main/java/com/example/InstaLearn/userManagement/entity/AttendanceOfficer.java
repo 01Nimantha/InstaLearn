@@ -41,6 +41,10 @@ public class AttendanceOfficer {
     @Column(name="attendanceOfficer_address")
     private String attendanceOfficerAddress;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "imageId")
+    private Image image;
+
     @OneToOne
     private User user;
 

@@ -81,4 +81,8 @@ public class Student {
     )
     private List<ClassType> classTypes;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "imageId")
+    private Image image;
+
 }

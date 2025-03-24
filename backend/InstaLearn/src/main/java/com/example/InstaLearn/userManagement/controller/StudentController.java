@@ -5,10 +5,14 @@ import com.example.InstaLearn.userManagement.dto.ParentDTO;
 import com.example.InstaLearn.userManagement.dto.StudentDTO;
 import com.example.InstaLearn.userManagement.dto.StudentSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.StudentUpdateRequestDTO;
+import com.example.InstaLearn.userManagement.entity.AttendanceOfficer;
 import com.example.InstaLearn.userManagement.entity.Student;
 import com.example.InstaLearn.userManagement.service.StudentService;
 import com.example.InstaLearn.userManagement.util.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,8 +54,14 @@ public class StudentController {
         );
     }
     @GetMapping("/get-all-students")
-    public ResponseEntity<List<Student>> getAllStudents(){
-        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.FOUND);
+    public ResponseEntity<Page<Student>> getAllStudents(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Student> students = studentService.getAllStudents(pageable);
+        return new ResponseEntity<>(students,HttpStatus.OK);
     }
     @GetMapping("/get-student-by/{id}")
     public Student getStudentById(@PathVariable(value="id") String studentId) {
@@ -73,7 +83,6 @@ public class StudentController {
     @GetMapping("/get-only-students")
     public ResponseEntity<StandardResponse> getOnlyStudents(){
         List<StudentDTO> allStudents = studentService.getOnlyStudents();
-
 
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(200,"success",allStudents),
