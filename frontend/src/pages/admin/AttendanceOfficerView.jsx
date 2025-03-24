@@ -9,7 +9,6 @@ import SendEmailModel from './SendEmailModel';
 import ViewModel from './ViewModel';
 import DeleteModel from './common/DeleteModel';
 
-// Modal components remain the same
 const AttendanceOfficerEditModel = ({ onClose, attendanceOfficerId }) => (
   <EditModel 
     title="Update Attendance Officer"
@@ -28,7 +27,66 @@ const AttendanceOfficerEditModel = ({ onClose, attendanceOfficerId }) => (
   />
 );
 
-// ... (other modal components remain unchanged)
+const AttendanceOffficerSendEmailModel = ({ onClose,attendanceOfficerId }) => (
+  <SendEmailModel
+    title="Send Attendance Officer Credentials"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/get-aOfficer-by',
+      sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
+    }}
+    fields={[
+      { label: 'AOfficer Email', name: 'attendanceOfficerEmail', type: 'email', required: true }
+    ]}
+    onClose={onClose}
+    entityId={attendanceOfficerId}
+  />
+)
+const AttendanceOfficerViewModel = ({ onClose,attendanceOfficerId }) => (
+  <ViewModel
+    title="Attendance Officer Profile"
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/get-aOfficer-by'
+    }}
+    fields={[
+      {label: 'AttendanceOfficer Id', name: 'attendanceOfficerId'},
+      { label: 'AttendanceOfficer Name', name: 'attendanceOfficerName'},
+      { label: 'AttendanceOfficer Email', name: 'attendanceOfficerEmail'},
+      { label: 'Contact No', name: 'attendanceOfficerContactno'},
+      { label: 'Address', name: 'attendanceOfficerAddress' }
+    ]}
+    onClose={onClose}
+    entityId={attendanceOfficerId}
+  />
+)
+const AOfficerAddDetailsFormModel = ({ onClose }) => (
+  <AddDetailsFormModel 
+          
+    title="Add AOfficer"
+    btnTitle='Add AOfficer'
+    apiEndpoints={{
+      getEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/get-all-aOfficers',
+      saveEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/save'
+    }}
+    fields={[
+      { label: 'Full Name',type: 'text', name: 'attendanceOfficerName', placeholder: 'Full Name',required: true},
+      { label: 'Email', type: 'email', name: 'attendanceOfficerEmail', placeholder: 'Email' ,required: true},
+      { label: 'Contact no', type: 'text',  name: 'attendanceOfficerContactno',  placeholder: 'Contact no' ,required: true},
+      { label: 'Address', type: 'text', name: 'attendanceOfficerAddress', placeholder: 'Address' ,required: true}
+          ]}
+    onClose={onClose}
+    />
+)
+
+const AttendanceOfficerDeleteModel = ({ onClose,attendanceOfficerId }) => (
+  <DeleteModel
+    title="Delete Attendance Officer"
+    apiEndpoints={{
+      deleteEndpoint: 'http://localhost:8085/api/v1/attendanceOfficer/delete'
+    }}
+    onClose={onClose}
+    entityId={attendanceOfficerId}
+  /> 
+)
 
 const AttendanceOfficerView = () => {
   const [activeModal, setActiveModal] = useState(null);
@@ -46,7 +104,7 @@ const AttendanceOfficerView = () => {
   const loadAOfficer = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:8085/api/v1/attendanceOfficer/get-all-aOfficers?page=${currentPage}&size=${pageSize}&sort=attendanceOfficerName,asc`,
+        `http://localhost:8085/api/v1/attendanceOfficer/get-all-aOfficers?page=${currentPage}&size=${pageSize}`,
         {
           validateStatus: () => true
         }
