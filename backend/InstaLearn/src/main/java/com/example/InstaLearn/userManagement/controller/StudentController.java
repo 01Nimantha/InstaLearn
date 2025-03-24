@@ -61,8 +61,7 @@ public class StudentController {
         Pageable pageable = PageRequest.of(page, size);
 
         Page<Student> students = studentService.getAllStudents(pageable);
-
-        return new ResponseEntity<>(students, HttpStatus.OK);
+        return new ResponseEntity<>(students,HttpStatus.OK);
     }
     @GetMapping("/get-student-by/{id}")
     public Student getStudentById(@PathVariable(value="id") String studentId) {
@@ -84,7 +83,6 @@ public class StudentController {
     @GetMapping("/get-only-students")
     public ResponseEntity<StandardResponse> getOnlyStudents(){
         List<StudentDTO> allStudents = studentService.getOnlyStudents();
-
 
         return new ResponseEntity<StandardResponse>(
                 new StandardResponse(200,"success",allStudents),
