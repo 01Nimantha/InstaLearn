@@ -49,4 +49,7 @@ public class Teacher {
     @Lob
     private byte[] teacherPhoto;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "imageId")
+    private Image image;
 }
