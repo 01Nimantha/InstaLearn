@@ -10,19 +10,36 @@ const EditProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  
+
   const [profile, setProfile] = useState({
     attendanceOfficerName: "",
     attendanceOfficerEmail: "",
     attendanceOfficerContactno: "",
     attendanceOfficerAddress: "",
-    attendanceOfficerId: ""
+    attendanceOfficerId: "",
+    image: {
+      imageId: "",
+    },
+    user: {
+      userId: "",
+    },
   });
+
+  const [imagePreview, setImagePreview] = useState(null);
+  const [file, setImageFile] = useState(null);
 
   // Fetch officer details
   useEffect(() => {
-    axios.get(`http://localhost:8085/api/v1/attendanceOfficer/get-aOfficer-by/${id}`)
-      .then((response) => setProfile(response.data))
+
+    
+    axios
+      .get(`http://localhost:8085/api/v1/attendanceOfficer/get-aOfficer-by/${id}`)
+      .then((response) => {
+        setProfile(response.data);
+        if (response.data.image) {
+          setImagePreview(`http://localhost:8085/api/v1/image/get-image/${response.data.image.imageId}`);
+        }
+      })
       .catch((error) => console.error("Error fetching profile:", error));
   }, [id]);
 
@@ -31,11 +48,46 @@ const EditProfile = () => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
   };
 
+  // Handle image selection
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file)); // Set the image preview
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      await axios.put(`http://localhost:8085/api/v1/attendanceOfficer/update/${id}`, profile);
+      // Upload the image if a new file is selected
+      let imageId = profile.image.imageId;
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const imageResponse = await axios.post(
+          `http://localhost:8085/api/v1/image/save/${profile.user.userId}`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+
+        if (imageResponse.data) {
+          imageId = imageResponse.data.imageId; // Update the image ID
+        } else {
+          throw new Error("Failed to upload image: No response data.");
+        }
+      }
+
+      // Update the profile with the new image ID
+      const updatedProfile = { ...profile, image: { imageId } };
+
+      // Save the updated profile
+      await axios.put(`http://localhost:8085/api/v1/attendanceOfficer/update/${id}`, updatedProfile);
       alert("Profile updated successfully!");
       navigate(`/aOfficer-dashboard/${id}`);
     } catch (error) {
@@ -64,7 +116,6 @@ const EditProfile = () => {
         officer_name="Maleesha"
         AO_ID="AO_2025_10001"
         changePath={() => setShowModal(true)}
-        
       />
 
       {/* Main Content */}
@@ -72,12 +123,20 @@ const EditProfile = () => {
         <h1 className="text-2xl font-bold mb-6 text-gray-800">Edit Profile</h1>
 
         {/* Profile Section */}
-        <div className="flex flex-col md:flex-row items-center gap-6 mb-8 rounded-xl  p-6">
+        <div className="flex flex-col md:flex-row items-center gap-6 mb-8 rounded-xl p-6">
           <div className="relative">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="hidden"
+              id="imageInput"
+            />
             <img
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&h=150"
+              src={imagePreview || "https://th.bing.com/th/id/OIP.ZMB81W_uLDsEIxaMWxDljAHaHa?rs=1&pid=ImgDetMain"}
               alt="Profile"
-              className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-lg"
+              className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-lg cursor-pointer"
+              onClick={() => document.getElementById("imageInput").click()}
             />
           </div>
           <div className="text-center md:text-left">
@@ -164,7 +223,6 @@ const EditProfile = () => {
                 type="submit"
                 className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all flex items-center gap-2"
               >
-
                 Save Changes
               </button>
             </div>

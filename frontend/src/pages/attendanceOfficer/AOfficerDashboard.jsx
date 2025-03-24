@@ -113,7 +113,9 @@ const AOfficerDashboard = () => {
       <div className="flex-1">
         <Header 
           name={aOfficer.attendanceOfficerName}
-          officerId={aOfficer.attendanceOfficerId}/>
+          officerId={aOfficer.attendanceOfficerId}
+          image={aOfficer.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${aOfficer.image.imageId}` : null}
+          />
 
         {/* Content */}
         <main className="p-4 lg:p-8">
