@@ -20,6 +20,8 @@ import com.example.InstaLearn.userManagement.service.PasswordStorage;
 import com.example.InstaLearn.userManagement.service.StudentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -166,8 +168,8 @@ public class StudentServiceIMPL implements StudentService {
     }
 
     @Override
-    public List<Student> getAllStudents() {
-        return studentRepo.findAll();
+    public Page<Student> getAllStudents(Pageable pageable) {
+        return studentRepo.findAll(pageable);
     }
 
     @Override

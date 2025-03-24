@@ -62,15 +62,10 @@ public class AOfficerController {
     @GetMapping("/get-all-aOfficers")
     public ResponseEntity<Page<AttendanceOfficer>> getAllAttandanceOfficers(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "attendanceOfficerName,asc") String sort
+            @RequestParam(defaultValue = "5") int size
     ) {
-        String[] sortParams = sort.split(",");
-        String sortBy = sortParams[0];
-        String direction = sortParams[1];
 
-        Sort sortObj = Sort.by(Sort.Direction.fromString(direction), sortBy);
-        Pageable pageable = PageRequest.of(page, size, sortObj);
+        Pageable pageable = PageRequest.of(page, size);
 
         Page<AttendanceOfficer> attendanceOfficers = aOfficerService.getAllAttandanceOfficers(pageable);
 

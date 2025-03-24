@@ -10,6 +10,8 @@ import com.example.InstaLearn.userManagement.repo.UserRepo;
 import com.example.InstaLearn.userManagement.service.AdminService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -70,8 +72,8 @@ public class AdminServiceIMPL implements AdminService {
     }
 
     @Override
-    public List<Admin> getAllAdmins() {
-        return adminRepo.findAll();
+    public Page<Admin> getAllAdmins(Pageable pageable) {
+        return adminRepo.findAll(pageable);
     }
 
     @Override
