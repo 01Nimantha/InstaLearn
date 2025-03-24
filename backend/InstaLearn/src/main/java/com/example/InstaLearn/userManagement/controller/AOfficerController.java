@@ -50,10 +50,10 @@ public class AOfficerController {
                 HttpStatus.OK
         );
     }
-    @GetMapping("/get-all-aOfficers")
-    public ResponseEntity<List<AttendanceOfficer>> getAllAttandanceOfficers(){
-        return new ResponseEntity<>(aOfficerService.getAllAttandanceOfficers(), HttpStatus.FOUND);
-    }
+//    @GetMapping("/get-all-aOfficers")
+//    public ResponseEntity<List<AttendanceOfficer>> getAllAttandanceOfficers(){
+//        return new ResponseEntity<>(aOfficerService.getAllAttandanceOfficers(), HttpStatus.FOUND);
+//    }
     @GetMapping("/get-aOfficer-by/{id}")
     public AttendanceOfficer getAttendanceOfficerById(@PathVariable(value="id") String attendanceOfficerId) {
         return aOfficerService.getAttendanceOfficerById(attendanceOfficerId);
