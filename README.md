@@ -1,5 +1,7 @@
 # InstaLearn - Unified Platform for Seamless Education
 
+<div align = "center"><img src="https://github.com/01Nimantha/InstaLearn/blob/7113b183891a6a5e1ab2fca8040169cdbeb397ad/frontend/src/assets/Gif.gif" alt="Project GIF"  /></div>
+
 ## Submitted by Group 17
 
 **Department of Computer Science**  
