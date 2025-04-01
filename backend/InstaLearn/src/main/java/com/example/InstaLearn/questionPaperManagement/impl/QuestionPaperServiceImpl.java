@@ -10,6 +10,7 @@ import com.example.InstaLearn.questionPaperManagement.external.StudentAnswer;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -98,22 +99,34 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
                 return false;
             }
 
-            Student[] studentArray = restTemplate.getForObject(
-                    "http://localhost:8085/api/v1/student/get-all-id",
-                    Student[].class
+            Student studentsdetals = restTemplate.getForObject(
+                    "http://localhost:8085/api/v1/student/get-all-student-ids",
+                    Student.class
             );
+
+            String[] studentArray = studentsdetals.getData();
 
             if (studentArray == null || studentArray.length == 0) {
                 System.err.println("No student IDs received from API.");
                 return false;
             }
 
-            QuestionPaper questionPaper = new QuestionPaper();
 
-            for(Student x : studentArray){
+            QuestionPaper questionPaper = new QuestionPaper();
+            LocalDateTime dateTime = LocalDateTime.now();
+            questionPaper.setDate(dateTime.toString());
+            questionPaper.setDuration("1 Hours");
+            questionPaper = questionPaperRepository.save(questionPaper);
+
+            if (questionPaper.getId() <0 ) {
+                System.err.println("Failed to generate QuestionPaper ID.");
+                return false;
+            }
+
+            for(String x : studentArray){
                 for(Question y : questionsArray){
                     StudentAnswer studentAnswer = new StudentAnswer(
-                            x.getStudentID(),
+                            x,
                             "",
                             questionPaper.getId(),
                             y.getQuestionId(),
