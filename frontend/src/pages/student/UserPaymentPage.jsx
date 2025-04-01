@@ -1,9 +1,12 @@
 import React, { useState,useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+import { useNavigate } from 'react-router-dom';
+
 
 const UserPaymentPage = () => {
   const stripePromise = loadStripe("pk_test_51Qi8tPBrvnAB2ikXXB8OweXeWxs5NqnitLcnm0FNGzbQaKS1pPBGpJdWRtruDDg3bb1maaQSqYC7KIZ13mhtqsYZ00Uj7qpoY3");
 
+  const navigate = useNavigate();
   const courseOptions = [
     { id: 1, name: "Advance Level ICT THEORY", fee: 3000.0 },
     { id: 2, name: "Advance Level ICT REVISION", fee: 2500.0 },
@@ -196,7 +199,7 @@ const UserPaymentPage = () => {
         {/* Right Side - Course Cards */}
         <div className="space-y-4">
           <div className="flex justify-end mb-2">
-            <button className="bg-teal-600 text-white rounded-md px-4 py-2 flex items-center space-x-2 hover:bg-teal-700 transition-colors">
+            <button onClick={() => navigate("/student-dashboard/payment-history")} className="bg-teal-600 text-white rounded-md px-4 py-2 flex items-center space-x-2 hover:bg-teal-700 transition-colors">
               <span>View History</span>
             </button>
           </div>
