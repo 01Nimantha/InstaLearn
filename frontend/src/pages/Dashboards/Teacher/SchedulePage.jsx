@@ -324,7 +324,7 @@ function App() {
             </div>
 
             {/* Calendar */}
-            <div className="bg-white rounded-lg shadow-md p-4">
+            <div className="bg-white rounded-lg shadow-md p-4 w-full">
               <h3 className="text-lg font-semibold mb-4">Calendar</h3>
               <div className="flex justify-between items-center mb-4">
                 <h4 className="font-medium">
