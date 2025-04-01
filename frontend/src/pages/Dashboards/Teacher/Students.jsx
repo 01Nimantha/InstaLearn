@@ -1,227 +1,80 @@
-import React, { useState}from 'react'
-import { useEffect } from 'react'
-import axios from 'axios'
-import SearchBar from "../../admin/common/SearchBar";
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import SearchBar from './SearchBar';
 
 const Students = () => {
-  //  const [searchTerm, setSearchTerm] = useState('');
-  //  const [students, setStudents] = useState([]);
-    // const [studentData, setStudentData] = useState({
-    //     studentID: '',
-    //     fullName: '',
-    //     address: '',
-    //     email: '',
-    //     parentName: '',
-    //     contactNo: '',
-    //     parentContactNo: ''
-    //   });
-    
-    //   useEffect(() => {
-    //     // Fetch data from the database
-    //     const fetchData = async () => {
-    //       try {
-    //         const response = await axios.get('/api/student'); // Replace with your API endpoint
-    //         setStudentData(response.data);
-    //       } catch (error) {
-    //         console.error('Error fetching data:', error);
-    //       }
-    //     };
-    
-    //     fetchData();
-    //   }, []);
-  //   useEffect(()=>{
-  //     loadStudents();
-  // },[]);
-  
-  // // 
-  // const loadStudents = async()=>{
-  //     const result = await axios.get(
-  //         'http://localhost:8085/api/v1/student/get-all-students',{
-  //             validateStatus:()=>{
-  //                 return true;
-  //             }
-  //         }
-  //     );
-  //     if(result.status == 302){
-  //         setStudents(result.data);
-  //     }    
-  // }
+    const [searchTerm, setSearchTerm] = useState("");
+    const [studentData, setStudentData] = useState(null);
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [students, setStudents] = useState([]);
-  const [filteredStudents, setFilteredStudents] = useState([]); // Holds filtered data
-
-  // Fetch students when component mounts
-  useEffect(() => {
-    loadStudents();
-  }, []);
-
-  const loadStudents = async () => {
-    try {
-      const result = await axios.get(
-        "http://localhost:8085/api/v1/student/get-all-students",
-        {
-          validateStatus: () => true,
+    // Function to fetch student data based on student ID
+    const fetchStudentData = async (studentID) => {
+        if (!studentID) return;
+        try {
+            const response = await axios.get(`http://localhost:8085/api/v1/student/get-student-by/${studentID}`);
+            if (response.status === 200) {
+                setStudentData(response.data);
+            } else {
+                setStudentData(null);
+            }
+        } catch (error) {
+            console.error("Error fetching student data:", error);
+            setStudentData(null);
         }
-      );
-      if (result.status === 302) {
-        setStudents(result.data);
-        setFilteredStudents(result.data); // Initialize filtered list
-      }
-    } catch (error) {
-      console.error("Error fetching students:", error);
-    }
-  };
+    };
 
-  // Filter students when searchTerm changes
-  useEffect(() => {
-    const filtered = students.filter(
-      (student) => student.studentID && student.studentID.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredStudents(filtered);
-  }, [searchTerm, students]);
+    // Handle search input changes
+    useEffect(() => {
+      if (searchTerm) {
+          fetchStudentData(searchTerm);
+      } else {
+          setStudentData(null);
+      }
+  }, [searchTerm]); 
   
 
-    
-
-
-  return (
-    <div className='d-flex'>
-
-      <div className="p-4 w-full">
-      <h2 className="text-xl font-bold">Students</h2>
-      <div className="relative flex items-center bg-white w-96 rounded-l-full shadow mt-10 h-14">
-          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+    return (
+        <div className='d-flex'>
+            <div className="p-4 w-full">
+                <h2 className="text-xl font-bold">Students</h2>
+                <div className="relative flex items-center bg-white w-96 rounded-l-full shadow mt-10 h-14">
+                    <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                </div>
+                <br />
+                <br/>
+                <br/>
+                <div className="bg-white rounded-lg shadow-lg -mt-12 max-w-4xl mx-auto h-auto">
+                    <div className="max-w-4xl mx-auto h-15 bg-[#287f93] rounded-lg"></div>
+                    <div className='p-6'>
+                        <div className="flex items-center space-x-4">
+                            <img src="student.jpg" alt="Profile" className="w-16 h-16 rounded-full border-2 border-white" />
+                            <div>
+                                <h3 className="text-lg font-bold">{studentData ? studentData.studentName : "Student Name"}</h3>
+                                <p className="text-gray-500">{studentData ? studentData.studentID : "Student ID"}</p>
+                            </div>
+                        </div>
+                        <div className='grid grid-cols-2 gap-6 mt-6'>
+                            <div>
+                                <label className="block text-gray-600">Full Name</label>
+                                <input type="text" value={studentData?.studentName || ""} readOnly className="w-full p-2 border rounded-lg" />
+                                <label className="block mt-4 text-gray-600">Email</label>
+                                <input type="email" value={studentData?.studentEmail || ""} readOnly className="w-full p-2 border rounded-lg" />
+                                <label className="block mt-4 text-gray-600">Contact No</label>
+                                <input type="text" value={studentData?.studentContactno || ""} readOnly className="w-full p-2 border rounded-lg" />
+                            </div>
+                            <div>
+                                <label className="block text-gray-600">Address</label>
+                                <input type="text" value={studentData?.studentAddress || ""} readOnly className="w-full p-2 border rounded-lg" />
+                                <label className="block mt-4 text-gray-600">Parent Name</label>
+                                <input type="text" value={studentData?.studentParentName || ""} readOnly className="w-full p-2 border rounded-lg" />
+                                <label className="block mt-4 text-gray-600">Parent Contact No</label>
+                                <input type="text" value={studentData?.studentParentContactno || ""} readOnly className="w-full p-2 border rounded-lg" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    );
+};
 
-      
-
-      {/* <div>
-        <br></br>
-        <div className='w-full h-10  bg-[#287f93] rounded-lg'></div>
-      <form className="space-y-4 p-4 w-full">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Student ID</label>
-          <input
-            type="text"
-            // value={studentData.studentID}
-            // readOnly
-            className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Full Name</label>
-          <input
-            type="text"
-            // value={studentData.fullName}
-            // readOnly
-            className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Address</label>
-          <input
-            type="text"
-            // value={studentData.address}
-            // readOnly
-            className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
-          <input
-            type="email"
-            // value={studentData.email}
-            // readOnly
-            className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Parent Name</label>
-          <input
-            type="text"
-            // value={studentData.parentName}
-            // readOnly
-            className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Contact No</label>
-          <input
-            type="text"
-            // value={studentData.contactNo}
-            // readOnly
-            className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Parent Contact No</label>
-          <input
-            type="text"
-            // value={studentData.parentContactNo}
-            // readOnly
-            className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm"
-          />
-          
-        </div>
-      </form>
-      </div> */}
-      <br></br>
-      
-
-      {/* Student Info Card */}
-      <div className="bg-white rounded-lg shadow-lg -mt-12-relative max-w-4xl mx-auto h-70%">
-        {/* Blue Header */}
-      <div className="max-w-4xl mx-auto h-15 bg-[#287f93] rounded-lg"></div>
-      <div className='p-6'>
-        <div className="flex items-center space-x-4">
-          {/* Profile Image */}
-          <img
-            src="student.jpg"
-            alt="Profile"
-            className="w-16 h-16 rounded-full border-2 border-white"
-          />
-          <div>
-            <h3 className="text-lg font-bold">Alexa Rawles</h3>
-            <p className="text-gray-500">Student ID</p>
-          </div>
-        </div>
-
-      <div className=''>
-        {/* Form Grid */}
-        <div className="grid grid-cols-2 gap-6 mt-6">
-          {/* Left Column */}
-          <div>
-            <label className="block text-gray-600">Full Name</label>
-            <input type="text" placeholder="Student Name" className="w-full p-2 border rounded-lg" />
-
-            <label className="block mt-4 text-gray-600">Email</label>
-            <input type="email" placeholder="Student Email" className="w-full p-2 border rounded-lg" />
-
-            <label className="block mt-4 text-gray-600">Contact No</label>
-            <input type="text" placeholder="Student Contact No" className="w-full p-2 border rounded-lg" />
-          </div>
-
-          {/* Right Column */}
-          <div>
-            <label className="block text-gray-600">Address</label>
-            <input type="text" placeholder="Student Address" className="w-full p-2 border rounded-lg" />
-
-            <label className="block mt-4 text-gray-600">Parent Name</label>
-            <input type="text" placeholder="Parent Name" className="w-full p-2 border rounded-lg" />
-
-            <label className="block mt-4 text-gray-600">Parent Contact No</label>
-            <input type="text" placeholder="Parent Contact No" className="w-full p-2 border rounded-lg" />
-          </div>
-        </div>
-        </div>
-      </div>
-      </div>
-      </div>
-      
-    </div>
-  )
-}
-
-export default Students
+export default Students;

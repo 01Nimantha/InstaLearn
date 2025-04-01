@@ -47,6 +47,7 @@ const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     const response = await fetch("http://localhost:8085/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -55,6 +56,7 @@ const LoginForm = () => {
 
     const token = await response.text();
     console.log("token: " + token);
+
     if (token !== "Invalid credentials") {
       localStorage.setItem("jwtToken", token);
       console.log("test" );
@@ -80,6 +82,9 @@ const LoginForm = () => {
           break;
         case "PARENT":
           navigate("/parent-dashboard");
+          break;
+        case "AOFFICER":
+          navigate(`/aOfficer-dashboard/${username}`);
           break;
         default:
           navigate("/unauthorized");

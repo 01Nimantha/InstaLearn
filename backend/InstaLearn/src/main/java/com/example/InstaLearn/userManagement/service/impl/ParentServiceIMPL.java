@@ -6,6 +6,8 @@ import com.example.InstaLearn.userManagement.repo.ParentRepo;
 import com.example.InstaLearn.userManagement.service.ParentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +36,8 @@ public class ParentServiceIMPL implements ParentService {
     }
 
     @Override
-    public List<Parent> getAllParents() {
-        return parentRepo.findAll();
+    public Page<Parent> getAllParents(Pageable pageable) {
+        return parentRepo.findAll(pageable);
 
     }
 
