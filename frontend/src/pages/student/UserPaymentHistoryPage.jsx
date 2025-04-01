@@ -3,19 +3,19 @@ import axios from "axios";
 
 const UserPaymentHistoryPage = () => {
   const [paymentData, setPaymentData] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(""); // State for filtering
   const months = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
 
-  // Retrieve studentId (username) from local storage
   const studentId = localStorage.getItem("username");
 
   useEffect(() => {
     if (studentId) {
       axios.get(`http://localhost:8085/api/v1/payment/get-payment-record/${studentId}`)
         .then(response => {
-          setPaymentData(response.data); // Store the fetched payment records
+          setPaymentData(response.data);
         })
         .catch(error => {
           console.error("Error fetching payment data:", error);
@@ -23,7 +23,6 @@ const UserPaymentHistoryPage = () => {
     }
   }, [studentId]);
 
-  // Function to check if the payment is made for a specific month and class type
   const getStatus = (month, classType) => {
     const fullClassType = `Advance Level ${classType}`;
     const record = paymentData.find(p => p.month === month && p.classType === fullClassType);
@@ -31,33 +30,127 @@ const UserPaymentHistoryPage = () => {
   };
 
   return (
-    <div className="overflow-x-auto w-full p-4">
-      <table className="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border border-gray-300 px-4 py-2">Month</th>
-            <th className="border border-gray-300 px-4 py-2">Advance Level ICT THEORY</th>
-            <th className="border border-gray-300 px-4 py-2">Advance Level ICT REVISION</th>
-            <th className="border border-gray-300 px-4 py-2">Advance Level ICT PAPER CLASS</th>
-          </tr>
-        </thead>
-        <tbody>
-          {months.map((month, index) => (
-            <tr key={index} className="text-center">
-              <td className="border border-gray-300 px-8 py-3 text-lg"><b>{month}</b></td>
-              <td className={`border border-gray-300 px-4 py-2 font-semibold ${getStatus(month, "ICT THEORY") === "Paid" ? "text-green-500" : "text-red-500"}`}>
-                {getStatus(month, "ICT THEORY")}
-              </td>
-              <td className={`border border-gray-300 px-4 py-2 font-semibold ${getStatus(month, "ICT REVISION") === "Paid" ? "text-green-500" : "text-red-500"}`}>
-                {getStatus(month, "ICT REVISION")}
-              </td>
-              <td className={`border border-gray-300 px-4 py-2 font-semibold ${getStatus(month, "ICT PAPER CLASS") === "Paid" ? "text-green-500" : "text-red-500"}`}>
-                {getStatus(month, "ICT PAPER CLASS")}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="min-h-screen bg-gray-50 py-2 px-2 sm:px-6 lg:px-10 xl:px-16">
+      <div className="mx-auto w-full max-w-[1800px]">
+
+        {/* Page Title */}
+        <div className="text-center mb-8">
+          {/* <p className="mt-2 text-lg sm:text-xl text-gray-600">Monthly Payment Status Overview</p> */}
+        </div>
+
+        {/* Month Filter Dropdown */}
+        <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-blue-50/50 p-3 rounded-lg border border-blue-100 shadow-sm">
+  <div>
+    <h3 className="text-lg font-medium text-gray-800">Payment Records</h3>
+    <p className="text-xs text-gray-500 mt-1">Filter and view your payment history</p>
+  </div>
+
+  <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 w-full sm:w-auto">
+    <div className="relative w-full sm:w-56">
+      <label 
+        htmlFor="month-filter"
+        className="absolute -top-2 left-2 px-1 text-xs font-medium text-blue-600 bg-blue-50/50 rounded"
+      >
+        Filter by Month
+      </label>
+      <select
+        id="month-filter"
+        value={selectedMonth}
+        onChange={(e) => setSelectedMonth(e.target.value)}
+        className="w-full px-3 py-2 pr-8 text-sm border border-blue-200 rounded-md bg-white shadow-xs 
+                 focus:ring-2 focus:ring-blue-300 focus:border-blue-500 transition-all
+                 hover:border-blue-300 appearance-none"
+      >
+        <option value="">All Months</option>
+        {months.map((month, index) => (
+          <option key={index} value={month}>{month}</option>
+        ))}
+      </select>
+      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+        </svg>
+      </div>
+    </div>
+
+    {selectedMonth && (
+      <button 
+        onClick={() => setSelectedMonth("")}
+        className="px-2 py-1 text-xs text-blue-600 hover:text-blue-800 transition-colors"
+      >
+        Clear filter
+      </button>
+    )}
+  </div>
+</div>
+
+
+
+        {/* Table Container */}
+        <div className="bg-white shadow-2xl rounded-xl overflow-hidden border border-gray-200">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gradient-to-r from-blue-700 to-blue-900">
+                <tr>
+                  <th className="px-8 py-6 text-left text-lg font-bold text-white uppercase tracking-wider w-1/6">Month</th>
+                  <th className="px-8 py-6 text-left text-lg font-bold text-white uppercase tracking-wider">Advance Level ICT THEORY</th>
+                  <th className="px-8 py-6 text-left text-lg font-bold text-white uppercase tracking-wider">Advance Level ICT REVISION</th>
+                  <th className="px-8 py-6 text-left text-lg font-bold text-white uppercase tracking-wider">Advance Level ICT PAPER CLASS</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {months
+                  .filter(month => selectedMonth === "" || month === selectedMonth)
+                  .map((month, index) => (
+                    <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50 hover:bg-gray-100'}>
+                      <td className="px-8 py-5 whitespace-nowrap text-xl font-semibold text-gray-900">
+                        {month}
+                      </td>
+                      <td className="px-8 py-5 whitespace-nowrap">
+                        <span className={`px-6 py-3 inline-flex text-lg font-bold rounded-lg 
+                          ${getStatus(month, "ICT THEORY") === "Paid" ? 
+                            'bg-green-200 text-green-900' : 'bg-red-200 text-red-900'}`}>
+                          {getStatus(month, "ICT THEORY")}
+                        </span>
+                      </td>
+                      <td className="px-8 py-5 whitespace-nowrap">
+                        <span className={`px-6 py-3 inline-flex text-lg font-bold rounded-lg 
+                          ${getStatus(month, "ICT REVISION") === "Paid" ? 
+                            'bg-green-200 text-green-900' : 'bg-red-200 text-red-900'}`}>
+                          {getStatus(month, "ICT REVISION")}
+                        </span>
+                      </td>
+                      <td className="px-8 py-5 whitespace-nowrap">
+                        <span className={`px-6 py-3 inline-flex text-lg font-bold rounded-lg 
+                          ${getStatus(month, "ICT PAPER CLASS") === "Paid" ? 
+                            'bg-green-200 text-green-900' : 'bg-red-200 text-red-900'}`}>
+                          {getStatus(month, "ICT PAPER CLASS")}
+                        </span>
+                      </td>
+                    </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Info Message */}
+        <div className="mt-8 bg-blue-100 border-l-8 border-blue-600 p-6 rounded-lg">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <svg className="h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-4">
+              <p className="text-lg font-medium text-blue-900">
+                If you notice any discrepancies in your payment records, please contact the administration office immediately.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 };
