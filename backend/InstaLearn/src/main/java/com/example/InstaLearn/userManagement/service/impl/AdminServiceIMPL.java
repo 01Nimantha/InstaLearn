@@ -1,23 +1,19 @@
 package com.example.InstaLearn.userManagement.service.impl;
 
-import com.example.InstaLearn.mailManagement.dto.MailDetailsDTO;
 import com.example.InstaLearn.userManagement.dto.AdminSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.AdminUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.entity.Admin;
 import com.example.InstaLearn.userManagement.entity.User;
 import com.example.InstaLearn.userManagement.entity.enums.Role;
 import com.example.InstaLearn.userManagement.repo.AdminRepo;
-import com.example.InstaLearn.userManagement.repo.StudentRepo;
 import com.example.InstaLearn.userManagement.repo.UserRepo;
 import com.example.InstaLearn.userManagement.service.AdminService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AdminServiceIMPL implements AdminService {
@@ -76,8 +72,8 @@ public class AdminServiceIMPL implements AdminService {
     }
 
     @Override
-    public List<Admin> getAllAdmins() {
-        return adminRepo.findAll();
+    public Page<Admin> getAllAdmins(Pageable pageable) {
+        return adminRepo.findAll(pageable);
     }
 
     @Override

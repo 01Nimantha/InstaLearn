@@ -1,11 +1,14 @@
 package com.example.InstaLearn.userManagement.service;
 
+import com.example.InstaLearn.attendanceManagement.dto.AttendanceDTO;
 import com.example.InstaLearn.userManagement.dto.ParentDTO;
 import com.example.InstaLearn.userManagement.dto.StudentDTO;
 import com.example.InstaLearn.userManagement.dto.StudentSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.StudentUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.entity.Parent;
 import com.example.InstaLearn.userManagement.entity.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -16,7 +19,7 @@ public interface StudentService {
 
     String deleteStudentAndParent(String studentId);
 
-    List<Student> getAllStudents();
+    Page<Student> getAllStudents(Pageable pageable);
 
     Student getStudentById(String studentId);
 
@@ -29,4 +32,5 @@ public interface StudentService {
     StudentDTO getOnlyStudentById(String studentId);
 
     List<String> getAllStudentIds();
+
 }

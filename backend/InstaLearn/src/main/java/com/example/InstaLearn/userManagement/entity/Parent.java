@@ -47,11 +47,13 @@ public class Parent {
 
     @JsonManagedReference
     @OneToOne(mappedBy = "parent", cascade = CascadeType.ALL) // Bidirectional mapping
-    @JsonIgnore
     private Student student;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "imageId")
+    private Image image;
+
     @OneToOne
-    @JsonIgnore
     private User user;
 
 }

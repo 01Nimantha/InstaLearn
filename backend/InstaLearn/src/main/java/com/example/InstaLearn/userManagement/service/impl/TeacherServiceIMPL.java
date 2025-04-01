@@ -12,6 +12,8 @@ import com.example.InstaLearn.userManagement.service.PasswordStorage;
 import com.example.InstaLearn.userManagement.service.TeacherService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -100,8 +102,8 @@ public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpd
 
 
     @Override
-    public List<Teacher> getAllTeachers() {
-        return teacherRepo.findAll();
+    public Page<Teacher> getAllTeachers(Pageable pageable) {
+        return teacherRepo.findAll(pageable);
     }
 
     @Override
