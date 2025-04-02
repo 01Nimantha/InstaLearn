@@ -86,7 +86,7 @@ public class QuestionPaperController {
         }
     }
 
-    @GetMapping("/GetfullPaper/{stId}")
+    @GetMapping("/GetNewfullPaper/{stId}")
     public ResponseEntity<List<FullQuestionPaper>> getFullQuestionPaper(@PathVariable String stId){
             List<FullQuestionPaper> fullQuestionPaper =questionPaperService.getFullQuestionPaper(stId);
             if(fullQuestionPaper.isEmpty()){
@@ -94,6 +94,26 @@ public class QuestionPaperController {
             }else {
                 return new ResponseEntity<>(fullQuestionPaper,HttpStatus.OK);
             }
+
+    }
+
+    @PutMapping("/UpdatefullPaper/{stId}")
+    public ResponseEntity<String> updateFullQuestionPaper(@PathVariable String stId,@RequestBody List<FullQuestionPaper> fullQuestionPaper){
+        boolean isUpdate = questionPaperService.updateFullQuestionPaper(stId,fullQuestionPaper);
+        if(isUpdate){
+            return new ResponseEntity<>("Update successfull",HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/GetfullPaper/{stId}/{qpId}")
+    public ResponseEntity<List<FullQuestionPaper>> getFullQuestionPaperByStIdAndQpId(@PathVariable String stId,@PathVariable int qpId){
+        List<FullQuestionPaper> fullQuestionPaper =questionPaperService.getFullQuestionPaperByStIdAndQpId(stId,qpId);
+        if(fullQuestionPaper.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(fullQuestionPaper,HttpStatus.OK);
+        }
 
     }
 
