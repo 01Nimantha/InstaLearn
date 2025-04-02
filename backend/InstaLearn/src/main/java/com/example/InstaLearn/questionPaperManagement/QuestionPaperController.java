@@ -1,6 +1,7 @@
 package com.example.InstaLearn.questionPaperManagement;
 
 import com.example.InstaLearn.questionPaperManagement.dto.QuestionPaperDto;
+import com.example.InstaLearn.questionPaperManagement.external.FullQuestionPaper;
 import com.example.InstaLearn.questionPaperManagement.external.Question;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,6 +84,17 @@ public class QuestionPaperController {
         }else {
             return new ResponseEntity<>(questionList,HttpStatus.OK);
         }
+    }
+
+    @GetMapping("/GetfullPaper/{stId}")
+    public ResponseEntity<List<FullQuestionPaper>> getFullQuestionPaper(@PathVariable String stId){
+            List<FullQuestionPaper> fullQuestionPaper =questionPaperService.getFullQuestionPaper(stId);
+            if(fullQuestionPaper.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }else {
+                return new ResponseEntity<>(fullQuestionPaper,HttpStatus.OK);
+            }
+
     }
 
 
