@@ -187,6 +187,50 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
 
     }
 
+    @Override
+    public boolean updateFullQuestionPaper(String stId, List<FullQuestionPaper> fullQuestionPaper) {
+        try{
+            int qpid = questionPaperRepository.findLastQuestionPaperId();
+            RestTemplate restTemplate = new RestTemplate();
+            int[] qid = restTemplate.getForObject("http://localhost:8085/StudentAnswer/"+qpid+"/"+stId,int[].class);
+            int i=0;
+            for(FullQuestionPaper x : fullQuestionPaper ){
+                StudentAnswer studentAnswer = new StudentAnswer(stId,x.getStudentAnswer(),qpid,qid[i],x.isMark(),x.isDisable());
+                i++;
+                restTemplate.put("http://localhost:8085/StudentAnswer/"+x.getId(),studentAnswer);
+            }
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public List<FullQuestionPaper> getFullQuestionPaperByStIdAndQpId(String stId, int qpId) {
+        List<FullQuestionPaper> fullQuestionPaperArrayList = new ArrayList<>();
+        RestTemplate restTemplate = new RestTemplate();
+        int qp_id = qpId;
+        FullStudentAnswer[] studentAnswerList = restTemplate.getForObject("http://localhost:8085/StudentAnswer/allAnswers/"+qp_id+"/"+stId,FullStudentAnswer[].class);
+        for(FullStudentAnswer x : studentAnswerList){
+            Question question= restTemplate.getForObject("http://localhost:8085/api/v1/question/get-by-id?id="+x.getQ_id(),Question.class);
+            List<String> options = new ArrayList<>();
+            options.add(question.getOptionOne());
+            options.add(question.getOptionTwo());
+            options.add(question.getOptionThree());
+            options.add(question.getOptionFour());
+            FullQuestionPaper fullQuestionPaper = new FullQuestionPaper(
+                    x.getId(),
+                    question.getQuestion(),
+                    options,
+                    question.getCorrectAnswer(),
+                    x.isDisable(),
+                    x.isMark(),
+                    x.getSt_answer()
+            );
+            fullQuestionPaperArrayList.add(fullQuestionPaper);
+        }
+        return  fullQuestionPaperArrayList;
+    }
 
 
 }

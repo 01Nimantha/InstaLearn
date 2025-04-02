@@ -24,4 +24,8 @@ public interface QuestionPaperService {
 
     List<FullQuestionPaper> getFullQuestionPaper(String stId);
 
+
+    boolean updateFullQuestionPaper(String stId, List<FullQuestionPaper> fullQuestionPaper);
+
+    List<FullQuestionPaper> getFullQuestionPaperByStIdAndQpId(String stId, int qpId);
 }
