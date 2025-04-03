@@ -72,7 +72,7 @@ const LoginForm = () => {
           navigate("/admin-dashboard");
           break;
         case "TEACHER":
-          navigate("/teacher-dashboard");
+          navigate(`/teacher-dashboard/${username}`);
           break;
         case "STUDENT":
           navigate("/student-dashboard");
