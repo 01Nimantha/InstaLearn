@@ -33,4 +33,5 @@ public interface StudentService {
 
     List<String> getAllStudentIds();
 
+    Page<Student> searchStudents(String searchTerm, Pageable pageable);
 }

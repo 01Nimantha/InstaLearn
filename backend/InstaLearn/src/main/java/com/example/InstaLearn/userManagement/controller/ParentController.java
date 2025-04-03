@@ -39,12 +39,20 @@ public class ParentController {
     @GetMapping("/get-all-parents")
     public ResponseEntity<Page<Parent>> getAllParents(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String searchTerm
     ){
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Parent> parents = parentService.getAllParents(pageable);
+        Page<Parent> parents;
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            // Fetch filtered results based on searchTerm
+            parents = parentService.searchParents(searchTerm, pageable);
+        } else {
+            // Fetch all results if no search term is provided
+            parents = parentService.getAllParents(pageable);
+        }
 
         return new ResponseEntity<>(parents, HttpStatus.OK);
     }

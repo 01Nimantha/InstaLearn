@@ -56,11 +56,19 @@ public class AdminController {
     @GetMapping("/get-all-admins")
     public ResponseEntity<Page<Admin>> getAllAdmins(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String searchTerm
     ){
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Admin> admins = adminService.getAllAdmins(pageable);
+        Page<Admin> admins;
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            // Fetch filtered results based on searchTerm
+            admins = adminService.searchAdmins(searchTerm, pageable);
+        } else {
+            // Fetch all results if no search term is provided
+            admins = adminService.getAllAdmins(pageable);
+        }
         return new ResponseEntity<>(admins,HttpStatus.OK);
     }
     @GetMapping("/get-admin-by/{id}")

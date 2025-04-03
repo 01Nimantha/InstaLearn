@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceIMPL implements StudentService {
@@ -137,8 +138,8 @@ public class StudentServiceIMPL implements StudentService {
     @Override
     public String updateStudent(String studentId, StudentUpdateRequestDTO studentUpdateRequestDTO) {
         if (studentRepo.existsById(studentId)) {
-
             Student student = studentRepo.getReferenceById(studentId);
+
             student.setStudentName(studentUpdateRequestDTO.getStudentName());
             student.setStudentEmail(studentUpdateRequestDTO.getStudentEmail());
             student.setStudentContactno(studentUpdateRequestDTO.getStudentContactno());
@@ -147,6 +148,24 @@ public class StudentServiceIMPL implements StudentService {
             student.setStudentParentEmail(studentUpdateRequestDTO.getStudentParentEmail());
             student.setStudentParentContactno(studentUpdateRequestDTO.getStudentParentContactno());
             student.setFreeCard(studentUpdateRequestDTO.isFreeCard());
+
+            // Find existing ClassTypes based on name & type
+            List<ClassType> existingClassTypes = studentUpdateRequestDTO.getClassTypes().stream()
+                    .map(classTypeDTO -> classTypeRepo.findByClassTypeNameAndType(
+                                    classTypeDTO.getClassTypeName(), classTypeDTO.getType())
+                            .orElseThrow(() -> new RuntimeException(
+                                    "ClassType not found: " + classTypeDTO.getClassTypeName() + " - " + classTypeDTO.getType())))
+                    .toList();
+
+            // Prevent modification of an immutable list
+            if (student.getClassTypes() == null) {
+                student.setClassTypes(new ArrayList<>()); // Ensure a mutable list
+            } else {
+                student.getClassTypes().clear(); // Clear the existing list
+            }
+
+            student.getClassTypes().addAll(existingClassTypes); // Add new class types
+
             studentRepo.save(student);
 
             return student.getStudentName() + " updated successfully";
@@ -154,6 +173,8 @@ public class StudentServiceIMPL implements StudentService {
             throw new RuntimeException("Student not found");
         }
     }
+
+
 
     @Override
     public String deleteStudentAndParent(String studentId) {
@@ -238,6 +259,12 @@ public class StudentServiceIMPL implements StudentService {
     @Override
     public List<String> getAllStudentIds() {
         return studentRepo.findAllStudentIds();
+    }
+
+    @Override
+    public Page<Student> searchStudents(String searchTerm, Pageable pageable) {
+        return studentRepo.findByStudentIdContainingOrStudentNameContaining(
+                searchTerm, searchTerm, pageable);
     }
 
 }

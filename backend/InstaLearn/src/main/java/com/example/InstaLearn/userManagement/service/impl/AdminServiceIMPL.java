@@ -81,5 +81,11 @@ public class AdminServiceIMPL implements AdminService {
         return adminRepo.findById(adminId).orElse(null);
     }
 
+    @Override
+    public Page<Admin> searchAdmins(String searchTerm, Pageable pageable) {
+        return adminRepo.findByAdminIdContainingOrAdminNameContaining(
+                searchTerm, searchTerm, pageable);
+    }
+
 
 }

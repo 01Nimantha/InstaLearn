@@ -19,4 +19,6 @@ public interface TeacherService {
     Page<Teacher> getAllTeachers(Pageable pageable);
 
     Teacher getTeacherById(String teacherId);
+
+    Page<Teacher> searchTeachers(String searchTerm, Pageable pageable);
 }

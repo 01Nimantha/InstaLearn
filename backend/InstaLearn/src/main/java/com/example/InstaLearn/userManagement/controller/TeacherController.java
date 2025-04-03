@@ -59,11 +59,21 @@ public class TeacherController {
     @GetMapping("/get-all-teachers")
     public ResponseEntity<Page<Teacher>> getAllTeachers(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String searchTerm
     ){
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Teacher> teachers = teacherService.getAllTeachers(pageable);
+        Page<Teacher> teachers;
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            // Fetch filtered results based on searchTerm
+            teachers = teacherService.searchTeachers(searchTerm, pageable);
+        } else {
+            // Fetch all results if no search term is provided
+            teachers = teacherService.getAllTeachers(pageable);
+        }
+
+        //Page<Teacher> teachers = teacherService.getAllTeachers(pageable);
         return new ResponseEntity<>(teachers, HttpStatus.OK);
     }
 

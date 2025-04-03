@@ -94,4 +94,10 @@ public class TeacherServiceIMPL implements TeacherService {
     public Teacher getTeacherById(String teacherId) {
         return teacherRepo.findById(teacherId).orElse(null);
     }
+
+    @Override
+    public Page<Teacher> searchTeachers(String searchTerm, Pageable pageable) {
+        return teacherRepo.findByTeacherIdContainingOrTeacherNameContaining(
+                searchTerm, searchTerm, pageable);
+    }
 }

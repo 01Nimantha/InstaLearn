@@ -56,11 +56,20 @@ public class StudentController {
     @GetMapping("/get-all-students")
     public ResponseEntity<Page<Student>> getAllStudents(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String searchTerm
     ){
         Pageable pageable = PageRequest.of(page, size);
+        Page<Student> students;
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            // Fetch filtered results based on searchTerm
+            students = studentService.searchStudents(searchTerm, pageable);
+        } else {
+            // Fetch all results if no search term is provided
+            students = studentService.getAllStudents(pageable);
+        }
 
-        Page<Student> students = studentService.getAllStudents(pageable);
+       // Page<Student> students = studentService.getAllStudents(pageable);
         return new ResponseEntity<>(students,HttpStatus.OK);
     }
     @GetMapping("/get-student-by/{id}")

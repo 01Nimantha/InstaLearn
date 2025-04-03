@@ -36,28 +36,6 @@ public class ImageServiceIMPL implements ImageService {
     public String uploadImage(int userId, MultipartFile file) throws IOException {
         User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 
-//        Image existingImage = null;
-//        switch (user.getRole()) {
-//            case AOFFICER:
-//                existingImage = aOfficerRepo.findById(user.getUserName()).map(AttendanceOfficer::getImage).orElse(null);
-//                break;
-//            case TEACHER:
-//                existingImage = teacherRepo.findById(user.getUserName()).map(Teacher::getImage).orElse(null);
-//                break;
-//            case PARENT:
-//                existingImage = parentRepo.findById(user.getUserName()).map(Parent::getImage).orElse(null);
-//                break;
-//            case STUDENT:
-//                existingImage = studentRepo.findById(user.getUserName()).map(Student::getImage).orElse(null);
-//                break;
-//            default:
-//                throw new RuntimeException("Invalid role: " + user.getRole());
-//        }
-//
-//        if (existingImage != null) {
-//            throw new RuntimeException("Image already exists for this user. Please update or delete the existing image first.");
-//        }
-
         Image image = new Image();
         image.setFileName(file.getOriginalFilename());
         image.setFileType(file.getContentType());
