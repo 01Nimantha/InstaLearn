@@ -609,17 +609,29 @@
 // }
 
 // export default App;
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import Calendar from './Calender';
 import Timetable from './Timetable';
 import EventModal from './EventModal';
+import axios from 'axios';
 
 function App() {
   // Constants
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const times = ['8:00', '9:00', '10:00', '11:00', '12:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00'];
+  const times = [
+    { value: 8, display: '8:00' },
+    { value: 9, display: '9:00' },
+    { value: 10, display: '10:00' },
+    { value: 11, display: '11:00' },
+    { value: 12, display: '12:00' },
+    { value: 13, display: '1:00' },
+    { value: 14, display: '2:00' },
+    { value: 15, display: '3:00' },
+    { value: 16, display: '4:00' },
+    { value: 17, display: '5:00' },
+    { value: 18, display: '6:00' }
+  ];
   const classTypes = ['Theory', 'Paper'];
 
   // State
@@ -633,81 +645,136 @@ function App() {
   
   const [formData, setFormData] = useState({
     classType: "Theory",
-    day: "Mon",
-    startTime: "9:00",
-    duration: "1"
+    Day: "Mon",
+    startTime: 9, // Numeric value matching backend
+    Duration: 1   // Numeric value matching backend
   });
+
+  // Convert numeric time to display format
+  const formatTime = (time) => {
+    const hour = time % 12 || 12;
+    const ampm = time < 12 ? 'AM' : 'PM';
+    return `${hour}:00 ${ampm}`;
+  };
 
   // Event handlers
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ 
+      ...formData, 
+      [name]: name === 'startTime' || name === 'Duration' ? parseInt(value) : value 
+    });
   };
 
-  const handleAddEvent = () => {
-    const newEvent = {
-      ...formData,
-      id: Date.now().toString()
-    };
-    setEvents([...events, newEvent]);
-    setShowModal(false);
-    resetForm();
+  // Add new event
+  const handleAddEvent = async () => {
+    try {
+      const response = await axios.post('http://localhost:8085/api/v1/event/save', formData);
+      setEvents([...events, response.data]);
+      setShowModal(false);
+      resetForm();
+      alert('Event added successfully!');
+    } catch (error) {
+      console.error("Error adding event:", error);
+      alert("Failed to add event. Please try again.");
+    }
   };
 
-  const handleEditEvent = () => {
+  // Edit existing event
+  const handleEditEvent = async () => {
     if (!currentEvent) return;
     
-    const updatedEvents = events.map(event => 
-      event.id === currentEvent.id ? { ...formData, id: currentEvent.id } : event
-    );
+    try {
+      const response = await axios.put(
+        `http://localhost:8085/api/v1/event/update/${currentEvent.eventId}`,
+        formData
+      );
+      
+      const updatedEvents = events.map(event => 
+        event.eventId === currentEvent.eventId ? response.data : event
+      );
+      
+      setEvents(updatedEvents);
+      setShowEditModal(false);
+      resetForm();
+    } catch (error) {
+      console.error("Error updating event:", error);
+      alert("Failed to update event. Please try again.");
+    }
+  };
+
+  // Fetch all events on component mount
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('http://localhost:8085/api/v1/event/all');
+        setEvents(response.data);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+        alert("Failed to load events. Please refresh the page.");
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  // Delete event
+  const handleDeleteEvent = async (eventId) => {
+    if (!window.confirm("Are you sure you want to delete this event?")) return;
     
-    setEvents(updatedEvents);
-    setShowEditModal(false);
-    resetForm();
+    try {
+      await axios.delete(`http://localhost:8085/api/v1/event/delete/${eventId}`);
+      setEvents(events.filter(event => event.eventId !== eventId));
+    } catch (error) {
+      console.error("Error deleting event:", error);
+      alert("Failed to delete event. Please try again.");
+    }
   };
 
-  const handleDeleteEvent = (id) => {
-    setEvents(events.filter(event => event.id !== id));
-  };
-
+  // Open edit modal with event data
   const openEditModal = (event) => {
     setCurrentEvent(event);
     setFormData({
       classType: event.classType,
-      day: event.day,
+      Day: event.Day,
       startTime: event.startTime,
-      duration: event.duration
+      Duration: event.Duration
     });
     setShowEditModal(true);
   };
 
+  // Reset form to default values
   const resetForm = () => {
     setFormData({
       classType: "Theory",
-      day: "Mon",
-      startTime: "9:00",
-      duration: "1"
+      Day: "Mon",
+      startTime: 9,
+      Duration: 1
     });
     setCurrentEvent(null);
   };
 
+  // Calendar navigation
   const prevMonth = () => {
-    if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear(currentYear - 1);
-    } else {
-      setCurrentMonth(currentMonth - 1);
-    }
+    setCurrentMonth(prev => {
+      if (prev === 0) {
+        setCurrentYear(year => year - 1);
+        return 11;
+      }
+      return prev - 1;
+    });
   };
 
   const nextMonth = () => {
-    if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear(currentYear + 1);
-    } else {
-      setCurrentMonth(currentMonth + 1);
-    }
+    setCurrentMonth(prev => {
+      if (prev === 11) {
+        setCurrentYear(year => year + 1);
+        return 0;
+      }
+      return prev + 1;
+    });
   };
 
+  // Show tooltip with event info
   const showTooltip = (date, clientX, clientY) => {
     const dayToNumber = {
       'Sun': 0, 'Mon': 1, 'Tue': 2, 'Wed': 3, 
@@ -720,7 +787,7 @@ function App() {
     if (date < today) return;
     
     const dateDay = days[date.getDay() === 0 ? 6 : date.getDay() - 1];
-    const eventsOnDate = events.filter(event => event.day === dateDay);
+    const eventsOnDate = events.filter(event => event.Day === dateDay);
     
     if (eventsOnDate.length > 0) {
       setTooltipInfo({
@@ -737,7 +804,7 @@ function App() {
         <div className="flex justify-between items-center mb-6 w-full">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Manage Schedule</h2>
-            <p className="text-gray-600">plan your classes and events</p>
+            <p className="text-gray-600">Plan your classes and events</p>
           </div>
           <button 
             onClick={() => setShowModal(true)}
@@ -752,8 +819,12 @@ function App() {
           <div className="lg:col-span-2">
             <Timetable 
               days={days}
-              times={times}
-              events={events}
+              times={times.map(t => t.display)}
+              events={events.map(event => ({
+                ...event,
+                startTime: formatTime(event.startTime),
+                id: event.eventId // Ensure id is mapped for table display
+              }))}
               onEditEvent={openEditModal}
               onDeleteEvent={handleDeleteEvent}
             />
@@ -782,11 +853,14 @@ function App() {
           <h4 className="font-semibold mb-2">Classes:</h4>
           <ul className="space-y-2">
             {tooltipInfo.events.map(event => (
-              <li key={event.id} className="border-b pb-1 last:border-b-0">
-                <div className="font-medium">{event.title}</div>
+              <li key={event.eventId} className="border-b pb-1 last:border-b-0">
+                <div className="font-medium">{event.classType} Class</div>
                 <div className="flex justify-between text-xs text-gray-600">
-                  <span>{event.classType} class</span>
-                  <span>{event.startTime}</span>
+                  <span>Day: {event.Day}</span>
+                  <span>{formatTime(event.startTime)}</span>
+                </div>
+                <div className="text-xs text-gray-600">
+                  Duration: {event.Duration} hour{event.Duration !== 1 ? 's' : ''}
                 </div>
               </li>
             ))}
@@ -794,6 +868,7 @@ function App() {
         </div>
       )}
 
+      {/* Add Event Modal */}
       <EventModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
@@ -805,6 +880,7 @@ function App() {
         classTypes={classTypes}
       />
 
+      {/* Edit Event Modal */}
       <EventModal
         isOpen={showEditModal}
         onClose={() => setShowEditModal(false)}

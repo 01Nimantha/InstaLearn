@@ -65,15 +65,17 @@ const EventModal = ({
               Start Time
             </label>
             <select
-              name="startTime"
-              value={formData.startTime}
-              onChange={onInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#287f93]"
-            >
-              {times.map(time => (
-                <option key={time} value={time}>{time}</option>
-              ))}
-            </select>
+  name="startTime"
+  value={formData.startTime}
+  onChange={onInputChange}
+  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#287f93]"
+>
+  {times.map(time => (
+    <option key={time.value} value={time.value}>
+      {time.display}
+    </option>
+  ))}
+</select>
           </div>
           
           <div>
@@ -81,15 +83,17 @@ const EventModal = ({
               Duration (hours)
             </label>
             <select
-              name="duration"
-              value={formData.duration}
-              onChange={onInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#287f93]"
-            >
-              {[1, 2, 3, 4].map(hour => (
-                <option key={hour} value={hour}>{hour}</option>
-              ))}
-            </select>
+  name="Duration"
+  value={formData.Duration}
+  onChange={onInputChange}
+  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#287f93]"
+>
+  {[1, 2, 3, 4].map(hour => (
+    <option key={hour} value={hour}>
+      {hour} hour{hour !== 1 ? 's' : ''}
+    </option>
+  ))}
+</select>
           </div>
           
           <div className="flex justify-end space-x-2 mt-6">

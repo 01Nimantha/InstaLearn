@@ -25,39 +25,48 @@ const Timetable = ({ days, times, events, onEditEvent, onDeleteEvent }) => {
                   {time}
                 </td>
                 {days.map(day => {
+                  // Find events for this specific time and day
                   const eventsAtTimeAndDay = events.filter(
-                    event => event.startTime === time && event.day === day
+                    event => event.startTime === parseInt(time.split(':')[0]) && event.Day === day
                   );
                   
                   return (
                     <td key={`${day}-${time}`} className="p-1 border-r relative min-h-[60px]">
                       {eventsAtTimeAndDay.map(event => (
                         <div 
-                          key={event.id}
+                          key={event.eventId}
                           className={`p-2 rounded-md mb-1 text-xs relative ${
                             event.classType === 'Theory' ? 'bg-pink-100 text-pink-800' :
                             'bg-blue-100 text-[#287f93]'
                           }`}
                         >
                           <div className="flex justify-between items-start">
-                            <span className="font-medium">{event.title}</span>
+                            <span className="font-medium">{event.classType} Class</span>
                             <div className="flex space-x-1">
                               <button 
-                                onClick={() => onEditEvent(event)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onEditEvent(event);
+                                }}
                                 className="text-gray-500 hover:text-gray-700"
+                                title="Edit"
                               >
                                 <Edit size={14} />
                               </button>
                               <button 
-                                onClick={() => onDeleteEvent(event.id)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onDeleteEvent(event.eventId);
+                                }}
                                 className="text-red-500 hover:text-red-700"
+                                title="Delete"
                               >
                                 <Trash2 size={14} />
                               </button>
                             </div>
                           </div>
                           <div className="mt-1">
-                            {event.classType} class
+                            Duration: {event.Duration} hour{event.Duration !== 1 ? 's' : ''}
                           </div>
                         </div>
                       ))}
