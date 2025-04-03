@@ -1,171 +1,94 @@
-import React from 'react'
-import Button from '../../../components/Button'
-import { FaSearch } from 'react-icons/fa';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { TextField, Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
+// Function to get the current month and the previous 4 months
+const getLastFiveMonths = () => {
+  const months = [];
+  const today = new Date();
+  
+  for (let i = 4; i >= 0; i--) { // Includes current month + last 4 months
+    const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+    const monthName = date.toLocaleString("default", { month: "long" });
+    months.push(monthName);
+  }
+  return months;
+};
 
 const Payments = () => {
+  const [students, setStudents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // State for search input
+  const [classType, setClassType] = useState("Theory"); // Default class type filter
+  const months = getLastFiveMonths(); // Get last 5 months dynamically
+
+  useEffect(() => {
+    axios.get("http://localhost:8085/api/v1/student/get-all-students")
+      .then(response => {
+        console.log("API Response:", response.data); // Debugging API response
+        setStudents(response.data.content || []); // Extract 'content' array
+      })
+      .catch(error => console.error("Error fetching student data:", error));
+  }, []);
+
+  // Filter students based on search term and selected class type
+  const filteredStudents = students.filter(student => {
+    const matchesSearch = student.studentId.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesClassType = student.classTypes.some(type => type === classType);
+    return matchesSearch && matchesClassType;
+  });
+
   return (
-    <div className='d-flex' style={{margin:"2%",padding:"2%", minWidth:"74vw", maxWidth:"74vw",backgroundColor:"#ffffff"}}>
+    <div style={{ padding: "20px" }}>
+      {/* Search Input */}
+      <TextField
+        label="Search by Student Number"
+        variant="outlined"
+        fullWidth
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{ marginBottom: "20px" }}
+      />
 
-      <div className="p-4 w-full">
-      <h2 className="text-xl font-bold">Payments</h2>
-            <div className="relative flex items-center bg-[#fff] w-96 rounded-l-full shadow mt-10 h-14">
-                    <input
-                      type="text"
-                      placeholder="Search by id..."
-                      // value={searchTerm}
-                      // onChange={(e) => setSearchTerm(e.target.value)}
-                      className="px-4 py-2 rounded-l-full border-gray-300"
-                    />
-                    <button className="absolute right-0 bg-[#287f93] text-[#fff] h-14 w-14 flex items-center  justify-center rounded-lg">
-                      <FaSearch/>
-                    </button>
-            </div>
-            
+      {/* Class Type Filter */}
+      <FormControl fullWidth style={{ marginBottom: "20px" }}>
+        <InputLabel>Filter by Class Type</InputLabel>
+        <Select
+          value={classType}
+          onChange={(e) => setClassType(e.target.value)}
+        >
+          <MenuItem value="Theory">Theory (Default)</MenuItem>
+          <MenuItem value="Paper">Paper</MenuItem>
+          <MenuItem value="Revision">Revision</MenuItem>
+        </Select>
+      </FormControl>
 
-            <section>
-                <table className='shadow mt-10 ' style={{margin:"2%",padding:"2%", minWidth:"74vw", maxWidth:"74vw",backgroundColor:"#ffffff"}}>
-                <thead className='bg-[#EBEBEB] h-16'>
-                    <tr className='text-center'>
-                        <th>Student Id</th>
-                        <th>January</th>
-                        <th>February</th>
-                        <th>March</th>
-                        <th>April</th>
-                    </tr>
-                </thead>
-                <tbody className='bg-[#ffffff] h-16'>
-                <tr className='text-center'>
-                        <th>ST000001</th>
-                        <th>
-                            <Button
-                            name={"Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"green"} 
-                            fontColor={"black"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                        <th>
-                            <Button
-                            name={"Not Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"red"} 
-                            fontColor={"black"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                        <th>
-                            <Button
-                            name={"Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"green"} 
-                            fontColor={"white"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                        <th>
-                            <Button
-                            name={"Not Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"red"} 
-                            fontColor={"white"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                    </tr>
-                </tbody>
-
-                <tbody className='bg-[#EBEBEB] h-16'>
-                <tr className='text-center'>
-                        <th>ST000002</th>
-                        <th>
-                            <Button
-                            name={"Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"green"} 
-                            fontColor={"black"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                        <th>
-                            <Button
-                            name={"Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"green"} 
-                            fontColor={"black"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                        <th>
-                            <Button
-                            name={"Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"green"} 
-                            fontColor={"white"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                        <th>
-                            <Button
-                            name={"Not Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"red"} 
-                            fontColor={"white"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                    </tr>
-                </tbody>
-
-                <tbody className='bg-[#ffffff] h-16'>
-                <tr className='text-center'>
-                        <th>ST000003</th>
-                        <th>
-                            <Button
-                            name={"Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"green"} 
-                            fontColor={"black"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                        <th>
-                            <Button
-                            name={"Not Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"red"} 
-                            fontColor={"black"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                        <th>
-                            <Button
-                            name={"Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"green"} 
-                            fontColor={"white"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                        <th>
-                            <Button
-                            name={"Not Paid"} 
-                            action={()=>{console.log("Nimantha Click")}} 
-                            backgroundColor={"red"} 
-                            fontColor={"white"} 
-                            cornerRadius={false}/> 
-              
-                        </th>
-                    </tr>
-                </tbody>
-                
-
-                </table>
-            </section>
-      </div>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell><strong>Student Number</strong></TableCell>
+              {months.map(month => (
+                <TableCell key={month}><strong>{month}</strong></TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredStudents.length > 0 ? (
+              filteredStudents.map(student => (
+                <TableRow key={student.studentId}>
+                  <TableCell>{student.studentId}</TableCell>
+                  {months.map(month => <TableCell key={month}></TableCell>)}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} align="center">No student data found</TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
-  )
-}
+  );
+};
 
 export default Payments;

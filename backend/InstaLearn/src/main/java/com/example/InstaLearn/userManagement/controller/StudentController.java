@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/student")
@@ -102,6 +103,10 @@ public class StudentController {
                 new StandardResponse(200,"success",allStudentIds),
                 HttpStatus.OK
         );
+    }
+    @GetMapping("/{studentId}/class-types")
+    public ResponseEntity<List<Map<String, String>>> getClassTypesByStudentId(@PathVariable String studentId) {
+        return ResponseEntity.ok(studentService.getClassTypesByStudentId(studentId));
     }
 
 }

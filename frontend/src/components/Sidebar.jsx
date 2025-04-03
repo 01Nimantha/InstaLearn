@@ -1,4 +1,5 @@
 import Logo from "../assets/Logo.svg"
+import { LogOut} from 'lucide-react';
 import { IoIosLogOut } from "react-icons/io";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -71,8 +72,21 @@ const Sidebar = ({Tab1,Tab1Icon,Tab1functions,Tab2,Tab2Icon,Tab2functions,Tab3,T
           <li><a className="dropdown-item" href="#">Sign out</a></li>
         </ul>
       </div>
-      <div style={{marginTop:"6.5%",marginLeft:"14%",}} onClick={Logout}>
-        <IoIosLogOut size={22} color="#ffffff" />
+      <div style={{marginTop:"6.5%",marginLeft:"14%",}} >
+      <Link 
+  className='mb-2' 
+  to='/' 
+  onClick={() => {
+    localStorage.clear(); 
+    window.scrollTo(0, 0);
+  }} 
+  title="Logout"
+>
+  <LogOut className="w-5 h-5 ml-auto text-white" />
+</Link>
+
+
+
       </div>
       
     </div>

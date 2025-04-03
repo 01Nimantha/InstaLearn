@@ -13,10 +13,17 @@ const AdminDashboard = () => {
           <p className="text-sm text-gray-300 leading-7">Manage Users and Access Admin Functions</p>
         </div>
         <div className='pr-10'>
-        <button className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center" onClick={() => navigate('/') }>
-          <FaSignOutAlt className='w-5 h-5'/>
-          <span className='text-white font-bold font-Nunito text-xl '>Log out</span>
-        </button>
+        <button 
+  className="bg-red-600 hover:bg-red-700 rounded w-48 h-10 flex justify-center items-center" 
+  onClick={() => {
+    localStorage.clear(); // Clear all local storage
+    navigate('/'); // Navigate to home page
+  }}
+>
+  <FaSignOutAlt className='w-5 h-5'/>
+  <span className='text-white font-bold font-Nunito text-xl'>Log out</span>
+</button>
+
         </div>
       </header>
 

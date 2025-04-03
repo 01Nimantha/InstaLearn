@@ -66,4 +66,8 @@ public class ClassTypeController {
         Long classTypeId = classTypeService.getClassTypeId(className, type);
         return ResponseEntity.ok(classTypeId);
     }
+//    @GetMapping("/student/{studentNumber}")
+//    public List<ClassType> getClassTypesByStudent(@PathVariable String studentNumber) {
+//        return classTypeService.getClassTypesByStudentNumber(studentNumber);
+//    }
 }
