@@ -97,6 +97,7 @@ const TeachersView = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize] = useState(5);
+  const [sentEmails, setSentEmails] = useState(new Set());
 
   useEffect(() => {
     loadTeachers();
@@ -126,6 +127,15 @@ const TeachersView = () => {
   const handleSearch = (term) => {
     setSearchTerm(term);
     setCurrentPage(0); // Reset to first page on new search
+  };
+
+  const handleEmailSent = (teacherId, success) => {
+    if (success) {
+      setSentEmails(prev => new Set(prev).add(teacherId));
+    }
+    setSelectedTeacherId(null);
+    setActiveModal(null);
+    loadTeachers();
   };
 
   return (
@@ -198,13 +208,16 @@ const TeachersView = () => {
                   </td>
                   <td className='p-1 align-middle'>
                     <button 
-                      className='btn btn-success w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
+                      className={`btn w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2 ${
+                        sentEmails.has(teacher.teacherId) ? 'btn-success': 'btn-primary'
+                      }`}
                       onClick={() => {
                         setSelectedTeacherId(teacher.teacherId);
                         setActiveModal('email');
                       }}
                     >
-                      Email
+                       {sentEmails.has(teacher.teacherId) ? 'Sent' : 'Email'}
+                      
                     </button>
                   </td>
                   <td className='p-1 align-middle'>
@@ -266,11 +279,8 @@ const TeachersView = () => {
       {activeModal === 'email' && selectedTeacherId && (
         <TeacherSendEmailModel
           teacherId={selectedTeacherId}
-          onClose={() => {
-            setSelectedTeacherId(null);
-            setActiveModal(null);
-            loadTeachers();
-          }}
+            onClose={(success) => handleEmailSent(selectedTeacherId, success)}
+          
         />
       )}
       {activeModal === 'view' && selectedTeacherId && (

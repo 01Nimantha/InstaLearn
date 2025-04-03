@@ -93,18 +93,19 @@ const AdminDeleteModel = ({ onClose, adminId }) => (
 const AdminsView = () => {
   const [activeModal, setActiveModal] = useState(null);
   const [selectedAdminId, setSelectedAdminId] = useState(null);
-  const [showModal, setShowModal] = useState(false); // Unused, but kept as in original
+  const [showModal, setShowModal] = useState(false); // Unused, but kept as is
   const [searchTerm, setSearchTerm] = useState('');
   const [admins, setAdmins] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize] = useState(5);
+  const [sentEmails, setSentEmails] = useState(new Set());
 
   useEffect(() => {
-    loadAdmins(); // Fixed function name consistency
-  }, [currentPage, searchTerm]); // Added searchTerm as a dependency
+    loadadmins();
+  }, [currentPage, searchTerm]); // Added searchTerm dependency
 
-  const loadAdmins = async () => { // Renamed to match convention
+  const loadadmins = async () => {
     try {
       const url = `http://localhost:8085/api/v1/admin/get-all-admins?page=${currentPage}&size=${pageSize}${
         searchTerm ? `&searchTerm=${encodeURIComponent(searchTerm)}` : ''
@@ -125,9 +126,13 @@ const AdminsView = () => {
     }
   };
 
-  const handleSearch = (term) => {
-    setSearchTerm(term);
-    setCurrentPage(0); // Reset to first page on new search
+  const handleEmailSent = (adminId, success) => {
+    if (success) {
+      setSentEmails(prev => new Set(prev).add(adminId));
+    }
+    setSelectedAdminId(null);
+    setActiveModal(null);
+    loadadmins();
   };
 
   return (
@@ -146,7 +151,7 @@ const AdminsView = () => {
       <div className='mx-4 sm:mx-10'>
         <div className='flex flex-col sm:flex-row justify-between items-center w-full py-5 gap-4 sm:gap-0'>
           <div className='w-full sm:w-auto'>
-            <SearchBar searchTerm={searchTerm} setSearchTerm={handleSearch} />
+            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </div>
           <AddButton 
             btnname='Add Admin' 
@@ -166,61 +171,68 @@ const AdminsView = () => {
               </tr>
             </thead>
             <tbody className='text-center'>
-              {admins.map((admin) => ( // Removed client-side filter
-                <tr key={admin.adminId} className='h-12 sm:h-16 bg-[#FFFFFF] hover:bg-gray-100 border text-xs sm:text-sm'>
-                  <td className='p-2'>{admin.adminId}</td>
-                  <td className='p-2'>{admin.adminName}</td>
-                  <td className='p-2 break-all'>{admin.adminEmail}</td>
-                  <td className='p-1'>
-                    <button 
-                      className='btn btn-info w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
-                      onClick={() => {
-                        setSelectedAdminId(admin.adminId);
-                        setActiveModal('view');
-                      }}
-                    >
-                      View
-                    </button>
-                  </td>
-                  <td className='p-1'>
-                    <button 
-                      className='btn btn-warning w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
-                      onClick={() => {
-                        setSelectedAdminId(admin.adminId);
-                        setActiveModal('edit');
-                      }}
-                    >
-                      Update
-                    </button>
-                  </td>
-                  <td className='p-1'>
-                    <button 
-                      className='btn btn-success w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
-                      onClick={() => {
-                        setSelectedAdminId(admin.adminId);
-                        setActiveModal('email');
-                      }}
-                    >
-                      Email
-                    </button>
-                  </td>
-                  <td className='p-1'>
-                    <button 
-                      className='btn btn-danger w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
-                      onClick={() => {
-                        setSelectedAdminId(admin.adminId);
-                        setActiveModal('delete');
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {admins
+                .filter((admin) => 
+                  admin.adminId.toString().toUpperCase().includes(searchTerm.toUpperCase()) // Fixed toString()
+                )
+                .map((admin) => (
+                  <tr key={admin.adminId} className='h-12 sm:h-16 bg-[#FFFFFF] hover:bg-gray-100 border text-xsA sm:text-sm'>
+                    <td className='p-2'>{admin.adminId}</td>
+                    <td className='p-2'>{admin.adminName}</td>
+                    <td className='p-2 break-all'>{admin.adminEmail}</td>
+                    <td className='p-1'>
+                      <button 
+                        className='btn btn-info w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
+                        onClick={() => {
+                          setSelectedAdminId(admin.adminId);
+                          setActiveModal('view');
+                        }}
+                      >
+                        View
+                      </button>
+                    </td>
+                    <td className='p-1'>
+                      <button 
+                        className='btn btn-warning w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
+                        onClick={() => {
+                          setSelectedAdminId(admin.adminId);
+                          setActiveModal('edit');
+                        }}
+                      >
+                        Update
+                      </button>
+                    </td>
+                    <td className='p-1'>
+                      <button 
+                        className={`btn w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2 ${
+                          sentEmails.has(admin.adminId) ? 'btn-success' : 'btn-primary'
+                        }`}
+                        onClick={() => {
+                          setSelectedAdminId(admin.adminId);
+                          setActiveModal('email');
+                        }}
+                      >
+                        {sentEmails.has(admin.adminId) ? 'Sent' : 'Email'}
+                      </button>
+                    </td>
+                    <td className='p-1'>
+                      <button 
+                        className='btn btn-danger w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
+                        onClick={() => {
+                          setSelectedAdminId(admin.adminId);
+                          setActiveModal('delete');
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </section>
 
+        {/* Pagination Controls */}
         <div className="flex flex-col sm:flex-row justify-center items-center mt-4 gap-2 sm:gap-4">
           <button
             className="btn btn-secondary w-full sm:w-auto px-4 py-2 text-xs sm:text-sm"
@@ -251,7 +263,7 @@ const AdminsView = () => {
             } else {
               setActiveModal(null);
             }
-            loadAdmins();
+            loadadmins();
           }}
         />
       )}
@@ -261,18 +273,14 @@ const AdminsView = () => {
           onClose={() => {
             setSelectedAdminId(null);
             setActiveModal(null);
-            loadAdmins();
+            loadadmins();
           }}
         />
       )}
       {activeModal === 'email' && selectedAdminId && (
         <AdminSendEmailModel
           adminId={selectedAdminId}
-          onClose={() => {
-            setSelectedAdminId(null);
-            setActiveModal(null);
-            loadAdmins();
-          }}
+          onClose={(success) => handleEmailSent(selectedAdminId, success)} // Fixed to use handleEmailSent
         />
       )}
       {activeModal === 'view' && selectedAdminId && (
@@ -281,7 +289,7 @@ const AdminsView = () => {
           onClose={() => {
             setSelectedAdminId(null);
             setActiveModal(null);
-            loadAdmins();
+            loadadmins();
           }}
         />
       )}
@@ -291,7 +299,7 @@ const AdminsView = () => {
           onClose={() => {
             setSelectedAdminId(null);
             setActiveModal(null);
-            loadAdmins();
+            loadadmins();
           }}
         />
       )}

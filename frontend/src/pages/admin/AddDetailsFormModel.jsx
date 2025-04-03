@@ -70,10 +70,11 @@ const AddDetailsFormModel = ({
     const saveUser = async (formData) => {
         try {
             const response = await axios.post(saveEndpoint, formData);
-            return response.data;
+            if (response.status === 200 || response.status === 201) {
+                window.location.reload();
+            }
         } catch (error) {
             console.error('Failed to save user:', error);
-            throw error;
         }
     };
 
@@ -99,13 +100,7 @@ const AddDetailsFormModel = ({
             classTypes: includeCheckbox ? classTypes : undefined
         };
 
-        saveUser(finalFormData)
-            .then(() => {
-                window.location.reload();
-            })
-            .catch((error) => {
-                console.error('Submit failed:', error);
-            });
+        saveUser(finalFormData);
     };
 
     const handleClose = (e) => {
@@ -116,7 +111,7 @@ const AddDetailsFormModel = ({
 
     return (
         <div 
-            className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-50' 
+            className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-40' 
             id="wrapper" 
             onClick={handleClose}
         >
@@ -227,7 +222,7 @@ const AddDetailsFormModel = ({
                         <AddButton 
                             btnname={btnTitle} 
                             className='w-full sm:w-48 h-12 bg-gray-950' 
-                            type='submit' 
+                            type='submit'
                         />
                         <button
                             type='button'

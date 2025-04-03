@@ -17,6 +17,7 @@ const SendEmailModelStudentParent = ({
     const[student,setStudent] = useState({})
     const[parent,setParent] = useState({})
     const [isLoading, setIsLoading] = useState(false);
+    const [isSent, setIsSent] = useState(false);
 
     useEffect(()=>{
         loadStudent();
@@ -51,6 +52,8 @@ const SendEmailModelStudentParent = ({
             toMail: student[fields[0].name],
           }),
         ]);
+          setIsSent(true);
+          setTimeout(() => onClose(true), 1000)
           onClose();
           setIsLoading(false);
         
@@ -100,12 +103,12 @@ const SendEmailModelStudentParent = ({
                 <div className='px-1 flex justify-between py-1 mr-5'>
                 <div className='col-sm-2'>
                 <AddButton 
-                  btnname={isLoading ? 'Sending...' : 'Send'}
-                  className={`flex items-center justify-center bg-gray-950 text-white w-48 h-12 rounded-lg ${
-                    isLoading ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                 type='submit' disabled={isLoading}
-                >
+                   btnname={isLoading ? 'Sending...' : isSent ? 'Sent' : 'Send'}
+                   className={`flex items-center justify-center text-white w-48 h-12 rounded-lg ${
+                    isSent ? 'bg-blue-600' : 'bg-gray-950'
+                  } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  type='submit' disabled={isLoading || isSent}
+                  >
                   {isLoading ? (
                   <>
                     <svg
@@ -129,9 +132,7 @@ const SendEmailModelStudentParent = ({
                     </svg>
                     Sending...
                   </>
-                ) : (
-                  'Send'
-                )}
+                ) : isSent ? 'Sent' : 'Send'}
                 </AddButton>
                 </div>
                  <div className='col-sm-2'>

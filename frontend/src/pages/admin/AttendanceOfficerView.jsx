@@ -27,7 +27,7 @@ const AttendanceOfficerEditModel = ({ onClose, attendanceOfficerId }) => (
   />
 );
 
-const AttendanceOffficerSendEmailModel = ({ onClose, attendanceOfficerId }) => (
+const AttendanceOfficerSendEmailModel = ({ onClose, attendanceOfficerId }) => (
   <SendEmailModel
     title="Send Attendance Officer Credentials"
     apiEndpoints={{
@@ -97,6 +97,7 @@ const AttendanceOfficerView = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize] = useState(5);
+  const [sentEmails, setSentEmails] = useState(new Set());
 
   useEffect(() => {
     loadAOfficer();
@@ -107,8 +108,7 @@ const AttendanceOfficerView = () => {
       const url = `http://localhost:8085/api/v1/attendanceOfficer/get-all-aOfficers?page=${currentPage}&size=${pageSize}${
         searchTerm ? `&searchTerm=${encodeURIComponent(searchTerm)}` : ''
       }`;
-      const result = await axios.get(url, 
-        { validateStatus: () => true });
+      const result = await axios.get(url, { validateStatus: () => true });
       if (result.status === 200) {
         setAOfficers(result.data.content);
         setTotalPages(result.data.totalPages);
@@ -127,6 +127,15 @@ const AttendanceOfficerView = () => {
   const handleSearch = (term) => {
     setSearchTerm(term);
     setCurrentPage(0); // Reset to first page on new search
+  };
+
+  const handleEmailSent = (aOfficerId, success) => {
+    if (success) {
+      setSentEmails(prev => new Set(prev).add(aOfficerId));
+    }
+    setSelectedAOfficerId(null);
+    setActiveModal(null);
+    loadAOfficer();
   };
 
   return (
@@ -199,13 +208,15 @@ const AttendanceOfficerView = () => {
                   </td>
                   <td className='p-1 align-middle'>
                     <button 
-                      className='btn btn-success w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2'
+                      className={`btn w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2 ${
+                        sentEmails.has(aOfficer.attendanceOfficerId) ? 'btn-success' : 'btn-primary'
+                      }`}
                       onClick={() => {
                         setSelectedAOfficerId(aOfficer.attendanceOfficerId);
                         setActiveModal('email');
                       }}
                     >
-                      Email
+                      {sentEmails.has(aOfficer.attendanceOfficerId) ? 'Sent' : 'Email'}
                     </button>
                   </td>
                   <td className='p-1 align-middle'>
@@ -265,13 +276,9 @@ const AttendanceOfficerView = () => {
         />
       )}
       {activeModal === 'email' && selectedAOfficerId && (
-        <AttendanceOffficerSendEmailModel
+        <AttendanceOfficerSendEmailModel
           attendanceOfficerId={selectedAOfficerId}
-          onClose={() => {
-            setSelectedAOfficerId(null);
-            setActiveModal(null);
-            loadAOfficer();
-          }}
+          onClose={(success) => handleEmailSent(selectedAOfficerId, success)} // Fixed to pass success
         />
       )}
       {activeModal === 'view' && selectedAOfficerId && (

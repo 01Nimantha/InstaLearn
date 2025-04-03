@@ -64,6 +64,7 @@ const StudentViewModel = ({ onClose, studentId }) => (
       { label: 'Parent Contact No', name: 'studentParentContactno' },
       { label: 'Class Types', name: 'classTypes' },
       { label: 'Free Card', name: 'freeCard' }
+
     ]}
     onClose={onClose}
     entityId={studentId}
@@ -113,6 +114,7 @@ const StudentsView = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize] = useState(5);
+  const [sentEmails, setSentEmails] = useState(new Set());
 
   useEffect(() => {
     loadStudents();
@@ -142,6 +144,14 @@ const StudentsView = () => {
   const handleSearch = (term) => {
     setSearchTerm(term);
     setCurrentPage(0); // Reset to first page on new search
+  };
+  const handleEmailSent = (studentId, success) => {
+    if (success) {
+      setSentEmails(prev => new Set(prev).add(studentId));
+    }
+    setSelectedStudentId(null);
+    setActiveModal(null);
+    loadStudents();
   };
 
   return (
@@ -208,14 +218,17 @@ const StudentsView = () => {
                     </button>
                   </td>
                   <td className='p-1'>
-                    <button 
-                      className='btn btn-success w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
+                  <button 
+                      className={`btn w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2 ${
+                        sentEmails.has(student.studentId) ? 'btn-success': 'btn-primary'
+                      }`}
                       onClick={() => {
                         setSelectedStudentId(student.studentId);
                         setActiveModal('email');
                       }}
                     >
-                      Email
+                       {sentEmails.has(student.studentId) ? 'Sent' : 'Email'}
+                      
                     </button>
                   </td>
                   <td className='p-1'>
