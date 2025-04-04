@@ -148,41 +148,52 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
 
     @Override
     public List<Question> getAllQuestionByqpIdandstId(int qpId, String stId) {
-        RestTemplate restTemplate = new RestTemplate();
-        List<Integer> questionIds = restTemplate.getForObject("http://localhost:8085/StudentAnswer/{qpId}/{stId}", List.class, qpId, stId);
-        List<Question> questionList=new ArrayList<>();
-        for(int x:questionIds){
-            Question question= restTemplate.getForObject("http://localhost:8085/api/v1/question/get-by-id?id="+x,Question.class);
-            questionList.add(question);
+        try{
+            RestTemplate restTemplate = new RestTemplate();
+            List<Integer> questionIds = restTemplate.getForObject("http://localhost:8085/StudentAnswer/{qpId}/{stId}", List.class, qpId, stId);
+            List<Question> questionList=new ArrayList<>();
+            for(int x:questionIds){
+                Question question= restTemplate.getForObject("http://localhost:8085/api/v1/question/get-by-id?id="+x,Question.class);
+                questionList.add(question);
+            }
+            return questionList;
+
+        }catch (Exception e){
+            return new ArrayList<Question>();
         }
-        return questionList;
+
     }
 
     @Override
     public List<FullQuestionPaper> getFullQuestionPaper(String stId) {
-            List<FullQuestionPaper> fullQuestionPaperArrayList = new ArrayList<>();
-            RestTemplate restTemplate = new RestTemplate();
-            int qp_id = questionPaperRepository.findLastQuestionPaperId();
-            FullStudentAnswer[] studentAnswerList = restTemplate.getForObject("http://localhost:8085/StudentAnswer/allAnswers/"+qp_id+"/"+stId,FullStudentAnswer[].class);
-            for(FullStudentAnswer x : studentAnswerList){
-                Question question= restTemplate.getForObject("http://localhost:8085/api/v1/question/get-by-id?id="+x.getQ_id(),Question.class);
-                List<String> options = new ArrayList<>();
-                options.add(question.getOptionOne());
-                options.add(question.getOptionTwo());
-                options.add(question.getOptionThree());
-                options.add(question.getOptionFour());
-                FullQuestionPaper fullQuestionPaper = new FullQuestionPaper(
-                        x.getId(),
-                        question.getQuestion(),
-                        options,
-                        question.getCorrectAnswer(),
-                        x.isDisable(),
-                        x.isMark(),
-                        x.getSt_answer()
-                );
-                fullQuestionPaperArrayList.add(fullQuestionPaper);
+            try{
+                List<FullQuestionPaper> fullQuestionPaperArrayList = new ArrayList<>();
+                RestTemplate restTemplate = new RestTemplate();
+                int qp_id = questionPaperRepository.findLastQuestionPaperId();
+                FullStudentAnswer[] studentAnswerList = restTemplate.getForObject("http://localhost:8085/StudentAnswer/allAnswers/"+qp_id+"/"+stId,FullStudentAnswer[].class);
+                for(FullStudentAnswer x : studentAnswerList){
+                    Question question= restTemplate.getForObject("http://localhost:8085/api/v1/question/get-by-id?id="+x.getQ_id(),Question.class);
+                    List<String> options = new ArrayList<>();
+                    options.add(question.getOptionOne());
+                    options.add(question.getOptionTwo());
+                    options.add(question.getOptionThree());
+                    options.add(question.getOptionFour());
+                    FullQuestionPaper fullQuestionPaper = new FullQuestionPaper(
+                            x.getId(),
+                            question.getQuestion(),
+                            options,
+                            question.getCorrectAnswer(),
+                            x.isDisable(),
+                            x.isMark(),
+                            x.getSt_answer()
+                    );
+                    fullQuestionPaperArrayList.add(fullQuestionPaper);
+                }
+                return  fullQuestionPaperArrayList;
+
+            }catch (Exception e){
+                return new ArrayList<FullQuestionPaper>();
             }
-            return  fullQuestionPaperArrayList;
 
 
     }
@@ -207,29 +218,34 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
 
     @Override
     public List<FullQuestionPaper> getFullQuestionPaperByStIdAndQpId(String stId, int qpId) {
-        List<FullQuestionPaper> fullQuestionPaperArrayList = new ArrayList<>();
-        RestTemplate restTemplate = new RestTemplate();
-        int qp_id = qpId;
-        FullStudentAnswer[] studentAnswerList = restTemplate.getForObject("http://localhost:8085/StudentAnswer/allAnswers/"+qp_id+"/"+stId,FullStudentAnswer[].class);
-        for(FullStudentAnswer x : studentAnswerList){
-            Question question= restTemplate.getForObject("http://localhost:8085/api/v1/question/get-by-id?id="+x.getQ_id(),Question.class);
-            List<String> options = new ArrayList<>();
-            options.add(question.getOptionOne());
-            options.add(question.getOptionTwo());
-            options.add(question.getOptionThree());
-            options.add(question.getOptionFour());
-            FullQuestionPaper fullQuestionPaper = new FullQuestionPaper(
-                    x.getId(),
-                    question.getQuestion(),
-                    options,
-                    question.getCorrectAnswer(),
-                    x.isDisable(),
-                    x.isMark(),
-                    x.getSt_answer()
-            );
-            fullQuestionPaperArrayList.add(fullQuestionPaper);
+        try{
+            List<FullQuestionPaper> fullQuestionPaperArrayList = new ArrayList<>();
+            RestTemplate restTemplate = new RestTemplate();
+            int qp_id = qpId;
+            FullStudentAnswer[] studentAnswerList = restTemplate.getForObject("http://localhost:8085/StudentAnswer/allAnswers/"+qp_id+"/"+stId,FullStudentAnswer[].class);
+            for(FullStudentAnswer x : studentAnswerList){
+                Question question= restTemplate.getForObject("http://localhost:8085/api/v1/question/get-by-id?id="+x.getQ_id(),Question.class);
+                List<String> options = new ArrayList<>();
+                options.add(question.getOptionOne());
+                options.add(question.getOptionTwo());
+                options.add(question.getOptionThree());
+                options.add(question.getOptionFour());
+                FullQuestionPaper fullQuestionPaper = new FullQuestionPaper(
+                        x.getId(),
+                        question.getQuestion(),
+                        options,
+                        question.getCorrectAnswer(),
+                        x.isDisable(),
+                        x.isMark(),
+                        x.getSt_answer()
+                );
+                fullQuestionPaperArrayList.add(fullQuestionPaper);
+            }
+            return  fullQuestionPaperArrayList;
+
+        }catch (Exception e){
+            return new ArrayList<FullQuestionPaper>();
         }
-        return  fullQuestionPaperArrayList;
     }
 
 
