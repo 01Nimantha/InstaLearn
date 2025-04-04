@@ -10,6 +10,7 @@ import OnlineQuizProgress from "../../components/OnlineQuizProgress";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { quistionAction } from "../../store/quistionSlice";
+import { quizAction } from "../../store/quizSlice";
 
 const UserHomePage=()=>{
 
@@ -33,6 +34,18 @@ const UserHomePage=()=>{
         setError(error.message);
         setLoading(false);
       });
+
+    axios
+      .get("http://localhost:8085/QuestionPaper")
+      .then((response) => {
+        setLoading(false);
+        dispatch(quizAction.updateQuize(response.data));
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
+    
   }, []);
 
   if (loading) return <p>Loading...</p>;
