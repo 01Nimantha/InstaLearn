@@ -5,6 +5,8 @@ import com.example.InstaLearn.scheduleManagement.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/event")
 @CrossOrigin
@@ -33,5 +35,11 @@ public class EventController {
     public String deleteEvent(@RequestParam(value = "id") int eventId) {
         String deleted=eventService.deleteEvent(eventId);
         return deleted;
+    }
+
+    @GetMapping("/all")
+    public List<EventDTO> getAllEvents() {
+
+        return eventService.getAllEvents();
     }
 }

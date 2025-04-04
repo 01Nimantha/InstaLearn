@@ -11,7 +11,7 @@ public class EventDTO {
 
     private int eventId;
     private String classType;
-    private String Day;
+    private String day;
     private int startTime;
     private int Duration;
 }

@@ -64,7 +64,7 @@ public class Event {
     private String classType;
 
     @NotNull
-    private String Day;
+    private String day;
 
     @NotNull
     private int startTime;
