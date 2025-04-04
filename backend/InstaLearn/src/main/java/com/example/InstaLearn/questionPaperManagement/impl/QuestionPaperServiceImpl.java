@@ -4,9 +4,7 @@ import com.example.InstaLearn.questionPaperManagement.QuestionPaper;
 import com.example.InstaLearn.questionPaperManagement.QuestionPaperRepository;
 import com.example.InstaLearn.questionPaperManagement.QuestionPaperService;
 import com.example.InstaLearn.questionPaperManagement.dto.QuestionPaperDto;
-import com.example.InstaLearn.questionPaperManagement.external.Question;
-import com.example.InstaLearn.questionPaperManagement.external.Student;
-import com.example.InstaLearn.questionPaperManagement.external.StudentAnswer;
+import com.example.InstaLearn.questionPaperManagement.external.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -158,6 +156,80 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
             questionList.add(question);
         }
         return questionList;
+    }
+
+    @Override
+    public List<FullQuestionPaper> getFullQuestionPaper(String stId) {
+            List<FullQuestionPaper> fullQuestionPaperArrayList = new ArrayList<>();
+            RestTemplate restTemplate = new RestTemplate();
+            int qp_id = questionPaperRepository.findLastQuestionPaperId();
+            FullStudentAnswer[] studentAnswerList = restTemplate.getForObject("http://localhost:8085/StudentAnswer/allAnswers/"+qp_id+"/"+stId,FullStudentAnswer[].class);
+            for(FullStudentAnswer x : studentAnswerList){
+                Question question= restTemplate.getForObject("http://localhost:8085/api/v1/question/get-by-id?id="+x.getQ_id(),Question.class);
+                List<String> options = new ArrayList<>();
+                options.add(question.getOptionOne());
+                options.add(question.getOptionTwo());
+                options.add(question.getOptionThree());
+                options.add(question.getOptionFour());
+                FullQuestionPaper fullQuestionPaper = new FullQuestionPaper(
+                        x.getId(),
+                        question.getQuestion(),
+                        options,
+                        question.getCorrectAnswer(),
+                        x.isDisable(),
+                        x.isMark(),
+                        x.getSt_answer()
+                );
+                fullQuestionPaperArrayList.add(fullQuestionPaper);
+            }
+            return  fullQuestionPaperArrayList;
+
+
+    }
+
+    @Override
+    public boolean updateFullQuestionPaper(String stId, List<FullQuestionPaper> fullQuestionPaper) {
+        try{
+            int qpid = questionPaperRepository.findLastQuestionPaperId();
+            RestTemplate restTemplate = new RestTemplate();
+            int[] qid = restTemplate.getForObject("http://localhost:8085/StudentAnswer/"+qpid+"/"+stId,int[].class);
+            int i=0;
+            for(FullQuestionPaper x : fullQuestionPaper ){
+                StudentAnswer studentAnswer = new StudentAnswer(stId,x.getStudentAnswer(),qpid,qid[i],x.isMark(),x.isDisable());
+                i++;
+                restTemplate.put("http://localhost:8085/StudentAnswer/"+x.getId(),studentAnswer);
+            }
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public List<FullQuestionPaper> getFullQuestionPaperByStIdAndQpId(String stId, int qpId) {
+        List<FullQuestionPaper> fullQuestionPaperArrayList = new ArrayList<>();
+        RestTemplate restTemplate = new RestTemplate();
+        int qp_id = qpId;
+        FullStudentAnswer[] studentAnswerList = restTemplate.getForObject("http://localhost:8085/StudentAnswer/allAnswers/"+qp_id+"/"+stId,FullStudentAnswer[].class);
+        for(FullStudentAnswer x : studentAnswerList){
+            Question question= restTemplate.getForObject("http://localhost:8085/api/v1/question/get-by-id?id="+x.getQ_id(),Question.class);
+            List<String> options = new ArrayList<>();
+            options.add(question.getOptionOne());
+            options.add(question.getOptionTwo());
+            options.add(question.getOptionThree());
+            options.add(question.getOptionFour());
+            FullQuestionPaper fullQuestionPaper = new FullQuestionPaper(
+                    x.getId(),
+                    question.getQuestion(),
+                    options,
+                    question.getCorrectAnswer(),
+                    x.isDisable(),
+                    x.isMark(),
+                    x.getSt_answer()
+            );
+            fullQuestionPaperArrayList.add(fullQuestionPaper);
+        }
+        return  fullQuestionPaperArrayList;
     }
 
 

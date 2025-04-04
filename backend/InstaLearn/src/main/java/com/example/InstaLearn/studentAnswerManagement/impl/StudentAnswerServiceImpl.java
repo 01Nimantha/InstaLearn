@@ -8,6 +8,8 @@ import com.example.InstaLearn.studentAnswerManagement.dto.StudentAnswerDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -81,6 +83,12 @@ public class StudentAnswerServiceImpl implements StudentAnswerService {
             y.add(x.getQ_id());
         }
         return y;
+    }
+
+    @Override
+    public List<StudentAnswer> getAllQuestionsByqpIdandstId(int qpId, String stId) {
+        List<StudentAnswer> answers  = studentAnswerRepository.findByQpIdAndStId(qpId,stId);
+        return (answers.isEmpty()) ? Collections.emptyList() : answers;
     }
 
 

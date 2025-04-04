@@ -72,4 +72,15 @@ public class StudentAnswerController {
         }
     }
 
+    @GetMapping("/allAnswers/{qp_id}/{st_id}")
+    public ResponseEntity<List<StudentAnswer>> getAllQuestionsByqpIdandstId(@PathVariable int qp_id, @PathVariable String st_id){
+        List<StudentAnswer> studentAnswerList = studentAnswerService.getAllQuestionsByqpIdandstId(qp_id,st_id);
+        if(studentAnswerList.isEmpty()){
+            return new ResponseEntity<>(studentAnswerList,HttpStatus.BAD_REQUEST);
+        }else {
+            return new ResponseEntity<>(studentAnswerList,HttpStatus.OK);
+        }
+    }
+
+
 }

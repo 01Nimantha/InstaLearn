@@ -74,15 +74,16 @@ const Progress = () => {
     formData.append("file", selectedFile);
 
     try {
-      await axios.post("http://localhost:8085/api/v1/excel/upload", formData, {
+      const response = await axios.post("http://localhost:8085/api/v1/excel/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       alert("File uploaded successfully!");
+      console.log("Upload Response:", response.data);// Log the response data
       fetchMarks();
     } catch (error) {
-      console.error("Error uploading file:", error);
-      alert("Upload failed: " + error.message);
+      console.error("Error uploading file:", error.response?.data || error.message);
+      alert("Upload failed: " + (error.response?.data || error.message));
     }
   };
 

@@ -115,6 +115,7 @@ const AOfficerDashboard = () => {
           name={aOfficer.attendanceOfficerName}
           officerId={aOfficer.attendanceOfficerId}
           image={aOfficer.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${aOfficer.image.imageId}` : null}
+          className={"bg-green-600 text-white"}
           />
 
         {/* Content */}
