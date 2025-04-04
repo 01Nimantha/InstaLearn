@@ -10,7 +10,9 @@ const OnlineQuizPage=()=>{
             <div className="container text-center">
                 <div className="row row-cols-2">
                   {quiz.quizArr.map((item, index) => (<div key={index} className="col">
-                    <QuizCard key={index} QuizCardDuration={item.Duration} QuizCardDate={item.Date} QuizCardPrecentage={item.Mark} ButtnAction={()=>{navigate("/student-dashboard/online-qpaper")}}/>
+                    <QuizCard key={index} QuizCardDuration={item.duration} QuizCardDate={item.date} QuizCardPrecentage={item.mark} ButtnAction={()=>{
+                      console.log(item.id);
+                      navigate("/student-dashboard/online-qpaper");}}/>
                     </div>))}
                 </div>
               </div>
