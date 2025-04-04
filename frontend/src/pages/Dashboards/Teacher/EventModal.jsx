@@ -10,7 +10,7 @@ const EventModal = ({
   days, 
   times, 
   classTypes,
-  isEdit = false 
+  isEdit = false,
 }) => {
   if (!isOpen) return null;
 
@@ -49,7 +49,7 @@ const EventModal = ({
               Day
             </label>
             <select
-              name="day"
+              name="Day"
               value={formData.day}
               onChange={onInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#287f93]"
@@ -90,7 +90,7 @@ const EventModal = ({
 >
   {[1, 2, 3, 4].map(hour => (
     <option key={hour} value={hour}>
-      {hour} hour{hour !== 1 ? 's' : ''}
+      {hour}
     </option>
   ))}
 </select>

@@ -8,6 +8,7 @@ import TeacherQuiz from "../../../assets/TeacherQuiz.svg";
 import Progress from "../../../assets/Progress.svg";
 import Modal from '../../../components/Modal';
 import { useNavigate, useParams } from "react-router-dom";
+import Header from './Header';
 
 const TeacherDashboard = () => {
   const { id } = useParams();
@@ -22,12 +23,27 @@ const TeacherDashboard = () => {
     quizAttemptRate: 0,
   });
 
-  // Fetch teacher data
+  // Fetch teacher data with a refresh mechanism
+  const fetchTeacherData = async () => {
+    try {
+      const response = await fetch(`http://localhost:8085/api/v1/teacher/get-teacher-by/${id}`);
+      if (!response.ok) throw new Error(`Failed to fetch teacher data. Status: ${response.status}`);
+      const data = await response.json();
+      setTeacher(data);
+    } catch (error) {
+      console.error("Error fetching teacher:", error);
+    }
+  };
+
   useEffect(() => {
-    fetch(`http://localhost:8085/api/v1/teacher/get-teacher-by/${id}`)
-      .then(response => response.json())
-      .then(data => setTeacher(data))
-      .catch(error => console.error("Error fetching teacher:", error));
+    fetchTeacherData();
+  }, [id]);
+
+  // Optional: Add a listener to refetch data when the window is focused
+  useEffect(() => {
+    const handleFocus = () => fetchTeacherData();
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
   }, [id]);
 
   // Fetch total students and attendance
@@ -88,23 +104,30 @@ const TeacherDashboard = () => {
 
   if (!teacher) return <p>Loading...</p>;
 
+  // Determine the image URL
+  let imageUrl = null;
+  if (teacher.image?.imageId) {
+    imageUrl = `http://localhost:8085/api/v1/image/get-image/${teacher.image.imageId}`;
+  } else if (teacher.teacherPhoto) {
+    const base64String = btoa(
+      new Uint8Array(teacher.teacherPhoto).reduce(
+        (data, byte) => data + String.fromCharCode(byte),
+        ''
+      )
+    );
+    imageUrl = `data:image/jpeg;base64,${base64String}`;
+  }
+
   return (
     <div className='flex flex-col w-full p-4'>
-      <Box className="w-full bg-[#287f93] text-white p-4 flex justify-between items-center rounded-[8px]">
-        <div>
-          <Typography variant="h5">Welcome, {teacher.name || 'Teacher'}</Typography>
-          <Typography variant="subtitle1">
-            Here's what's happening with your classes today
-          </Typography>
-        </div>
-        <Button
-          name="Add Notice"
-          action={() => setShowModal(true)}
-          backgroundColor="#FFFFFF"
-          fontColor="black"
-          cornerRadius={false}
-        />
-      </Box>
+      <Header
+        name={teacher.teacherName}
+        officerId={teacher.teacherId}
+        image={imageUrl}
+        showButton={true}
+        action={() => setShowModal(true)}
+        className={"bg-[#287f93] text-white"}
+      />
 
       <Modal 
         isVisible={showModal} 

@@ -78,7 +78,7 @@ const TeacherSettings = () => {
       if (image) {
         formData.append("teacherPhoto", image);
       }
-
+  
       const response = await axios.put(
         `http://localhost:8085/api/v1/teacher/update/${teacherId}`,
         formData,
@@ -88,9 +88,11 @@ const TeacherSettings = () => {
           },
         }
       );
-
+  
       console.log("Update successful:", response.data);
       alert("Profile updated successfully!");
+      // Optionally, navigate back to the dashboard after update
+      // window.location.href = `/teacher-dashboard/${teacherId}`;
     } catch (error) {
       console.error("Update error:", error);
       if (error.response) {
