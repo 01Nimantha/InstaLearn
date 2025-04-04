@@ -26,7 +26,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceIMPL implements StudentService {
@@ -240,4 +242,15 @@ public class StudentServiceIMPL implements StudentService {
         return studentRepo.findAllStudentIds();
     }
 
+    public List<Map<String, String>> getClassTypesByStudentId(String studentId) {
+        Student student = studentRepo.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        return student.getClassTypes().stream()
+                .map(classType -> Map.of(
+                        "classTypeName", classType.getClassTypeName(),
+                        "classType", classType.getType().toString()
+                ))
+                .collect(Collectors.toList());
+    }
 }
