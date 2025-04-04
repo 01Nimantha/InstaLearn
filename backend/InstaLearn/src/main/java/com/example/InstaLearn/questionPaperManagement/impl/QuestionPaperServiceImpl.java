@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -112,7 +113,11 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
 
             QuestionPaper questionPaper = new QuestionPaper();
             LocalDateTime dateTime = LocalDateTime.now();
-            questionPaper.setDate(dateTime.toString());
+            // Define the formatter
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            // Format LocalDateTime
+            String formattedDate = dateTime.format(formatter);
+            questionPaper.setDate(formattedDate);
             questionPaper.setDuration("1 Hours");
             questionPaper = questionPaperRepository.save(questionPaper);
 
