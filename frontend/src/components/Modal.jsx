@@ -89,7 +89,7 @@ const Modal = ({ isVisible, onClose }) => {
             </button>
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+              className="bg-[#287f93] text-white px-4 py-2 rounded-lg"
             >
               Submit
             </button>
