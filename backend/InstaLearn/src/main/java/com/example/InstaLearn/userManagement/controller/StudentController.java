@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +60,8 @@ public class StudentController {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(required = false) String searchTerm
     ){
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("studentId").descending());
+
         Page<Student> students;
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
             // Fetch filtered results based on searchTerm

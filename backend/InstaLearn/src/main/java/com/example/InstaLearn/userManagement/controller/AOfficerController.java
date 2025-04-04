@@ -66,7 +66,7 @@ public class AOfficerController {
             @RequestParam(required = false) String searchTerm
     ) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("attendanceOfficerId").descending());
 
         Page<AttendanceOfficer> attendanceOfficers;
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
