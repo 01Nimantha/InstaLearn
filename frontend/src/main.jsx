@@ -70,7 +70,7 @@ const router = createBrowserRouter([
   {path: "/aOfficer-dashboard/edit-profile/:id", element: <EditAOfficer />},
   {path:'/qr-scanner',element:<QR_Scan/>},
 
-  { path: "/teacher-dashboard", element: <App3/> ,
+  { path: "/teacher-dashboard/:id", element: <App3/> ,
     children: [
       { index: true, element: <TeacherDashboard/> },
       {path:"students",element:<Students/>},

@@ -1,122 +1,204 @@
 import React, { useRef, useState, useEffect } from "react";
 import { RiFolderUploadFill } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
-import { imageAction } from "../../../store/imageSlice";
 import { MdEmail } from "react-icons/md";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import { studentAction } from "../../../store/studentSlice";
+import axios from "axios";
 import Button from "../../../components/Button";
+import { useParams } from "react-router-dom";
 
 const TeacherSettings = () => {
-  const ImgURL = useSelector((store) => store.imagereducer.imagePath);
-  const dispatch = useDispatch();
   const fileInputRef = useRef(null);
+  const [teacherId, setTeacherId] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const { id } = useParams();
+
+  // Fetch teacher details
+  useEffect(() => {
+    const fetchTeacherData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`http://localhost:8085/api/v1/teacher/get-teacher-by/${id}`);
+        const teacher = response.data;
+        
+        setTeacherId(teacher.teacherId || "");
+        setName(teacher.teacherName || "");
+        setEmail(teacher.teacherEmail || "");
+        setNumber(teacher.teacherContactno || "");
+        setAddress(teacher.teacherAddress || "");
+        
+        if (teacher.image?.imageUrl) {
+          setImagePreview(teacher.image.imageUrl);
+        } else if (teacher.teacherPhoto) {
+          const base64String = btoa(
+            new Uint8Array(teacher.teacherPhoto).reduce(
+              (data, byte) => data + String.fromCharCode(byte),
+              ''
+            )
+          );
+          setImagePreview(`data:image/jpeg;base64,${base64String}`);
+        }
+      } catch (error) {
+        console.error("Error fetching teacher details:", error);
+        alert("Failed to load teacher data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTeacherData();
+  }, [id]);
 
   const handleButtonClick = () => {
-    fileInputRef.current.click(); // Trigger hidden input
+    fileInputRef.current.click();
   };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      dispatch(imageAction.addImage(URL.createObjectURL(file)));
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
-  // Local state to hold the form values
-  const [id, setID] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [number, setNumber] = useState("");
-  const [address, setAddress] = useState("");
-
-  // Select the first student object from the Redux store
-  const student = useSelector((store) => store.studentreducer.studentArr[0]);
-
-  // Set the initial form values when the student data is available
-  useEffect(() => {
-    if (student) {
-      setID(student.Id);
-      setName(student.Name);
-      setEmail(student.Email);
-      setNumber(student.Number);
-      setAddress(student.Address);
-    }
-  }, [student]); // This effect runs every time the student data changes
-
-  const fun = () => {
-    dispatch(
-      studentAction.updateStudent([
+  const handleUpdate = async () => {
+    setIsLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("teacherName", name);
+      formData.append("teacherEmail", email);
+      formData.append("teacherContactno", number);
+      formData.append("teacherAddress", address);
+      if (image) {
+        formData.append("teacherPhoto", image);
+      }
+  
+      const response = await axios.put(
+        `http://localhost:8085/api/v1/teacher/update/${teacherId}`,
+        formData,
         {
-          Id: id,
-          Name: name,
-          Email: email,
-          Number: number,
-          Address: address,
-          ParentName: pName,
-          ParentNumber: pNumber,
-        },
-      ])
-    );
-
-    // Reset form fields after dispatching the action
-    setID("");
-    setName("");
-    setEmail("");
-    setNumber("");
-    setAddress("");
-    setPName("");
-    setPNumber("");
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+  
+      console.log("Update successful:", response.data);
+      alert("Profile updated successfully!");
+      // Optionally, navigate back to the dashboard after update
+      // window.location.href = `/teacher-dashboard/${teacherId}`;
+    } catch (error) {
+      console.error("Update error:", error);
+      if (error.response) {
+        alert(`Error ${error.response.status}: ${error.response.data.message || 'Update failed'}`);
+      } else {
+        alert("Network error: Unable to update profile");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div>
-      <div className="card" style={{ margin: "2%", padding: "2%", minWidth: "74vw", maxWidth: "74vw", backgroundColor: "#ffffff" }}>
-        <div style={{ display: "flex" }}>
-          <div style={{ marginTop: "5vw", color: "#287f93" }}>
-            <div style={{ display: "flex" }}>
-              <div>Upload your photo</div>
-              <div style={{ marginLeft: "8vw" }}>
-                <RiFolderUploadFill onClick={handleButtonClick} color="#287f93" size={30} />
-                <input type="file" ref={fileInputRef} style={{ display: "none" }} accept="image/*" onChange={handleFileChange} />
-              </div>
-            </div>
-            <div>{ImgURL}</div>
-            <div>Try to upload a photo without background (not compulsory)</div>
+    <div className="p-4">
+      {/* Image Upload Section */}
+      <div className="card shadow-md" style={{ padding: "2rem", backgroundColor: "#ffffff" }}>
+        <div className="flex flex-col md:flex-row items-center gap-8">
+          <div className="text-[#287f93]">
+            <h3 className="text-lg font-semibold mb-2">Upload your photo</h3>
+            <p className="text-sm">Try to upload a photo without background (optional)</p>
+            <RiFolderUploadFill 
+              onClick={handleButtonClick} 
+              className="mt-4 cursor-pointer" 
+              size={30} 
+            />
+            <input
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
           </div>
-          <div style={{ marginLeft: "8vw", width: "30vw", height: "40vh" }}>
-            <img src={ImgURL} className="img-fluid rounded-start" alt="Uploaded Preview" style={{ minHeight: "40vh", maxHeight: "40vh", maxWidth: "50vw" }} />
-          </div>
+          {imagePreview && (
+            <img
+              src={imagePreview}
+              alt="Profile Preview"
+              className="rounded-lg object-cover"
+              style={{ maxHeight: "300px", maxWidth: "100%" }}
+            />
+          )}
         </div>
       </div>
 
-      <div className="card" style={{ margin: "2%", padding: "2%", minWidth: "74vw", maxWidth: "74vw", backgroundColor: "#ffffff" }}>
-        <div style={{ display: "flex", padding: "1%" }}>
-          <div>
-            <div style={{ marginBottom: "6.8%" }}>Index number :</div>
-            <div style={{ marginBottom: "6.8%" }}>Your name :</div>
-            <div style={{ marginBottom: "6.8%" }}>Email address :</div>
-            <div style={{ marginBottom: "6.8%" }}>Your phone number :</div>
-            <div style={{ marginBottom: "6.8%" }}>Address :</div>
+      {/* Teacher Info Form */}
+      <div className="card shadow-md mt-6" style={{ padding: "2rem", backgroundColor: "#ffffff" }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-6">
+          <div style={{ marginBottom: "6.8%" }}>Index number :</div>
+          <div style={{ marginBottom: "6.8%" }}>Your name :</div>
+          <div style={{ marginBottom: "6.8%" }}>Email address :</div>
+          <div style={{ marginBottom: "6.8%" }}>Your phone number :</div>
+          <div style={{ marginBottom: "6.8%" }}>Address :</div>
           </div>
-          <div style={{ width: "48vw", marginLeft: "8vw" }}>
-            <input type="text" value={id} onChange={(e) => setID(e.target.value)} placeholder={student?.Id || "Index number"} style={{ width: "48vw", border: "2px #287f93 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} disabled />
-            <input type="text" maxLength="13" value={name} onChange={(e) => setName(e.target.value)} placeholder={student?.Name || "Your name"} style={{ width: "48vw", border: "2px #287f93 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
-            <div style={{ display: "flex" }}>
-              <MdEmail color="#287f93" size={25} style={{ marginTop: "0.5%", marginRight: "1%" }} />
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={student?.Email || "Email address"} style={{ width: "46vw", border: "2px #287f93 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
+          <div style={{ width: "48vw", marginLeft: "-15vw" }}>
+            <input
+              type="text"
+              value={teacherId}
+              disabled
+              className="w-full p-2 border-2 border-[#287f93] rounded-md bg-gray-100"
+            />
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your name"
+              className="w-full p-2 border-2 border-[#287f93] rounded-md"
+            />
+            <div className="flex items-center gap-2">
+              <MdEmail color="#287f93" size={25} />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email address"
+                className="w-full p-2 border-2 border-[#287f93] rounded-md"
+              />
             </div>
-            <div style={{ display: "flex" }}>
-            <BsFillTelephoneFill color="#287f93" size={22} style={{ marginTop: "0.5%", marginRight: "1%" }} />
-            <input type="number" value={number} onChange={(e) => setNumber(e.target.value)} placeholder={student?.Number || "Your phone number"} style={{ width: "46vw", border: "2px #287f93 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
-          </div>
-          <div>
-            <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder={student?.Address || "Address"} style={{ width: "48vw", border: "2px #287f93 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
-          </div>
-            <div style={{ marginLeft: "75%" }}>
-              <Button name="Update" fontColor="#ffffff" backgroundColor="#287f93" action={fun} cornerRadius={false} />
+            <div className="flex items-center gap-2">
+              <BsFillTelephoneFill color="#287f93" size={22} />
+              <input
+                type="tel"
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
+                placeholder="Your phone number"
+                className="w-full p-2 border-2 border-[#287f93] rounded-md"
+              />
             </div>
+            <input
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Address"
+              className="w-full p-2 border-2 border-[#287f93] rounded-md"
+            />
           </div>
+        </div>
+        <div className="mt-6 flex justify-end">
+          <Button
+            name={isLoading ? "Updating..." : "Update"}
+            fontColor="#ffffff"
+            backgroundColor="#287f93"
+            action={handleUpdate}
+            cornerRadius={false}
+            disabled={isLoading}
+          />
         </div>
       </div>
     </div>
