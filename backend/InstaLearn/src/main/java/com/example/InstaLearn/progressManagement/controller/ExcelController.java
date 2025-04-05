@@ -1,11 +1,13 @@
 package com.example.InstaLearn.progressManagement.controller;
 
+import com.example.InstaLearn.progressManagement.dto.MarksDTO;
 import com.example.InstaLearn.progressManagement.dto.MonthlyAverageDTO;
 import com.example.InstaLearn.progressManagement.entity.Marks;
 import com.example.InstaLearn.progressManagement.repo.MarksRepo;
 import com.example.InstaLearn.progressManagement.service.ExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -40,7 +42,7 @@ public class ExcelController {
      */
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        if (file.isEmpty()) {
+        if (file == null || file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No file uploaded");
         }
         try {
@@ -87,6 +89,44 @@ public class ExcelController {
 
         return marksRepo.findAll(pageable);
     }
+//    @GetMapping("/marks")
+//    public Page<MarksDTO> getMarks(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "5") int size) {
+//
+//        Pageable pageable = PageRequest.of(page, size);
+//
+//        // ✅ Step 2.1 get distinct studentIds paginated
+//        Page<String> studentIdsPage = marksRepo.findDistinctStudentIds(pageable);
+//
+//        // ✅ Step 2.2 build MarksDTO for each student
+//        List<MarksDTO> studentMarks = studentIdsPage
+//                .getContent()
+//                .stream()
+//                .map(studentId -> {
+//                    List<Marks> marksList = marksRepo.findByStudentId(studentId);
+//                    MarksDTO dto = new MarksDTO();
+//                    dto.setStudentId(studentId);
+//
+//                    for (Marks mark : marksList) {
+//                        String month = mark.getMonth().toLowerCase();
+//                        int markValue = (int) mark.getMarks();
+//                        switch (month) {
+//                            case "january" -> dto.setJanuary(markValue);
+//                            case "february" -> dto.setFebruary(markValue);
+//                            case "march" -> dto.setMarch(markValue);
+//                            case "april" -> dto.setApril(markValue);
+//                        }
+//                    }
+//
+//                    return dto;
+//                })
+//                .toList();
+//
+//        // ✅ Step 2.3 return paged DTOs
+//        return new PageImpl<>(studentMarks, pageable, studentIdsPage.getTotalElements());
+//    }
+
 
 
 
@@ -120,6 +160,9 @@ public class ExcelController {
 
         return ResponseEntity.ok(monthlyAverages);
     }
+
+
+
 
 
 

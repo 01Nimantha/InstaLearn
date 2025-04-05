@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,14 +35,32 @@ public class TeacherController {
         return "saved";
 
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<StandardResponse> updateTeacher(@PathVariable(value="id") String teacherId, @RequestBody TeacherUpdateRequestDTO teacherUpdateRequestDTO){
-        String message = teacherService.updateTeacher(teacherId,teacherUpdateRequestDTO);
-        return new ResponseEntity<StandardResponse>(
-                new StandardResponse(200,"success",message),
-                HttpStatus.OK
-        );
-    }
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<StandardResponse> updateTeacher(@PathVariable(value="id") String teacherId, @RequestBody TeacherUpdateRequestDTO teacherUpdateRequestDTO){
+//        String message = teacherService.updateTeacher(teacherId,teacherUpdateRequestDTO);
+//        return new ResponseEntity<StandardResponse>(
+//                new StandardResponse(200,"success",message),
+//                HttpStatus.OK
+//        );
+//    }
+@PutMapping("/update/{id}")
+public ResponseEntity<StandardResponse> updateTeacher(
+        @PathVariable("id") String teacherId,
+        @RequestParam("teacherName") String teacherName,
+        @RequestParam("teacherEmail") String teacherEmail,
+        @RequestParam("teacherContactno") String teacherContactno,
+        @RequestParam("teacherAddress") String teacherAddress,
+        @RequestParam(value = "teacherPhoto", required = false) MultipartFile teacherPhoto) throws IOException {
+
+    TeacherUpdateRequestDTO teacherUpdateRequestDTO = new TeacherUpdateRequestDTO(
+            teacherName, teacherEmail, teacherContactno, teacherAddress, teacherPhoto
+    );
+
+    String message = teacherService.updateTeacher(teacherId, teacherUpdateRequestDTO);
+    return new ResponseEntity<>(new StandardResponse(200, "success", message), HttpStatus.OK);
+}
+
+
 
     @DeleteMapping(
             path = "delete-teacher/{id}"

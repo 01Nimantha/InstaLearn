@@ -27,4 +27,7 @@ public interface ClassTypeRepo extends JpaRepository<ClassType, Long> {
     Optional<Long> findClassTypeIdByClassNameAndClassType(@Param("classTypeName") String classTypeName,
                                                           @Param("type") Type type);
 
+//    @Query("SELECT ct FROM ClassType ct JOIN ct.students s WHERE s.studentNumber = :studentNumber")
+//    List<ClassType> findByStudentNumber(String studentNumber);
 }
+

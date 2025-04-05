@@ -74,4 +74,8 @@ public class ClassTypeController {
     }
 
 
+//    @GetMapping("/student/{studentNumber}")
+//    public List<ClassType> getClassTypesByStudent(@PathVariable String studentNumber) {
+//        return classTypeService.getClassTypesByStudentNumber(studentNumber);
+//    }
 }

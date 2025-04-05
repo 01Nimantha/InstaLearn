@@ -31,4 +31,9 @@ public interface MarksRepo extends JpaRepository<Marks, Integer> {
 
 
     Page<Marks> findByStudentId(String studentId, Pageable pageable);
+
+    @Query("SELECT DISTINCT m.studentId FROM Marks m")
+    Page<String> findDistinctStudentIds(Pageable pageable);
+
+
 }

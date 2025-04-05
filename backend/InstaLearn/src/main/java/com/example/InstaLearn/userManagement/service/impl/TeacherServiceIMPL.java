@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -57,22 +58,48 @@ public class TeacherServiceIMPL implements TeacherService {
         return teacher.getTeacherName() + " Saved successfully";
     }
 
-    @Override
-    public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO){
-        if(teacherRepo.existsById(teacherId)) {
-            Teacher teacher = teacherRepo.getReferenceById(teacherId);
+//    @Override
+//    public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO){
+//        if(teacherRepo.existsById(teacherId)) {
+//            Teacher teacher = teacherRepo.getReferenceById(teacherId);
+//
+//            teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
+//            teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
+//            teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
+//            teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
+//            teacherRepo.save(teacher);
+//            return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
+//        }
+//        else{
+//            throw new RuntimeException("No data found for that id");
+//        }
+//    }
+@Override
+public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO) {
+    if (teacherRepo.existsById(teacherId)) {
+        Teacher teacher = teacherRepo.getReferenceById(teacherId);
 
-            teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
-            teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
-            teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
-            teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
-            teacherRepo.save(teacher);
-            return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
+        teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
+        teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
+        teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
+        teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
+
+        // Handle profile picture update
+        if (teacherUpdateRequestDTO.getTeacherPhoto() != null && !teacherUpdateRequestDTO.getTeacherPhoto().isEmpty()) {
+            try {
+                teacher.setTeacherPhoto(teacherUpdateRequestDTO.getTeacherPhoto().getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException("Error converting file", e);
+            }
         }
-        else{
-            throw new RuntimeException("No data found for that id");
-        }
+
+        teacherRepo.save(teacher);
+        return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
+    } else {
+        throw new RuntimeException("No data found for that ID");
     }
+}
+
 
     @Override
     public Page<Teacher> getAllTeachers(Pageable pageable) {

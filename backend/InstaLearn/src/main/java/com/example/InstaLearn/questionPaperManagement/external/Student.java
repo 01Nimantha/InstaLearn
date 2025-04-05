@@ -8,5 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Student {
-    private String studentID;
+    private int code;
+    private String message;
+    private String[] data;
 }
