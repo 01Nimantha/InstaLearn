@@ -82,5 +82,14 @@ public class StudentAnswerController {
         }
     }
 
+    @GetMapping("/GetAllQPID/{stid}")
+    public ResponseEntity<List<Integer>> getAllQPID(@PathVariable String stid){
+        List<Integer> data = studentAnswerService.getAllQPID(stid);
+        if(data.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(data,HttpStatus.OK);
+        }
+    }
 
 }
