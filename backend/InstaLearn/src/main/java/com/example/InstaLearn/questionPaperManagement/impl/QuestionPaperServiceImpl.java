@@ -253,5 +253,10 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
         }
     }
 
+    @Override
+    public List<MarksAndDate> getAllMarksAndDate(String stId) {
+        return null;
+    }
+
 
 }
