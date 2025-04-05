@@ -35,9 +35,9 @@ import AOfficerDashboard from './pages/attendanceOfficer/AOfficerDashboard.jsx'
 import QR_Scan from './pages/attendanceOfficer/QR_Scan.jsx'
 import App2 from './App2'
 import EditAOfficer from './pages/attendanceOfficer/EditAOfficer.jsx';
-
 import SchedulePage from './pages/Dashboards/Teacher/SchedulePage.jsx'
-import { Settings } from 'lucide-react'
+// import Class from './pages/Dashboards/Teacher/Class.jsx'
+import ClassTypeView from './pages/Dashboards/Teacher/ClassTypeView.jsx';
 
 const router = createBrowserRouter([
   {
@@ -57,6 +57,7 @@ const router = createBrowserRouter([
   { path: "/about", element: <AboutPage /> },
   { path: "/contact", element: <ContactPage/> },
   { path: "/login", element: <LoginForm /> },
+
 
   {path: "/admin-dashboard", element: <AdminDashboard />},
   { path: "/admin-dashboard/teachers-view", element: <TeachersView /> },
@@ -79,7 +80,11 @@ const router = createBrowserRouter([
       {path:"payment",element:<Payments/>},
       {path:"schedule",element:<SchedulePage/>},
       {path:"attendence",element:<Attendance/>},
-      {path:"settings",element:<TeacherSettings/>}
+      {path:"settings",element:<TeacherSettings/>},
+      // {path:"class",element:<Class/>},
+      {path:"class1",element:<ClassTypeView/>}
+
+
     ]
   },
   
