@@ -64,7 +64,7 @@ const UserHomePage=()=>{
     </div>
   </div>
   <div>
-    <OnlineQuizProgress/>
+    <OnlineQuizProgress data={[]}/>
   </div>
 </div>;
 }
