@@ -2,6 +2,7 @@ package com.example.InstaLearn.questionPaperManagement;
 
 import com.example.InstaLearn.questionPaperManagement.dto.QuestionPaperDto;
 import com.example.InstaLearn.questionPaperManagement.external.FullQuestionPaper;
+import com.example.InstaLearn.questionPaperManagement.external.MarksAndDate;
 import com.example.InstaLearn.questionPaperManagement.external.Question;
 
 import java.util.List;
@@ -28,4 +29,6 @@ public interface QuestionPaperService {
     boolean updateFullQuestionPaper(String stId, List<FullQuestionPaper> fullQuestionPaper);
 
     List<FullQuestionPaper> getFullQuestionPaperByStIdAndQpId(String stId, int qpId);
+
+    List<MarksAndDate> getAllMarksAndDate(String stId);
 }
