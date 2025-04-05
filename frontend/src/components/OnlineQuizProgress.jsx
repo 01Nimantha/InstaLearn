@@ -1,7 +1,7 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
-const OnlineQuizProgress=()=>{
+const OnlineQuizProgress=(data)=>{
   const navigate= useNavigate();
   const sampleData = [
     { time: "2025-03-24", performance: 25 },
