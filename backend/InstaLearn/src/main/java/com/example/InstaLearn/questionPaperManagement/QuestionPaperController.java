@@ -2,6 +2,7 @@ package com.example.InstaLearn.questionPaperManagement;
 
 import com.example.InstaLearn.questionPaperManagement.dto.QuestionPaperDto;
 import com.example.InstaLearn.questionPaperManagement.external.FullQuestionPaper;
+import com.example.InstaLearn.questionPaperManagement.external.MarksAndDate;
 import com.example.InstaLearn.questionPaperManagement.external.Question;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -117,5 +118,14 @@ public class QuestionPaperController {
 
     }
 
+    @GetMapping("/GetAllMarksAndDate/{stId}")
+    public ResponseEntity<List<MarksAndDate>> getAllMarksAndDate(@PathVariable String stId){
+        List<MarksAndDate> data = questionPaperService.getAllMarksAndDate(stId);
+        if(data.isEmpty()){
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(data,HttpStatus.OK);
+        }
+    }
 
 }
