@@ -66,4 +66,12 @@ public class ClassTypeController {
         Long classTypeId = classTypeService.getClassTypeId(className, type);
         return ResponseEntity.ok(classTypeId);
     }
+
+    @GetMapping("/get-class-type-by-id/{id}")
+    public ResponseEntity<ClassType> getClassTypeById(@PathVariable long id) {
+        ClassType classType = classTypeService.getClassTypeById(id);
+        return new ResponseEntity<>(classType, HttpStatus.OK);
+    }
+
+
 }
