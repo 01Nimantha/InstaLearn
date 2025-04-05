@@ -290,11 +290,7 @@ const StudentsView = () => {
       {activeModal === 'email' && selectedStudentId && (
         <StudentSendEmailModel
           studentId={selectedStudentId}
-          onClose={() => {
-            setSelectedStudentId(null);
-            setActiveModal(null);
-            loadStudents();
-          }}
+          onClose={(success) => handleEmailSent(selectedStudentId, success)}
         />
       )}
       {activeModal === 'view' && selectedStudentId && (

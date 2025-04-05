@@ -56,8 +56,6 @@ const SendEmailModelStudentParent = ({
           setTimeout(() => onClose(true), 1000)
           onClose();
           setIsLoading(false);
-        
-       
       };
       
 
