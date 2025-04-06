@@ -118,14 +118,16 @@ public class QuestionPaperController {
 
     }
 
-    @GetMapping("/GetAllMarksAndDate/{stId}")
-    public ResponseEntity<List<MarksAndDate>> getAllMarksAndDate(@PathVariable String stId){
-        List<MarksAndDate> data = questionPaperService.getAllMarksAndDate(stId);
+    @GetMapping("/CalculateFullQuestionPaperMarks/{stId}/{qpId}")
+    public ResponseEntity<String> calculateFullQuestionPaperMarks(@PathVariable String stId,@PathVariable int qpId){
+        String data = questionPaperService.calculateFullQuestionPaperMarks(stId,qpId);
         if(data.isEmpty()){
-            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else {
             return new ResponseEntity<>(data,HttpStatus.OK);
         }
     }
+
+
 
 }
