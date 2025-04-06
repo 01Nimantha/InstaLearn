@@ -2,6 +2,7 @@ package com.example.InstaLearn.userManagement.service.impl;
 
 import com.example.InstaLearn.userManagement.dto.TeacherSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.TeacherUpdateRequestDTO;
+import com.example.InstaLearn.userManagement.entity.AttendanceOfficer;
 import com.example.InstaLearn.userManagement.entity.Teacher;
 import com.example.InstaLearn.userManagement.entity.User;
 import com.example.InstaLearn.userManagement.entity.enums.Role;
@@ -60,18 +61,15 @@ public class TeacherServiceIMPL implements TeacherService {
 
     @Override
     public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO){
-        if(teacherRepo.existsById(teacherId)) {
-            Teacher teacher = teacherRepo.getReferenceById(teacherId);
+        if (teacherRepo.existsById(teacherId)) {
 
-            teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
-            teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
-            teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
-            teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
+            Teacher teacher = teacherRepo.getReferenceById(teacherId);
+            modelMapper.map(teacherUpdateRequestDTO, teacher);
             teacherRepo.save(teacher);
-            return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
-        }
-        else{
-            throw new RuntimeException("No data found for that id");
+
+            return teacher.getTeacherName() + " updated successfully";
+        } else {
+            throw new RuntimeException("Teacher not found");
         }
     }
 //@Override
