@@ -83,5 +83,9 @@ public class ClassTypeServiceIMPL implements ClassTypeService {
                 .orElseThrow(() -> new RuntimeException("ClassType not found"));
     }
 
+//    public List<ClassType> getClassTypesByStudentNumber(String studentNumber) {
+//        return classTypeRepo.findByStudentNumber(studentNumber);
+//    }
+
 
 }

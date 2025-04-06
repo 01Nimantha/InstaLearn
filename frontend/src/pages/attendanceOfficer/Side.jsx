@@ -81,9 +81,14 @@ const Side = ({isSidebarOpen,navigationItems,officer_name,AO_ID,editPath,changeP
             <p className="text-sm font-medium">{officer_name}</p>
             <p className="text-xs text-green-200">{AO_ID}</p>
           </div>
-          <Link className='mb-2' to={'/'}>
-              <LogOut className="w-5 h-5 ml-auto text-white" />
-          </Link>
+          <Link 
+  className='mb-2' 
+  to='/' 
+  onClick={() => localStorage.clear()} // Clears local storage before navigation
+>
+  <LogOut className="w-5 h-5 ml-auto text-white" />
+</Link>
+
           
         </div>
       </div>
