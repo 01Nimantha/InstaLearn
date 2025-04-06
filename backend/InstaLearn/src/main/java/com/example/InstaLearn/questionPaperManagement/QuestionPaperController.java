@@ -2,10 +2,11 @@ package com.example.InstaLearn.questionPaperManagement;
 
 import com.example.InstaLearn.questionPaperManagement.dto.QuestionPaperDto;
 import com.example.InstaLearn.questionPaperManagement.external.FullQuestionPaper;
-import com.example.InstaLearn.questionPaperManagement.external.MarksAndDate;
 import com.example.InstaLearn.questionPaperManagement.external.Question;
+import com.example.InstaLearn.questionPaperManagement.external.TimeAndPerformance;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,9 +68,9 @@ public class QuestionPaperController {
         }
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<String> createQuestionPaper(@PathVariable int id){
-        boolean isCrete = questionPaperService.createQuestionPaper(id);
+    @PostMapping("/CreateQuestionPaper/{numberOfQuestions}")
+    public ResponseEntity<String> createQuestionPaper(@PathVariable int numberOfQuestions){
+        boolean isCrete = questionPaperService.createQuestionPaper(numberOfQuestions);
         if(isCrete){
             return new ResponseEntity<>("Create Full QuestionPaper",HttpStatus.OK);
         }else {
@@ -128,6 +129,14 @@ public class QuestionPaperController {
         }
     }
 
-
+    @GetMapping("/GetTimeAndPerformance/{stId}")
+    public ResponseEntity<List<TimeAndPerformance>> GetMarksAndDate(@PathVariable String stId){
+        List<TimeAndPerformance> data = questionPaperService.GetMarksAndDate(stId);
+        if(data.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(data,HttpStatus.OK);
+        }
+    }
 
 }
