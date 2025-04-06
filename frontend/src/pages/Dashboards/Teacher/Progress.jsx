@@ -35,7 +35,7 @@ const Progress = () => {
 
     marksList.forEach(({ studentId, marks, month }) => {
       if (!grouped[studentId]) {
-        grouped[studentId] = { studentId, january: "-", february: "-", march: "-", april: "-" };
+        grouped[studentId] = { studentId, april: "-", may: "-", june: "-", july: "-" };
       }
 
       const monthKey = month.toLowerCase();
@@ -114,24 +114,24 @@ const Progress = () => {
             <thead className="bg-[#EBEBEB] h-16">
               <tr className="text-center">
                 <th>Student Id</th>
-                <th>January</th>
-                <th>February</th>
-                <th>March</th>
                 <th>April</th>
+                <th>May</th>
+                <th>June</th>
+                <th>July</th>
               </tr>
             </thead>
             <tbody>
               {marks.length > 0 ? (
-                marks.map(({ studentId, january, february, march, april }, index) => (
+                marks.map(({ studentId, april, may, june, july }, index) => (
                   <tr
                     key={studentId}
                     className={`text-center ${index % 2 === 0 ? "bg-[#ffffff]" : "bg-[#EBEBEB]"}`}
                   >
                     <td className="py-3 px-4">{studentId}</td>
-                    <td className="py-3 px-4">{january}</td>
-                    <td className="py-3 px-4">{february}</td>
-                    <td className="py-3 px-4">{march}</td>
                     <td className="py-3 px-4">{april}</td>
+                    <td className="py-3 px-4">{may}</td>
+                    <td className="py-3 px-4">{june}</td>
+                    <td className="py-3 px-4">{july}</td>
                   </tr>
                 ))
               ) : (
