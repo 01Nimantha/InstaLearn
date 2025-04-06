@@ -9,10 +9,7 @@ const ClassTypeAddDetailsFormModel = ({ onClose }) => (
   <AddDetailsFormModel
     title="Add Class Type"
     btnTitle="Add Class Type"
-    apiEndpoints={{
-      getEndpoint: "http://localhost:8085/classType/get-all-class-types",
-      saveEndpoint: "http://localhost:8085/classType/save-class-type",
-    }}
+    saveEndpoint = "http://localhost:8085/classType/save-class-type"
     fields={[
       {
         label: "Class Type Name",
@@ -56,8 +53,7 @@ const ClassTypeEditModel = ({ onClose, classId }) => (
         type: "select",
         options: [
           { value: "THEORY", label: "THEORY" },
-          { value: "PAPER", label: "PAPER" },
-          { value: "REVISION", label: "REVISION" },
+          { value: "PAPER", label: "PAPER" }
         ],
         required: true,
       },

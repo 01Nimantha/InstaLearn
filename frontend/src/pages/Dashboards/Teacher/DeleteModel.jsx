@@ -17,7 +17,7 @@ const DeleteModel = ({ title, apiEndpoints, onClose, entityId }) => {
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-xl font-bold mb-4">{title}</h2>
         <p>Are you sure you want to delete this class type?</p>
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-between mt-4">
           <button
             type="button"
             onClick={onClose}

@@ -17,8 +17,9 @@ const App3 = () => {
       <div className="fixed top-0 left-0 h-full"
         style={{ width: '280px' }}>  
        <Sidebar BackgroundColor={"#287f93"}
-        ImgURL={StudentImg} Name={"Alia Bhatt"}
-         Id="SC/2021/12405"
+         ImgURL={StudentImg} 
+         Name="Maleesha Wijekoon"
+         Id="TH_2025_10000"
          Logout={()=>{console.log("Click Logout Button")}} 
          Tab1="Home" Tab1Icon={FaHome} Tab1functions=""
          Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='students'
