@@ -42,7 +42,6 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
             QuestionPaper questionPaper = new QuestionPaper();
             questionPaper.setDate(questionPaperDto.getDate());
             questionPaper.setDuration(questionPaperDto.getDuration());
-            questionPaper.setMark(questionPaperDto.getMark());
             questionPaper.setChapter(questionPaperDto.getChapter());
 
             // Save the entity
@@ -65,7 +64,6 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
             QuestionPaper x = questionPaper1.get();
             x.setDate(questionPaper.getDate());
             x.setDuration(questionPaper.getDuration());
-            x.setMark(questionPaper.getMark());
             x.setChapter(questionPaper.getChapter());
             questionPaperRepository.save(x);
             return true;
@@ -254,9 +252,35 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
     }
 
     @Override
-    public List<MarksAndDate> getAllMarksAndDate(String stId) {
-        return null;
+    public String calculateFullQuestionPaperMarks(String stId, int qpId) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            FullQuestionPaper[] fullQuestionPaperList = restTemplate.getForObject(
+                    "http://localhost:8085/QuestionPaper/GetfullPaper/" + stId + "/" + qpId,
+                    FullQuestionPaper[].class
+            );
+
+            int markscount = 0;
+            int questioncount = 0;
+
+            for (FullQuestionPaper x : fullQuestionPaperList) {
+                if (x.isMark()) {
+                    markscount++;
+                }
+                questioncount++;
+            }
+
+            if (questioncount == 0) {
+                return "0";
+            }
+
+            double fullMark = ((double) markscount / questioncount) * 100;
+            return String.format("%.2f", fullMark);
+        } catch (Exception e){
+            return null;
+        }
     }
+
 
 
 }
