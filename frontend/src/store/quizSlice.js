@@ -7,22 +7,18 @@ const quizSlice = createSlice({
       "id": 1,
       "duration": "08.00am-10.00am",
       "date": "2025-03-24",
-      "mark": "25%"
     },{
       "id": 2,
       "duration": "08.00am-10.00am",
       "date": "2025-03-24",
-      "mark": "25%"
     },{
       "id": 3,
       "duration": "08.00am-10.00am",
       "date": "2025-03-24",
-      "mark": "25%"
     },{
       "id": 4,
       "duration": "08.00am-10.00am",
       "date": "2025-03-24",
-      "mark": "25%"
     }
 ]
 
