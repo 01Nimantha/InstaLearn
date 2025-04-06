@@ -275,7 +275,7 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
             }
 
             double fullMark = ((double) markscount / questioncount) * 100;
-            return String.format("%.2f", fullMark);
+            return String.format("%.0f", fullMark)+"%";
         } catch (Exception e){
             return null;
         }
