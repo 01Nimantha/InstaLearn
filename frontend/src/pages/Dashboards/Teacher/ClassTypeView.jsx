@@ -28,7 +28,6 @@ const ClassTypeAddDetailsFormModel = ({ onClose }) => (
         options: [
           { value: "THEORY", label: "THEORY" },
           { value: "PAPER", label: "PAPER" },
-          { value: "REVISION", label: "REVISION" },
         ],
         required: true,
       },
