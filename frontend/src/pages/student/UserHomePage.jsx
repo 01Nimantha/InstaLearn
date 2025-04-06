@@ -16,6 +16,7 @@ const UserHomePage=()=>{
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [marks,setMarks] = useState([]);
   const dispatch = useDispatch();
   
 
@@ -45,6 +46,17 @@ const UserHomePage=()=>{
         setError(error.message);
         setLoading(false);
       });
+
+    axios
+      .get("http://localhost:8085/QuestionPaper/GetTimeAndPerformance/ST_2025_10001")
+      .then((response)=>{
+        setLoading(false);
+        setMarks(response.data);
+      })
+      .catch((error)=>{
+        setError(error.message);
+        setLoading(false);
+      });
     
   }, []);
 
@@ -64,7 +76,7 @@ const UserHomePage=()=>{
     </div>
   </div>
   <div>
-    <OnlineQuizProgress data={[]}/>
+    <OnlineQuizProgress data={marks}/>
   </div>
 </div>;
 }
