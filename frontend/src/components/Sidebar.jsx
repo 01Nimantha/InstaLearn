@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Sidebar = ({Tab1,Tab1Icon,Tab1functions,Tab2,Tab2Icon,Tab2functions,Tab3,Tab3Icon,Tab3functions,Tab4,Tab4Icon,Tab4functions,Tab5,Tab5Icon,Tab5functions,AddNewTab,Tab6,Tab6Icon,Tab6functions,BackgroundColor,Name,Id,ImgURL,Logout})=>{
   const [isDarkMode, setIsDarkMode] = useState(1);
   return (
-    <div className="d-flex flex-column flex-shrink-0 p-3" style={{width: "280px", minHeight:"1080px", backgroundColor:`${BackgroundColor}` }}>
+    <div className="d-flex flex-column flex-shrink-0 p-3" style={{width: "280px", height: "100vh",overflowY: "auto",position: "relative", backgroundColor:`${BackgroundColor}` }}>
 
     <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
       <svg className="bi pe-none me-2" width="40" height="32"><use xlinkHref="#bootstrap"></use></svg>
