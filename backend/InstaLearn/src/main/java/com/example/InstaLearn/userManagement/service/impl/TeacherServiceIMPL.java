@@ -58,47 +58,47 @@ public class TeacherServiceIMPL implements TeacherService {
         return teacher.getTeacherName() + " Saved successfully";
     }
 
-//    @Override
-//    public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO){
-//        if(teacherRepo.existsById(teacherId)) {
-//            Teacher teacher = teacherRepo.getReferenceById(teacherId);
-//
-//            teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
-//            teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
-//            teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
-//            teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
-//            teacherRepo.save(teacher);
-//            return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
-//        }
-//        else{
-//            throw new RuntimeException("No data found for that id");
-//        }
-//    }
-@Override
-public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO) {
-    if (teacherRepo.existsById(teacherId)) {
-        Teacher teacher = teacherRepo.getReferenceById(teacherId);
+    @Override
+    public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO){
+        if(teacherRepo.existsById(teacherId)) {
+            Teacher teacher = teacherRepo.getReferenceById(teacherId);
 
-        teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
-        teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
-        teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
-        teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
-
-        // Handle profile picture update
-        if (teacherUpdateRequestDTO.getTeacherPhoto() != null && !teacherUpdateRequestDTO.getTeacherPhoto().isEmpty()) {
-            try {
-                teacher.setTeacherPhoto(teacherUpdateRequestDTO.getTeacherPhoto().getBytes());
-            } catch (IOException e) {
-                throw new RuntimeException("Error converting file", e);
-            }
+            teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
+            teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
+            teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
+            teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
+            teacherRepo.save(teacher);
+            return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
         }
-
-        teacherRepo.save(teacher);
-        return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
-    } else {
-        throw new RuntimeException("No data found for that ID");
+        else{
+            throw new RuntimeException("No data found for that id");
+        }
     }
-}
+//@Override
+//public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO) {
+//    if (teacherRepo.existsById(teacherId)) {
+//        Teacher teacher = teacherRepo.getReferenceById(teacherId);
+//
+//        teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
+//        teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
+//        teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
+//        teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
+//
+//        // Handle profile picture update
+//        if (teacherUpdateRequestDTO.getTeacherPhoto() != null && !teacherUpdateRequestDTO.getTeacherPhoto().isEmpty()) {
+//            try {
+//                teacher.setTeacherPhoto(teacherUpdateRequestDTO.getTeacherPhoto().getBytes());
+//            } catch (IOException e) {
+//                throw new RuntimeException("Error converting file", e);
+//            }
+//        }
+//
+//        teacherRepo.save(teacher);
+//        return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
+//    } else {
+//        throw new RuntimeException("No data found for that ID");
+//    }
+//}
 
 
     @Override
