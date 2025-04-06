@@ -30,5 +30,5 @@ public interface QuestionPaperService {
 
     List<FullQuestionPaper> getFullQuestionPaperByStIdAndQpId(String stId, int qpId);
 
-    List<MarksAndDate> getAllMarksAndDate(String stId);
+    String calculateFullQuestionPaperMarks(String stId, int qpId);
 }
