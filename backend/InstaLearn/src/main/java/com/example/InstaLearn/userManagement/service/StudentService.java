@@ -34,6 +34,8 @@ public interface StudentService {
 
     List<String> getAllStudentIds();
 
+    Page<Student> searchStudents(String searchTerm, Pageable pageable);
+
     List<Map<String, String>> getClassTypesByStudentId(String studentId);
 
 

@@ -13,8 +13,9 @@ import { IoIosSettings } from "react-icons/io";
 
 const App3 = () => {
   return (
-    <div style={{display:"flex"}}>
-      <div>  
+    <div className='flex min-h-screen'>
+      <div className="fixed top-0 left-0 h-full"
+        style={{ width: '280px' }}>  
        <Sidebar BackgroundColor={"#287f93"}
         ImgURL={StudentImg} Name={"Alia Bhatt"}
          Id="SC/2021/12405"
@@ -28,8 +29,12 @@ const App3 = () => {
          Tab6="Settings" Tab6Icon={IoIosSettings} Tab6functions="settings"/>
         {/*  Tab7="Class" Tab7Icon={IoIosSettings} Tab7functions="class"/>  */}
       </div>
-      <div>
-        <Outlet/>
+      
+      
+      
+       {/* Main content area that takes up the remaining space */}
+       <div className="flex-1 bg-gray-100" style={{ marginLeft: '280px' }}>
+       <Outlet/>
       </div>
     </div>
   )

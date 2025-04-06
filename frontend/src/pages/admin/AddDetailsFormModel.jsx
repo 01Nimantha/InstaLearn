@@ -21,7 +21,6 @@ const AddDetailsFormModel = ({
     const [isSwitchOn, setIsSwitchOn] = useState(false);
     const [classTypes, setClassTypes] = useState([]);
 
-    // Load class types from the API
     useEffect(() => {
         loadClasses();
         loadEntity();
@@ -37,7 +36,6 @@ const AddDetailsFormModel = ({
         }
     };
 
-    // Load entity data from the API
     const loadEntity = async () => {
         try {
             const result = await axios.get(getEndpoint, { validateStatus: () => true });
@@ -49,7 +47,6 @@ const AddDetailsFormModel = ({
         }
     };
 
-    // Handle input changes
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setForm((prevForm) => ({
@@ -58,7 +55,6 @@ const AddDetailsFormModel = ({
         }));
     };
 
-    // Handle checkbox changes
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
         setForm((prevForm) => ({
@@ -67,27 +63,23 @@ const AddDetailsFormModel = ({
         }));
     };
 
-    // Handle switch changes
     const handleSwitchChange = () => {
         setIsSwitchOn(!isSwitchOn);
     };
 
-    // Save user data
     const saveUser = async (formData) => {
         try {
             const response = await axios.post(saveEndpoint, formData);
-            return response.data;
+            if (response.status === 200 || response.status === 201) {
+                window.location.reload();
+            }
         } catch (error) {
             console.error('Failed to save user:', error);
-            throw error;
         }
     };
 
-    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // Prepare the classTypes array based on checkbox selections
         const classTypes = [];
         if (form.theory) {
             classTypes.push({
@@ -102,24 +94,15 @@ const AddDetailsFormModel = ({
             });
         }
 
-        // Prepare the final form data
         const finalFormData = {
             ...form,
             freeCard: isSwitchOn,
-            classTypes: includeCheckbox ? classTypes : undefined // Include classTypes only if checkbox is enabled
+            classTypes: includeCheckbox ? classTypes : undefined
         };
 
-        // Save the data
-        saveUser(finalFormData)
-            .then(() => {
-                window.location.reload(); // Consider using state update instead of reload for better UX
-            })
-            .catch((error) => {
-                console.error('Submit failed:', error);
-            });
+        saveUser(finalFormData);
     };
 
-    // Handle modal close
     const handleClose = (e) => {
         if (e.target === e.currentTarget) {
             onClose();
@@ -127,21 +110,31 @@ const AddDetailsFormModel = ({
     };
 
     return (
-        <div className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center' id="wrapper" onClick={handleClose}>
-            <div className='w-1/3 bg-white rounded-2xl'>
-                <header className='flex justify-between items-center p-3 bg-gray-950 rounded-t-2xl border'>
-                    <span className='text-2xl text-white'>{title}</span>
+        <div 
+            className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-40' 
+            id="wrapper" 
+            onClick={handleClose}
+        >
+            <div className='w-full max-w-md mx-4 sm:mx-0 sm:w-2/3 md:w-1/2 lg:w-1/3 bg-white rounded-2xl max-h-[90vh] flex flex-col'>
+                <header className='flex justify-between items-center p-3 bg-gray-950 rounded-t-2xl border shrink-0'>
+                    <span className='text-xl sm:text-2xl text-white'>{title}</span>
                 </header>
 
-                <form className='p-6 space-y-3 text-sm' onSubmit={handleSubmit}>
-                    <div className='space-y-1'>
+                <form 
+                    className='p-4 sm:p-6 space-y-3 text-sm overflow-y-auto flex-1' 
+                    onSubmit={handleSubmit}
+                >
+                    <div className='space-y-2'>
                         {fields.map((field) => (
                             <div key={field.name}>
-                                <label className='block text-gray-700' htmlFor={field.name}>
+                                <label 
+                                    className='block text-gray-700 text-sm sm:text-base' 
+                                    htmlFor={field.name}
+                                >
                                     {field.label}
                                 </label>
                                 <input
-                                    className='w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none focus:ring-black focus:border-transparent shadow-sm'
+                                    className='w-full px-3 py-2 sm:px-4 sm:py-2 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none focus:ring-black focus:border-transparent shadow-sm text-xs sm:text-sm'
                                     type={field.type}
                                     name={field.name}
                                     id={field.name}
@@ -156,11 +149,14 @@ const AddDetailsFormModel = ({
 
                     {includeDropDown && (
                         <div>
-                            <label className='block text-gray-700' htmlFor='classTypeName'>
+                            <label 
+                                className='block text-gray-700 text-sm sm:text-base' 
+                                htmlFor='classTypeName'
+                            >
                                 Class Name
                             </label>
                             <select
-                                className='w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none focus:ring-black focus:border-transparent shadow-sm'
+                                className='w-full px-3 py-2 sm:px-4 sm:py-2 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none focus:ring-black focus:border-transparent shadow-sm text-xs sm:text-sm'
                                 name='classTypeName'
                                 id='classTypeName'
                                 required
@@ -178,34 +174,36 @@ const AddDetailsFormModel = ({
                     )}
 
                     {includeCheckbox && (
-                        <div className="flex items-center space-x-4">
-                            <label className="text-gray-700 mr-2">Class Type:</label>
-                            <label className="flex items-center space-x-2">
-                                <input
-                                    type="checkbox"
-                                    name="theory"
-                                    checked={form.theory || false}
-                                    onChange={handleCheckboxChange}
-                                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                                />
-                                <span>Theory</span>
-                            </label>
-                            <label className="flex items-center space-x-2">
-                                <input
-                                    type="checkbox"
-                                    name="paper"
-                                    checked={form.paper || false}
-                                    onChange={handleCheckboxChange}
-                                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                                />
-                                <span>Paper</span>
-                            </label>
+                        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                            <label className="text-gray-700 text-sm sm:text-base">Class Type:</label>
+                            <div className="flex space-x-4">
+                                <label className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="theory"
+                                        checked={form.theory || false}
+                                        onChange={handleCheckboxChange}
+                                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                    />
+                                    <span className="text-xs sm:text-sm">Theory</span>
+                                </label>
+                                <label className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="paper"
+                                        checked={form.paper || false}
+                                        onChange={handleCheckboxChange}
+                                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                    />
+                                    <span className="text-xs sm:text-sm">Paper</span>
+                                </label>
+                            </div>
                         </div>
                     )}
 
                     {includeSwitch && (
                         <div className="flex items-center gap-3 mt-4">
-                            <span className="text-sm">Enable Free Card:</span>
+                            <span className="text-xs sm:text-sm">Enable Free Card:</span>
                             <label className="relative inline-flex items-center cursor-pointer" htmlFor='freeCard'>
                                 <input
                                     type="checkbox"
@@ -220,19 +218,19 @@ const AddDetailsFormModel = ({
                         </div>
                     )}
 
-                    <div className='px-1 flex justify-between py-1 mr-5'>
-                        <div>
-                            <AddButton btnname={btnTitle} className='flex items-end bg-gray-950 pb-2.5 w-48 h-12' type='submit' />
-                        </div>
-                        <div className='col-sm-2'>
-                            <button
-                                type='button'
-                                onClick={onClose}
-                                className='btn btn-outline-warning btn-lg'
-                            >
-                                Cancel
-                            </button>
-                        </div>
+                    <div className='flex flex-col sm:flex-row justify-between gap-3 sm:gap-0 px-1 py-1'>
+                        <AddButton 
+                            btnname={btnTitle} 
+                            className='w-full sm:w-48 h-12 bg-gray-950' 
+                            type='submit'
+                        />
+                        <button
+                            type='button'
+                            onClick={onClose}
+                            className='btn btn-outline-warning w-full sm:w-auto px-6 py-2 text-xs sm:text-sm'
+                        >
+                            Cancel
+                        </button>
                     </div>
                 </form>
             </div>

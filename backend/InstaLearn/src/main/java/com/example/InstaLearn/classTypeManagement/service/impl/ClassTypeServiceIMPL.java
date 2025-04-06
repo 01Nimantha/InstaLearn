@@ -78,6 +78,14 @@ public class ClassTypeServiceIMPL implements ClassTypeService {
     }
 
     @Override
+    public String getClassTypeNameAndTypeById(long classTypeId) {
+        ClassType classType = classTypeRepo.findById(classTypeId)
+                .orElseThrow(() -> new RuntimeException("ClassType not found with ID: " + classTypeId));
+
+        return classType.getClassTypeName() + " - " + classType.getType().name();
+    }
+
+    @Override
     public ClassType getClassTypeById(long id) {
         return classTypeRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("ClassType not found"));
