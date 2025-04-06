@@ -83,11 +83,11 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
     }
 
     @Override
-    public boolean createQuestionPaper(int id) {
+    public boolean createQuestionPaper(int numberOfQuestions) {
         try{
             RestTemplate restTemplate = new RestTemplate();
             Question[] questionsArray = restTemplate.getForObject(
-                    "http://localhost:8085/api/v1/question/" + id,
+                    "http://localhost:8085/api/v1/question/" + numberOfQuestions,
                     Question[].class
             );
 
@@ -281,6 +281,23 @@ public class QuestionPaperServiceImpl implements QuestionPaperService {
         }
     }
 
+    @Override
+    public List<TimeAndPerformance> GetMarksAndDate(String stId) {
+        try {
+            List<TimeAndPerformance> timeAndPerformanceList = new ArrayList<>();
+            List<QuestionPaper> questionPaperList = questionPaperRepository.findAll();
+            RestTemplate restTemplate = new RestTemplate();
+            for(QuestionPaper x : questionPaperList){
+                String mark = restTemplate.getForObject("http://localhost:8085/QuestionPaper/CalculateFullQuestionPaperMarks/"+stId+"/"+x.getId(),String.class);
+                int data = Integer.parseInt(mark.replace("%", ""));
+                TimeAndPerformance timeAndPerformance = new TimeAndPerformance(x.getDate(),data);
+                timeAndPerformanceList.add(timeAndPerformance);
+            }
+            return timeAndPerformanceList;
+        }catch (Exception e){
+            return null;
+        }
+    }
 
 
 }
