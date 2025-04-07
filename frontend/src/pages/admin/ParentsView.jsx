@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import EditModel from './EditModel';
 import ViewModel from './ViewModel';
+import { Edit, View } from 'lucide-react';
 
 const ParentEditModel = ({ onClose, parentId }) => (
   <EditModel
@@ -81,8 +82,8 @@ const ParentsView = () => {
   };
 
   return (
-    <div className='min-h-screen bg-[#D9D9D9]'>
-      <header className="flex flex-col sm:flex-row items-center justify-between bg-black text-white h-auto sm:h-[150px] p-4 sm:p-0">
+    <div className='min-h-screen bg-slate-100'>
+      <header className="flex flex-col sm:flex-row items-center justify-between bg-indigo-800 text-white h-auto sm:h-[150px] p-4 sm:p-0">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold leading-8 text-center sm:text-left">Parent</h1>
         </div>
@@ -102,7 +103,7 @@ const ParentsView = () => {
 
         <section className='overflow-x-auto'>
           <table className='shadow w-full min-w-[500px]'>
-            <thead className='bg-[#EBEBEB] h-12 sm:h-16'>
+            <thead className='bg-indigo-100 h-12 sm:h-16'>
               <tr className='text-center text-xs sm:text-base'>
                 <th className='p-2'>Parent_id</th>
                 <th className='p-2'>Name</th>
@@ -118,24 +119,22 @@ const ParentsView = () => {
                   <td className='p-2 break-all'>{parent.parentEmail}</td>
                   <td className='p-1'>
                     <button 
-                      className='btn btn-info w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
                       onClick={() => {
                         setSelectedParentId(parent.parentId);
                         setActiveModal('view');
                       }}
                     >
-                      View
+                      <View className="text-blue-500 hover:text-blue-600"/>
                     </button>
                   </td>
                   <td className='p-1'>
                     <button 
-                      className='btn btn-warning w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
                       onClick={() => {
                         setSelectedParentId(parent.parentId);
                         setActiveModal('edit');
                       }}
                     >
-                      Update
+                      <Edit className="text-amber-500 hover:text-amber-600"/>
                     </button>
                   </td>
                 </tr>
@@ -146,7 +145,7 @@ const ParentsView = () => {
 
         <div className="flex flex-col sm:flex-row justify-center items-center mt-4 gap-2 sm:gap-4">
           <button
-            className="btn btn-secondary w-full sm:w-auto px-4 py-2 text-xs sm:text-sm"
+            className="bg-indigo-300 rounded w-full sm:w-auto px-4 py-2 text-xs sm:text-sm"
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 0}
           >
@@ -156,7 +155,7 @@ const ParentsView = () => {
             Page {currentPage + 1} of {totalPages}
           </span>
           <button
-            className="btn btn-secondary w-full sm:w-auto px-4 py-2 text-xs sm:text-sm"
+            className="bg-indigo-300 rounded w-full sm:w-auto px-4 py-2 text-xs sm:text-sm"
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages - 1}
           >

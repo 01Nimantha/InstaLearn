@@ -16,8 +16,8 @@ const Attendance = () => {
   const [classTypeId, setClassTypeId] = useState(null);
   const [activeTab, setActiveTab] = useState('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [sortBy, setSortBy] = useState('date');
-  const [sortOrder, setSortOrder] = useState('desc');
+  const [sortBy, setSortBy] = useState('id');
+  const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
     loadClasses();
@@ -105,7 +105,7 @@ const Attendance = () => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
-      month: 'long',
+      month: 'short',
       day: 'numeric',
     });
   };
@@ -125,29 +125,46 @@ const Attendance = () => {
 
   const filterAttendanceData = () => {
     if (!attendanceData || attendanceData.length === 0) return [];
-    
+
     let filteredData = [...attendanceData];
-    
+
     // Filter by search term
     if (searchTerm) {
-      filteredData = filteredData.filter(student => 
+      filteredData = filteredData.filter((student) =>
         student.studentId.toString().toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-    
+
     // Filter by attendance status
     if (activeTab === 'present') {
-      filteredData = filteredData.map(student => ({
-        ...student,
-        attendanceList: student.attendanceList.filter(a => a.presentState)
-      })).filter(student => student.attendanceList.length > 0);
+      filteredData = filteredData.filter((student) =>
+        student.attendanceList.some((a) => a.presentState)
+      );
     } else if (activeTab === 'absent') {
-      filteredData = filteredData.map(student => ({
-        ...student,
-        attendanceList: student.attendanceList.filter(a => !a.presentState)
-      })).filter(student => student.attendanceList.length > 0);
+      filteredData = filteredData.filter((student) =>
+        student.attendanceList.some((a) => !a.presentState)
+      );
     }
-    
+
+    // Sort the data
+    filteredData.sort((a, b) => {
+      if (sortBy === 'id') {
+        const comparison = a.studentId.localeCompare(b.studentId);
+        return sortOrder === 'asc' ? comparison : -comparison;
+      } else if (sortBy === 'date') {
+        const aDate = a.attendanceList.length > 0 ? new Date(a.attendanceList[0].createdAt) : new Date(0);
+        const bDate = b.attendanceList.length > 0 ? new Date(b.attendanceList[0].createdAt) : new Date(0);
+        const comparison = aDate - bDate;
+        return sortOrder === 'asc' ? comparison : -comparison;
+      } else if (sortBy === 'status') {
+        const aPresentCount = a.attendanceList.filter((a) => a.presentState).length;
+        const bPresentCount = b.attendanceList.filter((a) => a.presentState).length;
+        const comparison = aPresentCount - bPresentCount;
+        return sortOrder === 'asc' ? comparison : -comparison;
+      }
+      return 0;
+    });
+
     return filteredData;
   };
 
@@ -155,20 +172,20 @@ const Attendance = () => {
     if (!attendanceData || attendanceData.length === 0) {
       return { total: 0, present: 0, absent: 0, presentPercentage: 0 };
     }
-    
+
     let totalAttendance = 0;
     let presentCount = 0;
-    
-    attendanceData.forEach(student => {
+
+    attendanceData.forEach((student) => {
       totalAttendance += student.attendanceList.length;
-      presentCount += student.attendanceList.filter(a => a.presentState).length;
+      presentCount += student.attendanceList.filter((a) => a.presentState).length;
     });
-    
+
     return {
       total: totalAttendance,
       present: presentCount,
       absent: totalAttendance - presentCount,
-      presentPercentage: totalAttendance > 0 ? Math.round((presentCount / totalAttendance) * 100) : 0
+      presentPercentage: totalAttendance > 0 ? Math.round((presentCount / totalAttendance) * 100) : 0,
     };
   };
 
@@ -274,9 +291,9 @@ const Attendance = () => {
               onChange={handleSearch}
             />
           </div>
-          
-          <button 
-            onClick={refreshData} 
+
+          <button
+            onClick={refreshData}
             disabled={loading || isRefreshing}
             className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
           >
@@ -292,14 +309,14 @@ const Attendance = () => {
           <h2 className="text-lg font-bold mb-2">TOTAL RECORDS</h2>
           <p className="text-2xl font-semibold">{stats.total}</p>
         </div>
-        
+
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-lg font-bold mb-2">PRESENT</h2>
           <p className="text-2xl font-semibold">
             {stats.present} <span className="text-sm">({stats.presentPercentage}%)</span>
           </p>
         </div>
-        
+
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-lg font-bold mb-2">ABSENT</h2>
           <p className="text-2xl font-semibold">
@@ -358,7 +375,7 @@ const Attendance = () => {
             </div>
             <p className="text-red-500 text-lg font-medium mb-2">Error Loading Data</p>
             <p className="text-gray-600">{error}</p>
-            <button 
+            <button
               onClick={refreshData}
               className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
             >
@@ -372,8 +389,8 @@ const Attendance = () => {
             </div>
             <p className="text-gray-700 text-lg font-medium mb-2">No Records Found</p>
             <p className="text-gray-500">
-              {selectedClass === 'Select Class Name' || selectedType === 'Select Class Type' 
-                ? 'Please select a class name and type to view attendance records.' 
+              {selectedClass === 'Select Class Name' || selectedType === 'Select Class Type'
+                ? 'Please select a class name and type to view attendance records.'
                 : 'No attendance records match your current filters.'}
             </p>
           </div>
@@ -382,8 +399,8 @@ const Attendance = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th 
-                    scope="col" 
+                  <th
+                    scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                     onClick={() => handleSortChange('id')}
                   >
@@ -396,28 +413,14 @@ const Attendance = () => {
                       )}
                     </div>
                   </th>
-                  <th 
-                    scope="col" 
+                  <th
+                    scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
                     onClick={() => handleSortChange('date')}
                   >
                     <div className="flex items-center">
-                      Date
+                      Attendance Records
                       {sortBy === 'date' && (
-                        <span className="ml-1">
-                          {sortOrder === 'asc' ? '↑' : '↓'}
-                        </span>
-                      )}
-                    </div>
-                  </th>
-                  <th 
-                    scope="col" 
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                    onClick={() => handleSortChange('status')}
-                  >
-                    <div className="flex items-center">
-                      Status
-                      {sortBy === 'status' && (
                         <span className="ml-1">
                           {sortOrder === 'asc' ? '↑' : '↓'}
                         </span>
@@ -427,32 +430,37 @@ const Attendance = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredData.map((student) =>
-                  student.attendanceList.map((attendance, attIndex) => (
-                    <tr
-                      key={`${student.studentId}-${attIndex}`}
-                      className="hover:bg-gray-50"
-                    >
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {student.studentId}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {formatDate(attendance.createdAt)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span
-                          className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            attendance.presentState 
-                              ? 'bg-green-100 text-green-800' 
-                              : 'bg-red-100 text-red-800'
-                          }`}
-                        >
-                          {attendance.presentState ? 'Present' : 'Absent'}
-                        </span>
-                      </td>
-                    </tr>
-                  ))
-                )}
+                {filteredData.map((student) => (
+                  <tr key={student.studentId} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {student.studentId}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      <div className="flex flex-wrap gap-2">
+                        {student.attendanceList
+                          .filter((attendance) => {
+                            if (activeTab === 'present') return attendance.presentState;
+                            if (activeTab === 'absent') return !attendance.presentState;
+                            return true; // Show all for 'all' tab
+                          })
+                          .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // Sort by date
+                          .map((attendance, attIndex) => (
+                            <span
+                              key={`${student.studentId}-${attIndex}`}
+                              className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full ${
+                                attendance.presentState
+                                  ? 'bg-green-100 text-green-800'
+                                  : 'bg-red-100 text-red-800'
+                              }`}
+                              title={attendance.presentState ? 'Present' : 'Absent'} // Tooltip for clarity
+                            >
+                              {formatDate(attendance.createdAt)}
+                            </span>
+                          ))}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

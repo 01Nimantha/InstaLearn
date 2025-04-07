@@ -38,6 +38,7 @@ import EditAOfficer from './pages/attendanceOfficer/EditAOfficer.jsx';
 import SchedulePage from './pages/Dashboards/Teacher/SchedulePage.jsx'
 // import Class from './pages/Dashboards/Teacher/Class.jsx'
 import ClassTypeView from './pages/Dashboards/Teacher/ClassTypeView.jsx';
+import ClassFeesView from './pages/admin/ClassFeesView.jsx';
 
 const router = createBrowserRouter([
   {
@@ -65,7 +66,7 @@ const router = createBrowserRouter([
   { path: "/admin-dashboard/parents-view", element: <ParentsView /> },
   { path: "/admin-dashboard/admins-view", element: <AdminsView /> },
   { path: "/admin-dashboard/aOfficers-view", element: <AttendanceOfficerView /> },
-
+  { path: "/admin-dashboard/class-fees", element: <ClassFeesView /> },
 
   {path: "/aOfficer-dashboard/:id", element: <AOfficerDashboard />},
   {path: "/aOfficer-dashboard/edit-profile/:id", element: <EditAOfficer />},
