@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { quistionAction } from "../../store/quistionSlice";
 import { quizAction } from "../../store/quizSlice";
+import { logingAction } from "../../store/logingSlice";
 
 const ParentUserHomePage=()=>{
 
@@ -18,6 +19,7 @@ const ParentUserHomePage=()=>{
   const [error, setError] = useState(null);
   const [marks,setMarks] = useState([]);
   const dispatch = useDispatch();
+  const stId = useSelector((store) => store.logingreducer.id);
   const {id}=useParams();
   
 
@@ -25,12 +27,27 @@ const ParentUserHomePage=()=>{
   const imageURL = useSelector((store)=>store.imagereducer.imagePath);
   const navigate =useNavigate();
 
-  useEffect(() => {
+  useEffect(()=>{
 
     //create a funtion for get student id
+    axios
+      .get("http://localhost:8085/api/v1/parent/get-student-by-parent/"+id)
+      .then((response)=>{
+        console.log("Nimantha",response.data);
+        dispatch(logingAction.addUser(response.data));
+        console.log("Nimantha",stId);
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
+
+  },[id,dispatch]);
+
+  useEffect(() => {
 
     axios
-      .get("http://localhost:8085/QuestionPaper/GetNewfullPaper/"+id)
+      .get("http://localhost:8085/QuestionPaper/GetNewfullPaper/"+stId)
       .then((response) => {
         setLoading(false);
         dispatch(quistionAction.addQuistion(response.data));
@@ -52,7 +69,7 @@ const ParentUserHomePage=()=>{
       });
 
     axios
-      .get("http://localhost:8085/QuestionPaper/GetTimeAndPerformance/"+id)
+      .get("http://localhost:8085/QuestionPaper/GetTimeAndPerformance/"+stId)
       .then((response)=>{
         setLoading(false);
         setMarks(response.data);
@@ -62,7 +79,7 @@ const ParentUserHomePage=()=>{
         setLoading(false);
       });
     
-  }, []);
+  }, [stId,dispatch]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;

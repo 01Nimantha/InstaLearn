@@ -12,7 +12,8 @@ const ParentQuestionPaperPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [mark, setMark] = useState(1);
-  const {id} = useParams();
+  const id = useSelector((store) => store.logingreducer.id);
+
 
   const handleMakeDisable = () => {
     dispatch(quistionAction.makeDisable());
