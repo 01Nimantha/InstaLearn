@@ -12,7 +12,7 @@ import axios from "axios";
 import { quistionAction } from "../../store/quistionSlice";
 import { quizAction } from "../../store/quizSlice";
 
-const UserHomePage=()=>{
+const ParentUserHomePage=()=>{
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,6 +26,9 @@ const UserHomePage=()=>{
   const navigate =useNavigate();
 
   useEffect(() => {
+
+    //create a funtion for get student id
+
     axios
       .get("http://localhost:8085/QuestionPaper/GetNewfullPaper/"+id)
       .then((response) => {
@@ -66,20 +69,13 @@ const UserHomePage=()=>{
 
   return <div>
   <div style={{display: "flex"}}>
-    <ImgCard ImgCardName={student.Name} ImgCardImg={imageURL} ImgCardID={student.Id} BgColor={"#13A68A"}/>
-    <EventCard BgColor={"#78D9C6"} BgHColor={"#13A68A"}/>
+    <ImgCard ImgCardName={student.Name} ImgCardImg={imageURL} ImgCardID={student.Id} BgColor={"#7B78D9"}/>
+    <EventCard BgColor={"#7B78D9"} BgHColor={"#5D13A6"}/>
   </div>
   <div>
-    <div style={{marginLeft:"2%"}}><h3>Activities</h3></div>
-    <div style={{display: "flex"}}>
-      <Card CardImg={OnlineQuiz} CardTitle={"Online Quiz"} CardBody={"Start : 2025/3/24 End : 2025/3/25 Duration: 1 hour"} CardButtonName={"Start quiz now"} CardButtonBackgroundColor={"#78D9C6"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} CardButtonAction={()=>{navigate("online-qpaper")}} />
-      <Card CardImg={HomeWork} CardTitle={"Home Work"} CardBody={"Great achievements start with small, consistent steps your homework is one of them."} CardButtonName={"View"} CardButtonBackgroundColor={"#78D9C6"} CardButtonFontColor={"#FFFFFF"} CardButtonCornerRadius={true} />
-    </div>
-  </div>
-  <div>
-    <OnlineQuizProgress data={marks} BgColor={"#78D9C6"}/>
+    <OnlineQuizProgress data={marks} BgColor={"#7B78D9"}/>
   </div>
 </div>;
 }
 
-export default UserHomePage;
+export default ParentUserHomePage;
