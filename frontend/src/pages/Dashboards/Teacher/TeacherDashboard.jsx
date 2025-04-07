@@ -17,10 +17,10 @@ const TeacherDashboard = () => {
   const [chartData, setChartData] = useState([]);
   const [teacher, setTeacher] = useState(null);
   const [stats, setStats] = useState({
-    totalStudents: 70,
-    averageScore: 71.5,
-    attendanceRate: 70,
-    quizAttemptRate: 65,
+    // totalStudents: 0,
+    // averageScore: 0,
+    // attendanceRate: 70,
+    // quizAttemptRate: 65,
   });
 
   // Fetch teacher data with a refresh mechanism
@@ -51,7 +51,7 @@ const TeacherDashboard = () => {
     const fetchStats = async () => {
       try {
         const date = new Date().toISOString().split('T')[0];
-        const response = await fetch(`http://localhost:8085/api/v1/attendance/count?date=${date}`);
+        const response = await fetch(`http://localhost:8085/api/v1/student/total-students`);
         if (!response.ok) throw new Error(`Failed to fetch total students. Status: ${response.status}`);
         const totalStudents = await response.json();
 
@@ -64,61 +64,63 @@ const TeacherDashboard = () => {
   }, []);
 
   // Fetch average score
-  // useEffect(() => {
-  //   const fetchAverageScore = async () => {
-  //     try {
-  //       const currentMonth = new Date().toLocaleString('en-US', { month: 'long' });
-  //       const marksResponse = await fetch(`http://localhost:8085/api/v1/excel/average-marks/all?month=${currentMonth}`);
-  //       if (!marksResponse.ok) throw new Error(`Failed to fetch average marks. Status: ${marksResponse.status}`);
-  //       const marksData = await marksResponse.json();
-  //       const averageScore = marksData?.average || 0;
+  useEffect(() => {
+    const fetchAverageScore = async () => {
+      try {
+        const currentMonth = new Date().toLocaleString('en-US', { month: 'long' });
+        const marksResponse = await fetch(`http://localhost:8085/api/v1/excel/average-marks/all?month=${currentMonth}`);
+        if (!marksResponse.ok) throw new Error(`Failed to fetch average marks. Status: ${marksResponse.status}`);
+        const marksData = await marksResponse.json();
+        const averageScore = marksData?.average || 0;
 
-  //       setStats(prev => ({ ...prev, averageScore }));
-  //     } catch (error) {
-  //       console.error("Error fetching average score:", error);
-  //     }
-  //   };
-  //   fetchAverageScore();
-  // }, []);
+        setStats(prev => ({ ...prev, averageScore }));
+      } catch (error) {
+        console.error("Error fetching average score:", error);
+      }
+    };
+    fetchAverageScore();
+  }, []);
 
   // Fetch chart data
-  // useEffect(() => {
-  //   const fetchChartData = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:8085/api/v1/excel/monthly-average-marks");
-  //       if (!response.ok) throw new Error(`Failed to fetch chart data. Status: ${response.status}`);
-  //       const data = await response.json();
-        
-  //       const formattedData = data.map(item => ({
-  //         time: item.month,
-  //         performance: item.averageMarks || 0,
-  //       }));
-        
-  //       setChartData(formattedData);
-  //     } catch (error) {
-  //       console.error("Error fetching chart data:", error);
-  //     }
-  //   };
-  //   fetchChartData();
-  // }, []);
   useEffect(() => {
-    const rawChartData = [
-      { month: "January", averageMarks: 45 },
-      { month: "February", averageMarks: 65 },
-      { month: "March", averageMarks: 75 },
-      { month: "April", averageMarks: 40 },
-      { month: "May", averageMarks: 68 },
-      { month: "June", averageMarks: 74 },
-      { month: "July", averageMarks: 70 },
-    ];
-
-    const formattedData = rawChartData.map(item => ({
-      time: item.month,
-      performance: item.averageMarks || 0,
-    }));
-
-    setChartData(formattedData);
+    const fetchChartData = async () => {
+      try {
+        const response = await fetch("http://localhost:8085/api/v1/excel/monthly-average-marks");
+        if (!response.ok) throw new Error(`Failed to fetch chart data. Status: ${response.status}`);
+        const data = await response.json();
+        
+        const formattedData = data.map(item => ({
+          time: item.month,
+          performance: item.averageMarks ? parseFloat(Number(item.averageMarks).toFixed(1)) : 0,
+        }));
+        
+        setChartData(formattedData);
+      } catch (error) {
+        console.error("Error fetching chart data:", error);
+      }
+    };
+    fetchChartData();
   }, []);
+  
+  
+  // useEffect(() => {
+  //   const rawChartData = [
+  //     { month: "January", averageMarks: 45 },
+  //     { month: "February", averageMarks: 65 },
+  //     { month: "March", averageMarks: 75 },
+  //     { month: "April", averageMarks: 40 },
+  //     { month: "May", averageMarks: 68 },
+  //     { month: "June", averageMarks: 74 },
+  //     { month: "July", averageMarks: 70 },
+  //   ];
+
+  //   const formattedData = rawChartData.map(item => ({
+  //     time: item.month,
+  //     performance: item.averageMarks || 0,
+  //   }));
+
+  //   setChartData(formattedData);
+  // }, []);
 
   if (!teacher) return <p>Loading...</p>;
 
@@ -163,7 +165,7 @@ const TeacherDashboard = () => {
         children='Add'
       />
 
-      <Box className="grid gap-4 mt-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      <Box className="grid gap-4 mt-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
         <StatCard
           title="Total Students"
           value={stats.totalStudents}
@@ -174,7 +176,7 @@ const TeacherDashboard = () => {
           value={`${stats.averageScore}%`}
           description="Average score across all quizzes"
         />
-        <StatCard
+        {/* <StatCard
           title="Attendance Rate"
           value={`${stats.attendanceRate}%`}
           description="Percentage of students attending classes"
@@ -183,7 +185,7 @@ const TeacherDashboard = () => {
           title="Quiz Attempt Rate"
           value={`${stats.quizAttemptRate}%`}
           description="Percentage of students attempting quizzes"
-        />
+        /> */}
       </Box>
 
       <div className='flex flex-col sm:flex-row gap-5 mt-5'>
