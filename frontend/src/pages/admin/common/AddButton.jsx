@@ -5,7 +5,7 @@ const AddButton = ({onClick,btnname,className,type,disabled}) => {
 
   return (
     <div className=''>
-        <button className={`hover:bg-gray-800 rounded flex justify-center items-center shadow text-decoration-none ${className}`} 
+        <button className={`hover:bg-indigo-600 rounded flex justify-center items-center shadow text-decoration-none ${className}`} 
           onClick={onClick} 
           type={type}
           disabled={disabled}>

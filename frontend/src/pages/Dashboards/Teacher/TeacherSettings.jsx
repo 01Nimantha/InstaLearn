@@ -1,122 +1,211 @@
-import React, { useRef, useState, useEffect } from "react";
-import { RiFolderUploadFill } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
-import { imageAction } from "../../../store/imageSlice";
-import { MdEmail } from "react-icons/md";
-import { BsFillTelephoneFill } from "react-icons/bs";
-import { studentAction } from "../../../store/studentSlice";
-import Button from "../../../components/Button";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Home, LogOut, Menu, Settings, X, User, Mail, MapPin, Phone, Save } from "lucide-react";
+
 
 const TeacherSettings = () => {
-  const ImgURL = useSelector((store) => store.imagereducer.imagePath);
-  const dispatch = useDispatch();
-  const fileInputRef = useRef(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click(); // Trigger hidden input
-  };
+  const [profile, setProfile] = useState({
+    teacherName: "",
+    teacherEmail: "",
+    teacherContactno: "",
+    teacherAddress: "",
+    teacherId: "",
+    user: {
+      userId: "",
+    },
+    image: {
+      imageId: "",
+    },
+  });
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      dispatch(imageAction.addImage(URL.createObjectURL(file)));
-    }
-  };
+  const [imagePreview, setImagePreview] = useState(null);
+  const [file, setImageFile] = useState(null);
 
-  // Local state to hold the form values
-  const [id, setID] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [number, setNumber] = useState("");
-  const [address, setAddress] = useState("");
-
-  // Select the first student object from the Redux store
-  const student = useSelector((store) => store.studentreducer.studentArr[0]);
-
-  // Set the initial form values when the student data is available
+  // Fetch officer details
   useEffect(() => {
-    if (student) {
-      setID(student.Id);
-      setName(student.Name);
-      setEmail(student.Email);
-      setNumber(student.Number);
-      setAddress(student.Address);
+
+    
+    axios
+      .get(`http://localhost:8085/api/v1/teacher/get-teacher-by/${id}`)
+      .then((response) => {
+        setProfile(response.data);
+        if (response.data.image) {
+          setImagePreview(`http://localhost:8085/api/v1/image/get-image/${response.data.image.imageId}`);
+        }
+      })
+      .catch((error) => console.error("Error fetching profile:", error));
+  }, [id]);
+
+  // Handle input changes
+  const handleChange = (e) => {
+    setProfile({ ...profile, [e.target.name]: e.target.value });
+  };
+
+  // Handle image selection
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file)); // Set the image preview
     }
-  }, [student]); // This effect runs every time the student data changes
+  };
 
-  const fun = () => {
-    dispatch(
-      studentAction.updateStudent([
-        {
-          Id: id,
-          Name: name,
-          Email: email,
-          Number: number,
-          Address: address,
-          ParentName: pName,
-          ParentNumber: pNumber,
-        },
-      ])
-    );
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    // Reset form fields after dispatching the action
-    setID("");
-    setName("");
-    setEmail("");
-    setNumber("");
-    setAddress("");
-    setPName("");
-    setPNumber("");
+    try {
+      // Upload the image if a new file is selected
+      let imageId = profile.image.imageId;
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const imageResponse = await axios.post(
+          `http://localhost:8085/api/v1/image/save/${profile.user.userId}`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+
+        if (imageResponse.data) {
+          imageId = imageResponse.data.imageId; // Update the image ID
+        } else {
+          throw new Error("Failed to upload image: No response data.");
+        }
+      }
+
+      // Update the profile with the new image ID
+      const updatedProfile = { ...profile, image: { imageId } };
+
+      // Save the updated profile
+      await axios.put(`http://localhost:8085/api/v1/teacher/update/${id}`, updatedProfile);
+      alert("Profile updated successfully!");
+      navigate(`/teacher-dashboard/${id}`);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile");
+    }
   };
 
   return (
-    <div>
-      <div className="card" style={{ margin: "2%", padding: "2%", minWidth: "74vw", maxWidth: "74vw", backgroundColor: "#ffffff" }}>
-        <div style={{ display: "flex" }}>
-          <div style={{ marginTop: "5vw", color: "#287f93" }}>
-            <div style={{ display: "flex" }}>
-              <div>Upload your photo</div>
-              <div style={{ marginLeft: "8vw" }}>
-                <RiFolderUploadFill onClick={handleButtonClick} color="#287f93" size={30} />
-                <input type="file" ref={fileInputRef} style={{ display: "none" }} accept="image/*" onChange={handleFileChange} />
-              </div>
-            </div>
-            <div>{ImgURL}</div>
-            <div>Try to upload a photo without background (not compulsory)</div>
+    <div className="flex min-h-screen bg-gray-50 relative">
+      
+
+      {/* Main Content */}
+      <div className="flex-1 p-6">
+        <h1 className="text-2xl font-bold mb-6 text-gray-800">Edit Profile</h1>
+
+        {/* Profile Section */}
+        <div className="flex flex-col md:flex-row items-center gap-6 mb-8 rounded-xl p-6">
+          <div className="relative">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="hidden"
+              id="imageInput"
+            />
+            <img
+              src={imagePreview || "https://th.bing.com/th/id/OIP.ZMB81W_uLDsEIxaMWxDljAHaHa?rs=1&pid=ImgDetMain"}
+              alt="Profile"
+              className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-lg cursor-pointer"
+              onClick={() => document.getElementById("imageInput").click()}
+            />
           </div>
-          <div style={{ marginLeft: "8vw", width: "30vw", height: "40vh" }}>
-            <img src={ImgURL} className="img-fluid rounded-start" alt="Uploaded Preview" style={{ minHeight: "40vh", maxHeight: "40vh", maxWidth: "50vw" }} />
+          <div className="text-center md:text-left">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{profile.teacherName}</h1>
+            <p className="text-gray-600 mt-1">{profile.teacherId}</p>
           </div>
         </div>
-      </div>
 
-      <div className="card" style={{ margin: "2%", padding: "2%", minWidth: "74vw", maxWidth: "74vw", backgroundColor: "#ffffff" }}>
-        <div style={{ display: "flex", padding: "1%" }}>
-          <div>
-            <div style={{ marginBottom: "6.8%" }}>Index number :</div>
-            <div style={{ marginBottom: "6.8%" }}>Your name :</div>
-            <div style={{ marginBottom: "6.8%" }}>Email address :</div>
-            <div style={{ marginBottom: "6.8%" }}>Your phone number :</div>
-            <div style={{ marginBottom: "6.8%" }}>Address :</div>
-          </div>
-          <div style={{ width: "48vw", marginLeft: "8vw" }}>
-            <input type="text" value={id} onChange={(e) => setID(e.target.value)} placeholder={student?.Id || "Index number"} style={{ width: "48vw", border: "2px #287f93 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} disabled />
-            <input type="text" maxLength="13" value={name} onChange={(e) => setName(e.target.value)} placeholder={student?.Name || "Your name"} style={{ width: "48vw", border: "2px #287f93 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
-            <div style={{ display: "flex" }}>
-              <MdEmail color="#287f93" size={25} style={{ marginTop: "0.5%", marginRight: "1%" }} />
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={student?.Email || "Email address"} style={{ width: "46vw", border: "2px #287f93 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
+        {/* Form */}
+        <div className="bg-white rounded-xl shadow-md p-6 md:p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Full Name */}
+              <div>
+                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <User className="w-5 h-5 text-gray-500" />
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="teacherName"
+                  value={profile.teacherName}
+                  onChange={handleChange}
+                  placeholder="Your Full Name"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                />
+              </div>
+
+              {/* Address */}
+              <div>
+                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-gray-500" />
+                  Address
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  name="teacherAddress"
+                  value={profile.teacherAddress}
+                  onChange={handleChange}
+                  placeholder="Your Address"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <Mail className="w-5 h-5 text-gray-500" />
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="teacherEmail"
+                  value={profile.teacherEmail}
+                  onChange={handleChange}
+                  placeholder="your.email@example.com"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                />
+              </div>
+
+              {/* Contact No */}
+              <div>
+                <label htmlFor="contact" className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <Phone className="w-5 h-5 text-gray-500" />
+                  Contact No
+                </label>
+                <input
+                  type="tel"
+                  id="contact"
+                  name="teacherContactno"
+                  value={profile.teacherContactno}
+                  onChange={handleChange}
+                  placeholder="Your Contact Number"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                />
+              </div>
             </div>
-            <div style={{ display: "flex" }}>
-            <BsFillTelephoneFill color="#287f93" size={22} style={{ marginTop: "0.5%", marginRight: "1%" }} />
-            <input type="number" value={number} onChange={(e) => setNumber(e.target.value)} placeholder={student?.Number || "Your phone number"} style={{ width: "46vw", border: "2px #287f93 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
-          </div>
-          <div>
-            <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder={student?.Address || "Address"} style={{ width: "48vw", border: "2px #287f93 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
-          </div>
-            <div style={{ marginLeft: "75%" }}>
-              <Button name="Update" fontColor="#ffffff" backgroundColor="#287f93" action={fun} cornerRadius={false} />
+
+            <div className="flex justify-end pt-4">
+              <button
+                type="submit"
+                className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all flex items-center gap-2"
+              >
+                Save Changes
+              </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

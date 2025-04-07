@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -56,11 +57,19 @@ public class AdminController {
     @GetMapping("/get-all-admins")
     public ResponseEntity<Page<Admin>> getAllAdmins(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String searchTerm
     ){
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("adminId").descending());
 
-        Page<Admin> admins = adminService.getAllAdmins(pageable);
+        Page<Admin> admins;
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            // Fetch filtered results based on searchTerm
+            admins = adminService.searchAdmins(searchTerm, pageable);
+        } else {
+            // Fetch all results if no search term is provided
+            admins = adminService.getAllAdmins(pageable);
+        }
         return new ResponseEntity<>(admins,HttpStatus.OK);
     }
     @GetMapping("/get-admin-by/{id}")

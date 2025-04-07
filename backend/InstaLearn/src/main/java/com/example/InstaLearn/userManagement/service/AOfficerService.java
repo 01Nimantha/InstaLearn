@@ -18,4 +18,6 @@ public interface AOfficerService {
     Page<AttendanceOfficer> getAllAttandanceOfficers(Pageable pageable);
 
     AttendanceOfficer getAttendanceOfficerById(String attendanceOfficerId);
+
+    Page<AttendanceOfficer> searchAttendanceOfficers(String searchTerm, Pageable pageable);
 }

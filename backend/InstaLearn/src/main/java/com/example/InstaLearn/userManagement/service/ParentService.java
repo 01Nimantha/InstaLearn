@@ -13,4 +13,6 @@ public interface ParentService {
     Page<Parent> getAllParents(Pageable pageable);
 
     Parent getParentById(String parentId);
+
+    Page<Parent> searchParents(String searchTerm, Pageable pageable);
 }

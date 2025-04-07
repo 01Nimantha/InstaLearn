@@ -21,4 +21,10 @@ public interface ClassTypeService {
     List<String> getAllClassTypes();
 
     Long getClassTypeId(String className, Type type);
+
+
+    String getClassTypeNameAndTypeById(long classTypeId);
+
+    ClassType getClassTypeById(long id);
+//    List<ClassType> getClassTypesByStudentNumber(String studentNumber);
 }

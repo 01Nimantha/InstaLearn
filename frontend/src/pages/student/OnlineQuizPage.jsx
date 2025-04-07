@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import QuizCard from "../../components/QuizCard";
 import axios from "axios";
 import { quistionAction } from "../../store/quistionSlice";
@@ -11,6 +11,7 @@ const OnlineQuizPage = () => {
   const dispatch = useDispatch();
   const [marks, setMarks] = useState({});
   const [error, setError] = useState("");
+  const {id}=useParams();
 
   // Fetch marks for each quiz
   useEffect(() => {
@@ -18,7 +19,7 @@ const OnlineQuizPage = () => {
       const newMarks = {};
       for (const item of quiz.quizArr) {
         try {
-          const res = await axios.get(`http://localhost:8085/QuestionPaper/CalculateFullQuestionPaperMarks/ST_2025_10001/${item.id}`);
+          const res = await axios.get(`http://localhost:8085/QuestionPaper/CalculateFullQuestionPaperMarks/${id}/${item.id}`);
           newMarks[item.id] = res.data;
         } catch (err) {
           setError(err.message);
@@ -34,10 +35,10 @@ const OnlineQuizPage = () => {
 
   const updateQuistionSlice = (qpid) => {
     axios
-      .get(`http://localhost:8085/QuestionPaper/GetfullPaper/ST_2025_10001/${qpid}`)
+      .get(`http://localhost:8085/QuestionPaper/GetfullPaper/${id}/${qpid}`)
       .then((response) => {
         dispatch(quistionAction.addQuistion(response.data));
-        navigate("/student-dashboard/online-qpaper");
+        navigate(`/student-dashboard/${id}/online-qpaper`);
       })
       .catch((error) => {
         setError(error.message);
@@ -58,6 +59,7 @@ const OnlineQuizPage = () => {
                 QuizCardDate={item.date}
                 QuizCardPrecentage={marks[item.id] || 0}
                 ButtnAction={() => updateQuistionSlice(item.id)}
+                ButtonBgColor={"#78D9C6"}
               />
             </div>
           ))}

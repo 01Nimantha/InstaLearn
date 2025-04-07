@@ -16,6 +16,7 @@ const SendEmailModel = ({
 
     const[entity,setEntity] = useState({})
     const [isLoading, setIsLoading] = useState(false);
+    const [isSent, setIsSent] = useState(false);
 
     useEffect(()=>{
         loadEntity();
@@ -38,6 +39,8 @@ const SendEmailModel = ({
 
            {toMail:entity[fields[0].name]}
         );
+        setIsSent(true);
+        setTimeout(() => onClose(true), 1000)
         onClose();
         setIsLoading(false);
       }
@@ -49,7 +52,7 @@ const SendEmailModel = ({
   return ( 
     <div className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center' id="wrapper" onClick={handleClose}>
         <div className='w-1/3 bg-white  rounded-2xl'>
-            <header className='flex justify-between items-center p-3 bg-gray-950  rounded-t-2xl border'>
+            <header className='flex justify-between items-center p-3 bg-indigo-800  rounded-t-2xl border'>
                 <span className='text-2xl text-white'>{title}</span>
             </header>
 
@@ -75,11 +78,12 @@ const SendEmailModel = ({
                 <div className='px-1 flex justify-between py-1 mr-5'>
                 <div className='col-sm-2'>
                 <AddButton 
-                   btnname={isLoading ? 'Sending...' : 'Send'}
-                   className={`flex items-center justify-center bg-gray-950 text-white w-48 h-12 rounded-lg ${
-                     isLoading ? 'opacity-50 cursor-not-allowed' : ''
-                   }`}
-                  type='submit' disabled={isLoading}>
+                   btnname={isLoading ? 'Sending...' : isSent ? 'Sent' : 'Send'}
+                   className={`flex items-center justify-center text-white w-48 h-12 rounded-lg ${
+                    isSent ? 'bg-blue-600' : 'bg-indigo-500'
+                  } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  type='submit' disabled={isLoading || isSent}
+                  >
                 {isLoading ? (
                   <>
                     <svg
@@ -103,16 +107,14 @@ const SendEmailModel = ({
                     </svg>
                     Sending...
                   </>
-                ) : (
-                  'Send'
-                )}
+                ) : isSent ? 'Sent' : 'Send'}
                 </AddButton>
                 </div>
                  <div className='col-sm-2'>
                     <button
                       type='button'
                       onClick={onClose}
-                      className='btn btn-outline-warning btn-lg'
+                      className='btn btn-secondary btn-lg'
                       disabled={isLoading}
                     >
                       Cancel
@@ -128,4 +130,3 @@ const SendEmailModel = ({
 }
 
 export default SendEmailModel
-

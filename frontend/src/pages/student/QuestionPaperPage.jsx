@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PaperCard from "../../components/PaperCard";
 import PaperHearderCard from "../../components/PaperHearderCard";
 import Button from "../../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { quistionAction } from "../../store/quistionSlice";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ const QuestionPaperPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [mark, setMark] = useState(1);
+  const {id} = useParams();
 
   const handleMakeDisable = () => {
     dispatch(quistionAction.makeDisable());
@@ -23,7 +24,7 @@ const QuestionPaperPage = () => {
       setTimeout(async () => {
         try {
           const response = await axios.put(
-            "http://localhost:8085/QuestionPaper/UpdatefullPaper/ST_2025_10001",
+            "http://localhost:8085/QuestionPaper/UpdatefullPaper/"+id,
             quistions
           );
           console.log("Server Response:", response.data);
@@ -37,7 +38,7 @@ const QuestionPaperPage = () => {
   return (
     <div>
       <div>
-        <PaperHearderCard examDate="2025-02-26" examDuration="1 Hours" />
+        <PaperHearderCard examDate="2025-02-26" examDuration="1 Hours" BgColor={"#13A68A"} />
       </div>
       <div>
         {quistions.map((item, index) => (
@@ -60,7 +61,7 @@ const QuestionPaperPage = () => {
             name={"Submit"}
             action={() => {
               handleMakeDisable();
-              navigate("/student-dashboard");
+              navigate(`/student-dashboard/${id}`);
             }}
             backgroundColor={"#78D9C6"}
             fontColor={"#ffffff"}

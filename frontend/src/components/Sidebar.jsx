@@ -1,15 +1,16 @@
 import Logo from "../assets/Logo.svg"
+import { LogOut} from 'lucide-react';
 import { IoIosLogOut } from "react-icons/io";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 const Sidebar = ({Tab1,Tab1Icon,Tab1functions,Tab2,Tab2Icon,Tab2functions,Tab3,Tab3Icon,Tab3functions,Tab4,Tab4Icon,Tab4functions,Tab5,Tab5Icon,Tab5functions,AddNewTab,Tab6,Tab6Icon,Tab6functions,BackgroundColor,Name,Id,ImgURL,Logout})=>{
   const [isDarkMode, setIsDarkMode] = useState(1);
   return (
-    <div className="d-flex flex-column flex-shrink-0 p-3" style={{width: "280px", minHeight:"1080px", backgroundColor:`${BackgroundColor}` }}>
+    <div className="d-flex flex-column flex-shrink-0 p-3" style={{width: "280px", height: "100vh",overflowY: "auto",position: "relative", backgroundColor:`${BackgroundColor}` }}>
 
     <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
       <svg className="bi pe-none me-2" width="40" height="32"><use xlinkHref="#bootstrap"></use></svg>
-      <span className="fs-2" style={{color:"#ffffff",display:"flex"}}> <span style={{width:"100%",height:"100%"}}><img src={Logo}/></span><span style={{marginLeft:"2%",marginTop:"2%"}}>InstaLearn</span></span>
+      <span className="fs-2" style={{color:"#ffffff",display:"flex"}}> <span style={{width:"100%",height:"100%"}}><img src={Logo}/></span><span style={{marginLeft:"2%",marginTop:"2%"}}>Insta</span><span style={{marginLeft:"2%",marginTop:"2%"}} className="text-black ">Learn</span></span>
     </a>
     <hr/>
     <ul className="nav nav-pills flex-column mb-auto">
@@ -71,8 +72,21 @@ const Sidebar = ({Tab1,Tab1Icon,Tab1functions,Tab2,Tab2Icon,Tab2functions,Tab3,T
           <li><a className="dropdown-item" href="#">Sign out</a></li>
         </ul>
       </div>
-      <div style={{marginTop:"6.5%",marginLeft:"14%",}} onClick={Logout}>
-        <IoIosLogOut size={22} color="#ffffff" />
+      <div style={{marginTop:"6.5%",marginLeft:"14%",}} >
+      <Link 
+  className='mb-2' 
+  to='/' 
+  onClick={() => {
+    localStorage.clear(); 
+    window.scrollTo(0, 0);
+  }} 
+  title="Logout"
+>
+  <LogOut className="w-5 h-5 ml-auto text-white" />
+</Link>
+
+
+
       </div>
       
     </div>
