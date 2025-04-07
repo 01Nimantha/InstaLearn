@@ -4,7 +4,7 @@ import ImgCard from "../../components/ImgCard";
 import OnlineQuiz from "../../assets/OnlineQuiz.svg"
 import HomeWork from "../../assets/HomeWork.svg"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import OnlineQuizProgress from "../../components/OnlineQuizProgress";
 import { useEffect, useState } from "react";
@@ -18,6 +18,7 @@ const UserHomePage=()=>{
   const [error, setError] = useState(null);
   const [marks,setMarks] = useState([]);
   const dispatch = useDispatch();
+  const {id}=useParams();
   
 
   const student = useSelector((store)=>store.studentreducer.studentArr[0]);
@@ -26,7 +27,7 @@ const UserHomePage=()=>{
 
   useEffect(() => {
     axios
-      .get("http://localhost:8085/QuestionPaper/GetNewfullPaper/ST_2025_10001")
+      .get("http://localhost:8085/QuestionPaper/GetNewfullPaper/"+id)
       .then((response) => {
         setLoading(false);
         dispatch(quistionAction.addQuistion(response.data));
@@ -48,7 +49,7 @@ const UserHomePage=()=>{
       });
 
     axios
-      .get("http://localhost:8085/QuestionPaper/GetTimeAndPerformance/ST_2025_10001")
+      .get("http://localhost:8085/QuestionPaper/GetTimeAndPerformance/"+id)
       .then((response)=>{
         setLoading(false);
         setMarks(response.data);
