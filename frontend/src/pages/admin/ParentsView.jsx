@@ -16,7 +16,7 @@ const ParentEditModel = ({ onClose, parentId }) => (
     fields={[
       { label: 'Parent Name', name: 'parentName', type: 'text', required: true },
       { label: 'Parent Email', name: 'parentEmail', type: 'email', required: true },
-      { label: 'Contact No', name: 'parentContactno', type: 'text', required: true },
+      { label: 'Contact No', name: 'parentContactno', type: 'text', required: true ,pattern: '^[0-9]{10}$' },
       { label: 'Address', name: 'parentAddress', type: 'text', required: true }
     ]}
     onClose={onClose}

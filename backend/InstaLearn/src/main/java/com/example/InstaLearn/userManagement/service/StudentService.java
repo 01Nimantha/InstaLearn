@@ -42,4 +42,5 @@ public interface StudentService {
     Optional<Student> getStudentByParentId(String parentId);
 
 
+    void deleteInactiveStudents();
     }

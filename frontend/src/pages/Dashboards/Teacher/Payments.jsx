@@ -112,16 +112,9 @@ const Payments = () => {
 
   return (
     <Container maxWidth={false} sx={{ p: 4, maxWidth: '98%' }}>
-      <Typography variant="h3" gutterBottom sx={{ 
-        mb: 4, 
-        fontWeight: 'bold', 
-        color: 'primary.main',
-        fontSize: '2.2rem'
-      }}>
-        Payment Records
-      </Typography>
+      <h2 className="text-xl font-bold">Payment Records</h2>
       
-      <Paper elevation={2} sx={{ p: 4, mb: 4, width: '100%' }}>
+      <Paper elevation={2} sx={{ p: 4, mb: 4, width: '100%' ,mt:5 }}>
         <Typography variant="h5" gutterBottom sx={{ mb: 3, fontSize: '1.6rem' }}>
           Filters
         </Typography>

@@ -194,10 +194,10 @@ const Attendance = () => {
 
   return (
     <div className="flex flex-col p-4 bg-gray-100 min-h-screen">
-      <h1>Attendance History</h1>
+      <h2 className="text-xl font-bold">Attendance History</h2>
 
       {/* Filters and Controls */}
-      <div className="bg-white p-4 rounded-lg shadow mb-4">
+      <div className="bg-white p-4 rounded-lg shadow mb-4 mt-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Class Name</label>

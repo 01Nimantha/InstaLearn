@@ -16,11 +16,9 @@ const App3 = () => {
   const {id} = useParams();
 
   const [teacher, setTeacher] = useState([]);
-  const [imageURL, setImageURL] = useState(null);
 
   useEffect(()=>{
     loadTeacher();
-    loadImageURL();
   },[id]);
 
   const loadTeacher = async () => {
@@ -34,24 +32,12 @@ const App3 = () => {
     }
   };
 
-  const loadImageURL = async () => {
-    try {
-      const response = await fetch(`http://localhost:8085/api/v1/image/get-image/${teacher.image.imageId}`);
-      if (!response.ok) throw new Error(`Failed to fetch image URL. Status: ${response.status}`);
-      const data = await response.json();
-      setImageURL(data);
-    } catch (error) {
-      console.error("Error fetching image URL:", error);
-    }
-  };
-  
-
   return (
     <div className='flex min-h-screen'>
       <div className="fixed top-0 left-0 h-full"
         style={{ width: '280px' }}>  
        <Sidebar BackgroundColor={"#287f93"}
-         ImgURL={imageURL}
+         ImgURL={teacher.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${teacher.image.imageId}` : null}
          Name={teacher.teacherName}
          Id={id}
          Logout={()=>{console.log("Click Logout Button")}} 

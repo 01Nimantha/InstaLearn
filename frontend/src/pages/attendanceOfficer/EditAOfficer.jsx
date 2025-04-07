@@ -213,6 +213,7 @@ const EditProfile = () => {
                   value={profile.attendanceOfficerContactno}
                   onChange={handleChange}
                   placeholder="Your Contact Number"
+                  pattern="^[0-9]{10}$"
                   className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
                 />
               </div>

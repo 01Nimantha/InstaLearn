@@ -20,7 +20,7 @@ const TeacherEditModel = ({ onClose, teacherId }) => (
     fields={[
       { label: 'Teacher Name', name: 'teacherName', type: 'text', required: true },
       { label: 'Teacher Email', name: 'teacherEmail', type: 'email', required: true },
-      { label: 'Contact No', name: 'teacherContactno', type: 'text', required: true },
+      { label: 'Contact No', name: 'teacherContactno', type: 'text', required: true ,pattern: '^[0-9]{10}$' },
       { label: 'Address', name: 'teacherAddress', type: 'text', required: true }
     ]}
     onClose={onClose}
@@ -72,7 +72,7 @@ const TeacherAddDetailsFormModel = ({ onClose }) => (
     fields={[
       { label: 'Full Name', type: 'text', name: 'teacherName', placeholder: 'Full Name', required: true },
       { label: 'Email', type: 'email', name: 'teacherEmail', placeholder: 'Email', required: true },
-      { label: 'Contact no', type: 'text', name: 'teacherContactno', placeholder: 'Contact no', required: true },
+      { label: 'Contact no', type: 'text', name: 'teacherContactno', placeholder: 'Contact no', required: true ,pattern: '^[0-9]{10}$' },
       { label: 'Address', type: 'text', name: 'teacherAddress', placeholder: 'Address', required: true }
     ]}
     onClose={onClose}

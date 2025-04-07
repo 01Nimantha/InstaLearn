@@ -20,7 +20,7 @@ const AdminEditModel = ({ onClose, adminId }) => (
     fields={[
       { label: 'Admin Name', name: 'adminName', type: 'text', required: true },
       { label: 'Admin Email', name: 'adminEmail', type: 'email', required: true },
-      { label: 'Contact No', name: 'adminContactno', type: 'text', required: true },
+      { label: 'Contact No', name: 'adminContactno', type: 'text', required: true,pattern: '^[0-9]{10}$' },
       { label: 'Address', name: 'adminAddress', type: 'text', required: true }
     ]}
     redirectUrl="/admins-view"
@@ -73,7 +73,7 @@ const AdminAddDetailsFormModel = ({ onClose }) => (
     fields={[
       { label: 'Full Name', type: 'text', name: 'adminName', placeholder: 'Full Name', required: true },
       { label: 'Email', type: 'email', name: 'adminEmail', placeholder: 'Email', required: true },
-      { label: 'Contact no', type: 'text', name: 'adminContactno', placeholder: 'Contact no', required: true },
+      { label: 'Contact no', type: 'text', name: 'adminContactno', placeholder: 'Contact no', required: true ,pattern: '^[0-9]{10}$'},
       { label: 'Address', type: 'text', name: 'adminAddress', placeholder: 'Address', required: true }
     ]}
     onClose={onClose}
