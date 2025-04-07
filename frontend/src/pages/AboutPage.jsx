@@ -1,7 +1,7 @@
-import React from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import { useState,useRef } from 'react';
+import React from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import { useState } from 'react';
 import { 
   Typography, 
   Box, 
@@ -16,48 +16,68 @@ import {
   Divider,
   ThemeProvider, 
   createTheme,
-  Link
+  Container,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import EmailIcon from '@mui/icons-material/Email';
-import PhoneIcon from '@mui/icons-material/Phone';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import img1 from "../assets/images/aboutUs_1.jpeg";
-// import img2 from "../assets/images/aboutUs_2.png";
-import img3 from "../assets/images/aboutUs_3.png";
-
-
+import {
+  School,
+  Assessment,
+  Payment,
+  QrCodeScanner,
+  LibraryBooks,
+  Dashboard,
+  People,
+  CheckCircle,
+  AutoAwesome,
+  Email,
+  Phone,
+  LocationOn
+} from '@mui/icons-material';
 
 const theme = createTheme({
-  typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
-    h4: {
-      fontWeight: 'bold',
-      fontFamily: 'Playfair Display, serif', 
-    },
-    body1: {
-      fontFamily: 'Roboto, Arial, sans-serif',
-    },
-    body2: {
-      fontFamily: 'Roboto, Arial, sans-serif',
-      fontSize: '0.925rem',
-    },
-  },
   palette: {
     primary: {
-      main: '#3f51b5',
+      main: '#004C5C',
+      light: '#33707D',
+      dark: '#003540',
+      contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#f50057',
+      main: '#FF7D00',
+      light: '#FF9833',
+      dark: '#B25700',
+    },
+    background: {
+      default: '#F5F7F8',
+      paper: '#FFFFFF',
+    },
+    text: {
+      primary: '#004C5C',
+      secondary: '#5C7B84',
+    },
+  },
+  typography: {
+    fontFamily: '"Inter", sans-serif',
+    h2: {
+      fontWeight: 700,
+      fontFamily: '"Playfair Display", serif',
+    },
+    h4: {
+      fontWeight: 600,
+      fontFamily: '"Playfair Display", serif',
+    },
+    body1: {
+      fontSize: '1.05rem',
+      lineHeight: 1.6,
     },
   },
 });
 
-
 const AboutPage = () => {
   const [question, setQuestion] = useState('');
-  // const sectionRef = useRef(null);
-  // const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -65,198 +85,247 @@ const AboutPage = () => {
     setQuestion('');
   };
 
-  
-    
-  
-    // useEffect(() => {
-    //   // Scroll to the section if the location contains '#learn-more'
-    //   if (location.hash === "#learn-more") {
-    //     sectionRef.current?.scrollIntoView({ behavior: "smooth" });
-    //   }
-    // }, [location]);
   return (
     <div>
-      <div className='header'> <Header/></div>
-        
+      <Header />
+      
+      <ThemeProvider theme={theme}>
+        <Container maxWidth="lg" sx={{ py: 8 }}>
+          {/* Hero Section */}
+          <Box sx={{ mb: 8, textAlign: 'center' }}>
+            <Typography 
+              variant="h2" 
+              component="h1" 
+              gutterBottom 
+              sx={{ 
+                mb: 3,
+                fontSize: isMobile ? '2.5rem' : '3.5rem',
+                lineHeight: 1.2
+              }}
+            >
+              About InstaLearn
+            </Typography>
+            <Typography 
+              variant="h5" 
+              component="p" 
+              sx={{ 
+                maxWidth: '800px',
+                mx: 'auto',
+                color: 'text.secondary'
+              }}
+            >
+              A unified platform revolutionizing educational management for tuition centers
+            </Typography>
+          </Box>
 
-        <div>
-        <ThemeProvider theme={theme}>
-      <Box sx={{ px: { xs: '80px' ,lg : '50px' }, maxWidth: '100%', overflow: 'hidden' }}>
-        <Box my={4}>
-          <Paper elevation={3} sx={{ p: 2, mb: 2 }} id="about-us-section">
-            <Box display="flex" flexDirection="column" alignItems="center">
-              <Typography variant="h4" component="h1" gutterBottom align="center">
-                About Us
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={8}>
-                  <Typography variant="body1" paragraph>
-                    We are a dedicated platform connecting university students with quality boarding places. 
-                    Our mission is to simplify the often stressful process of finding accommodation for students. 
-                    We understand the unique needs of academic life and strive to provide safe, comfortable, 
-                    and affordable housing options. Our team works tirelessly to verify listings, 
-                    ensure fair practices, and foster a supportive community for students transitioning 
-                    to university life. We're committed to making your housing search as smooth as possible 
-                    allowing you to focus on what matters most - your education and university experience.
-                  </Typography>
+          {/* Mission Section */}
+          <Paper elevation={0} sx={{ p: { xs: 4, md: 6 }, mb: 8 }}>
+            <Typography variant="h4" component="h2" gutterBottom sx={{ mb: 4 }}>
+              Our Mission
+            </Typography>
+            <Typography variant="body1" paragraph>
+              InstaLearn was developed by Group 17 at the University of Ruhuna to address critical challenges in educational management. Our mission is to transform traditional tuition center operations through digital innovation.
+            </Typography>
+            <Typography variant="body1" paragraph>
+              We recognized the inefficiencies in manual attendance tracking, disorganized question paper management, and cumbersome payment processes - problems that negatively impact both educators and students.
+            </Typography>
+            <Typography variant="body1" paragraph>
+              Our solution integrates advanced features like QR-based attendance, centralized question banks, and automated payment tracking into one seamless platform.
+            </Typography>
+          </Paper>
+
+          {/* Features Section */}
+          <Box sx={{ mb: 8 }}>
+            <Typography 
+              variant="h4" 
+              component="h2" 
+              gutterBottom 
+              sx={{ 
+                textAlign: 'center',
+                mb: 6
+              }}
+            >
+              Key Features
+            </Typography>
+            <Grid container spacing={4}>
+              {[
+                {
+                  icon: <QrCodeScanner color="primary" sx={{ fontSize: 48 }} />,
+                  title: "QR Attendance",
+                  text: "Eliminate manual tracking with our QR code system that records attendance in seconds"
+                },
+                {
+                  icon: <LibraryBooks color="primary" sx={{ fontSize: 48 }} />,
+                  title: "Question Bank",
+                  text: "Centralized repository with automated paper generation based on customizable criteria"
+                },
+                {
+                  icon: <Payment color="primary" sx={{ fontSize: 48 }} />,
+                  title: "Payment System",
+                  text: "Secure online payments with automated tracking and receipt generation"
+                },
+                {
+                  icon: <Assessment color="primary" sx={{ fontSize: 48 }} />,
+                  title: "Performance Analytics",
+                  text: "Comprehensive dashboards to track student progress and identify learning gaps"
+                },
+                {
+                  icon: <Dashboard color="primary" sx={{ fontSize: 48 }} />,
+                  title: "Unified Dashboard",
+                  text: "Role-specific interfaces for admins, teachers, students, and parents"
+                },
+                {
+                  icon: <People color="primary" sx={{ fontSize: 48 }} />,
+                  title: "Stakeholder Portal",
+                  text: "Dedicated access points for all users with appropriate permissions"
+                }
+              ].map((feature, index) => (
+                <Grid item xs={12} md={4} key={index}>
+                  <Paper sx={{ 
+                    p: 4, 
+                    height: '100%',
+                    textAlign: 'center',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-5px)',
+                      boxShadow: 3
+                    }
+                  }}>
+                    <Box sx={{ mb: 3 }}>
+                      {feature.icon}
+                    </Box>
+                    <Typography variant="h5" component="h3" gutterBottom>
+                      {feature.title}
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      {feature.text}
+                    </Typography>
+                  </Paper>
                 </Grid>
-                <Grid item xs={12} md={4}>
-                  <Box display="flex" justifyContent="center" alignItems="center" height="100%">
-                    <img 
-                      src={img1} 
-                      alt="Housing illustration" 
-                      style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} 
-                    />
+              ))}
+            </Grid>
+          </Box>
+
+          {/* Team Section */}
+          <Paper elevation={0} sx={{ 
+            p: { xs: 4, md: 6 }, 
+            mb: 8,
+            backgroundColor: 'primary.main',
+            color: 'white',
+            backgroundImage: 'linear-gradient(135deg, #004C5C 0%, #003540 100%)'
+          }}>
+            <Typography variant="h4" component="h2" gutterBottom sx={{ mb: 4, textAlign: 'center' }}>
+              Development Team
+            </Typography>
+            <Typography variant="body1" paragraph sx={{ textAlign: 'center', mb: 4 }}>
+              InstaLearn was developed by Group 17 from the Department of Computer Science, University of Ruhuna
+            </Typography>
+            <Grid container spacing={4} justifyContent="center">
+              {[
+                "W.M.M.N. Wijekoon",
+                "P.H.D. Madushika",
+                "B.L.S.T. Madhuwantha",
+                "P.V.N. Madhushan",
+                "D.A. Muthumali"
+              ].map((member, index) => (
+                <Grid item xs={12} md={6} key={index}>
+                  <Box sx={{ 
+                    p: 3,
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    textAlign: 'center'
+                  }}>
+                    <Typography variant="h6">{member}</Typography>
                   </Box>
                 </Grid>
-              </Grid>
-            </Box>
-          </Paper>
-          <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#e3f2fd' }} id="learn-more-section">
-            <Typography variant="h6" gutterBottom align="left">
-              Learn More
-            </Typography>
-            <Typography variant="body2" gutterBottom align="justify">
-              Discover how our platform works to connect you with the perfect boarding place. 
-              We offer a wide range of verified listings, from shared apartments to private rooms, 
-              all tailored to student needs. Our advanced search filters help you find accommodation 
-              that fits your budget, preferred location, and amenities. We also provide resources on 
-              tenant rights, safety tips, and community integration to ensure a positive living experience. 
-              Join thousands of students who have found their ideal university home through our service.
-            </Typography>
-          </Paper>
-          <Paper elevation={3} sx={{ p: 2, mb: 2, bgcolor: '#e8eaf6' }} id="terms-policies-section">
-            <Typography variant="h6" gutterBottom align="justify">
-              Terms & Policies
-            </Typography>
-            <List dense>
-              {[
-                "User Agreement-:  By using our service, you agree to our terms of use and privacy policy.",
-                "Listing Verification-:  We strive to verify all listings but users are advised to exercise due diligence.",
-                "Fair Housing Policy-:  We adhere to all fair housing laws and do not discriminate based on race, color, religion, sex, or national origin.",
-                "Booking and Payments-:  We facilitate connections between students and landlords but are not responsible for individual rental agreements.",
-                "Data Protection-:  We are committed to protecting your personal information in compliance with data protection laws.",
-                "Community Guidelines-:  Users are expected to interact respectfully and report any suspicious activity.",
-                "Cancellation Policy-:  Under to the community restrictions."
-              ].map((item, index) => (
-                <React.Fragment key={index}>
-                  <ListItem alignItems="flex-start">
-                    <ListItemIcon>
-                      <CheckCircleIcon color="primary" fontSize="medium" />
-                    </ListItemIcon>
-                    <ListItemText 
-                      primary={<Typography variant="body2" style={{ fontSize: '0.875rem' }}>{item}</Typography>} 
-                    />
-                  </ListItem>
-                  {index < 6 && <Divider variant="inset" component="li" />}
-                </React.Fragment>
               ))}
-            </List>
+            </Grid>
+            <Typography variant="body1" sx={{ mt: 4, textAlign: 'center' }}>
+              Supervised by: Dr. Sugandima Vidanagamachchi & Mr. Malaka Pathirana
+            </Typography>
           </Paper>
-          <Paper elevation={3} sx={{ p: 2, mb: 2 }} id="qa-section">
-            <Grid container spacing={2} alignItems="center">
-              {/* <Grid item xs={12} md={6}>
-                <Box display="flex" justifyContent="center" alignItems="center">
-                  <img 
-                    src={img3} 
-                    alt="Question illustration" 
-                    style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} 
-                  />
+
+          {/* Contact Section */}
+          <Paper elevation={0} sx={{ p: { xs: 4, md: 6 }, mb: 8 }}>
+            <Typography variant="h4" component="h2" gutterBottom sx={{ mb: 4, textAlign: 'center' }}>
+              Contact Us
+            </Typography>
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                  <LocationOn color="primary" sx={{ mr: 2, fontSize: 32 }} />
+                  <Box>
+                    <Typography variant="h6">Address</Typography>
+                    <Typography variant="body1">
+                      Department of Computer Science, University of Ruhuna
+                    </Typography>
+                  </Box>
                 </Box>
-              </Grid> */}
-              <Grid item xs={12} md={12}>
-                <Typography variant="h6" gutterBottom>
-                  Q&A
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                  <Email color="primary" sx={{ mr: 2, fontSize: 32 }} />
+                  <Box>
+                    <Typography variant="h6">Email</Typography>
+                    <Typography variant="body1">
+                      instalearn@ruh.ac.lk
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Phone color="primary" sx={{ mr: 2, fontSize: 32 }} />
+                  <Box>
+                    <Typography variant="h6">Phone</Typography>
+                    <Typography variant="body1">
+                      +94 41 222 2681
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography variant="h6" gutterBottom sx={{ mb: 3 }}>
+                  Have questions?
                 </Typography>
                 <form onSubmit={handleSubmit}>
                   <TextField
                     fullWidth
+                    label="Your Name"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                  />
+                  <TextField
+                    fullWidth
+                    label="Email Address"
+                    variant="outlined"
+                    sx={{ mb: 3 }}
+                  />
+                  <TextField
+                    fullWidth
                     multiline
                     rows={4}
+                    label="Your Message"
                     variant="outlined"
-                    placeholder="Feel free to Ask..."
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 3 }}
                   />
-                  <Box display="flex" justifyContent="flex-end">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                    >
-                      Send
-                    </Button>
-                  </Box>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    fullWidth
+                  >
+                    Send Message
+                  </Button>
                 </form>
               </Grid>
             </Grid>
           </Paper>
-          {/* <Paper elevation={3} sx={{ p: 3, mb: 2, bgcolor: '#333', color: '#fff' }} id="contact-section">
-            <Typography variant="h6" gutterBottom align="center" color="inherit">
-              Contact Information
-            </Typography>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} md={6}>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Box display="flex" alignItems="center" mb={1}>
-                    <LocationOnIcon sx={{ fontSize: 30, color: '#fff' }} />
-                    <Box ml={1}>
-                      <Typography variant="body1" fontWeight="bold" color="inherit">
-                        Address
-                      </Typography>
-                      <Typography variant="body2" color="inherit">
-                        Department of Computer Science, University of Ruhuna
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Box display="flex" alignItems="center" mb={1}>
-                    <EmailIcon sx={{ fontSize: 30, color: '#fff' }} />
-                    <Box ml={1}>
-                      <Typography variant="body1" fontWeight="bold" color="inherit">
-                        Email
-                      </Typography>
-                      <Link href="mailto:support@studenthousing.com" color="inherit">
-                        <Typography variant="body2" color="inherit">
-                          support@studenthousing.com
-                        </Typography>
-                      </Link>
-                    </Box>
-                  </Box>
-                  <Box display="flex" alignItems="center">
-                    <PhoneIcon sx={{ fontSize: 30, color: '#fff' }} />
-                    <Box ml={1}>
-                      <Typography variant="body1" fontWeight="bold" color="inherit">
-                        Phone
-                      </Typography>
-                      <Typography variant="body2" color="inherit">
-                        (123) 456-7890
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Box display="flex" justifyContent="center" alignItems="center" height="100%">
-                  <img 
-                    src={img2} 
-                    alt="Contact illustration" 
-                    style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', maxHeight: '150px' }} 
-                  />
-                </Box>
-              </Grid>
-            </Grid>
-          </Paper> */}
-          
-        </Box>
-      </Box>
-        </ThemeProvider>
-  
-        </div>
-        <div><Footer/></div>
-        
+        </Container>
+      </ThemeProvider>
+      
+      <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default AboutPage
+export default AboutPage;
