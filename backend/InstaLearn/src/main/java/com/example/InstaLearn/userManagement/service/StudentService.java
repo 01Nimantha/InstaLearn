@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface StudentService {
     String saveStudentAndParent(StudentSaveRequestDTO studentSaveRequestDTO);
@@ -35,6 +36,8 @@ public interface StudentService {
     List<String> getAllStudentIds();
 
     List<Map<String, String>> getClassTypesByStudentId(String studentId);
+
+    Optional<Student> getStudentByParentId(String parentId);
 
 
     }

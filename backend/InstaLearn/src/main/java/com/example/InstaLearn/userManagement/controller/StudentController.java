@@ -108,5 +108,11 @@ public class StudentController {
     public ResponseEntity<List<Map<String, String>>> getClassTypesByStudentId(@PathVariable String studentId) {
         return ResponseEntity.ok(studentService.getClassTypesByStudentId(studentId));
     }
+    @GetMapping("/by-parent/{parentId}")
+    public ResponseEntity<Student> getStudentByParentId(@PathVariable String parentId) {
+        return studentService.getStudentByParentId(parentId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
 }

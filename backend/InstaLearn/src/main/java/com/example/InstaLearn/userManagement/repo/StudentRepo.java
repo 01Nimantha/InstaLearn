@@ -19,4 +19,6 @@ public interface StudentRepo extends JpaRepository<Student, String>{
 
     @Query("SELECT s FROM Student s JOIN s.classTypes c WHERE c.classTypeId = :classTypeId")
     List<Student> findStudentsByClassId(@Param("classTypeId") Long classTypeId);
+
+    Optional<Student> findByParent_ParentId(String parentId);
 }
