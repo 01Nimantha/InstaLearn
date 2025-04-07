@@ -1,4 +1,11 @@
 package com.example.InstaLearn.classFeesManagement.repo;
 
-public interface ClassFeesRepo {
+import com.example.InstaLearn.classFeesManagement.enity.ClassFees;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@EnableJpaRepositories
+public interface ClassFeesRepo extends JpaRepository<ClassFees, Long> {
 }
