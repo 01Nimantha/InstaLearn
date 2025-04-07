@@ -15,4 +15,6 @@ public interface ClassFeesService {
     String deleteClassFees(long classFeesId);
 
     List<ClassFees> getAllClassFees();
+
+    Double getAmountByClassName(String className);
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClassFeesServiceIMPL implements ClassFeesService {
@@ -23,10 +24,19 @@ public class ClassFeesServiceIMPL implements ClassFeesService {
 
     @Override
     public String saveClassFees(ClassFeesSaveRequestDTO classFeesSaveRequestDTO) {
+        // Check if a class fee with the same class name already exists
+        Optional<ClassFees> existingClassFees = classFeesRepo.findByClassName(classFeesSaveRequestDTO.getClassName());
+
+        if (existingClassFees.isPresent()) {
+            return "Class Fees for class '" + classFeesSaveRequestDTO.getClassName() + "' already exists";
+        }
+
+        // Save new class fees if not exists
         ClassFees classFees = modelMapper.map(classFeesSaveRequestDTO, ClassFees.class);
         classFeesRepo.save(classFees);
         return "Class Fees saved successfully";
     }
+
 
     @Override
     public String updateClassFees(long classFeesId, ClassFeesUpdateRequestDTO classFeesUpdateRequestDTO) {
@@ -55,5 +65,15 @@ public class ClassFeesServiceIMPL implements ClassFeesService {
     @Override
     public List<ClassFees> getAllClassFees() {
         return classFeesRepo.findAll();
+    }
+
+    @Override
+    public Double getAmountByClassName(String className) {
+        ClassFees classFees = classFeesRepo.findAmountByClassName(className);
+        if (classFees != null) {
+            return classFees.getAmount();
+        } else {
+            throw new RuntimeException("Class not found with name: " + className);
+        }
     }
 }

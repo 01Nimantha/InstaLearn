@@ -13,6 +13,4 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface ClassFeesRepo extends JpaRepository<ClassFees, Long> {
     Optional<ClassFees> findByClassName(String className);
-
-    ClassFees findAmountByClassName(String className);
 }

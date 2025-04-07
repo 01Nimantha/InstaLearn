@@ -52,4 +52,9 @@ public class ClassFeesController {
         return new ResponseEntity<>(classFeesService.getAllClassFees(), HttpStatus.OK);
     }
 
+    @GetMapping("/amount")
+    public double getAmountByClassName(@RequestParam String className) {
+        return classFeesService.getAmountByClassName(className);
+    }
+
 }
