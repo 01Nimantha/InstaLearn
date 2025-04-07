@@ -21,4 +21,6 @@ public interface AdminService {
     Page<Admin> getAllAdmins(Pageable pageable);
 
     Admin getAdminById(String adminId);
+
+    Page<Admin> searchAdmins(String searchTerm, Pageable pageable);
 }

@@ -35,9 +35,10 @@ import AOfficerDashboard from './pages/attendanceOfficer/AOfficerDashboard.jsx'
 import QR_Scan from './pages/attendanceOfficer/QR_Scan.jsx'
 import App2 from './App2'
 import EditAOfficer from './pages/attendanceOfficer/EditAOfficer.jsx';
-
 import SchedulePage from './pages/Dashboards/Teacher/SchedulePage.jsx'
-import { Settings } from 'lucide-react'
+// import Class from './pages/Dashboards/Teacher/Class.jsx'
+import ClassTypeView from './pages/Dashboards/Teacher/ClassTypeView.jsx';
+import ClassFeesView from './pages/admin/ClassFeesView.jsx';
 
 const router = createBrowserRouter([
   {
@@ -58,19 +59,20 @@ const router = createBrowserRouter([
   { path: "/contact", element: <ContactPage/> },
   { path: "/login", element: <LoginForm /> },
 
+
   {path: "/admin-dashboard", element: <AdminDashboard />},
   { path: "/admin-dashboard/teachers-view", element: <TeachersView /> },
   { path: "/admin-dashboard/students-view", element: <StudentsView /> },
   { path: "/admin-dashboard/parents-view", element: <ParentsView /> },
   { path: "/admin-dashboard/admins-view", element: <AdminsView /> },
   { path: "/admin-dashboard/aOfficers-view", element: <AttendanceOfficerView /> },
-
+  { path: "/admin-dashboard/class-fees", element: <ClassFeesView /> },
 
   {path: "/aOfficer-dashboard/:id", element: <AOfficerDashboard />},
   {path: "/aOfficer-dashboard/edit-profile/:id", element: <EditAOfficer />},
   {path:'/qr-scanner',element:<QR_Scan/>},
 
-  { path: "/teacher-dashboard", element: <App3/> ,
+  { path: "/teacher-dashboard/:id", element: <App3/> ,
     children: [
       { index: true, element: <TeacherDashboard/> },
       {path:"students",element:<Students/>},
@@ -79,9 +81,14 @@ const router = createBrowserRouter([
       {path:"payment",element:<Payments/>},
       {path:"schedule",element:<SchedulePage/>},
       {path:"attendence",element:<Attendance/>},
-      {path:"settings",element:<TeacherSettings/>}
+      {path:"settings",element:<TeacherSettings/>},
+      // {path:"class",element:<Class/>},
+      {path:"class1",element:<ClassTypeView/>}
+
+
     ]
   },
+  
   
 ]);
 

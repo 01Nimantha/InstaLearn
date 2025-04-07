@@ -1,11 +1,13 @@
 package com.example.InstaLearn.progressManagement.controller;
 
+import com.example.InstaLearn.progressManagement.dto.MarksDTO;
 import com.example.InstaLearn.progressManagement.dto.MonthlyAverageDTO;
 import com.example.InstaLearn.progressManagement.entity.Marks;
 import com.example.InstaLearn.progressManagement.repo.MarksRepo;
 import com.example.InstaLearn.progressManagement.service.ExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -40,7 +42,7 @@ public class ExcelController {
      */
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        if (file.isEmpty()) {
+        if (file == null || file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No file uploaded");
         }
         try {
@@ -89,7 +91,6 @@ public class ExcelController {
     }
 
 
-
     /**
      * Retrieves the average marks of all students for a specific month.
      */
@@ -120,6 +121,9 @@ public class ExcelController {
 
         return ResponseEntity.ok(monthlyAverages);
     }
+
+
+
 
 
 

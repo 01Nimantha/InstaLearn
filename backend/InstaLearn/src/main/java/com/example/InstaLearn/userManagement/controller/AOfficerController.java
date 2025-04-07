@@ -62,12 +62,20 @@ public class AOfficerController {
     @GetMapping("/get-all-aOfficers")
     public ResponseEntity<Page<AttendanceOfficer>> getAllAttandanceOfficers(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String searchTerm
     ) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("attendanceOfficerId").descending());
 
-        Page<AttendanceOfficer> attendanceOfficers = aOfficerService.getAllAttandanceOfficers(pageable);
+        Page<AttendanceOfficer> attendanceOfficers;
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            // Fetch filtered results based on searchTerm
+            attendanceOfficers = aOfficerService.searchAttendanceOfficers(searchTerm, pageable);
+        } else {
+            // Fetch all results if no search term is provided
+            attendanceOfficers = aOfficerService.getAllAttandanceOfficers(pageable);
+        }
 
         return new ResponseEntity<>(attendanceOfficers, HttpStatus.OK);
     }

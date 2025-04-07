@@ -63,6 +63,9 @@ const LoginForm = () => {
       alert("Login successful!");
       const decoded = jwtDecode(token);
       console.log("Decoded Token:", decoded);
+
+      localStorage.setItem("username", username); // Store username in localStorage
+      
       const userRole = decoded.role;
       console.log("User role:", userRole);
 
@@ -72,7 +75,7 @@ const LoginForm = () => {
           navigate("/admin-dashboard");
           break;
         case "TEACHER":
-          navigate("/teacher-dashboard");
+          navigate(`/teacher-dashboard/${username}`);
           break;
         case "STUDENT":
           navigate("/student-dashboard");
