@@ -38,7 +38,7 @@ const ParentOnlineQuizPage = () => {
       .get(`http://localhost:8085/QuestionPaper/GetfullPaper/${id}/${qpid}`)
       .then((response) => {
         dispatch(quistionAction.addQuistion(response.data));
-        navigate(`/student-dashboard/${id}/online-qpaper`);
+        navigate(`/parent-dashboard/${id}/online-qpaper`);
       })
       .catch((error) => {
         setError(error.message);
