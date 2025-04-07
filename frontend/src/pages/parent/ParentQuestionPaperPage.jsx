@@ -38,7 +38,7 @@ const ParentQuestionPaperPage = () => {
   return (
     <div>
       <div>
-        <PaperHearderCard examDate="2025-02-26" examDuration="1 Hours" />
+        <PaperHearderCard examDate="2025-02-26" examDuration="1 Hours" BgColor={"#5D13A6"}/>
       </div>
       <div>
         {quistions.map((item, index) => (
@@ -63,7 +63,7 @@ const ParentQuestionPaperPage = () => {
               handleMakeDisable();
               navigate(`/student-dashboard/${id}`);
             }}
-            backgroundColor={"#78D9C6"}
+            backgroundColor={"#5D13A6"}
             fontColor={"#ffffff"}
             cornerRadius={false}
           />
