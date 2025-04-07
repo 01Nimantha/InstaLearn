@@ -7,8 +7,7 @@ import com.example.InstaLearn.studentAnswerManagement.StudentAnswerService;
 import com.example.InstaLearn.studentAnswerManagement.dto.StudentAnswerDto;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class StudentAnswerServiceImpl implements StudentAnswerService {
@@ -26,7 +25,11 @@ public class StudentAnswerServiceImpl implements StudentAnswerService {
 
     @Override
     public StudentAnswer findStudentAnswerById(int id) {
-        return studentAnswerRepository.findById(id).orElseThrow(() -> new RuntimeException("QuestionPaper not found with id: " + id));
+        try{
+            return studentAnswerRepository.findById(id).orElseThrow(() -> new RuntimeException("QuestionPaper not found with id: " + id));
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override
@@ -82,6 +85,28 @@ public class StudentAnswerServiceImpl implements StudentAnswerService {
         }
         return y;
     }
+
+    @Override
+    public List<StudentAnswer> getAllQuestionsByqpIdandstId(int qpId, String stId) {
+        List<StudentAnswer> answers  = studentAnswerRepository.findByQpIdAndStId(qpId,stId);
+        return (answers.isEmpty()) ? Collections.emptyList() : answers;
+    }
+
+    @Override
+    public List<Integer> getAllQPID(String stid) {
+        try {
+            List<Integer> data = studentAnswerRepository.findQPIDByStId(stid);
+
+            // Remove duplicates by converting the list to a Set and back to a list
+            Set<Integer> uniqueData = new HashSet<>(data);
+            return new ArrayList<>(uniqueData);
+        } catch (Exception e) {
+            System.out.println("Error occurred while fetching data: " + e.getMessage());
+            e.printStackTrace();  // Print the stack trace for more details
+            return Collections.emptyList();
+        }
+    }
+
 
 
 }

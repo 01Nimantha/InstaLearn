@@ -24,7 +24,7 @@ public class User {
     @Column(name="user_name")
     private String userName;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name="role" , nullable = false)
     private Role role;
 
@@ -37,7 +37,7 @@ public class User {
             this.userPassword = generatePassword();
         }
     }
-    private String generatePassword() {
+    public String generatePassword() {
 
             String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
             SecureRandom random = new SecureRandom();

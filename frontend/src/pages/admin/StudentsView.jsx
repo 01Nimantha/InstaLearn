@@ -6,7 +6,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AddDetailsFormModel from './AddDetailsFormModel';
 import EditModel from './EditModel';
-import SendEmailModel from './SendEmailModel';
 import ViewModel from './ViewModel';
 import SendEmailModelStudentParent from './SendEmailModelStudentParent';
 import DeleteModel from './common/DeleteModel';
@@ -33,7 +32,7 @@ const StudentSendEmailModel = ({ onClose,studentId }) => (
   <SendEmailModelStudentParent
     title="Send student Credentials"
     apiEndpoints={{
-      getEndpoint1: 'http://localhost:8085/api/v1/student/get-student-by',
+      getEndpoint1: 'http://localhost:8085/api/v1/student/get-only-student-by',
       getEndpoint2: 'http://localhost:8085/api/v1/student/get-parent-by-student',
       sendEndpoint: 'http://localhost:8085/api/v1/mail/send-user-credentials'
     }}
@@ -86,6 +85,8 @@ const StudentAddDetailsFormModel = ({ onClose }) => (
       { label: 'Parent Contact no',type: 'text',name: 'studentParentContactno',placeholder: 'Parent Contact no',required: true}
           ]}
     includeSwitch={true}
+    includeDropDown={true}
+    includeCheckbox={true}
     onClose={onClose}
     />
 )
@@ -96,24 +97,39 @@ const StudentsView = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [students, setStudents] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [pageSize] = useState(5); // Match backend default size
 
   useEffect(()=>{
     loadStudents();
-},[]);
+},[currentPage]);
 
 // 
 const loadStudents = async()=>{
+
+  try {
     const result = await axios.get(
-        'http://localhost:8085/api/v1/student/get-all-students',{
-            validateStatus:()=>{
-                return true;
-            }
-        }
+      `http://localhost:8085/api/v1/student/get-all-students?page=${currentPage}&size=${pageSize}`,
+      {
+        validateStatus: () => true
+      }
     );
-    if(result.status == 302){
-        setStudents(result.data);
-    }    
+    
+    if (result.status === 200) {
+      setStudents(result.data.content); // Paginated content
+      setTotalPages(result.data.totalPages); // Total pages from response
+    }
+  } catch (error) {
+    console.error('Error loading students:', error);
+  }
+       
 }
+const handlePageChange = (newPage) => {
+  if (newPage >= 0 && newPage < totalPages) {
+    setCurrentPage(newPage);
+  }
+};
 const StudentDeleteModel = ({ onClose,studentId }) => (
   <DeleteModel
     title="Delete Student with Parent"
@@ -213,6 +229,26 @@ const saveStudentAndParent = async(formData)=>{
                 
               </tbody>
             </table>
+            {/* Pagination Controls */}
+          <div className="flex justify-center items-center mt-4 gap-4">
+            <button
+              className="btn btn-secondary"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 0}
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage + 1} of {totalPages}
+            </span>
+            <button
+              className="btn btn-secondary"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages - 1}
+            >
+              Next
+            </button>
+          </div>
           </section>
           {activeModal == 'add' && (
           <StudentAddDetailsFormModel

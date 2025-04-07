@@ -17,4 +17,8 @@ public interface StudentAnswerService {
     boolean deleteStudentAnswerById(int id);
 
     List<Integer> getAllQuestionIDByqpIdandstId(int qp_id, String st_id);
+
+    List<StudentAnswer> getAllQuestionsByqpIdandstId(int qpId, String stId);
+
+    List<Integer> getAllQPID(String stid);
 }

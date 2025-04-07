@@ -51,7 +51,7 @@ public class QuestionController {
         return delete;
     }
 
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<List<Question>> getRandomQuestions(@PathVariable int id) {
         List<Question> questions = questionService.getRandomQuestions(id);
         if (!questions.isEmpty()) {

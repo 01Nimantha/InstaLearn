@@ -23,7 +23,7 @@ public class Marks {
     private double marks;
 
     @Column(name="month")
-    private LocalDate month;
+    private String month;
 
     @Column(name="student_id")
     private String studentId;

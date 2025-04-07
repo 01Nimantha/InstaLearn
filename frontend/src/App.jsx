@@ -26,6 +26,7 @@ import QuestionPaperPage from './pages/student/QuestionPaperPage.jsx';
 import mystore from "./store/index.js";
 import App2 from './App2'
 import AOfficerDashboard from "./pages/attendanceOfficer/AOfficerDashboard.jsx";
+import SchedulePage from "./pages/Dashboards/Teacher/SchedulePage";
 
 
 
@@ -49,7 +50,8 @@ const App = () => {
           <Route exact path="/teacher-dashboard/students" element={<Students />}/>
           <Route exact path="/teacher-dashboard/quiz" element={<QuizForm />} />
           <Route exact path="/teacher-dashboard/progress" element={<Progress />} />  
-          <Route exact path="/teacher-dashboard/payment" element={<Payments />} /> 
+          <Route exact path="/teacher-dashboard/payment" element={<Payments />} />
+          <Route exact path="/teacher-dashboard/schedule" element={<SchedulePage />} />  
           <Route path="/aOfficer-dashboard/*" element={<AOfficerDashboard/>} />
         </Routes>
       </BrowserRouter>

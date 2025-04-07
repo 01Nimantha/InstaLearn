@@ -15,6 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 const TeacherDashboard = () => {
   const navigate = useNavigate();
   const[showModal,setShowModal]=useState(false);
+  const [chartData, setChartData] = useState([]);
+
 
   const [stats, setStats] = useState({
     totalStudents: 0,
@@ -30,7 +32,7 @@ const TeacherDashboard = () => {
       // Simulate an API response
       const data = {
         totalStudents: 120,
-        averageScore: 85,
+        averageScore: 50,
         attendanceRate: 92,
         quizAttemptRate: 78,
       };
@@ -40,52 +42,102 @@ const TeacherDashboard = () => {
     fetchStats();
   }, []);
 
-  // const [data, setData] = useState([]);
-
-  // useEffect(() => {
-  //   // Replace this with your actual API call
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:8085/api/v1/excel/get-by-id/${studentId}"); // Replace with actual API
-  //       const result = await response.json();
-  //       setData(result);
-  //     } catch (error) {
-  //       console.error("Error fetching performance data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        const date = new Date().toISOString().split('T')[0]; // Gets today's date
+        
         // Fetch total students
-        const response = await fetch("http://localhost:8085/api/v1/student/total-students");
+        const response = await fetch(`http://localhost:8085/api/v1/attendance/count?date=${date}`);
+        if (!response.ok) throw new Error(`Failed to fetch total students. Status: ${response.status}`);
         const totalStudents = await response.json();
+
+        // Fetch average marks
+        // const currentMonth = new Date().toLocaleString('en-US', { month: 'long' }); // Ensures correct locale
+        // const marksResponse = await fetch(`http://localhost:8085/api/v1/excel/average-marks/all?month=${currentMonth}`);
+        // if (!marksResponse.ok) throw new Error(`Failed to fetch average marks. Status: ${marksResponse.status}`);
+        
+        // const marksData = await marksResponse.json();
+        // const averageScore = marksData?.average || 0; // Ensure fallback to 0 if data is missing
+        
 
         setStats((prevStats) => ({
           ...prevStats,
           totalStudents,
+          // averageScore,
         }));
       } catch (error) {
-        console.error("Error fetching student data:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchStats();
   }, []);
 
+  useEffect(() => {
+    const fetchStats = async () => {
+      
+      try {
+        const currentMonth = new Date().toLocaleString('en-US', { month: 'long' }); 
+        // Fetch average marks
+      
+        const marksResponse = await fetch(`http://localhost:8085/api/v1/excel/average-marks/all?month=${currentMonth}`);
+        if (!marksResponse.ok) throw new Error(`Failed to fetch average marks. Status: ${marksResponse.status}`);
+        
+        const marksData = await marksResponse.json();
+        console.log("Marks Data Response:", marksData); // Debugging
+        const averageScore = marksData?.average || 0;
+         // Ensure fallback to 0 if data is missing
+    
+        setStats((prevStats) => ({
+          ...prevStats,
+          averageScore, 
+        }));
+        
+      } catch (error) {
+        console.error("Error fetching average score:", error);
+      }
+    };
+    fetchStats();
+  }, []);
 
-  const sampleData = [
-    { time: "January", performance: 25 },
-    { time: "February", performance: 50 },
-    { time: "March", performance: 40 },
-    { time: "April", performance: 95 }, 
-    { time: "May", performance: 60 },
-    { time: "June", performance: 55 },
-    { time: "July", performance: 20 },
-    { time: "August", performance: 80 }
-  ];
+  useEffect(() => {
+    const fetchChartData = async () => {
+      try {
+        const response = await fetch("http://localhost:8085/api/v1/excel/monthly-average-marks");
+        if (!response.ok) throw new Error(`Failed to fetch chart data. Status: ${response.status}`);
+  
+        const data = await response.json();
+        console.log("API Response:", data); // Debugging
+  
+        // Ensure backend response matches expected format
+        const formattedData = data.map(item => ({
+          time: item.month,          // Assuming your backend returns { month: "January", averageMarks: 75 }
+          performance: item.averageMarks || 0, 
+        }));
+  
+        setChartData(formattedData);
+        
+      } catch (error) {
+        console.error("Error fetching chart data:", error);
+      }
+    };
+  
+    fetchChartData();
+  }, []);
+  
+
+
+  // const sampleData = [
+  //   { time: "January", performance: 25 },
+  //   { time: "February", performance: 50 },
+  //   { time: "March", performance: 40 },
+  //   { time: "April", performance: 95 }, 
+  //   { time: "May", performance: 60 },
+  //   { time: "June", performance: 55 },
+  //   { time: "July", performance: 20 },
+  //   { time: "August", performance: 80 }
+  // ];
 
 
   return (
@@ -129,6 +181,7 @@ const TeacherDashboard = () => {
               value={`${stats.averageScore}%`}
               description="Average score across all quizzes"
             />
+
             <StatCard
               title="Attendance Rate"
               value={`${stats.attendanceRate}%`}
@@ -147,14 +200,14 @@ const TeacherDashboard = () => {
           <div className="w-full h-[400px] bg-[#f8f9fa] p-5 rounded-[10px]">
           <h3 className='mb-10'>Performance Overview</h3>
           <ResponsiveContainer width="100%" height={350}>
-            <LineChart data={sampleData}>
-            <XAxis dataKey="time" label={{ value: "Month", position: "insideBottom", offset: -5 }} />
-            <YAxis label={{ value: "Average Marks", angle: -90, position: "insideLeft",fontColor:"Black"}} />
-              <Tooltip />
-              <CartesianGrid strokeDasharray="3 3" />
-              <Line type="monotone" dataKey="performance" stroke="#007bff" dot={{ stroke: "#007bff", strokeWidth: 2 }} />
-            </LineChart>
-          </ResponsiveContainer>
+  <LineChart data={chartData}>
+    <XAxis dataKey="time" label={{ value: "Month", position: "insideBottom", offset: -5 }} />
+    <YAxis label={{ value: "Average Marks", angle: -90, position: "insideLeft" }} />
+    <Tooltip />
+    <CartesianGrid strokeDasharray="3 3" />
+    <Line type="monotone" dataKey="performance" stroke="#007bff" dot={{ stroke: "#007bff", strokeWidth: 2 }} />
+  </LineChart>
+</ResponsiveContainer>
           </div>
     </div>
     </div>

@@ -18,6 +18,5 @@ public class QuestionPaper {
     private int id;
     private String date;
     private String duration;
-    private int mark;
     private String chapter;
 }
