@@ -26,7 +26,7 @@ const DeleteModel = ({
         <div className='fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center' id="wrapper" onClick={handleClose}>
         <div className='w-1/3 bg-white  rounded-2xl'>
         
-           <header className='flex justify-between items-center p-3 bg-gray-950  rounded-t-2xl border'>
+           <header className='flex justify-between items-center p-3 bg-indigo-800  rounded-t-2xl border'>
                 <span className='text-2xl text-white'>{title}</span>
             </header>
                 <div className='p-2'>
@@ -49,7 +49,7 @@ const DeleteModel = ({
                         <button
                             type='button'
                             onClick={onClose}
-                            className='btn btn-outline-warning btn-lg'
+                            className='btn btn-secondary btn-lg'
                             >
                             Cancel
                         </button>

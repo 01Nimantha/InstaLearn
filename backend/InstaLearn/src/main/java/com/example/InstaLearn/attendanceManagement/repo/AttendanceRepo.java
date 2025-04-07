@@ -3,7 +3,9 @@ package com.example.InstaLearn.attendanceManagement.repo;
 import com.example.InstaLearn.attendanceManagement.entity.Attendance;
 import com.example.InstaLearn.classTypeManagement.entity.ClassType;
 import com.example.InstaLearn.userManagement.entity.Student;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -30,4 +32,9 @@ public interface AttendanceRepo extends JpaRepository<Attendance, Integer> {
     
     @Query("SELECT a FROM Attendance a WHERE a.student.studentId = :studentId AND a.createdAt = :date AND HOUR(a.timeRecorded) = HOUR(:time)")
     List<Attendance> findByStudentAndDateAndHour(@Param("studentId") String studentId, @Param("date") LocalDate date, @Param("time") LocalTime time);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Attendance a WHERE YEAR(a.createdAt) != YEAR(CURRENT_DATE) OR MONTH(a.createdAt) != MONTH(CURRENT_DATE)")
+    void deleteNonCurrentMonthRecords();
 }

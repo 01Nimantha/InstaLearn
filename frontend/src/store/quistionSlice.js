@@ -183,7 +183,7 @@ const quistionSlice = createSlice({
       "mark": false,
       "studentAnswer": ""
     }
-]
+],marks:0,markscount:0,questioncount:0
 
   },
   reducers:{
@@ -199,7 +199,21 @@ const quistionSlice = createSlice({
       state.quistionArr.forEach((item) => {
         item.disable = true;
       });
+    },
+    calculateFullQuestionPaperMarks: (state) => {
+      state.markscount = 0;
+      state.questioncount = 0;
+    
+      state.quistionArr.forEach((item) => {
+        if (item.mark) {
+          state.markscount += 1;
+        }
+        state.questioncount += 1;
+      });
+      state.marks = (state.markscount / state.questioncount) * 100;
     }
+    
+    
   }
 });
 

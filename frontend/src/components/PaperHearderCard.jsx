@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import Logo from "../assets/Logo.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { quistionAction } from "../store/quistionSlice";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-const PaperHeaderCard = ({ examDate, examDuration }) => {
+const PaperHeaderCard = ({ examDate, examDuration ,BgColor}) => {
+  const {id} = useParams();
   const dispatch = useDispatch();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [hasLogged, setHasLogged] = useState(false);
+
+  const quistions = useSelector((store) => store.quistionreducer.quistionArr);
+  const [mark, setMark] = useState(1);
 
   useEffect(() => {
 
@@ -18,8 +24,9 @@ const PaperHeaderCard = ({ examDate, examDuration }) => {
       if (!hasLogged) {
         dispatch(quistionAction.makeDisable());
         setHasLogged(true);
+        setMark(2);
       }
-    }, 1000*60); // 1 hour = 60 minutes * 60 seconds * 1000 ms
+    }, 1000*60*60); // 1 hour = 60 minutes * 60 seconds * 1000 ms
 
     return () => {
       clearInterval(timeInterval);
@@ -42,8 +49,24 @@ const PaperHeaderCard = ({ examDate, examDuration }) => {
     return `${hours}:${formattedMinutes}:${formattedSeconds} ${ampm}`;
   };
 
+  useEffect(() => {
+    if (mark === 2) {
+      setTimeout(async () => {
+        try {
+          const response = await axios.put(
+            "http://localhost:8085/QuestionPaper/UpdatefullPaper/"+id,
+            quistions
+          );
+          console.log("Server Response:", response.data);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      },);
+    }
+  }, [mark, quistions]);
+
   return (
-    <div className="card" style={{ margin: "2%", padding: "2%", minWidth: "74vw", maxWidth: "74vw", backgroundColor: "#13A68A" }}>
+    <div className="card" style={{ margin: "2%", padding: "2%", minWidth: "74vw", maxWidth: "74vw", backgroundColor: BgColor }}>
       <div style={{ display: "flex" }}>
         <div style={{ marginLeft: "5%", marginTop: "3%", color: "#ffffff" }}>
           <div>For Information and Communications Technology</div>

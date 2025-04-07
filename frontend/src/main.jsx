@@ -38,10 +38,19 @@ import EditAOfficer from './pages/attendanceOfficer/EditAOfficer.jsx';
 import SchedulePage from './pages/Dashboards/Teacher/SchedulePage.jsx'
 // import Class from './pages/Dashboards/Teacher/Class.jsx'
 import ClassTypeView from './pages/Dashboards/Teacher/ClassTypeView.jsx';
+import ClassFeesView from './pages/admin/ClassFeesView.jsx';
+import App6 from './App6.jsx';
+import ParentUserHomePage from './pages/parent/ParentUserHomePage.jsx';
+import ParentUserPaymentPage from './pages/parent/ParentUserPaymentPage.jsx';
+import ParentUserTimetablePage from './pages/parent/ParentUserTimetablePage.jsx';
+import ParentUserPaymentHistoryPage from './pages/parent/ParentUserPaymentHistoryPage.jsx';
+import ParentUserSettingPage from './pages/parent/ParentUserSettingPage.jsx';
+import ParentOnlineQuizPage from './pages/parent/ParentOnlineQuizPage.jsx';
+import ParentQuestionPaperPage from './pages/parent/ParentQuestionPaperPage.jsx';
 
 const router = createBrowserRouter([
   {
-    path: "/student-dashboard",
+    path: "/student-dashboard/:id",
     element: <App2 />,
     children: [
       { index: true, element: <UserHomePage /> }, // Default child route
@@ -51,6 +60,19 @@ const router = createBrowserRouter([
       { path: "payment-history", element: <UserPaymentHistoryPage /> },
       { path: "online-quiz", element:  <OnlineQuizPage />},
       { path: "online-qpaper", element:  <QuestionPaperPage />},
+    ],
+  },
+  {
+    path: "/parent-dashboard/:id",
+    element: <App6/>,
+    children: [
+      { index: true, element: <ParentUserHomePage /> }, // Default child route
+      { path: "payment", element: <ParentUserPaymentPage /> },
+      { path: "timetable", element: <ParentUserTimetablePage /> },
+      { path: "settings", element: <ParentUserSettingPage /> },
+      { path: "payment-history", element: <ParentUserPaymentHistoryPage /> },
+      { path: "online-quiz", element:  <ParentOnlineQuizPage />},
+      { path: "online-qpaper", element:  <ParentQuestionPaperPage />},
     ],
   },
   { path: "/", element: <Homepage /> },
@@ -65,7 +87,7 @@ const router = createBrowserRouter([
   { path: "/admin-dashboard/parents-view", element: <ParentsView /> },
   { path: "/admin-dashboard/admins-view", element: <AdminsView /> },
   { path: "/admin-dashboard/aOfficers-view", element: <AttendanceOfficerView /> },
-
+  { path: "/admin-dashboard/class-fees", element: <ClassFeesView /> },
 
   {path: "/aOfficer-dashboard/:id", element: <AOfficerDashboard />},
   {path: "/aOfficer-dashboard/edit-profile/:id", element: <EditAOfficer />},

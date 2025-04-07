@@ -10,7 +10,7 @@ const Sidebar = ({Tab1,Tab1Icon,Tab1functions,Tab2,Tab2Icon,Tab2functions,Tab3,T
 
     <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
       <svg className="bi pe-none me-2" width="40" height="32"><use xlinkHref="#bootstrap"></use></svg>
-      <span className="fs-2" style={{color:"#ffffff",display:"flex"}}> <span style={{width:"100%",height:"100%"}}><img src={Logo}/></span><span style={{marginLeft:"2%",marginTop:"2%"}}>InstaLearn</span></span>
+      <span className="fs-2" style={{color:"#ffffff",display:"flex"}}> <span style={{width:"100%",height:"100%"}}><img src={Logo}/></span><span style={{marginLeft:"2%",marginTop:"2%"}}>Insta</span><span style={{marginLeft:"2%",marginTop:"2%"}} className="text-black ">Learn</span></span>
     </a>
     <hr/>
     <ul className="nav nav-pills flex-column mb-auto">
