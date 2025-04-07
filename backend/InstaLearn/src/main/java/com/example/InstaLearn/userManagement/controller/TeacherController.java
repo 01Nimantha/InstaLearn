@@ -1,5 +1,6 @@
 package com.example.InstaLearn.userManagement.controller;
 
+import com.example.InstaLearn.userManagement.dto.AOfficerUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.dto.AdminUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.dto.TeacherSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.TeacherUpdateRequestDTO;
@@ -44,20 +45,13 @@ public class TeacherController {
 //        );
 //    }
 @PutMapping("/update/{id}")
-public ResponseEntity<StandardResponse> updateTeacher(
-        @PathVariable("id") String teacherId,
-        @RequestParam("teacherName") String teacherName,
-        @RequestParam("teacherEmail") String teacherEmail,
-        @RequestParam("teacherContactno") String teacherContactno,
-        @RequestParam("teacherAddress") String teacherAddress,
-        @RequestParam(value = "teacherPhoto", required = false) MultipartFile teacherPhoto) throws IOException {
-
-    TeacherUpdateRequestDTO teacherUpdateRequestDTO = new TeacherUpdateRequestDTO(
-            teacherName, teacherEmail, teacherContactno, teacherAddress, teacherPhoto
-    );
+public ResponseEntity<StandardResponse> updateTeacher(@PathVariable(value = "id") String teacherId, @RequestBody TeacherUpdateRequestDTO teacherUpdateRequestDTO){
 
     String message = teacherService.updateTeacher(teacherId, teacherUpdateRequestDTO);
-    return new ResponseEntity<>(new StandardResponse(200, "success", message), HttpStatus.OK);
+    return new ResponseEntity<StandardResponse>(
+            new StandardResponse(200, "success", message),
+            HttpStatus.OK
+    );
 }
 
 

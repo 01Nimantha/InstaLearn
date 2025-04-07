@@ -8,7 +8,7 @@ import TeacherQuiz from "../../../assets/TeacherQuiz.svg";
 import Progress from "../../../assets/Progress.svg";
 import Modal from '../../../components/Modal';
 import { useNavigate, useParams } from "react-router-dom";
-import Header from './Header';
+import Header from '../../attendanceOfficer/Header';
 
 const TeacherDashboard = () => {
   const { id } = useParams();
@@ -17,10 +17,10 @@ const TeacherDashboard = () => {
   const [chartData, setChartData] = useState([]);
   const [teacher, setTeacher] = useState(null);
   const [stats, setStats] = useState({
-    totalStudents: 0,
-    averageScore: 0,
-    attendanceRate: 0,
-    quizAttemptRate: 0,
+    totalStudents: 70,
+    averageScore: 71.5,
+    attendanceRate: 70,
+    quizAttemptRate: 65,
   });
 
   // Fetch teacher data with a refresh mechanism
@@ -64,42 +64,60 @@ const TeacherDashboard = () => {
   }, []);
 
   // Fetch average score
-  useEffect(() => {
-    const fetchAverageScore = async () => {
-      try {
-        const currentMonth = new Date().toLocaleString('en-US', { month: 'long' });
-        const marksResponse = await fetch(`http://localhost:8085/api/v1/excel/average-marks/all?month=${currentMonth}`);
-        if (!marksResponse.ok) throw new Error(`Failed to fetch average marks. Status: ${marksResponse.status}`);
-        const marksData = await marksResponse.json();
-        const averageScore = marksData?.average || 0;
+  // useEffect(() => {
+  //   const fetchAverageScore = async () => {
+  //     try {
+  //       const currentMonth = new Date().toLocaleString('en-US', { month: 'long' });
+  //       const marksResponse = await fetch(`http://localhost:8085/api/v1/excel/average-marks/all?month=${currentMonth}`);
+  //       if (!marksResponse.ok) throw new Error(`Failed to fetch average marks. Status: ${marksResponse.status}`);
+  //       const marksData = await marksResponse.json();
+  //       const averageScore = marksData?.average || 0;
 
-        setStats(prev => ({ ...prev, averageScore }));
-      } catch (error) {
-        console.error("Error fetching average score:", error);
-      }
-    };
-    fetchAverageScore();
-  }, []);
+  //       setStats(prev => ({ ...prev, averageScore }));
+  //     } catch (error) {
+  //       console.error("Error fetching average score:", error);
+  //     }
+  //   };
+  //   fetchAverageScore();
+  // }, []);
 
   // Fetch chart data
+  // useEffect(() => {
+  //   const fetchChartData = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:8085/api/v1/excel/monthly-average-marks");
+  //       if (!response.ok) throw new Error(`Failed to fetch chart data. Status: ${response.status}`);
+  //       const data = await response.json();
+        
+  //       const formattedData = data.map(item => ({
+  //         time: item.month,
+  //         performance: item.averageMarks || 0,
+  //       }));
+        
+  //       setChartData(formattedData);
+  //     } catch (error) {
+  //       console.error("Error fetching chart data:", error);
+  //     }
+  //   };
+  //   fetchChartData();
+  // }, []);
   useEffect(() => {
-    const fetchChartData = async () => {
-      try {
-        const response = await fetch("http://localhost:8085/api/v1/excel/monthly-average-marks");
-        if (!response.ok) throw new Error(`Failed to fetch chart data. Status: ${response.status}`);
-        const data = await response.json();
-        
-        const formattedData = data.map(item => ({
-          time: item.month,
-          performance: item.averageMarks || 0,
-        }));
-        
-        setChartData(formattedData);
-      } catch (error) {
-        console.error("Error fetching chart data:", error);
-      }
-    };
-    fetchChartData();
+    const rawChartData = [
+      { month: "January", averageMarks: 45 },
+      { month: "February", averageMarks: 65 },
+      { month: "March", averageMarks: 75 },
+      { month: "April", averageMarks: 40 },
+      { month: "May", averageMarks: 68 },
+      { month: "June", averageMarks: 74 },
+      { month: "July", averageMarks: 70 },
+    ];
+
+    const formattedData = rawChartData.map(item => ({
+      time: item.month,
+      performance: item.averageMarks || 0,
+    }));
+
+    setChartData(formattedData);
   }, []);
 
   if (!teacher) return <p>Loading...</p>;
@@ -119,16 +137,26 @@ const TeacherDashboard = () => {
   }
 
   return (
+    
     <div className='flex flex-col w-full p-4'>
-      <Header
+      {/* <Header
         name={teacher.teacherName}
         officerId={teacher.teacherId}
         image={imageUrl}
         showButton={true}
         action={() => setShowModal(true)}
         className={"bg-[#287f93] text-white"}
+      /> */}
+        <Header 
+                  name={teacher.teacherName}
+                  officerId={teacher.teacherId}
+                  showButton={true}
+                  showButton2={true}
+                  image={teacher.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${teacher.image.imageId}` : null}
+                  className={"bg-[#287f93] text-white"}
+                  action2={() => setShowModal(true)}
+                  action={() => navigate("class1")}
       />
-
       <Modal 
         isVisible={showModal} 
         onClose={() => setShowModal(false)}
