@@ -3,8 +3,10 @@ import Logo from "../assets/Logo.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { quistionAction } from "../store/quistionSlice";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const PaperHeaderCard = ({ examDate, examDuration }) => {
+  const {id} = useParams();
   const dispatch = useDispatch();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [hasLogged, setHasLogged] = useState(false);
@@ -52,7 +54,7 @@ const PaperHeaderCard = ({ examDate, examDuration }) => {
       setTimeout(async () => {
         try {
           const response = await axios.put(
-            "http://localhost:8085/QuestionPaper/UpdatefullPaper/ST_2025_10001",
+            "http://localhost:8085/QuestionPaper/UpdatefullPaper/"+id,
             quistions
           );
           console.log("Server Response:", response.data);

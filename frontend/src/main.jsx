@@ -42,7 +42,7 @@ import ClassFeesView from './pages/admin/ClassFeesView.jsx';
 
 const router = createBrowserRouter([
   {
-    path: "/student-dashboard",
+    path: "/student-dashboard/:id",
     element: <App2 />,
     children: [
       { index: true, element: <UserHomePage /> }, // Default child route
