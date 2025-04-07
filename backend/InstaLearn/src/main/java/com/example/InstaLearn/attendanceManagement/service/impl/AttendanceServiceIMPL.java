@@ -10,9 +10,11 @@ import com.example.InstaLearn.userManagement.entity.Student;
 import com.example.InstaLearn.userManagement.repo.StudentRepo;
 import com.example.InstaLearn.attendanceManagement.exception.AttendanceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -41,12 +43,12 @@ public class AttendanceServiceIMPL implements AttendanceService {
         // Check for existing attendance on the same day and hour
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
-        
+
         List<Attendance> existingAttendance = attendanceRepo.findByStudentAndDateAndHour(
                 student.getStudentId(), today, now);
-        
+
         if (!existingAttendance.isEmpty()) {
-            throw new AttendanceException("Attendance for student " + student.getStudentId() + 
+            throw new AttendanceException("Attendance for student " + student.getStudentId() +
                     " has already been recorded for today at this hour.", 409);
         }
 
@@ -139,12 +141,12 @@ public class AttendanceServiceIMPL implements AttendanceService {
 
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
-        
+
         List<Attendance> existingAttendance = attendanceRepo.findByStudentAndDateAndHour(
                 student.getStudentId(), today, now);
-        
+
         if (!existingAttendance.isEmpty()) {
-            throw new AttendanceException("Attendance for student " + student.getStudentId() + 
+            throw new AttendanceException("Attendance for student " + student.getStudentId() +
                     " has already been recorded for today at this hour.", 409);
         }
 
@@ -192,5 +194,16 @@ public class AttendanceServiceIMPL implements AttendanceService {
     @Override
     public int getPresentCountByDate(LocalDate localDate) {
         return attendanceRepo.countByCreatedAtAndPresentState(localDate, true);
+    }
+
+    @Override
+    public void cleanUpOldAttendance() {
+        attendanceRepo.deleteNonCurrentMonthRecords();
+    }
+
+    @Scheduled(cron = "0 0 0 1 * *")  // Runs at midnight on the 1st of every month
+    public void monthlyAttendanceCleanup() {
+        cleanUpOldAttendance();
+        System.out.println("Monthly attendance cleanup completed at " + LocalDateTime.now());
     }
 }

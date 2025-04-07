@@ -46,7 +46,7 @@ const ViewModel = ({
       onClick={handleClose}
     >
       <div className='w-full max-w-md mx-4 sm:mx-0 sm:w-2/3 md:w-1/2 lg:w-1/3 bg-white rounded-2xl max-h-[90vh] flex flex-col'>
-        <header className='flex justify-between items-center p-3 bg-gray-950 rounded-t-2xl border shrink-0'>
+        <header className='flex justify-between items-center p-3 bg-indigo-800 rounded-t-2xl border shrink-0'>
           <span className='text-xl sm:text-2xl text-white'>{title}</span>
         </header>
 
@@ -69,7 +69,7 @@ const ViewModel = ({
           <button
             type="button"
             onClick={onClose}
-            className="btn btn-outline-warning w-full sm:w-auto px-6 py-2 text-sm sm:text-base"
+            className="btn btn-secondary w-full sm:w-auto px-6 py-2 text-sm sm:text-base"
           >
             Close
           </button>

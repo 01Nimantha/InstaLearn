@@ -8,6 +8,7 @@ import EditModel from './EditModel';
 import SendEmailModel from './SendEmailModel';
 import ViewModel from './ViewModel';
 import DeleteModel from './common/DeleteModel';
+import { Delete, Edit, View, Mail } from 'lucide-react';
 
 const TeacherEditModel = ({ onClose, teacherId }) => (
   <EditModel
@@ -139,8 +140,8 @@ const TeachersView = () => {
   };
 
   return (
-    <div className='min-h-screen bg-[#D9D9D9]'>
-      <header className="flex flex-col sm:flex-row items-center justify-between bg-black text-white h-auto sm:h-[150px] p-4 sm:p-0">
+    <div className='min-h-screen bg-slate-100'>
+      <header className="flex flex-col sm:flex-row items-center justify-between bg-indigo-800 text-white h-auto sm:h-[150px] p-4 sm:p-0">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold leading-8 text-center sm:text-left">Teacher</h1>
         </div>
@@ -159,7 +160,7 @@ const TeachersView = () => {
           <div className='w-full sm:w-auto'>
             <AddButton 
               btnname='Add Teacher' 
-              className='w-full sm:w-48 h-12 bg-gray-950 flex items-center justify-center' 
+              className='w-full sm:w-48 h-12 bg-indigo-500 flex items-center justify-center' 
               onClick={() => setActiveModal('add')}
             />
           </div>
@@ -167,7 +168,7 @@ const TeachersView = () => {
 
         <section className='overflow-x-auto'>
           <table className='shadow w-full min-w-[600px]'>
-            <thead className='bg-[#EBEBEB] h-12 sm:h-16'>
+            <thead className='bg-indigo-100 h-12 sm:h-16'>
               <tr className='text-center text-xs sm:text-base'>
                 <th className='p-2 align-middle'>Teacher_id</th>
                 <th className='p-2 align-middle'>Name</th>
@@ -186,49 +187,42 @@ const TeachersView = () => {
                   <td className='p-2 align-middle break-all'>{teacher.teacherEmail}</td>
                   <td className='p-1 align-middle'>
                     <button 
-                      className='btn btn-info w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
                       onClick={() => {
                         setSelectedTeacherId(teacher.teacherId);
                         setActiveModal('view');
                       }}
                     >
-                      View
+                      <View className="text-blue-500 hover:text-blue-600"/>
                     </button>
                   </td>
                   <td className='p-1 align-middle'>
                     <button 
-                      className='btn btn-warning w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
                       onClick={() => {
                         setSelectedTeacherId(teacher.teacherId);
                         setActiveModal('edit');
                       }}
                     >
-                      Update
+                      <Edit className="text-amber-500 hover:text-amber-600"/>
                     </button>
                   </td>
                   <td className='p-1 align-middle'>
                     <button 
-                      className={`btn w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2 ${
-                        sentEmails.has(teacher.teacherId) ? 'btn-success': 'btn-primary'
-                      }`}
                       onClick={() => {
                         setSelectedTeacherId(teacher.teacherId);
                         setActiveModal('email');
                       }}
                     >
-                       {sentEmails.has(teacher.teacherId) ? 'Sent' : 'Email'}
-                      
+                      <Mail className={sentEmails.has(teacher.teacherId) ? 'text-green-500' : 'text-indigo-500 hover:text-indigo-600'}/>
                     </button>
                   </td>
                   <td className='p-1 align-middle'>
                     <button 
-                      className='btn btn-danger w-full sm:w-24 shadow text-xs sm:text-sm py-1 sm:py-2' 
                       onClick={() => {
                         setSelectedTeacherId(teacher.teacherId);
                         setActiveModal('delete');
                       }}
                     >
-                      Delete
+                      <Delete className="text-red-500 hover:text-red-600"/>
                     </button>
                   </td>
                 </tr>
@@ -239,7 +233,7 @@ const TeachersView = () => {
 
         <div className="flex flex-col sm:flex-row justify-center items-center mt-4 gap-2 sm:gap-4">
           <button
-            className="btn btn-secondary w-full sm:w-auto px-4 py-2 text-xs sm:text-sm"
+            className="bg-indigo-300 rounded w-full sm:w-auto px-4 py-2 text-xs sm:text-sm"
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 0}
           >
@@ -249,7 +243,7 @@ const TeachersView = () => {
             Page {currentPage + 1} of {totalPages}
           </span>
           <button
-            className="btn btn-secondary w-full sm:w-auto px-4 py-2 text-xs sm:text-sm"
+            className="bg-indigo-300 rounded w-full sm:w-auto px-4 py-2 text-xs sm:text-sm"
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages - 1}
           >

@@ -94,7 +94,7 @@ const AOfficerDashboard = () => {
           { name: 'Home', href: '/aOfficer-dashboard/${id}', icon: Home },
           { name: 'Settings', href: '#', icon: Settings },
         ]}
-       
+        image={aOfficer.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${aOfficer.image.imageId}` : null}
         officer_name={aOfficer.attendanceOfficerName}
         AO_ID={aOfficer.attendanceOfficerId}
         editPath={`/aOfficer-dashboard/edit-profile/${id}`}
@@ -115,7 +115,7 @@ const AOfficerDashboard = () => {
           name={aOfficer.attendanceOfficerName}
           officerId={aOfficer.attendanceOfficerId}
           image={aOfficer.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${aOfficer.image.imageId}` : null}
-          className={"bg-green-600 text-white"}
+          className={"bg-green-500 text-white"}
           />
 
         {/* Content */}
