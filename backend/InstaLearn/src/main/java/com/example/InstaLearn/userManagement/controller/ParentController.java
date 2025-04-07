@@ -63,4 +63,10 @@ public class ParentController {
         return parentService.getParentById(parentId);
 
     }
+
+    @GetMapping("/get-student-by-parent/{id}")
+    public String getStudentByParentId(@PathVariable(value="id") String parentId) {
+        return parentService.getStudentByParentId(parentId);
+
+    }
 }

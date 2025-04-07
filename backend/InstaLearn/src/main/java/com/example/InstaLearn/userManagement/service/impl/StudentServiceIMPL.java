@@ -279,4 +279,10 @@ public class StudentServiceIMPL implements StudentService {
                 ))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<Student> getStudentByParentId(String parentId) {
+        return studentRepo.findByParent_ParentId(parentId);
+    }
+
 }

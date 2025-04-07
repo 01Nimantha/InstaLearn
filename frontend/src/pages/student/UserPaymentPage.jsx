@@ -136,7 +136,7 @@ const UserPaymentPage = () => {
   };
 
   const handleViewHistory = () => {
-    navigate("/student-dashboard/payment-history");
+    navigate("/student-dashboard/payment-history/payment-history");
   };
 
   return (

@@ -18,6 +18,7 @@ const ParentUserPaymentPage = () => {
     { class: "2026 A/L PAPER", price: "Rs. 1000" }
   ];
 
+  const [parentId, setParentId] = useState("");
   const [studentId, setStudentId] = useState("");
   const [studentName, setStudentName] = useState("");
   const [classTypes, setClassTypes] = useState([]);
@@ -28,15 +29,35 @@ const ParentUserPaymentPage = () => {
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
     if (storedUsername) {
-      setStudentId(storedUsername);
-      fetchStudentName(storedUsername);
-      fetchClassTypes(storedUsername);
+      setParentId(storedUsername);
+      fetchStudentId(storedUsername);
     }
   }, []);
 
-  const fetchStudentName = async (id) => {
+  useEffect(() => {
+    if (studentId) {
+      fetchStudentName(studentId);
+      fetchClassTypes(studentId);
+    }
+  }, [studentId]);
+
+  const fetchStudentId = async (parentId) => {
     try {
-      const response = await fetch(`http://localhost:8085/api/v1/student/get-student-by/${id}`);
+      const response = await fetch(`http://localhost:8085/api/v1/student/by-parent/${parentId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setStudentId(data.studentId);
+      } else {
+        console.error("Failed to fetch student ID");
+      }
+    } catch (error) {
+      console.error("Error fetching student ID:", error);
+    }
+  };
+
+  const fetchStudentName = async (studentId) => {
+    try {
+      const response = await fetch(`http://localhost:8085/api/v1/student/get-student-by/${studentId}`);
       if (response.ok) {
         const data = await response.json();
         setStudentName(data.studentName);
@@ -48,9 +69,9 @@ const ParentUserPaymentPage = () => {
     }
   };
 
-  const fetchClassTypes = async (id) => {
+  const fetchClassTypes = async (studentId) => {
     try {
-      const response = await fetch(`http://localhost:8085/api/v1/student/${id}/class-types`);
+      const response = await fetch(`http://localhost:8085/api/v1/student/${studentId}/class-types`);
       if (response.ok) {
         const data = await response.json();
         const formattedClassTypes = data.map((item) => `${item.classTypeName} ${item.classType}`);
@@ -136,28 +157,25 @@ const ParentUserPaymentPage = () => {
   };
 
   const handleViewHistory = () => {
-    navigate("/student-dashboard/payment-history");
+    navigate("/parent-dashboard/payment-history/payment-history");
   };
 
   return (
     <div className="w-full min-h-screen bg-gray-50 p-6">
       <div className="max-w-[1800px] mx-auto">
-        {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
-          <h1 className="text-4xl font-bold text-teal-700 mb-4 md:mb-0">Payment Portal</h1>
+          <h1 className="text-4xl font-bold text-purple-700 mb-4 md:mb-0">Payment Portal</h1>
           <button
             onClick={handleViewHistory}
-            className="bg-teal-600 text-white font-medium py-3 px-8 rounded-lg hover:bg-teal-700 transition-colors text-xl"
+            className="bg-purple-600 text-white font-medium py-3 px-8 rounded-lg hover:bg-purple-700 transition-colors text-xl"
           >
             View Payment History
           </button>
         </div>
 
-        {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 w-full">
-          {/* Left Side - Payment Form (2/3 width) */}
           <div className="bg-white p-8 rounded-xl shadow-lg lg:col-span-2">
-            <h2 className="text-3xl font-bold text-teal-600 mb-8">Payment Details</h2>
+            <h2 className="text-3xl font-bold text-purple-600 mb-8">Payment Details</h2>
 
             <div className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -224,30 +242,29 @@ const ParentUserPaymentPage = () => {
                   type="text"
                   value={amount ? `Rs. ${amount}` : ""}
                   readOnly
-                  className="p-3 border-2 rounded-lg border-gray-300 bg-gray-100 font-bold text-teal-700 text-xl"
+                  className="p-3 border-2 rounded-lg border-gray-300 bg-gray-100 font-bold text-purple-700 text-xl"
                 />
               </div>
 
               <button
                 onClick={handleCheckout}
-                className="w-full bg-teal-600 text-white py-4 text-xl font-semibold rounded-lg hover:bg-teal-700 transition-colors"
+                className="w-full bg-purple-600 text-white py-4 text-xl font-semibold rounded-lg hover:bg-purple-700 transition-colors"
               >
                 Pay Now
               </button>
             </div>
           </div>
 
-          {/* Right Side - Price List */}
           <div className="bg-white p-8 rounded-xl shadow-lg h-fit sticky top-6">
-            <h2 className="text-3xl font-bold text-teal-600 mb-8">Class Prices</h2>
+            <h2 className="text-3xl font-bold text-purple-600 mb-8">Class Prices</h2>
             <div className="space-y-6">
               {priceList.map((item, index) => (
                 <div
                   key={index}
-                  className="flex justify-between p-6 bg-gray-50 rounded-xl border-2 border-gray-200 hover:bg-teal-50 transition-colors"
+                  className="flex justify-between p-6 bg-gray-50 rounded-xl border-2 border-gray-200 hover:bg-purple-50 transition-colors"
                 >
                   <span className="font-semibold text-gray-800 text-xl">{item.class}</span>
-                  <span className="font-bold text-teal-700 text-xl">{item.price}</span>
+                  <span className="font-bold text-purple-700 text-xl">{item.price}</span>
                 </div>
               ))}
             </div>

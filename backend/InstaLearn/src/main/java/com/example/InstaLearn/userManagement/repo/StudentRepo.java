@@ -23,4 +23,6 @@ public interface StudentRepo extends JpaRepository<Student, String>{
     List<Student> findStudentsByClassId(@Param("classTypeId") Long classTypeId);
 
     Page<Student> findByStudentIdContainingOrStudentNameContaining(String searchTerm, String searchTerm1, Pageable pageable);
+
+    Optional<Student> findByParent_ParentId(String parentId);
 }
