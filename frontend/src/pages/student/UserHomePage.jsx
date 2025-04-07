@@ -66,8 +66,8 @@ const UserHomePage=()=>{
 
   return <div>
   <div style={{display: "flex"}}>
-    <ImgCard ImgCardName={student.Name} ImgCardImg={imageURL} ImgCardID={student.Id}/>
-    <EventCard />
+    <ImgCard ImgCardName={student.Name} ImgCardImg={imageURL} ImgCardID={student.Id} BgColor={"#13A68A"}/>
+    <EventCard BgColor={"#78D9C6"} BgHColor={"#13A68A"}/>
   </div>
   <div>
     <div style={{marginLeft:"2%"}}><h3>Activities</h3></div>
@@ -77,7 +77,7 @@ const UserHomePage=()=>{
     </div>
   </div>
   <div>
-    <OnlineQuizProgress data={marks}/>
+    <OnlineQuizProgress data={marks} BgColor={"#78D9C6"}/>
   </div>
 </div>;
 }
