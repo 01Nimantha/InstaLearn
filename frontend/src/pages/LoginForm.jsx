@@ -78,10 +78,12 @@ const LoginForm = () => {
           navigate(`/teacher-dashboard/${username}`);
           break;
         case "STUDENT":
-          navigate("/student-dashboard");
+          
+          navigate(`/student-dashboard/${username}`);
           break;
         case "PARENT":
-          navigate("/parent-dashboard");
+          
+          navigate(`/parent-dashboard/${username}`);
           break;
         case "AOFFICER":
           navigate(`/aOfficer-dashboard/${username}`);
