@@ -74,7 +74,7 @@ const EditModel = ({ title, apiEndpoints, fields, onClose, entityId }) => {
               )}
             </div>
           ))}
-          <div className="flex justify-end">
+          <div className="flex justify-between mt-4">
             <button
               type="button"
               onClick={onClose}

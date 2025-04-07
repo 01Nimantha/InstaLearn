@@ -15,6 +15,5 @@ public class TeacherUpdateRequestDTO {
     private String teacherEmail;
     private String teacherContactno;
     private String teacherAddress;
-    private MultipartFile teacherPhoto; // Add image field
 
 }

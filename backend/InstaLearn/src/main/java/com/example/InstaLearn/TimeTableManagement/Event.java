@@ -1,4 +1,4 @@
-package com.example.InstaLearn.questionPaperManagement;
+package com.example.InstaLearn.scheduleManagement2;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,17 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "Question Paper")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionPaper {
+@Entity
+@Table(name = "Events")
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String title;
     private String date;
-    private String duration;
-    private String chapter;
+    private String time;
 }
