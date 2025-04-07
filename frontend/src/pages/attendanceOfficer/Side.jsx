@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import logo from '../../assets/Logo.svg'
 import { Link, useLocation } from 'react-router-dom'
 
-const Side = ({isSidebarOpen,navigationItems,officer_name,AO_ID,editPath,changePath}) => {
+const Side = ({isSidebarOpen,navigationItems,officer_name,AO_ID,editPath,changePath,image}) => {
   const location = useLocation();
   const [isSettingsDropdownOpen, setIsSettingsDropdownOpen] = useState(false); 
 
@@ -73,7 +73,7 @@ const Side = ({isSidebarOpen,navigationItems,officer_name,AO_ID,editPath,changeP
       <div className="p-4 border-t border-green-600">
         <div className="flex items-center justify-between">
           <img
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150"
+            src={image}
             alt="Teacher"
             className="w-10 h-10 rounded-full border-2 border-white mb-3"
           />

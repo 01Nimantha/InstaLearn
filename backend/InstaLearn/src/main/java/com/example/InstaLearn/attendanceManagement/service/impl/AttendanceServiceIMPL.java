@@ -8,14 +8,17 @@ import com.example.InstaLearn.classTypeManagement.entity.ClassType;
 import com.example.InstaLearn.classTypeManagement.repo.ClassTypeRepo;
 import com.example.InstaLearn.userManagement.entity.Student;
 import com.example.InstaLearn.userManagement.repo.StudentRepo;
+import com.example.InstaLearn.attendanceManagement.exception.AttendanceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
-
 
 @Service
 public class AttendanceServiceIMPL implements AttendanceService {
@@ -31,24 +34,34 @@ public class AttendanceServiceIMPL implements AttendanceService {
 
     @Override
     public String saveAttendance(AttendanceDTO attendanceDTO) {
-
         Student student = studentRepo.findById(attendanceDTO.getStudentId())
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new AttendanceException("Student not found", 404));
+
+        ClassType classType = classTypeRepo.findById(attendanceDTO.getClassTypeId())
+                .orElseThrow(() -> new AttendanceException("Class type not found", 404));
+
+        // Check for existing attendance on the same day and hour
+        LocalDate today = LocalDate.now();
+        LocalTime now = LocalTime.now();
+
+        List<Attendance> existingAttendance = attendanceRepo.findByStudentAndDateAndHour(
+                student.getStudentId(), today, now);
+
+        if (!existingAttendance.isEmpty()) {
+            throw new AttendanceException("Attendance for student " + student.getStudentId() +
+                    " has already been recorded for today at this hour.", 409);
+        }
 
         Attendance attendance = new Attendance();
-
         attendance.setStudent(student);
         attendance.setCreatedAt(LocalDate.now());
         attendance.setTimeRecorded(LocalTime.now());
         attendance.setPresentState(attendanceDTO.isPresentState());
-        ClassType classType = classTypeRepo.findById(attendanceDTO.getClassTypeId())
-                .orElseThrow(() -> new RuntimeException("Class type not found"));
         attendance.setClassType(classType);
 
         attendanceRepo.save(attendance);
 
-        return "attendance has been saved";
-
+        return "Attendance has been saved successfully";
     }
 
     @Override
@@ -72,14 +85,13 @@ public class AttendanceServiceIMPL implements AttendanceService {
                 getAttendanceDTOList.add(getAttendanceDTO);
             }
             return getAttendanceDTOList;
-        }else {
-            throw new RuntimeException("No Student found");
+        } else {
+            throw new AttendanceException("No attendance records found for student", 404);
         }
     }
 
     @Override
     public List<StudentAttendanceDTO> getStudentsWithAttendance() {
-
         List<Attendance> attendanceList = attendanceRepo.findAllAttendance();
 
         Map<String, List<GetAttendanceDTO>> groupedByStudent = attendanceList.stream()
@@ -92,7 +104,6 @@ public class AttendanceServiceIMPL implements AttendanceService {
                         ), Collectors.toList())
                 ));
 
-        // Convert the grouped map into a list of StudentAttendanceDTO
         return groupedByStudent.entrySet().stream()
                 .map(entry -> new StudentAttendanceDTO(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
@@ -102,7 +113,6 @@ public class AttendanceServiceIMPL implements AttendanceService {
     public List<ClassedBasedAttendanceDTO> getAttendanceByClassId(long classId) {
         List<Attendance> attendanceList = attendanceRepo.findByClassType_ClassTypeId(classId);
 
-        // Grouping attendance records by studentId
         Map<String, List<AttendanceListDTO>> groupedByStudent = attendanceList.stream()
                 .collect(Collectors.groupingBy(
                         a -> a.getStudent().getStudentId(),
@@ -112,7 +122,6 @@ public class AttendanceServiceIMPL implements AttendanceService {
                         ), Collectors.toList())
                 ));
 
-        // Convert to List of ClassedBasedAttendanceDTO
         return groupedByStudent.entrySet().stream()
                 .map(entry -> new ClassedBasedAttendanceDTO(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
@@ -120,48 +129,53 @@ public class AttendanceServiceIMPL implements AttendanceService {
 
     @Override
     public String saveAttendanceByClassId(long classId, AttendanceSaveRequestDTO attendanceDTO) {
-
         Student student = studentRepo.findById(attendanceDTO.getStudentId())
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new AttendanceException("Student not found", 404));
+
         ClassType classType = classTypeRepo.findById(classId)
-                .orElseThrow(() -> new RuntimeException("Class type not found with ID: " + classId));
+                .orElseThrow(() -> new AttendanceException("Class type not found with ID: " + classId, 404));
+
         if (!student.getClassTypes().contains(classType)) {
-            throw new RuntimeException("Student " + student.getStudentId() + " is not enrolled in class ID: " + classId);
+            throw new AttendanceException("Student " + student.getStudentId() + " is not enrolled in class ID: " + classId, 400);
+        }
+
+        LocalDate today = LocalDate.now();
+        LocalTime now = LocalTime.now();
+
+        List<Attendance> existingAttendance = attendanceRepo.findByStudentAndDateAndHour(
+                student.getStudentId(), today, now);
+
+        if (!existingAttendance.isEmpty()) {
+            throw new AttendanceException("Attendance for student " + student.getStudentId() +
+                    " has already been recorded for today at this hour.", 409);
         }
 
         Attendance attendance = new Attendance();
-
         attendance.setStudent(student);
         attendance.setCreatedAt(LocalDate.now());
         attendance.setTimeRecorded(LocalTime.now());
         attendance.setPresentState(true);
-        attendance.setClassType(classTypeRepo.findById(classId).orElseThrow(() -> new RuntimeException("Class type not found")));
+        attendance.setClassType(classType);
 
         attendanceRepo.save(attendance);
 
-        return "attendance has been saved";
+        return "Attendance has been saved successfully";
     }
 
     @Override
     public String finalizeAttendanceByClassId(long classId) {
-        // Get the class type
         ClassType classType = classTypeRepo.findById(classId)
-                .orElseThrow(() -> new RuntimeException("Class type not found"));
+                .orElseThrow(() -> new AttendanceException("Class type not found", 404));
 
-        // Fetch all students enrolled in this class
         List<Student> enrolledStudents = studentRepo.findStudentsByClassId(classId);
-
-        // Get the current date for filtering attendance
         LocalDate today = LocalDate.now();
 
-        // Fetch all students already marked present for this class today
         List<Attendance> attendanceList = attendanceRepo.findByClassTypeAndCreatedAt(classType, today);
         List<String> presentStudentIds = attendanceList.stream()
                 .filter(Attendance::isPresentState)
-                .map(attendance -> attendance.getStudent().getStudentId()) // Use String type for studentId
+                .map(attendance -> attendance.getStudent().getStudentId())
                 .collect(Collectors.toList());
 
-        // Mark absent students who are enrolled but not marked present
         for (Student student : enrolledStudents) {
             if (!presentStudentIds.contains(student.getStudentId())) {
                 Attendance attendance = new Attendance();
@@ -174,14 +188,22 @@ public class AttendanceServiceIMPL implements AttendanceService {
             }
         }
 
-        return "Attendance finalized for class ID: " + classId;
+        return "Attendance has been finalized successfully";
     }
-
-
 
     @Override
     public int getPresentCountByDate(LocalDate localDate) {
         return attendanceRepo.countByCreatedAtAndPresentState(localDate, true);
     }
 
+    @Override
+    public void cleanUpOldAttendance() {
+        attendanceRepo.deleteNonCurrentMonthRecords();
+    }
+
+    @Scheduled(cron = "0 0 0 1 * *")  // Runs at midnight on the 1st of every month
+    public void monthlyAttendanceCleanup() {
+        cleanUpOldAttendance();
+        System.out.println("Monthly attendance cleanup completed at " + LocalDateTime.now());
+    }
 }

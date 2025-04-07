@@ -79,4 +79,11 @@ public class AOfficerServiceIMPL implements AOfficerService {
     public AttendanceOfficer getAttendanceOfficerById(String attendanceOfficerId) {
         return aOfficerRepo.findById(attendanceOfficerId).orElse(null);
     }
+
+    @Override
+    public Page<AttendanceOfficer> searchAttendanceOfficers(String searchTerm, Pageable pageable) {
+        // Search by ID or Name (adjust fields as needed)
+        return aOfficerRepo.findByAttendanceOfficerIdContainingOrAttendanceOfficerNameContaining(
+                searchTerm, searchTerm, pageable);
+    }
 }

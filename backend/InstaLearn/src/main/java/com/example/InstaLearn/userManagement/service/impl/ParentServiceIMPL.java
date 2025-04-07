@@ -45,4 +45,10 @@ public class ParentServiceIMPL implements ParentService {
     public Parent getParentById(String parentId) {
         return parentRepo.findById(parentId).orElse(null);
     }
+
+    @Override
+    public Page<Parent> searchParents(String searchTerm, Pageable pageable) {
+        return parentRepo.findByParentIdContainingOrParentNameContaining(
+                searchTerm, searchTerm, pageable);
+    }
 }

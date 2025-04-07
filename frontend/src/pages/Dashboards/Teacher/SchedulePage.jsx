@@ -100,9 +100,9 @@ function App() {
       const response = await axios.put("http://localhost:8085/api/v1/event/update", {
         eventId: currentEvent.eventId,  // Make sure to pass eventId
         classType: formData.classType,
-        day: formData.day,
+        day: formData.Day.toUpperCase(),
         startTime: formData.startTime,
-        duration: formData.duration
+        duration: formData.Duration
       });
   
       console.log(response.data);  // Log the response from the server

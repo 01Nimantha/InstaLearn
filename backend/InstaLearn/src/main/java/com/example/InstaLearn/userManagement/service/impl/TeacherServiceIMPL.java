@@ -2,6 +2,7 @@ package com.example.InstaLearn.userManagement.service.impl;
 
 import com.example.InstaLearn.userManagement.dto.TeacherSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.TeacherUpdateRequestDTO;
+import com.example.InstaLearn.userManagement.entity.AttendanceOfficer;
 import com.example.InstaLearn.userManagement.entity.Teacher;
 import com.example.InstaLearn.userManagement.entity.User;
 import com.example.InstaLearn.userManagement.entity.enums.Role;
@@ -58,47 +59,44 @@ public class TeacherServiceIMPL implements TeacherService {
         return teacher.getTeacherName() + " Saved successfully";
     }
 
-//    @Override
-//    public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO){
-//        if(teacherRepo.existsById(teacherId)) {
-//            Teacher teacher = teacherRepo.getReferenceById(teacherId);
-//
-//            teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
-//            teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
-//            teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
-//            teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
-//            teacherRepo.save(teacher);
-//            return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
-//        }
-//        else{
-//            throw new RuntimeException("No data found for that id");
-//        }
-//    }
-@Override
-public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO) {
-    if (teacherRepo.existsById(teacherId)) {
-        Teacher teacher = teacherRepo.getReferenceById(teacherId);
+    @Override
+    public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO){
+        if (teacherRepo.existsById(teacherId)) {
 
-        teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
-        teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
-        teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
-        teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
+            Teacher teacher = teacherRepo.getReferenceById(teacherId);
+            modelMapper.map(teacherUpdateRequestDTO, teacher);
+            teacherRepo.save(teacher);
 
-        // Handle profile picture update
-        if (teacherUpdateRequestDTO.getTeacherPhoto() != null && !teacherUpdateRequestDTO.getTeacherPhoto().isEmpty()) {
-            try {
-                teacher.setTeacherPhoto(teacherUpdateRequestDTO.getTeacherPhoto().getBytes());
-            } catch (IOException e) {
-                throw new RuntimeException("Error converting file", e);
-            }
+            return teacher.getTeacherName() + " updated successfully";
+        } else {
+            throw new RuntimeException("Teacher not found");
         }
-
-        teacherRepo.save(teacher);
-        return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
-    } else {
-        throw new RuntimeException("No data found for that ID");
     }
-}
+//@Override
+//public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO) {
+//    if (teacherRepo.existsById(teacherId)) {
+//        Teacher teacher = teacherRepo.getReferenceById(teacherId);
+//
+//        teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
+//        teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
+//        teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
+//        teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
+//
+//        // Handle profile picture update
+//        if (teacherUpdateRequestDTO.getTeacherPhoto() != null && !teacherUpdateRequestDTO.getTeacherPhoto().isEmpty()) {
+//            try {
+//                teacher.setTeacherPhoto(teacherUpdateRequestDTO.getTeacherPhoto().getBytes());
+//            } catch (IOException e) {
+//                throw new RuntimeException("Error converting file", e);
+//            }
+//        }
+//
+//        teacherRepo.save(teacher);
+//        return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
+//    } else {
+//        throw new RuntimeException("No data found for that ID");
+//    }
+//}
 
 
     @Override
@@ -120,5 +118,11 @@ public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpd
     @Override
     public Teacher getTeacherById(String teacherId) {
         return teacherRepo.findById(teacherId).orElse(null);
+    }
+
+    @Override
+    public Page<Teacher> searchTeachers(String searchTerm, Pageable pageable) {
+        return teacherRepo.findByTeacherIdContainingOrTeacherNameContaining(
+                searchTerm, searchTerm, pageable);
     }
 }

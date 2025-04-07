@@ -89,45 +89,6 @@ public class ExcelController {
 
         return marksRepo.findAll(pageable);
     }
-//    @GetMapping("/marks")
-//    public Page<MarksDTO> getMarks(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "5") int size) {
-//
-//        Pageable pageable = PageRequest.of(page, size);
-//
-//        // ✅ Step 2.1 get distinct studentIds paginated
-//        Page<String> studentIdsPage = marksRepo.findDistinctStudentIds(pageable);
-//
-//        // ✅ Step 2.2 build MarksDTO for each student
-//        List<MarksDTO> studentMarks = studentIdsPage
-//                .getContent()
-//                .stream()
-//                .map(studentId -> {
-//                    List<Marks> marksList = marksRepo.findByStudentId(studentId);
-//                    MarksDTO dto = new MarksDTO();
-//                    dto.setStudentId(studentId);
-//
-//                    for (Marks mark : marksList) {
-//                        String month = mark.getMonth().toLowerCase();
-//                        int markValue = (int) mark.getMarks();
-//                        switch (month) {
-//                            case "january" -> dto.setJanuary(markValue);
-//                            case "february" -> dto.setFebruary(markValue);
-//                            case "march" -> dto.setMarch(markValue);
-//                            case "april" -> dto.setApril(markValue);
-//                        }
-//                    }
-//
-//                    return dto;
-//                })
-//                .toList();
-//
-//        // ✅ Step 2.3 return paged DTOs
-//        return new PageImpl<>(studentMarks, pageable, studentIdsPage.getTotalElements());
-//    }
-
-
 
 
     /**
