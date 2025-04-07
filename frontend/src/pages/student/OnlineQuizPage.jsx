@@ -59,6 +59,7 @@ const OnlineQuizPage = () => {
                 QuizCardDate={item.date}
                 QuizCardPrecentage={marks[item.id] || 0}
                 ButtnAction={() => updateQuistionSlice(item.id)}
+                ButtonBgColor={"#78D9C6"}
               />
             </div>
           ))}
