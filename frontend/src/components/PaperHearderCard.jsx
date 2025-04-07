@@ -5,7 +5,7 @@ import { quistionAction } from "../store/quistionSlice";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-const PaperHeaderCard = ({ examDate, examDuration }) => {
+const PaperHeaderCard = ({ examDate, examDuration ,BgColor}) => {
   const {id} = useParams();
   const dispatch = useDispatch();
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -66,7 +66,7 @@ const PaperHeaderCard = ({ examDate, examDuration }) => {
   }, [mark, quistions]);
 
   return (
-    <div className="card" style={{ margin: "2%", padding: "2%", minWidth: "74vw", maxWidth: "74vw", backgroundColor: "#13A68A" }}>
+    <div className="card" style={{ margin: "2%", padding: "2%", minWidth: "74vw", maxWidth: "74vw", backgroundColor: BgColor }}>
       <div style={{ display: "flex" }}>
         <div style={{ marginLeft: "5%", marginTop: "3%", color: "#ffffff" }}>
           <div>For Information and Communications Technology</div>
