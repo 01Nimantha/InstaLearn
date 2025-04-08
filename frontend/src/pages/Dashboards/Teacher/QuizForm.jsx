@@ -6,6 +6,7 @@ const QuizForm = () => {
   const [correctAnswer, setCorrectAnswer] = useState('');
   const [chapter, setChapter] = useState('Chapter 1');
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  const [noOfQuestions, setNoOfQuestions] = useState(0);
   const [selectedChapterForQuiz, setSelectedChapterForQuiz] = useState('Chapter 1'); // State for modal dropdown
 
   const handleAnswerChange = (index, value) => {
@@ -65,9 +66,21 @@ const QuizForm = () => {
   };
 
   // Function to handle generating the quiz (you can customize this logic)
-  const handleGenerateQuiz = () => {
-    alert(`Generating quiz for ${selectedChapterForQuiz}`);
-    setIsModalOpen(false); // Close the modal after generating
+  const handleGenerateQuiz = async () => {
+    try{
+      const response = await axios.post(`http://localhost:8085/QuestionPaper/CreateQuestionPaper/${noOfQuestions}`)
+      if(response.ok){
+        alert('Quiz generated successfully!');
+        onClose();
+      }else{
+        alert('Failed to generate quiz.');
+        onClose();
+      }
+    }catch(error){
+      console.error('Error:', error);
+      alert('An error occurred while generating the quiz.');
+      onClose();
+    }
   };
 
   return (
@@ -78,7 +91,7 @@ const QuizForm = () => {
           <h2 className="text-2xl font-bold text-gray-800">Online Quiz</h2>
           <button
             onClick={handleGenerateQuizClick}
-            className="bg-green-800 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+            className="bg-green-800 text-white px-4 py-2 rounded hover:bg-green-600 transition"
           >
             Generate Quiz
           </button>
@@ -155,7 +168,7 @@ const QuizForm = () => {
               </button>
               <button
                 type="submit"
-                className="bg-green-800 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition"
+                className="bg-green-800 text-white px-6 py-2 rounded hover:bg-green-800 transition"
               >
                 Add To Pool
               </button>
@@ -170,27 +183,22 @@ const QuizForm = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h3 className="text-lg font-bold mb-4">Generate Quiz</h3>
             <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2">Select Chapter</label>
-              <select
-                value={selectedChapterForQuiz}
-                onChange={(e) => setSelectedChapterForQuiz(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option>Chapter 1</option>
-                <option>Chapter 2</option>
-                <option>Chapter 3</option>
-              </select>
+              <label className="block text-gray-700 font-medium mb-2">No Of Questions</label>
+              <input type='number' 
+              className='w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+              value={noOfQuestions}
+              onChange={(e) => setNoOfQuestions(e.target.value)}/>
             </div>
-            <div className="flex justify-end space-x-2">
+            <div className="flex justify-between space-x-2">
               <button
                 onClick={handleCloseModal}
-                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400 transition"
+                className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
               >
                 Cancel
               </button>
               <button
                 onClick={handleGenerateQuiz}
-                className="bg-green-800 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition"
+                className="bg-green-800 text-white px-4 py-2 rounded hover:bg-green-800 transition"
               >
                 Generate
               </button>

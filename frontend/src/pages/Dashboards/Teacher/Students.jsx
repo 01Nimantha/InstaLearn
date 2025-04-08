@@ -46,10 +46,16 @@ const Students = () => {
                     <div className="max-w-4xl mx-auto h-15 bg-[#287f93] rounded-lg"></div>
                     <div className='p-6'>
                         <div className="flex items-center space-x-4">
-                            <img src="student.jpg" alt="Profile" className="w-16 h-16 rounded-full border-2 border-white" />
+                            <img 
+                                src={studentData?.image?.imageId 
+                                    ? `http://localhost:8085/api/v1/image/get-image/${studentData.image.imageId}`
+                                    : "https://via.placeholder.com/64"} 
+                                alt="Profile" 
+                                className="w-16 h-16 rounded-full border-2 border-white object-cover" 
+                            />
                             <div>
                                 <h3 className="text-lg font-bold">{studentData ? studentData.studentName : "Student Name"}</h3>
-                                <p className="text-gray-500">{studentData ? studentData.studentID : "Student ID"}</p>
+                                <p className="text-gray-500">{studentData ? studentData.studentId : "Student ID"}</p>
                             </div>
                         </div>
                         <div className='grid grid-cols-2 gap-6 mt-6'>

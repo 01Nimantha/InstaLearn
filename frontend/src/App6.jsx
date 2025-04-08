@@ -26,6 +26,7 @@ const App6 = () => {
        {/* Main content area that takes up the remaining space */}
        <div className="flex-1 bg-gray-100" style={{ marginLeft: '280px' }}>
        <Outlet/>
+
       </div>
     </div>
   );
