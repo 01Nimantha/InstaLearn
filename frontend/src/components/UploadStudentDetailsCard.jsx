@@ -74,11 +74,42 @@ const UploadStudentDetailsCard = () => {
           </div>
           <div style={{ display: "flex" }}>
             <MdEmail color="#13A68A" size={25} style={{ marginTop: "0.5%", marginRight: "1%" }} />
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={student?.Email || "Email address"} style={{ width: "46vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)} // Let them type freely
+              onBlur={() => {
+                const isValidEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+                if (!isValidEmail && email !== "") {
+                  alert("Please enter a valid email address.");
+                }
+              }}
+              placeholder={student?.Email || "Email address"}
+              style={{
+                width: "46vw",
+                border: "2px #A4D9CF solid",
+                borderRadius: "5px",
+                marginBottom: "1%",
+                paddingLeft: "2%"
+              }}
+            />
           </div>
           <div style={{ display: "flex" }}>
             <BsFillTelephoneFill color="#13A68A" size={22} style={{ marginTop: "0.5%", marginRight: "1%" }} />
-            <input type="number" value={number} onChange={(e) => setNumber(e.target.value)} placeholder={student?.Number || "Your phone number"} style={{ width: "46vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
+            <input type="number" value={number} onChange={(e) => {// Allow only up to 10 digits
+                            if (e.target.value.length <= 10) {
+                              setNumber(e.target.value);
+                            }
+                          }}
+              placeholder={student?.Number || "Your phone number"}
+              style={{
+                width: "46vw",
+                border: "2px #A4D9CF solid",
+                borderRadius: "5px",
+                marginBottom: "1%",
+                paddingLeft: "2%"
+              }}
+            />
           </div>
           <div>
             <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder={student?.Address || "Address"} style={{ width: "48vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
@@ -88,7 +119,27 @@ const UploadStudentDetailsCard = () => {
           </div>
           <div style={{ display: "flex" }}>
             <BsFillTelephoneFill color="#13A68A" size={22} style={{ marginTop: "0.5%", marginRight: "1%" }} />
-            <input type="number" value={pNumber} onChange={(e) => setPNumber(e.target.value)} placeholder={student?.ParentNumber || "Parent phone number"} style={{ width: "46vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
+            <input
+              type="number"
+              value={pNumber}
+              onChange={(e) => {
+                const value = e.target.value;
+
+                // Allow only up to 10 digits
+                if (value.length <= 10) {
+                  setPNumber(value);
+                }
+              }}
+              placeholder={student?.ParentNumber || "Parent phone number"}
+              style={{
+                width: "46vw",
+                border: "2px #A4D9CF solid",
+                borderRadius: "5px",
+                marginBottom: "1%",
+                paddingLeft: "2%"
+              }}
+            />
+
           </div>
           <div style={{ marginLeft: "75%" }}>
             <Button name={"Update"} fontColor={"#ffffff"} backgroundColor={"#78D9C6"} action={fun} cornerRadius={false} />
