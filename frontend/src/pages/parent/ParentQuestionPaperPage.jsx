@@ -7,7 +7,7 @@ import { quistionAction } from "../../store/quistionSlice";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const QuestionPaperPage = () => {
+const ParentQuestionPaperPage = () => {
   const quistions = useSelector((store) => store.quistionreducer.quistionArr);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -73,4 +73,4 @@ const QuestionPaperPage = () => {
   );
 };
 
-export default QuestionPaperPage;
+export default ParentQuestionPaperPage;

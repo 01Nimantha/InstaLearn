@@ -12,14 +12,14 @@ import { Outlet, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 
-const App2 = () => {
+const App6 = () => {
   const {id} = useParams();
   const student = useSelector((store)=>store.studentreducer.studentArr[0]);
   const imageURL = useSelector((store)=>store.imagereducer.imagePath);
   return (
     <div>
       <div className={styles.container}>
-        <Sidebar BackgroundColor={"#13A68A"} ImgURL={imageURL} Name={student.Name} Id={student.Id} Logout={()=>{console.log("Click Logout Button")}} Tab1={"Home"} Tab1Icon={FaHome} Tab1functions={"/student-dashboard/"+id} Tab2={"Payment"} Tab2Icon={MdOutlinePayment} Tab2functions={"payment"} Tab3={"Timetable"} Tab3Icon={HiCalendarDateRange} Tab3functions={"timetable"} Tab4={"Setting"} Tab4Icon={IoIosSettings} Tab4functions={"settings"} Tab5={"Payment History"} Tab5Icon={HiMiniDocumentCurrencyDollar} Tab5functions={"payment-history"} AddNewTab={false}/>
+        <Sidebar BackgroundColor={"#5D13A6"} ImgURL={imageURL} Name={student.Name} Id={student.Id} Logout={()=>{console.log("Click Logout Button")}} Tab1={"Home"} Tab1Icon={FaHome} Tab1functions={"/parent-dashboard/"+id} Tab2={"Payment"} Tab2Icon={MdOutlinePayment} Tab2functions={"payment"} Tab3={"Timetable"} Tab3Icon={HiCalendarDateRange} Tab3functions={"timetable"} Tab4={"Setting"} Tab4Icon={IoIosSettings} Tab4functions={"settings"} Tab5={"Payment History"} Tab5Icon={HiMiniDocumentCurrencyDollar} Tab5functions={"payment-history"} AddNewTab={false}/>
         <div>
           <Outlet/>
         </div>
@@ -30,4 +30,4 @@ const App2 = () => {
   );
 };
 
-export default App2;
+export default App6;

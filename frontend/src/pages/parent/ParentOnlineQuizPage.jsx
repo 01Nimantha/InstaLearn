@@ -5,7 +5,7 @@ import axios from "axios";
 import { quistionAction } from "../../store/quistionSlice";
 import { useEffect, useState } from "react";
 
-const OnlineQuizPage = () => {
+const ParentOnlineQuizPage = () => {
   const navigate = useNavigate();
   const quiz = useSelector((store) => store.quizreducer);
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const OnlineQuizPage = () => {
                 QuizCardDate={item.date}
                 QuizCardPrecentage={marks[item.id] || 0}
                 ButtnAction={() => updateQuistionSlice(item.id)}
-                ButtonBgColor={"#78D9C6"}
+                ButtonBgColor={"#7B78D9"}
               />
             </div>
           ))}
@@ -70,4 +70,4 @@ const OnlineQuizPage = () => {
   );
 };
 
-export default OnlineQuizPage;
+export default ParentOnlineQuizPage;
