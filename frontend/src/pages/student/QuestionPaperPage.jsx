@@ -57,16 +57,20 @@ const QuestionPaperPage = () => {
         ))}
 
         <div style={{ marginLeft: "67.8vw", marginBottom: "2vw" }}>
-          <Button
-            name={"Submit"}
-            action={() => {
+        <Button
+          name={"Submit"}
+          action={() => {
+            const confirmSubmit = window.confirm("Are you sure you want to submit?");
+            if (confirmSubmit) {
               handleMakeDisable();
               navigate(`/student-dashboard/${id}`);
-            }}
-            backgroundColor={"#78D9C6"}
-            fontColor={"#ffffff"}
-            cornerRadius={false}
-          />
+            }
+          }}
+          backgroundColor={"#78D9C6"}
+          fontColor={"#ffffff"}
+          cornerRadius={false}
+        />
+
         </div>
       </div>
     </div>
