@@ -241,7 +241,7 @@ function ParentUserTimetablePage() {
 
   return (
     
-    <div className="min-h-screen w-full bg-gray-50 flex flex-col">
+    <div className="min-h-screen w-full bg-gray-50 flex flex-col" style={{margin:"2%",padding:"2%", minWidth:"74vw", maxWidth:"74vw",backgroundColor:"#ffffff"}}>
       <main className="flex-1 p-6 w-full">
         <div className="flex justify-between items-center mb-6 w-full">
           <div>
