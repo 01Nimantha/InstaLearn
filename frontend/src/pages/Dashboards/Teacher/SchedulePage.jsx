@@ -21,7 +21,7 @@ function App() {
     { value: 17, display: '5:00 PM' },
     { value: 18, display: '6:00 PM' }
   ];
-  const classTypes = ['Theory', 'Paper'];
+  const classTypes = ['2025 A/L THEORY', '2025 A/L PAPER', '2026 A/L THEORY', '2026 A/L PAPER', '2025 REVISION THEORY', '2025 REVISION PAPER'];
 
   // const normalizedDay = event.day
   // ? event.day.charAt(0).toUpperCase() + event.day.slice(1, 3).toLowerCase()
@@ -37,7 +37,7 @@ function App() {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   
   const [formData, setFormData] = useState({
-    classType: "Theory",
+    classType: "2025 A/L THEORY",
     Day: "Mon",
     startTime: 9, // Numeric value matching backend
     Duration: 1   // Numeric value matching backend
@@ -71,19 +71,21 @@ function App() {
       };
       console.log("Adding event with data:", backendFormData); // Debug log
       const response = await axios.post('http://localhost:8085/api/v1/event/save', backendFormData);
-      // Transform the response to match the expected format
-      const newEvent = {
-        eventId: response.data.eventId,
-        classType: response.data.classType,
-        Day: response.data.day
-          ? response.data.day.charAt(0).toUpperCase() + response.data.day.slice(1, 3).toLowerCase()
-          : null,
-        startTime: response.data.startTime,
-        Duration: response.data.duration
-      };
-      if (newEvent.Day) {
-        setEvents([...events, newEvent]);
-      }
+      
+      // Fetch the latest events from the server
+      const eventsResponse = await axios.get('http://localhost:8085/api/v1/event/all');
+      const transformedEvents = eventsResponse.data
+        .filter(event => event.day && event.day !== "string" && event.startTime >= 8 && event.startTime <= 18)
+        .map(event => ({
+          eventId: event.eventId,
+          classType: event.classType,
+          Day: event.day.charAt(0).toUpperCase() + event.day.slice(1, 3).toLowerCase(),
+          startTime: event.startTime,
+          Duration: event.duration
+        }))
+        .filter(event => event.Day);
+      
+      setEvents(transformedEvents);
       setShowModal(false);
       resetForm();
       alert('Event added successfully!');
@@ -250,7 +252,7 @@ function App() {
           </div>
           <button 
             onClick={() => setShowModal(true)}
-            className="bg-[#287f93] hover:bg-[#287f93] text-white px-4 py-2 rounded-md flex items-center space-x-2"
+            className="bg-[#287f93] hover:bg-[#287f93] text-white px-4 py-2 rounded flex items-center space-x-2"
           >
             <Plus size={18} />
             <span>Add Event</span>

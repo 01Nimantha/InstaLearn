@@ -96,16 +96,16 @@ const EventModal = ({
 </select>
           </div>
           
-          <div className="flex justify-end space-x-2 mt-6">
+          <div className="flex justify-between space-x-2 mt-6">
             <button
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              className="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50"
             >
               Cancel
             </button>
             <button
               onClick={onSubmit}
-              className="px-4 py-2 bg-[#287f93] text-white rounded-md hover:bg-[#287f93]"
+              className="px-4 py-2 bg-[#287f93] text-white rounded hover:bg-[#287f93]"
             >
               {isEdit ? 'Save Changes' : 'Submit'}
             </button>

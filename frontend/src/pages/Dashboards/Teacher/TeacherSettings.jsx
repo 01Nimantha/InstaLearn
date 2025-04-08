@@ -65,18 +65,24 @@ const TeacherSettings = () => {
         const formData = new FormData();
         formData.append("file", file);
 
-        const imageResponse = await axios.post(
-          `http://localhost:8085/api/v1/image/save/${profile.user.userId}`,
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
-        );
+        try {
+          const imageResponse = await axios.post(
+            `http://localhost:8085/api/v1/image/save/${profile.user.userId}`,
+            formData,
+            {
+              headers: { "Content-Type": "multipart/form-data" },
+            }
+          );
 
-        if (imageResponse.data) {
-          imageId = imageResponse.data.imageId; // Update the image ID
-        } else {
-          throw new Error("Failed to upload image: No response data.");
+          if (imageResponse.data) {
+            imageId = imageResponse.data.imageId; // Update the image ID
+          } else {
+            throw new Error("Failed to upload image: No response data received");
+          }
+        } catch (imageError) {
+          console.error("Image upload error:", imageError);
+          alert(`Failed to upload image: ${imageError.response?.data?.message || imageError.message}`);
+          return;
         }
       }
 
@@ -84,12 +90,21 @@ const TeacherSettings = () => {
       const updatedProfile = { ...profile, image: { imageId } };
 
       // Save the updated profile
-      await axios.put(`http://localhost:8085/api/v1/teacher/update/${id}`, updatedProfile);
-      alert("Profile updated successfully!");
-      navigate(`/teacher-dashboard/${id}`);
+      try {
+        const response = await axios.put(`http://localhost:8085/api/v1/teacher/update/${id}`, updatedProfile);
+        if (response.status === 200) {
+          alert("Profile updated successfully!");
+          navigate(`/teacher-dashboard/${id}`);
+        } else {
+          throw new Error("Failed to update profile: Unexpected response status");
+        }
+      } catch (profileError) {
+        console.error("Profile update error:", profileError);
+        alert(`Failed to update profile: ${profileError.response?.data?.message || profileError.message}`);
+      }
     } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("Failed to update profile");
+      console.error("General error:", error);
+      alert(`An unexpected error occurred: ${error.message}`);
     }
   };
 
@@ -99,7 +114,7 @@ const TeacherSettings = () => {
 
       {/* Main Content */}
       <div className="flex-1 p-6">
-        <h1 className="text-2xl font-bold mb-6 text-gray-800">Edit Profile</h1>
+      <h2 className="text-xl font-bold">Edit Profile</h2>
 
         {/* Profile Section */}
         <div className="flex flex-col md:flex-row items-center gap-6 mb-8 rounded-xl p-6">
