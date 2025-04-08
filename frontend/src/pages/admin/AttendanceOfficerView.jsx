@@ -20,7 +20,7 @@ const AttendanceOfficerEditModel = ({ onClose, attendanceOfficerId }) => (
     fields={[
       { label: 'AttendanceOfficer Name', name: 'attendanceOfficerName', type: 'text', required: true },
       { label: 'AttendanceOfficer Email', name: 'attendanceOfficerEmail', type: 'email', required: true },
-      { label: 'Contact No', name: 'attendanceOfficerContactno', type: 'text', required: true },
+      { label: 'Contact No', name: 'attendanceOfficerContactno', type: 'text', required: true , pattern: '^[0-9]{10}$' },
       { label: 'Address', name: 'attendanceOfficerAddress', type: 'text', required: true }
     ]}
     onClose={onClose}
@@ -72,7 +72,7 @@ const AOfficerAddDetailsFormModel = ({ onClose }) => (
     fields={[
       { label: 'Full Name', type: 'text', name: 'attendanceOfficerName', placeholder: 'Full Name', required: true },
       { label: 'Email', type: 'email', name: 'attendanceOfficerEmail', placeholder: 'Email', required: true },
-      { label: 'Contact no', type: 'text', name: 'attendanceOfficerContactno', placeholder: 'Contact no', required: true },
+      { label: 'Contact no', type: 'text', name: 'attendanceOfficerContactno', placeholder: 'Contact no', required: true ,pattern: '^[0-9]{10}$' },
       { label: 'Address', type: 'text', name: 'attendanceOfficerAddress', placeholder: 'Address', required: true }
     ]}
     onClose={onClose}

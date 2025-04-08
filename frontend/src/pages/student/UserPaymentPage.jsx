@@ -12,10 +12,12 @@ const UserPaymentPage = () => {
   ];
 
   const priceList = [
-    { class: "2025 A/L THEORY", price: "Rs. 3000" },
+    { class: "2025 A/L THEORY", price: "Rs. 1500" },
     { class: "2025 A/L PAPER", price: "Rs. 1500" },
-    { class: "2026 A/L THEORY", price: "Rs. 2500" },
-    { class: "2026 A/L PAPER", price: "Rs. 1000" }
+    { class: "2026 A/L THEORY", price: "Rs. 2000" },
+    { class: "2026 A/L PAPER", price: "Rs. 2000" },
+    { class: "2025 REVISION THEORY", price: "Rs. 1000" },
+    { class: "2025 REVISION PAPER", price: "Rs. 1000" }
   ];
 
   const [studentId, setStudentId] = useState("");
@@ -136,7 +138,7 @@ const UserPaymentPage = () => {
   };
 
   const handleViewHistory = () => {
-    navigate("/student-dashboard/payment-history");
+    navigate("/student-dashboard/payment-history/payment-history");
   };
 
   return (
@@ -147,7 +149,7 @@ const UserPaymentPage = () => {
           <h1 className="text-4xl font-bold text-teal-700 mb-4 md:mb-0">Payment Portal</h1>
           <button
             onClick={handleViewHistory}
-            className="bg-teal-600 text-white font-medium py-3 px-8 rounded-lg hover:bg-teal-700 transition-colors text-xl"
+            className="bg-teal-600 text-white font-medium py-3 px-8 rounded hover:bg-teal-700 transition-colors text-xl"
           >
             View Payment History
           </button>
@@ -230,7 +232,7 @@ const UserPaymentPage = () => {
 
               <button
                 onClick={handleCheckout}
-                className="w-full bg-teal-600 text-white py-4 text-xl font-semibold rounded-lg hover:bg-teal-700 transition-colors"
+                className="w-full bg-teal-600 text-white py-4 text-xl font-semibold rounded hover:bg-teal-700 transition-colors"
               >
                 Pay Now
               </button>

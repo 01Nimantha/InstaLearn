@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { studentAction } from "../store/studentSlice";
 import { useState, useEffect } from "react";
 import Button from "./Button";
+import { parentAction } from "../store/parentSlice";
 
-const UploadStudentDetailsCard = () => {
+const ParentUploadParentDetailsCard = () => {
   // Local state to hold the form values
   const [id, setID] = useState("");
   const [name, setName] = useState("");
@@ -16,8 +17,9 @@ const UploadStudentDetailsCard = () => {
   const [pNumber, setPNumber] = useState("");
 
   // Select the first student object from the Redux store
-  const student = useSelector((store) => store.studentreducer.studentArr[0]);
+  const student = useSelector((store) => store.parentreducer.parentArr[0]);
   const dispatch = useDispatch();
+
 
   // Set the initial form values when the student data is available
   useEffect(() => {
@@ -33,7 +35,7 @@ const UploadStudentDetailsCard = () => {
   }, [student]); // This effect runs every time the student data changes
 
   const fun = () => {
-    dispatch(studentAction.updateStudent([{
+    dispatch(parentAction.updateparent([{
       Id: id,
       Name: name,
       Email: email,
@@ -62,18 +64,18 @@ const UploadStudentDetailsCard = () => {
           <div style={{ marginBottom: "6.8%" }}>Email address :</div>
           <div style={{ marginBottom: "6.8%" }}>Your phone number :</div>
           <div style={{ marginBottom: "6.8%" }}>Address :</div>
-          <div style={{ marginBottom: "6.8%" }}>Parent name :</div>
-          <div style={{ marginBottom: "6.8%" }}>Parent phone number :</div>
+          {/* <div style={{ marginBottom: "6.8%" }}>Parent name :</div>
+          <div style={{ marginBottom: "6.8%" }}>Parent phone number :</div> */}
         </div>
         <div style={{ width: "48vw", marginLeft: "8vw" }}>
           <div>
-            <input type="text" value={id} onChange={(e) => setID(e.target.value)} placeholder={student?.Id || "Index number"} style={{ width: "48vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} disabled />
+            <input type="text" value={id} onChange={(e) => setID(e.target.value)} placeholder={student?.Id || "Index number"} style={{ width: "48vw", border: "2px #7B78D9 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} disabled />
           </div>
           <div>
-            <input type="text" maxlength="13" value={name} onChange={(e) => setName(e.target.value)} placeholder={student?.Name || "Your name"} style={{ width: "48vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
+            <input type="text" maxlength="13" value={name} onChange={(e) => setName(e.target.value)} placeholder={student?.Name || "Your name"} style={{ width: "48vw", border: "2px #7B78D9 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
           </div>
           <div style={{ display: "flex" }}>
-            <MdEmail color="#13A68A" size={25} style={{ marginTop: "0.5%", marginRight: "1%" }} />
+            <MdEmail color="#7B78D9" size={25} style={{ marginTop: "0.5%", marginRight: "1%" }} />
             <input
               type="email"
               value={email}
@@ -87,15 +89,17 @@ const UploadStudentDetailsCard = () => {
               placeholder={student?.Email || "Email address"}
               style={{
                 width: "46vw",
-                border: "2px #A4D9CF solid",
+                border: "2px #7B78D9 solid",
                 borderRadius: "5px",
                 marginBottom: "1%",
                 paddingLeft: "2%"
               }}
             />
+
+
           </div>
           <div style={{ display: "flex" }}>
-            <BsFillTelephoneFill color="#13A68A" size={22} style={{ marginTop: "0.5%", marginRight: "1%" }} />
+            <BsFillTelephoneFill color="#7B78D9" size={22} style={{ marginTop: "0.5%", marginRight: "1%" }} />
             <input type="number" value={number} onChange={(e) => {// Allow only up to 10 digits
                             if (e.target.value.length <= 10) {
                               setNumber(e.target.value);
@@ -104,45 +108,26 @@ const UploadStudentDetailsCard = () => {
               placeholder={student?.Number || "Your phone number"}
               style={{
                 width: "46vw",
-                border: "2px #A4D9CF solid",
+                border: "2px #7B78D9 solid",
                 borderRadius: "5px",
                 marginBottom: "1%",
                 paddingLeft: "2%"
               }}
             />
+
           </div>
           <div>
-            <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder={student?.Address || "Address"} style={{ width: "48vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
+            <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder={student?.Address || "Address"} style={{ width: "48vw", border: "2px #7B78D9 solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
           </div>
-          <div>
+          {/* <div>
             <input type="text" value={pName} onChange={(e) => setPName(e.target.value)} placeholder={student?.ParentName || "Parent name"} style={{ width: "48vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
-          </div>
-          <div style={{ display: "flex" }}>
+          </div> */}
+          {/* <div style={{ display: "flex" }}>
             <BsFillTelephoneFill color="#13A68A" size={22} style={{ marginTop: "0.5%", marginRight: "1%" }} />
-            <input
-              type="number"
-              value={pNumber}
-              onChange={(e) => {
-                const value = e.target.value;
-
-                // Allow only up to 10 digits
-                if (value.length <= 10) {
-                  setPNumber(value);
-                }
-              }}
-              placeholder={student?.ParentNumber || "Parent phone number"}
-              style={{
-                width: "46vw",
-                border: "2px #A4D9CF solid",
-                borderRadius: "5px",
-                marginBottom: "1%",
-                paddingLeft: "2%"
-              }}
-            />
-
-          </div>
+            <input type="number" value={pNumber} onChange={(e) => setPNumber(e.target.value)} placeholder={student?.ParentNumber || "Parent phone number"} style={{ width: "46vw", border: "2px #A4D9CF solid", borderRadius: "5px", marginBottom: "1%", paddingLeft: "2%" }} />
+          </div> */}
           <div style={{ marginLeft: "75%" }}>
-            <Button name={"Update"} fontColor={"#ffffff"} backgroundColor={"#78D9C6"} action={fun} cornerRadius={false} />
+            <Button name={"Update"} fontColor={"#ffffff"} backgroundColor={"#7B78D9"} action={fun} cornerRadius={false} />
           </div>
         </div>
       </div>
@@ -150,4 +135,4 @@ const UploadStudentDetailsCard = () => {
   );
 };
 
-export default UploadStudentDetailsCard;
+export default ParentUploadParentDetailsCard;

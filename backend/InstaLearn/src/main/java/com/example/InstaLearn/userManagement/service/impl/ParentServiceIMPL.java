@@ -2,6 +2,7 @@ package com.example.InstaLearn.userManagement.service.impl;
 
 import com.example.InstaLearn.userManagement.dto.ParentUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.entity.Parent;
+import com.example.InstaLearn.userManagement.entity.Student;
 import com.example.InstaLearn.userManagement.repo.ParentRepo;
 import com.example.InstaLearn.userManagement.service.ParentService;
 import org.modelmapper.ModelMapper;
@@ -51,4 +52,12 @@ public class ParentServiceIMPL implements ParentService {
         return parentRepo.findByParentIdContainingOrParentNameContaining(
                 searchTerm, searchTerm, pageable);
     }
+
+    @Override
+    public String getStudentByParentId(String parentId) {
+        return parentRepo.getReferenceById(parentId).getStudent().getStudentId();
+
+    }
+
+
 }

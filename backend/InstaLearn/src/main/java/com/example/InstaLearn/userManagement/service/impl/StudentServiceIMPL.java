@@ -1,6 +1,7 @@
 package com.example.InstaLearn.userManagement.service.impl;
 
 import com.example.InstaLearn.attendanceManagement.dto.AttendanceDTO;
+import com.example.InstaLearn.attendanceManagement.repo.AttendanceRepo;
 import com.example.InstaLearn.classTypeManagement.dto.ClassTypeSaveRequestDTO;
 import com.example.InstaLearn.classTypeManagement.entity.ClassType;
 import com.example.InstaLearn.classTypeManagement.repo.ClassTypeRepo;
@@ -22,8 +23,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +53,9 @@ public class StudentServiceIMPL implements StudentService {
 
     @Autowired
     private PasswordService passwordService;
+
+    @Autowired
+    private AttendanceRepo attendanceRepo;
 
     @Override
     public String saveStudentAndParent(StudentSaveRequestDTO studentSaveRequestDTO) {
@@ -278,5 +284,34 @@ public class StudentServiceIMPL implements StudentService {
                         "classType", classType.getType().toString()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Student> getStudentByParentId(String parentId) {
+        return studentRepo.findByParent_ParentId(parentId);
+    }
+
+
+    //delete students who absent within one month
+    @Scheduled(cron = "0 0 1 * * *")
+    public void deleteInactiveStudents() {
+        List<Student> allStudents = studentRepo.findAll();
+
+        for (Student student : allStudents) {
+            LocalDate oneMonthAgo = LocalDate.now().minusDays(30);
+
+            long absentDaysCount = attendanceRepo.countByStudentAndCreatedAtAfterAndPresentStateFalse(
+                    student, oneMonthAgo
+            );
+
+            long totalRecords = attendanceRepo.countByStudentAndCreatedAtAfter(
+                    student, oneMonthAgo
+            );
+
+            if (totalRecords > 0 && absentDaysCount == totalRecords) {
+                // Absent for all days in the past month
+                studentRepo.delete(student);
+            }
+        }
     }
 }

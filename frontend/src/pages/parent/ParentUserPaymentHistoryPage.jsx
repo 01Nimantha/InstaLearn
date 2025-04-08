@@ -7,7 +7,30 @@ const ParentUserPaymentHistoryPage = () => {
   const [paymentData, setPaymentData] = useState([]);
   const [classTypes, setClassTypes] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState("");
-  const studentId = localStorage.getItem("username");
+  const [studentId, setStudentId] = useState("");
+  const [parentId, setParentId] = useState("");
+  
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setParentId(storedUsername);
+      fetchStudentId(storedUsername);
+    }
+  }, [])
+  
+  const fetchStudentId = async (parentId) => {
+    try {
+      const response = await fetch(`http://localhost:8085/api/v1/student/by-parent/${parentId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setStudentId(data.studentId);
+      } else {
+        console.error("Failed to fetch student ID");
+      }
+    } catch (error) {
+      console.error("Error fetching student ID:", error);
+    }
+  };
 
   useEffect(() => {
     if (studentId) {
@@ -61,7 +84,7 @@ const ParentUserPaymentHistoryPage = () => {
         <div className="bg-white shadow-2xl rounded-2xl overflow-hidden border-2 border-gray-200 w-full">
           <div className="overflow-x-auto w-full">
             <table className="w-full min-w-max">
-              <thead className="bg-gradient-to-r from-blue-600 to-blue-800">
+              <thead style={{backgroundColor:"#13A68A"}}>
                 <tr>
                   <th className="px-12 py-8 text-left text-2xl font-bold text-white uppercase tracking-wider min-w-[300px]">
                     Month

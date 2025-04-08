@@ -5,6 +5,9 @@ import quizSlice from "./quizSlice";
 import studentSlice from "./studentSlice";
 import imageSlice from "./imageSlice";
 import quistionSlice from "./quistionSlice";
+import parentimageSlice from "./parentimageSlice";
+import parentSlice from "./parentSlice";
+
 
 
 const mystore=configureStore({reducer:{
@@ -13,7 +16,10 @@ const mystore=configureStore({reducer:{
   quizreducer: quizSlice.reducer,
   studentreducer: studentSlice.reducer,
   imagereducer: imageSlice.reducer,
-  quistionreducer: quistionSlice.reducer
+  quistionreducer: quistionSlice.reducer,
+  parentimagereducer: parentimageSlice.reducer,
+  parentreducer: parentSlice.reducer,
 }});
+
 
 export default mystore;

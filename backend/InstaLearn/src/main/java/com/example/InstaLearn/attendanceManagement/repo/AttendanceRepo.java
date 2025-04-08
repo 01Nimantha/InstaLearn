@@ -37,4 +37,8 @@ public interface AttendanceRepo extends JpaRepository<Attendance, Integer> {
     @Transactional
     @Query("DELETE FROM Attendance a WHERE YEAR(a.createdAt) != YEAR(CURRENT_DATE) OR MONTH(a.createdAt) != MONTH(CURRENT_DATE)")
     void deleteNonCurrentMonthRecords();
+
+    long countByStudentAndCreatedAtAfterAndPresentStateFalse(Student student, LocalDate oneMonthAgo);
+
+    long countByStudentAndCreatedAtAfter(Student student, LocalDate oneMonthAgo);
 }

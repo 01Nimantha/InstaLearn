@@ -1,5 +1,5 @@
-import React from 'react'
-import { Outlet, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import Sidebar from './components/Sidebar';
 import StudentImg from "./assets/StudentImg.svg"
 import { FaHome } from "react-icons/fa";
@@ -8,18 +8,38 @@ import { HiCalendarDateRange } from "react-icons/hi2";
 import { PiStudentFill } from "react-icons/pi";
 import { FaRegCalendarCheck } from "react-icons/fa6";
 import { IoIosSettings } from "react-icons/io";
-
+import axios from 'axios';
 
 
 const App3 = () => {
+ 
+  const {id} = useParams();
+
+  const [teacher, setTeacher] = useState([]);
+
+  useEffect(()=>{
+    loadTeacher();
+  },[id]);
+
+  const loadTeacher = async () => {
+    try {
+      const response = await fetch(`http://localhost:8085/api/v1/teacher/get-teacher-by/${id}`);
+      if (!response.ok) throw new Error(`Failed to fetch teacher data. Status: ${response.status}`);
+      const data = await response.json();
+      setTeacher(data);
+    } catch (error) {
+      console.error("Error fetching teacher:", error);
+    }
+  };
+
   return (
     <div className='flex min-h-screen'>
       <div className="fixed top-0 left-0 h-full"
         style={{ width: '280px' }}>  
        <Sidebar BackgroundColor={"#287f93"}
-         ImgURL={StudentImg} 
-         Name="Maleesha Wijekoon"
-         Id="TH_2025_10000"
+         ImgURL={teacher.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${teacher.image.imageId}` : null}
+         Name={teacher.teacherName}
+         Id={id}
          Logout={()=>{console.log("Click Logout Button")}} 
          Tab1="Home" Tab1Icon={FaHome} Tab1functions=""
          Tab2="Students" Tab2Icon={PiStudentFill} Tab2functions='students'
