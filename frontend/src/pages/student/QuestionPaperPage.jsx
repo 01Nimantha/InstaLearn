@@ -53,6 +53,7 @@ const QuestionPaperPage = () => {
             CorrectAnswer={item.correctAnswer}
             Disable={item.disable}
             StudentAnswer={item.studentAnswer}
+            QuestionNumber={index+1}
           />
         ))}
 
