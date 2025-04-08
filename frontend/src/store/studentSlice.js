@@ -4,7 +4,7 @@ const studentSlice =createSlice({
   name:"student",
   initialState:{studentArr:[
     {
-      Id: "PR_2025_10000",
+      Id: "ST_2025_10000",
       Name: "Alia Bhatt",
       Email: "abc@gmail.com",
       Number: "0767892017",

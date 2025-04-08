@@ -47,6 +47,8 @@ import ParentUserPaymentHistoryPage from './pages/parent/ParentUserPaymentHistor
 import ParentUserSettingPage from './pages/parent/ParentUserSettingPage.jsx';
 import ParentOnlineQuizPage from './pages/parent/ParentOnlineQuizPage.jsx';
 import ParentQuestionPaperPage from './pages/parent/ParentQuestionPaperPage.jsx';
+import UserAttendence from './pages/student/UserAttendence.jsx';
+import ParentAttendence from './pages/parent/ParentAttendence.jsx';
 
 const router = createBrowserRouter([
   {
@@ -60,8 +62,10 @@ const router = createBrowserRouter([
       { path: "payment-history", element: <UserPaymentHistoryPage /> },
       { path: "online-quiz", element:  <OnlineQuizPage />},
       { path: "online-qpaper", element:  <QuestionPaperPage />},
+      { path: "attendence", element:  <UserAttendence />},
     ],
   },
+
   {
     path: "/parent-dashboard/:id",
     element: <App6/>,
@@ -73,6 +77,7 @@ const router = createBrowserRouter([
       { path: "payment-history", element: <ParentUserPaymentHistoryPage /> },
       { path: "online-quiz", element:  <ParentOnlineQuizPage />},
       { path: "online-qpaper", element:  <ParentQuestionPaperPage />},
+      { path: "attendence", element:  <ParentAttendence />},
     ],
   },
   { path: "/", element: <Homepage /> },

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { quistionAction } from "../store/quistionSlice";
 import { useDispatch } from "react-redux";
 
-const PaperCard =({QuestionID,Question,Answer1,Answer2,Answer3,Answer4,CorrectAnswer,Disable,StudentAnswer})=>{
+const PaperCard =({QuestionID,Question,Answer1,Answer2,Answer3,Answer4,CorrectAnswer,Disable,StudentAnswer,QuestionNumber})=>{
 
   const dispatch = useDispatch()
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -26,26 +26,26 @@ const PaperCard =({QuestionID,Question,Answer1,Answer2,Answer3,Answer4,CorrectAn
   
 
   return <div className="card" style={{margin:"2%",padding:"2%", minWidth:"74vw", maxWidth:"74vw",backgroundColor:"#ffffff"}}>
-      <div>{Question}</div>
+      <div><span style={{marginRight:"10px"}}>{QuestionNumber}.</span>{Question}</div>
     <div style={{display:"flex",marginLeft:"20%"}}>
       <div >
         <div>
-          <input type="radio" name={QuestionID} value={Answer1} onChange={handleChange} checked={(StudentAnswer==Answer1)?true:false}  disabled={Disable}/>
+           <input type="radio" name={QuestionID} value={Answer1} onChange={handleChange} checked={(StudentAnswer==Answer1)?true:false}  disabled={Disable}/><span style={{marginLeft:"10px"}}>A. </span>
           {Answer1}
         </div>
         <div>
-          <input type="radio" name={QuestionID} value={Answer2} onChange={handleChange} checked={(StudentAnswer==Answer2)?true:false} disabled={Disable}/>
+          <input type="radio" name={QuestionID} value={Answer2} onChange={handleChange} checked={(StudentAnswer==Answer2)?true:false} disabled={Disable}/><span style={{marginLeft:"10px"}}>B. </span>
           {Answer2}
         </div>
       </div>
 
       <div style={{marginLeft:"2vw"}}>
         <div>
-          <input type="radio" name={QuestionID} value={Answer3} checked={(StudentAnswer==Answer3)?true:false} onChange={handleChange} disabled={Disable}/>
+          <input type="radio" name={QuestionID} value={Answer3} checked={(StudentAnswer==Answer3)?true:false} onChange={handleChange} disabled={Disable}/><span style={{marginLeft:"10px"}}>C. </span>
           {Answer3}
         </div>
         <div>
-          <input type="radio" name={QuestionID} value={Answer4} onChange={handleChange} checked={(StudentAnswer==Answer4)?true:false} disabled={Disable}/>
+          <input type="radio" name={QuestionID} value={Answer4} onChange={handleChange} checked={(StudentAnswer==Answer4)?true:false} disabled={Disable}/><span style={{marginLeft:"10px"}}>D. </span>
           {Answer4}
         </div>
       </div>
