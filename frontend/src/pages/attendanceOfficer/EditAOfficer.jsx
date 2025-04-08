@@ -68,18 +68,24 @@ const EditProfile = () => {
         const formData = new FormData();
         formData.append("file", file);
 
-        const imageResponse = await axios.post(
-          `http://localhost:8085/api/v1/image/save/${profile.user.userId}`,
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
-        );
+        try {
+          const imageResponse = await axios.post(
+            `http://localhost:8085/api/v1/image/save/${profile.user.userId}`,
+            formData,
+            {
+              headers: { "Content-Type": "multipart/form-data" },
+            }
+          );
 
-        if (imageResponse.data) {
-          imageId = imageResponse.data.imageId; // Update the image ID
-        } else {
-          throw new Error("Failed to upload image: No response data.");
+          if (imageResponse.data) {
+            imageId = imageResponse.data.imageId; // Update the image ID
+          } else {
+            throw new Error("Failed to upload image: No response data received");
+          }
+        } catch (imageError) {
+          console.error("Image upload error:", imageError);
+          alert(`Failed to upload image: ${imageError.response?.data?.message || imageError.message}`);
+          return;
         }
       }
 
@@ -87,15 +93,23 @@ const EditProfile = () => {
       const updatedProfile = { ...profile, image: { imageId } };
 
       // Save the updated profile
-      await axios.put(`http://localhost:8085/api/v1/attendanceOfficer/update/${id}`, updatedProfile);
-      alert("Profile updated successfully!");
-      navigate(`/aOfficer-dashboard/${id}`);
+      try {
+        const response = await axios.put(`http://localhost:8085/api/v1/attendanceOfficer/update/${id}`, updatedProfile);
+        if (response.status === 200) {
+          alert("Profile updated successfully!");
+          navigate(`/aOfficer-dashboard/${id}`);
+        } else {
+          throw new Error("Failed to update profile: Unexpected response status");
+        }
+      } catch (profileError) {
+        console.error("Profile update error:", profileError);
+        alert(`Failed to update profile: ${profileError.response?.data?.message || profileError.message}`);
+      }
     } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("Failed to update profile");
+      console.error("General error:", error);
+      alert(`An unexpected error occurred: ${error.message}`);
     }
   };
-
   return (
     <div className="flex min-h-screen bg-gray-50 relative">
       {/* Mobile Menu Button */}
@@ -113,9 +127,10 @@ const EditProfile = () => {
           { name: 'Home', href: `/aOfficer-dashboard/${id}`, icon: Home },
           { name: 'Settings', href: '#', icon: Settings },
         ]}
-        officer_name="Maleesha"
-        AO_ID="AO_2025_10001"
+        officer_name={profile.attendanceOfficerName}
+        AO_ID={profile.attendanceOfficerId}
         changePath={() => setShowModal(true)}
+        image={profile.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${profile.image.imageId}` : null}
       />
 
       {/* Main Content */}
