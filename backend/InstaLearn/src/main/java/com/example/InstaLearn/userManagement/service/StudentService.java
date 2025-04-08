@@ -38,5 +38,5 @@ public interface StudentService {
 
     List<Map<String, String>> getClassTypesByStudentId(String studentId);
 
-
+    void deleteInactiveStudents();
     }
