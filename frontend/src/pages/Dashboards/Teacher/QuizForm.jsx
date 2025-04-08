@@ -76,12 +76,12 @@ const QuizForm = () => {
       <div className="flex-1 p-6 bg-gray-100">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-800">Online Quiz</h2>
-          <button
+          {/* <button
             onClick={handleGenerateQuizClick}
             className="bg-green-800 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
           >
             Generate Quiz
-          </button>
+          </button> */}
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-none">
@@ -188,12 +188,12 @@ const QuizForm = () => {
               >
                 Cancel
               </button>
-              <button
+              {/* <button
                 onClick={handleGenerateQuiz}
                 className="bg-green-800 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition"
               >
                 Generate
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

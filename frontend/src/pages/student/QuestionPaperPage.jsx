@@ -38,7 +38,7 @@ const QuestionPaperPage = () => {
   return (
     <div>
       <div>
-        <PaperHearderCard examDate="2025-02-26" examDuration="1 Hours" />
+        <PaperHearderCard examDate="2025-02-26" examDuration="1 Hours" BgColor={"#13A68A"} />
       </div>
       <div>
         {quistions.map((item, index) => (

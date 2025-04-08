@@ -286,6 +286,12 @@ public class StudentServiceIMPL implements StudentService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Optional<Student> getStudentByParentId(String parentId) {
+        return studentRepo.findByParent_ParentId(parentId);
+    }
+
+
     //delete students who absent within one month
     @Scheduled(cron = "0 0 1 * * *")
     public void deleteInactiveStudents() {

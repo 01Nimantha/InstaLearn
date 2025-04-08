@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import QuizCard from "../../components/QuizCard";
 import axios from "axios";
 import { quistionAction } from "../../store/quistionSlice";
@@ -11,8 +11,7 @@ const ParentOnlineQuizPage = () => {
   const dispatch = useDispatch();
   const [marks, setMarks] = useState({});
   const [error, setError] = useState("");
-  const {id}=useParams();
-
+  const id = useSelector((store) => store.logingreducer.id);
   // Fetch marks for each quiz
   useEffect(() => {
     const fetchMarks = async () => {
@@ -38,7 +37,7 @@ const ParentOnlineQuizPage = () => {
       .get(`http://localhost:8085/QuestionPaper/GetfullPaper/${id}/${qpid}`)
       .then((response) => {
         dispatch(quistionAction.addQuistion(response.data));
-        navigate(`/student-dashboard/${id}/online-qpaper`);
+        navigate(`/parent-dashboard/${id}/online-qpaper`);
       })
       .catch((error) => {
         setError(error.message);
