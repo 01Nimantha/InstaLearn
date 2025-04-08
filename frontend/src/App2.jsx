@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Sidebar from "./components/Sidebar"
 // import Button from "./components/Button"
 import styles from "./App2.module.css";
+import { PiBookBookmarkFill } from "react-icons/pi";
 import { FaHome } from "react-icons/fa";
 import { MdOutlinePayment } from "react-icons/md";
 import { HiCalendarDateRange } from "react-icons/hi2";
@@ -20,7 +21,7 @@ const App2 = () => {
     <div className='flex min-h-screen'>
       <div className="fixed top-0 left-0 h-full"
         style={{ width: '280px' }}>  
-       <Sidebar BackgroundColor={"#13A68A"} ImgURL={imageURL} Name={student.Name} Id={student.Id} Logout={()=>{console.log("Click Logout Button")}} Tab1={"Home"} Tab1Icon={FaHome} Tab1functions={"/student-dashboard/"+id} Tab2={"Payment"} Tab2Icon={MdOutlinePayment} Tab2functions={"payment"} Tab3={"Timetable"} Tab3Icon={HiCalendarDateRange} Tab3functions={"timetable"} Tab4={"Setting"} Tab4Icon={IoIosSettings} Tab4functions={"settings"} Tab5={"Payment History"} Tab5Icon={HiMiniDocumentCurrencyDollar} Tab5functions={"payment-history"} AddNewTab={false}/>
+       <Sidebar BackgroundColor={"#13A68A"} ImgURL={imageURL} Name={student.Name} Id={student.Id} Logout={()=>{console.log("Click Logout Button")}} Tab1={"Home"} Tab1Icon={FaHome} Tab1functions={"/student-dashboard/"+id} Tab2={"Payment"} Tab2Icon={MdOutlinePayment} Tab2functions={"payment"} Tab3={"Timetable"} Tab3Icon={HiCalendarDateRange} Tab3functions={"timetable"} Tab4={"Setting"} Tab4Icon={IoIosSettings} Tab4functions={"settings"} Tab5={"Payment History"} Tab5Icon={HiMiniDocumentCurrencyDollar} Tab5functions={"payment-history"} AddNewTab={true} Tab6={"Attendence"} Tab6Icon={PiBookBookmarkFill} Tab6functions={"attendence"}/>
       </div>
       
        {/* Main content area that takes up the remaining space */}
