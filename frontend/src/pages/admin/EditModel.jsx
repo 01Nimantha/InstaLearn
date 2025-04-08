@@ -134,6 +134,7 @@ const EditModel = ({
                   id={field.name}
                   required={field.required}
                   value={entity[field.name] || ''}
+                  pattern={field.pattern}
                   onChange={handleInputChange}
                 />
               </div>

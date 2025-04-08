@@ -141,6 +141,7 @@ const AddDetailsFormModel = ({
                                     placeholder={field.placeholder}
                                     required={field.required}
                                     value={form[field.name]}
+                                    pattern={field.pattern}
                                     onChange={handleInputChange}
                                 />
                             </div>

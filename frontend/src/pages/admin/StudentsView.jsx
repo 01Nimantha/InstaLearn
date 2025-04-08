@@ -20,7 +20,7 @@ const StudentEditModel = ({ onClose, studentId }) => (
     fields={[
       { label: 'Student Name', name: 'studentName', type: 'text', required: true },
       { label: 'Student Email', name: 'studentEmail', type: 'email', required: true },
-      { label: 'Contact No', name: 'studentContactno', type: 'text', required: true },
+      { label: 'Contact No', name: 'studentContactno', type: 'text', required: true ,pattern: '^[0-9]{10}$' },
       { label: 'Address', name: 'studentAddress', type: 'text', required: true }
     ]}
     onClose={onClose}
@@ -83,11 +83,11 @@ const StudentAddDetailsFormModel = ({ onClose }) => (
     fields={[
       { label: 'Full Name', type: 'text', name: 'studentName', placeholder: 'Full Name', required: true },
       { label: 'Email', type: 'email', name: 'studentEmail', placeholder: 'Email', required: true },
-      { label: 'Contact no', type: 'text', name: 'studentContactno', placeholder: 'Contact no', required: true },
+      { label: 'Contact no', type: 'text', name: 'studentContactno', placeholder: 'Contact no', required: true ,pattern: '^[0-9]{10}$' },
       { label: 'Address', type: 'text', name: 'studentAddress', placeholder: 'Address', required: true },
       { label: 'Parent Name', type: 'text', name: 'studentParentName', placeholder: 'Parent Name', required: true },
       { label: 'Parent Email', type: 'email', name: 'studentParentEmail', placeholder: 'Parent Email', required: true },
-      { label: 'Parent Contact no', type: 'text', name: 'studentParentContactno', placeholder: 'Parent Contact no', required: true }
+      { label: 'Parent Contact no', type: 'text', name: 'studentParentContactno', placeholder: 'Parent Contact no', required: true ,pattern: '^[0-9]{10}$' }
     ]}
     includeSwitch={true}
     includeDropDown={true}

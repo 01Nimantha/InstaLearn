@@ -12,10 +12,12 @@ const UserPaymentPage = () => {
   ];
 
   const priceList = [
-    { class: "2025 A/L THEORY", price: "Rs. 3000" },
+    { class: "2025 A/L THEORY", price: "Rs. 1500" },
     { class: "2025 A/L PAPER", price: "Rs. 1500" },
-    { class: "2026 A/L THEORY", price: "Rs. 2500" },
-    { class: "2026 A/L PAPER", price: "Rs. 1000" }
+    { class: "2026 A/L THEORY", price: "Rs. 2000" },
+    { class: "2026 A/L PAPER", price: "Rs. 2000" },
+    { class: "2025 REVISION THEORY", price: "Rs. 1000" },
+    { class: "2025 REVISION PAPER", price: "Rs. 1000" }
   ];
 
   const [studentId, setStudentId] = useState("");
