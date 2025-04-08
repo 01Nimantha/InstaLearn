@@ -21,8 +21,9 @@ const ParentUserHomePage = () => {
   const stId = useSelector((store) => store.logingreducer.id);
   const { id } = useParams();
 
-  const student = useSelector((store) => store.studentreducer.studentArr[0]);
-  const imageURL = useSelector((store) => store.imagereducer.imagePath);
+  const imageURL = useSelector((store) => store.parentimagereducer.imagePath);
+  const student = useSelector((store) => store.parentreducer.parentArr[0]);
+
   const navigate = useNavigate();
 
   // First useEffect: Fetch student data and update Redux state
