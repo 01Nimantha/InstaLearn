@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const studentSlice =createSlice({
+const parentSlice =createSlice({
   name:"student",
-  initialState:{studentArr:[
+  initialState:{parentArr:[
     {
       Id: "ST_2025_10000",
-      Name: "Alia Bhatt",
-      Email: "abc@gmail.com",
+      Name: "Kim Tae-hyung",
+      Email: "kimtae-hyung@gmail.com",
       Number: "0767892017",
       Address: "123 Main Street, Colombo, Western Province, 10000",
       ParentName: "Soni Razdan",
@@ -14,11 +14,11 @@ const studentSlice =createSlice({
     }
   ]},
   reducers:{
-    updateStudent:(state,action)=>{
-      state.studentArr=action.payload;
+    updateparent:(state,action)=>{
+      state.parentArr=action.payload;
     }
   }
 });
 
-export const studentAction = studentSlice.actions 
-export default studentSlice;
+export const parentAction = parentSlice.actions 
+export default parentSlice;

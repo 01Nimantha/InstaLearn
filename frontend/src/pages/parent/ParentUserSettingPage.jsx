@@ -1,11 +1,12 @@
-import UploadPhotoCard from "../../components/UploadPhotoCard";
-import UploadStudentDetailsCard from "../../components/UploadStudentDetailsCard";
+import ParentUploadParentDetailsCard from "../../components/ParentUploadParentDetailsCard";
+import ParentUploadPhotoCard from "../../components/ParentUploadPhotoCard";
+// import UploadPhotoCard from "../../components/UploadPhotoCard";
 // import UploadParentDetailsCard from "../../components/UploadParentDetailsCard";
 
 const ParentUserSettingPage=()=>{
   return <div>
-  <UploadPhotoCard />
-  <UploadStudentDetailsCard/>
+  <ParentUploadPhotoCard />
+  <ParentUploadParentDetailsCard/>
   {/* <UploadParentDetailsCard/> */}
 </div>;
 }
