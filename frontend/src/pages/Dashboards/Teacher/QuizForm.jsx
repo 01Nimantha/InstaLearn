@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const QuizForm = () => {
   const [question, setQuestion] = useState('');
@@ -67,19 +68,19 @@ const QuizForm = () => {
 
   // Function to handle generating the quiz (you can customize this logic)
   const handleGenerateQuiz = async () => {
-    try{
-      const response = await axios.post(`http://localhost:8085/QuestionPaper/CreateQuestionPaper/${noOfQuestions}`)
-      if(response.ok){
+    try {
+      const response = await axios.post(`http://localhost:8085/QuestionPaper/CreateQuestionPaper/${noOfQuestions}`);
+      if (response.status === 200) {
         alert('Quiz generated successfully!');
-        onClose();
-      }else{
+        setIsModalOpen(false);
+      } else {
         alert('Failed to generate quiz.');
-        onClose();
+        setIsModalOpen(false);
       }
-    }catch(error){
+    } catch (error) {
       console.error('Error:', error);
       alert('An error occurred while generating the quiz.');
-      onClose();
+      setIsModalOpen(false);
     }
   };
 
