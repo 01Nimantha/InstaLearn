@@ -26,7 +26,7 @@ public class MailController {
     @Autowired
     private MailService mailService;
 
-    @PostMapping("/send-teacher-credentials{id}")
+    @PostMapping("/send-user-credentials/{id}")
     public ResponseEntity<StandardResponse> sendTeacherCredentialsMail(@PathVariable(value="id") int userId,@RequestBody MailDetailsDTO mailDetailsDTO) throws MessagingException, IOException, WriterException {
         String message = mailService.sendTeacherCredentialsMail(userId,mailDetailsDTO);
         return new ResponseEntity<StandardResponse>(

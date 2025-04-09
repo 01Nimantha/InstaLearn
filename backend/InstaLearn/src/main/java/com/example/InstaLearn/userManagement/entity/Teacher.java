@@ -46,4 +46,7 @@ public class Teacher {
     @OneToOne
     private User user;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "imageId")
+    private Image image;
 }

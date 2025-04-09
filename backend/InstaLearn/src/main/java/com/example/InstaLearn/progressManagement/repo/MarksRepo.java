@@ -18,9 +18,22 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface MarksRepo extends JpaRepository<Marks, Integer> {
 
-    Marks findByStudentIdEquals(String studentId);
+//    Marks findByStudentIdEquals(String studentId);
+
+    List<Marks> findByStudentId(String studentId);
 
     Page<Marks> findAll(Pageable pageable);
+
+    List<Marks> findByMonth(String month);
+
+    @Query("SELECT m.month, AVG(m.marks) FROM Marks m GROUP BY m.month ORDER BY FIELD(m.month, 'January', 'February', 'March', 'April')")
+    List<Object[]> calculateMonthlyAverageMarks();
+
+
+    Page<Marks> findByStudentId(String studentId, Pageable pageable);
+
+    @Query("SELECT DISTINCT m.studentId FROM Marks m")
+    Page<String> findDistinctStudentIds(Pageable pageable);
 
 
 }

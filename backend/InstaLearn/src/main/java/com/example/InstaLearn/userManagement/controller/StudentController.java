@@ -1,13 +1,25 @@
 package com.example.InstaLearn.userManagement.controller;
 
+import com.example.InstaLearn.attendanceManagement.dto.AttendanceDTO;
+import com.example.InstaLearn.userManagement.dto.ParentDTO;
+import com.example.InstaLearn.userManagement.dto.StudentDTO;
 import com.example.InstaLearn.userManagement.dto.StudentSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.StudentUpdateRequestDTO;
+import com.example.InstaLearn.userManagement.entity.AttendanceOfficer;
+import com.example.InstaLearn.userManagement.entity.Student;
 import com.example.InstaLearn.userManagement.service.StudentService;
 import com.example.InstaLearn.userManagement.util.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/student")
@@ -42,6 +54,76 @@ public class StudentController {
                 new StandardResponse(200,"success",message),
                 HttpStatus.OK
         );
+    }
+    @GetMapping("/get-all-students")
+    public ResponseEntity<Page<Student>> getAllStudents(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(required = false) String searchTerm
+    ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("studentId").descending());
+
+        Page<Student> students;
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            // Fetch filtered results based on searchTerm
+            students = studentService.searchStudents(searchTerm, pageable);
+        } else {
+            // Fetch all results if no search term is provided
+            students = studentService.getAllStudents(pageable);
+        }
+
+       // Page<Student> students = studentService.getAllStudents(pageable);
+        return new ResponseEntity<>(students,HttpStatus.OK);
+    }
+    @GetMapping("/get-student-by/{id}")
+    public Student getStudentById(@PathVariable(value="id") String studentId) {
+        return studentService.getStudentById(studentId);
+
+    }
+    @GetMapping("/get-parent-by-student/{id}")
+    public ParentDTO getParentByStudentId(@PathVariable(value="id") String studentId) {
+        return studentService.getParentByStudentId(studentId);
+
+    }
+
+    @GetMapping("/total-students")
+    public ResponseEntity<Long> getTotalStudents() {
+        long totalStudents = studentService.getTotalStudents();
+        return ResponseEntity.ok(totalStudents);
+    }
+
+    @GetMapping("/get-only-students")
+    public ResponseEntity<StandardResponse> getOnlyStudents(){
+        List<StudentDTO> allStudents = studentService.getOnlyStudents();
+
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200,"success",allStudents),
+                HttpStatus.OK
+        );
+    }
+    @GetMapping("/get-only-student-by/{id}")
+    public StudentDTO getOnlyStudentById(@PathVariable(value="id") String studentId) {
+        return studentService.getOnlyStudentById(studentId);
+
+    }
+
+    @GetMapping("/get-all-student-ids")
+    public ResponseEntity<StandardResponse> getAllStudentIds(){
+        List<String> allStudentIds = studentService.getAllStudentIds();
+        return new ResponseEntity<StandardResponse>(
+                new StandardResponse(200,"success",allStudentIds),
+                HttpStatus.OK
+        );
+    }
+    @GetMapping("/{studentId}/class-types")
+    public ResponseEntity<List<Map<String, String>>> getClassTypesByStudentId(@PathVariable String studentId) {
+        return ResponseEntity.ok(studentService.getClassTypesByStudentId(studentId));
+    }
+    @GetMapping("/by-parent/{parentId}")
+    public ResponseEntity<Student> getStudentByParentId(@PathVariable String parentId) {
+        return studentService.getStudentByParentId(parentId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }

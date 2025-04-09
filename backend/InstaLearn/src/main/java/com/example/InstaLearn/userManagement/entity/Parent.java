@@ -1,6 +1,8 @@
 package com.example.InstaLearn.userManagement.entity;
 
 import com.example.InstaLearn.userManagement.entity.idgenerator.ParentIdSequenceGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,8 +45,13 @@ public class Parent {
     @Column(name = "parent_address")
     private String parentAddress;
 
+    @JsonManagedReference
     @OneToOne(mappedBy = "parent", cascade = CascadeType.ALL) // Bidirectional mapping
     private Student student;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "imageId")
+    private Image image;
 
     @OneToOne
     private User user;

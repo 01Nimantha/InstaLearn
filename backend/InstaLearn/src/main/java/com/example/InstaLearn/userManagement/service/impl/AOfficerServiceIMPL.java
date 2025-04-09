@@ -10,7 +10,11 @@ import com.example.InstaLearn.userManagement.repo.UserRepo;
 import com.example.InstaLearn.userManagement.service.AOfficerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AOfficerServiceIMPL implements AOfficerService {
@@ -64,5 +68,22 @@ public class AOfficerServiceIMPL implements AOfficerService {
                 throw new RuntimeException("Admin not found");
             }
 
+    }
+
+    @Override
+    public Page<AttendanceOfficer> getAllAttandanceOfficers(Pageable pageable) {
+        return aOfficerRepo.findAll(pageable);
+    }
+
+    @Override
+    public AttendanceOfficer getAttendanceOfficerById(String attendanceOfficerId) {
+        return aOfficerRepo.findById(attendanceOfficerId).orElse(null);
+    }
+
+    @Override
+    public Page<AttendanceOfficer> searchAttendanceOfficers(String searchTerm, Pageable pageable) {
+        // Search by ID or Name (adjust fields as needed)
+        return aOfficerRepo.findByAttendanceOfficerIdContainingOrAttendanceOfficerNameContaining(
+                searchTerm, searchTerm, pageable);
     }
 }

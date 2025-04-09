@@ -1,7 +1,11 @@
 package com.example.InstaLearn.userManagement.entity;
 
 import com.example.InstaLearn.attendanceManagement.entity.Attendance;
+import com.example.InstaLearn.classTypeManagement.entity.ClassType;
+import com.example.InstaLearn.classTypeManagement.entity.enums.Type;
 import com.example.InstaLearn.userManagement.entity.idgenerator.StudentIdSequenceGenerator;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -54,9 +58,10 @@ public class Student {
     @Column(name="student_parent_contactno")
     private String studentParentContactno;
 
-    @Column(name="free_card",columnDefinition = "TINYINT default 1")
+    @Column(name="free_card")
     private boolean freeCard;
 
+    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL) // One-to-one relationship with Parent
     @JoinColumn(name = "parent_id", referencedColumnName = "parent_id") // FK in Student table
     private Parent parent;
@@ -65,6 +70,19 @@ public class Student {
     private User user;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Attendance> attendanceRecords;
+
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @JoinTable(
+            name = "class_type_student",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "class_type_id")
+    )
+    private List<ClassType> classTypes;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "imageId")
+    private Image image;
 
 }

@@ -1,10 +1,11 @@
 package com.example.InstaLearn.userManagement.dto;
-
-import com.example.InstaLearn.userManagement.entity.Parent;
-import jakarta.persistence.*;
+import com.example.InstaLearn.classTypeManagement.dto.ClassTypeSaveRequestDTO;
+import com.example.InstaLearn.classTypeManagement.entity.enums.Type;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +19,7 @@ public class StudentSaveRequestDTO {
     private String studentParentEmail;
     private String studentParentContactno;
     private boolean freeCard;
+    private List<ClassTypeSaveRequestDTO> classTypes;
+
+    
 }

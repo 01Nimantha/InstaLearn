@@ -1,15 +1,16 @@
-import OnlineQuiz from "../assets/OnlineQuiz.svg"
-const Card = ()=>{
-  return(<div className="card mb-3" style={{maxWidth: "540px"}}>
+import Button from "./Button";
+
+const Card = ({CardImg,CardTitle,CardBody,CardButtonName,CardButtonAction,CardButtonBackgroundColor,CardButtonFontColor,CardButtonCornerRadius})=>{
+  return(<div className="card mb-3" style={{maxWidth: "540px", maxHeight:"164px",fontSize:"60%",margin: "2%"}}>
     <div className="row g-0">
       <div className="col-md-4">
-        <img src={OnlineQuiz} className="img-fluid rounded-start" alt="..."/>
+        <img src={CardImg} className="img-fluid rounded-start" alt="..." style={{minHeight:"100%"}}/>
       </div>
       <div className="col-md-8">
         <div className="card-body">
-          <h5 className="card-title">Card title</h5>
-          <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p className="card-text"><small className="text-body-secondary">Last updated 3 mins ago</small></p>
+          <h5 className="card-title">{CardTitle}</h5>
+          <p className="card-text">{CardBody}</p>
+          <p className="card-text"><Button name={CardButtonName} action={CardButtonAction} backgroundColor={CardButtonBackgroundColor} fontColor={CardButtonFontColor} cornerRadius={CardButtonCornerRadius}/></p>
         </div>
       </div>
     </div>

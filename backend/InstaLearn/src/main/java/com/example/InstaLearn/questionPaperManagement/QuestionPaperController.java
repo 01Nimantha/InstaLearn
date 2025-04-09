@@ -1,8 +1,12 @@
 package com.example.InstaLearn.questionPaperManagement;
 
 import com.example.InstaLearn.questionPaperManagement.dto.QuestionPaperDto;
+import com.example.InstaLearn.questionPaperManagement.external.FullQuestionPaper;
+import com.example.InstaLearn.questionPaperManagement.external.Question;
+import com.example.InstaLearn.questionPaperManagement.external.TimeAndPerformance;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,5 +68,75 @@ public class QuestionPaperController {
         }
     }
 
+    @PostMapping("/CreateQuestionPaper/{numberOfQuestions}")
+    public ResponseEntity<String> createQuestionPaper(@PathVariable int numberOfQuestions){
+        boolean isCrete = questionPaperService.createQuestionPaper(numberOfQuestions);
+        if(isCrete){
+            return new ResponseEntity<>("Create Full QuestionPaper",HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("There is an error Creating Full QuestionPaper",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/{qpId}/{stId}")
+    public ResponseEntity<List<Question>> getAllQuestionByqpIdandstId(@PathVariable int qpId,@PathVariable String stId){
+        List<Question> questionList = questionPaperService.getAllQuestionByqpIdandstId(qpId,stId);
+        if(questionList.isEmpty()){
+            return new ResponseEntity<>(questionList,HttpStatus.BAD_REQUEST);
+        }else {
+            return new ResponseEntity<>(questionList,HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/GetNewfullPaper/{stId}")
+    public ResponseEntity<List<FullQuestionPaper>> getFullQuestionPaper(@PathVariable String stId){
+            List<FullQuestionPaper> fullQuestionPaper =questionPaperService.getFullQuestionPaper(stId);
+            if(fullQuestionPaper.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }else {
+                return new ResponseEntity<>(fullQuestionPaper,HttpStatus.OK);
+            }
+
+    }
+
+    @PutMapping("/UpdatefullPaper/{stId}")
+    public ResponseEntity<String> updateFullQuestionPaper(@PathVariable String stId,@RequestBody List<FullQuestionPaper> fullQuestionPaper){
+        boolean isUpdate = questionPaperService.updateFullQuestionPaper(stId,fullQuestionPaper);
+        if(isUpdate){
+            return new ResponseEntity<>("Update successfull",HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/GetfullPaper/{stId}/{qpId}")
+    public ResponseEntity<List<FullQuestionPaper>> getFullQuestionPaperByStIdAndQpId(@PathVariable String stId,@PathVariable int qpId){
+        List<FullQuestionPaper> fullQuestionPaper =questionPaperService.getFullQuestionPaperByStIdAndQpId(stId,qpId);
+        if(fullQuestionPaper.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(fullQuestionPaper,HttpStatus.OK);
+        }
+
+    }
+
+    @GetMapping("/CalculateFullQuestionPaperMarks/{stId}/{qpId}")
+    public ResponseEntity<String> calculateFullQuestionPaperMarks(@PathVariable String stId,@PathVariable int qpId){
+        String data = questionPaperService.calculateFullQuestionPaperMarks(stId,qpId);
+        if(data.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(data,HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/GetTimeAndPerformance/{stId}")
+    public ResponseEntity<List<TimeAndPerformance>> GetMarksAndDate(@PathVariable String stId){
+        List<TimeAndPerformance> data = questionPaperService.GetMarksAndDate(stId);
+        if(data.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(data,HttpStatus.OK);
+        }
+    }
 
 }

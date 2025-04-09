@@ -10,7 +10,10 @@ import com.example.InstaLearn.userManagement.repo.UserRepo;
 import com.example.InstaLearn.userManagement.service.AdminService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class AdminServiceIMPL implements AdminService {
@@ -39,7 +42,7 @@ public class AdminServiceIMPL implements AdminService {
         admin.setUser(user);
         adminRepo.save(admin);// Update Admin with the associated User
 
-          return admin.getAdminName() + " Saved successfully";
+        return admin.getAdminName() + " Saved successfully";
 
     }
 
@@ -67,5 +70,22 @@ public class AdminServiceIMPL implements AdminService {
             throw new RuntimeException("Admin not found");
         }
     }
+
+    @Override
+    public Page<Admin> getAllAdmins(Pageable pageable) {
+        return adminRepo.findAll(pageable);
+    }
+
+    @Override
+    public Admin getAdminById(String adminId) {
+        return adminRepo.findById(adminId).orElse(null);
+    }
+
+    @Override
+    public Page<Admin> searchAdmins(String searchTerm, Pageable pageable) {
+        return adminRepo.findByAdminIdContainingOrAdminNameContaining(
+                searchTerm, searchTerm, pageable);
+    }
+
 
 }

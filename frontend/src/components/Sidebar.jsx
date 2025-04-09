@@ -1,64 +1,151 @@
+import Logo from "../assets/Logo.svg"
+import { LogOut} from 'lucide-react';
 import { IoIosLogOut } from "react-icons/io";
-const Sidebar = ()=>{
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
+const Sidebar = ({
+  Tab1, Tab1Icon, Tab1functions,
+  Tab2, Tab2Icon, Tab2functions,
+  Tab3, Tab3Icon, Tab3functions,
+  Tab4, Tab4Icon, Tab4functions,
+  Tab5, Tab5Icon, Tab5functions,
+  AddNewTab, Tab6, Tab6Icon, Tab6functions,
+  BackgroundColor, Name, Id, ImgURL, Logout
+}) => {
+  const [isDarkMode, setIsDarkMode] = useState(1);
+
+  const tabStyle = (mode) => ({
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    padding: "12px 16px",
+    color: isDarkMode === mode ? "black" : "white",
+    backgroundColor: isDarkMode === mode ? "white" : BackgroundColor,
+    textDecoration: "none",
+    borderRadius: "8px",
+    marginBottom: "8px",
+    transition: "all 0.3s ease"
+  });
+
   return (
-    <div className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style={{width: "280px", minHeight:"1080px",backgroundColor:"13A68A"}}>
-    <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-      <svg className="bi pe-none me-2" width="40" height="32"><use xlinkHref="#bootstrap"></use></svg>
-      <span className="fs-4">InstaLearn</span>
-    </a>
-    <hr/>
-    <ul className="nav nav-pills flex-column mb-auto">
-      <li className="nav-item">
-        <a href="#" className="nav-link active" aria-current="page">
-          <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#home"></use></svg>
-          Home
-        </a>
-      </li>
-      <li>
-        <a href="#" className="nav-link link-body-emphasis">
-          <svg className="bi pe-none me-2" width="16" height="16"><use xlinkHref="#speedometer2"></use></svg>
-          Payment
-        </a>
-      </li>
-      <li>
-        <a href="#" className="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlinkHref="#table"></use></svg>
-          Timetable
-        </a>
-      </li>
-      <li>
-        <a href="#" className="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlinkHref="#grid"></use></svg>
-          Setting
-        </a>
-      </li>
-      <li>
-        <a href="#" className="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlinkHref="#people-circle"></use></svg>
-          Payment History
-        </a>
-      </li>
-    </ul>
-    <hr/>
-    <div className="dropdown">
-      <a href="#" className="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/mdo.png" alt="" width="40" height="40" class="rounded-circle me-2"/>
-        <div>
-         <strong>Student name</strong>
-         <div>index number</div>
+    <div style={{
+      width: "280px",
+      height: "100vh",
+      backgroundColor: BackgroundColor,
+      padding: "20px",
+      display: "flex",
+      flexDirection: "column",
+      position: "fixed",
+      left: 0,
+      top: 0
+    }}>
+      {/* Logo Section */}
+      <div style={{ marginBottom: "24px" }}>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <img src={Logo} alt="Logo" style={{ width: "48px", height: "48px" }} />
+            <span style={{ 
+              color: "white", 
+              fontSize: "32px", 
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px"
+            }}>
+              <span>Insta</span>
+              <span style={{ color: "black" }}>Learn</span>
+            </span>
+          </div>
+        </Link>
+      </div>
+
+      <hr style={{ borderColor: "rgba(255,255,255,0.2)", margin: "0 0 16px 0" }} />
+
+      {/* Navigation Tabs */}
+      <div style={{ flex: 1, overflowY: "auto" }}>
+        <Link to={Tab1functions} style={tabStyle(1)} onClick={() => setIsDarkMode(1)}>
+          <Tab1Icon size={20} />
+          <span>{Tab1}</span>
+        </Link>
+
+        <Link to={Tab2functions} style={tabStyle(2)} onClick={() => setIsDarkMode(2)}>
+          <Tab2Icon size={20} />
+          <span>{Tab2}</span>
+        </Link>
+
+        <Link to={Tab3functions} style={tabStyle(3)} onClick={() => setIsDarkMode(3)}>
+          <Tab3Icon size={20} />
+          <span>{Tab3}</span>
+        </Link>
+
+        <Link to={Tab4functions} style={tabStyle(4)} onClick={() => setIsDarkMode(4)}>
+          <Tab4Icon size={20} />
+          <span>{Tab4}</span>
+        </Link>
+
+        <Link to={Tab5functions} style={tabStyle(5)} onClick={() => setIsDarkMode(5)}>
+          <Tab5Icon size={20} />
+          <span>{Tab5}</span>
+        </Link>
+
+        {AddNewTab && (
+          <Link to={Tab6functions} style={tabStyle(6)} onClick={() => setIsDarkMode(6)}>
+            <Tab6Icon size={20} />
+            <span>{Tab6}</span>
+          </Link>
+        )}
+      </div>
+
+      <hr style={{ borderColor: "rgba(255,255,255,0.2)", margin: "16px 0" }} />
+
+      {/* Profile Section */}
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "8px 0"
+      }}>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "12px"
+        }}>
+          <div style={{
+            width: "50px",
+            height: "50px",
+            borderRadius: "50%",
+            overflow: "hidden",
+            border: "2px solid white"
+          }}>
+            <img 
+              src={ImgURL} 
+              alt="Profile" 
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover"
+              }}
+            />
+          </div>
+          <div>
+            <div style={{ color: "white", fontWeight: "bold" }}>{Name}</div>
+            <div style={{ color: "white", fontSize: "0.8rem", opacity: 0.8 }}>{Id}</div>
+          </div>
         </div>
-      </a>
-      
-      <ul className="dropdown-menu text-small shadow">
-        <li><a className="dropdown-item" href="#">New project...</a></li>
-        <li><a className="dropdown-item" href="#">Settings</a></li>
-        <li><a className="dropdown-item" href="#">Profile</a></li>
-        <li><hr className="dropdown-divider"/></li>
-        <li><a className="dropdown-item" href="#">Sign out</a></li>
-      </ul>
-      <IoIosLogOut style={{display:"flex"}} />
+        <Link 
+          to="/" 
+          onClick={() => {
+            localStorage.clear();
+            window.scrollTo(0, 0);
+          }}
+          style={{ color: "white" }}
+        >
+          <LogOut size={20} />
+        </Link>
+      </div>
     </div>
-  </div>
   );
-}
+};
+
 export default Sidebar;

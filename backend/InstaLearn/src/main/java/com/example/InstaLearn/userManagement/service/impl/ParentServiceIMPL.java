@@ -2,11 +2,16 @@ package com.example.InstaLearn.userManagement.service.impl;
 
 import com.example.InstaLearn.userManagement.dto.ParentUpdateRequestDTO;
 import com.example.InstaLearn.userManagement.entity.Parent;
+import com.example.InstaLearn.userManagement.entity.Student;
 import com.example.InstaLearn.userManagement.repo.ParentRepo;
 import com.example.InstaLearn.userManagement.service.ParentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ParentServiceIMPL implements ParentService {
@@ -30,4 +35,29 @@ public class ParentServiceIMPL implements ParentService {
             throw new RuntimeException("Student not found");
         }
     }
+
+    @Override
+    public Page<Parent> getAllParents(Pageable pageable) {
+        return parentRepo.findAll(pageable);
+
+    }
+
+    @Override
+    public Parent getParentById(String parentId) {
+        return parentRepo.findById(parentId).orElse(null);
+    }
+
+    @Override
+    public Page<Parent> searchParents(String searchTerm, Pageable pageable) {
+        return parentRepo.findByParentIdContainingOrParentNameContaining(
+                searchTerm, searchTerm, pageable);
+    }
+
+    @Override
+    public String getStudentByParentId(String parentId) {
+        return parentRepo.getReferenceById(parentId).getStudent().getStudentId();
+
+    }
+
+
 }

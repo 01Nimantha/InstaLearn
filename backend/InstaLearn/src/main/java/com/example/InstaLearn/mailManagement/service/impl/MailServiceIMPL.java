@@ -7,6 +7,7 @@ import com.example.InstaLearn.userManagement.entity.Teacher;
 import com.example.InstaLearn.userManagement.entity.User;
 import com.example.InstaLearn.userManagement.entity.enums.Role;
 import com.example.InstaLearn.userManagement.repo.*;
+import com.example.InstaLearn.userManagement.service.PasswordStorage;
 import com.google.zxing.WriterException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -46,6 +47,10 @@ public class MailServiceIMPL implements MailService {
     public String sendTeacherCredentialsMail(int userId, MailDetailsDTO mailDetailsDTO) throws IOException, WriterException, MessagingException {
         User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
 
+//        String password = PasswordStorage.getPassword(userId);
+//        String password1 = PasswordStorage.getPassword(userId);
+
+        // Retrieve stored password
         String name = null;
         byte[] qrCodeImage = null;
         if (Role.valueOf("ADMIN").equals(user.getRole())) {
@@ -71,8 +76,10 @@ public class MailServiceIMPL implements MailService {
         helper.setTo(mailDetailsDTO.getToMail());
         helper.setFrom("instalearn17@gmail.com");
         helper.setSubject("Welcome to InstaLearn");
-        String customizedMessage = "Dear, " + name + "\nYour InstaLearn account credentials are below:\n\nUser Name:" + user.getUserName()
-                + " \nPassword:" +user.getUserPassword()+ "\n\nThank you-InstaLearn";
+
+            String customizedMessage = "Dear " + name + ",\nYour InstaLearn account credentials are below:\n\nUser Name:" + user.getUserName()
+                    + " \nPassword:" + user.getUserPassword() + "\n\nThank you-InstaLearn";
+
         helper.setText(customizedMessage);
 
         // Attach QR code for students only

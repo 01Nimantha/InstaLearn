@@ -2,16 +2,23 @@ package com.example.InstaLearn.userManagement.service.impl;
 
 import com.example.InstaLearn.userManagement.dto.TeacherSaveRequestDTO;
 import com.example.InstaLearn.userManagement.dto.TeacherUpdateRequestDTO;
-import com.example.InstaLearn.userManagement.entity.Admin;
+import com.example.InstaLearn.userManagement.entity.AttendanceOfficer;
 import com.example.InstaLearn.userManagement.entity.Teacher;
 import com.example.InstaLearn.userManagement.entity.User;
 import com.example.InstaLearn.userManagement.entity.enums.Role;
 import com.example.InstaLearn.userManagement.repo.TeacherRepo;
 import com.example.InstaLearn.userManagement.repo.UserRepo;
+import com.example.InstaLearn.userManagement.service.PasswordService;
+import com.example.InstaLearn.userManagement.service.PasswordStorage;
 import com.example.InstaLearn.userManagement.service.TeacherService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.List;
 
 @Service
 public class TeacherServiceIMPL implements TeacherService {
@@ -25,6 +32,9 @@ public class TeacherServiceIMPL implements TeacherService {
     @Autowired
     private UserRepo userRepo;
 
+//    @Autowired
+//    private PasswordService passwordService;
+
     @Override
     public String saveTeacher(TeacherSaveRequestDTO teacherSaveRequestDTO) {
 
@@ -34,7 +44,13 @@ public class TeacherServiceIMPL implements TeacherService {
         User user = new User();
         user.setUserName(String.valueOf(teacher.getTeacherId()));// Set teacherId as userName
         user.setRole(Role.valueOf("TEACHER"));
+//        String password=user.generatePassword();
+//        System.out.println(password);
+//        user.setUserPassword(passwordService.hashPassword(password));
+
         userRepo.save(user);
+
+//        PasswordStorage.storePassword(user.getUserId(), password);
 
         // Associate the saved User with the Teacher entity
         teacher.setUser(user);
@@ -44,20 +60,48 @@ public class TeacherServiceIMPL implements TeacherService {
     }
 
     @Override
-    public String updateTeacher(TeacherUpdateRequestDTO teacherUpdateRequestDTO) {
-        if(teacherRepo.existsById(teacherUpdateRequestDTO.getTeacherId())) {
-            Teacher teacher = teacherRepo.getReferenceById(teacherUpdateRequestDTO.getTeacherId());
-            teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
-            teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
-            teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
-            teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
+    public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO){
+        if (teacherRepo.existsById(teacherId)) {
 
+            Teacher teacher = teacherRepo.getReferenceById(teacherId);
+            modelMapper.map(teacherUpdateRequestDTO, teacher);
             teacherRepo.save(teacher);
-            return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
+
+            return teacher.getTeacherName() + " updated successfully";
+        } else {
+            throw new RuntimeException("Teacher not found");
         }
-        else{
-            throw new RuntimeException("No data found for that id");
-        }
+    }
+//@Override
+//public String updateTeacher(String teacherId, TeacherUpdateRequestDTO teacherUpdateRequestDTO) {
+//    if (teacherRepo.existsById(teacherId)) {
+//        Teacher teacher = teacherRepo.getReferenceById(teacherId);
+//
+//        teacher.setTeacherName(teacherUpdateRequestDTO.getTeacherName());
+//        teacher.setTeacherEmail(teacherUpdateRequestDTO.getTeacherEmail());
+//        teacher.setTeacherContactno(teacherUpdateRequestDTO.getTeacherContactno());
+//        teacher.setTeacherAddress(teacherUpdateRequestDTO.getTeacherAddress());
+//
+//        // Handle profile picture update
+//        if (teacherUpdateRequestDTO.getTeacherPhoto() != null && !teacherUpdateRequestDTO.getTeacherPhoto().isEmpty()) {
+//            try {
+//                teacher.setTeacherPhoto(teacherUpdateRequestDTO.getTeacherPhoto().getBytes());
+//            } catch (IOException e) {
+//                throw new RuntimeException("Error converting file", e);
+//            }
+//        }
+//
+//        teacherRepo.save(teacher);
+//        return teacherUpdateRequestDTO.getTeacherName() + " Updated Successfully";
+//    } else {
+//        throw new RuntimeException("No data found for that ID");
+//    }
+//}
+
+
+    @Override
+    public Page<Teacher> getAllTeachers(Pageable pageable) {
+        return teacherRepo.findAll(pageable);
     }
 
     @Override
@@ -72,21 +116,13 @@ public class TeacherServiceIMPL implements TeacherService {
     }
 
     @Override
-    public TeacherSaveRequestDTO getTeacherById(String teacherId) {
-        if(teacherRepo.existsById(teacherId)) {
-            Teacher teacher = teacherRepo.getReferenceById(teacherId);
-            TeacherSaveRequestDTO teacherSaveRequestDTO = new TeacherSaveRequestDTO(
-                    teacher.getTeacherName(),
-                    teacher.getTeacherEmail(),
-                    teacher.getTeacherContactno(),
-                    teacher.getTeacherAddress()
-            );
+    public Teacher getTeacherById(String teacherId) {
+        return teacherRepo.findById(teacherId).orElse(null);
+    }
 
-
-            return teacherSaveRequestDTO;
-        }
-        else{
-            throw new RuntimeException("No Teacher");
-        }
+    @Override
+    public Page<Teacher> searchTeachers(String searchTerm, Pageable pageable) {
+        return teacherRepo.findByTeacherIdContainingOrTeacherNameContaining(
+                searchTerm, searchTerm, pageable);
     }
 }
