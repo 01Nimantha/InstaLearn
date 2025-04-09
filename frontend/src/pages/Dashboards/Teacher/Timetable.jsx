@@ -1,7 +1,7 @@
 import React from 'react';
 import { Edit, Trash2 } from 'lucide-react';
 
-const Timetable = ({ days, times, events, onEditEvent, onDeleteEvent }) => {
+const Timetable = ({ days, times, events, onEditEvent, onDeleteEvent, isEditable = false }) => {
   // Helper function to convert display time (e.g., "9:00 AM") to numeric value (e.g., 9)
   
   
@@ -73,28 +73,30 @@ const Timetable = ({ days, times, events, onEditEvent, onDeleteEvent }) => {
                         >
                           <div className="flex justify-between items-start">
                             <span className="font-medium">{event.classType} class</span>
-                            <div className="flex space-x-1">
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  onEditEvent(event);
-                                }}
-                                className="text-gray-500 hover:text-gray-700"
-                                title="Edit"
-                              >
-                                <Edit size={14} />
-                              </button>
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  onDeleteEvent(event.eventId);
-                                }}
-                                className="text-red-500 hover:text-red-700"
-                                title="Delete"
-                              >
-                                <Trash2 size={14} />
-                              </button>
-                            </div>
+                            {isEditable && (
+                              <div className="flex space-x-1">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    onEditEvent(event);
+                                  }}
+                                  className="text-gray-500 hover:text-gray-700"
+                                  title="Edit"
+                                >
+                                  <Edit size={14} />
+                                </button>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    onDeleteEvent(event.eventId);
+                                  }}
+                                  className="text-red-500 hover:text-red-700"
+                                  title="Delete"
+                                >
+                                  <Trash2 size={14} />
+                                </button>
+                              </div>
+                            )}
                           </div>
                           <div className="mt-1">
                             {event.classType} class

@@ -115,7 +115,7 @@ const AOfficerDashboard = () => {
           name={aOfficer.attendanceOfficerName}
           officerId={aOfficer.attendanceOfficerId}
           image={aOfficer.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${aOfficer.image.imageId}` : null}
-          className={"bg-green-500 text-white"}
+          className={"bg-green-700 text-white"}
           />
 
         {/* Content */}
@@ -142,7 +142,7 @@ const AOfficerDashboard = () => {
                           setIsClassDropdownOpen(false);
                         }}
                         className={`w-full p-3 lg:p-4 text-left hover:bg-gray-50 text-sm lg:text-base ${
-                          selectedClass === classItem ? 'bg-green-50 text-green-600' : ''
+                          selectedClass === classItem ? 'bg-green-50 text-green-700' : ''
                         }`}
                       >
                         {classItem}
@@ -174,7 +174,7 @@ const AOfficerDashboard = () => {
                           setIsTypeDropdownOpen(false);
                         }}
                         className={`w-full p-3 lg:p-4 text-left hover:bg-gray-50 text-sm lg:text-base ${
-                          selectedType === type ? 'bg-green-50 text-green-600' : ''
+                          selectedType === type ? 'bg-green-50 text-green-700' : ''
                         }`}
                       >
                         {type}
@@ -188,7 +188,7 @@ const AOfficerDashboard = () => {
             {/* Attendance Card */}
             <button
               onClick={handleNavigate}
-              className="bg-green-500 rounded p-6 lg:p-8 text-center w-full flex items-center justify-center shadow hover:bg-green-600 transition-colors duration-200 text-decoration-none"
+              className="bg-green-700 rounded p-6 lg:p-8 text-center w-full flex items-center justify-center shadow hover:bg-green-600 transition-colors duration-200 text-decoration-none"
             >
               <h2 className="text-xl lg:text-2xl font-semibold text-white">Mark Attendance</h2>
             </button>

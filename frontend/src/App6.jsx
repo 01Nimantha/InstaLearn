@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Sidebar from "./components/Sidebar"
 // import Button from "./components/Button"
@@ -14,14 +14,44 @@ import { useSelector } from "react-redux";
 
 
 const App6 = () => {
+  // const {id} = useParams();
+  // const student = useSelector((store) => store.parentreducer.parentArr[0]);
+  // const imageURL = useSelector((store) => store.parentimagereducer.imagePath);
+
   const {id} = useParams();
-  const student = useSelector((store) => store.parentreducer.parentArr[0]);
-  const imageURL = useSelector((store) => store.parentimagereducer.imagePath);
+
+  const [parent, setParent] = useState([]);
+
+  useEffect(()=>{
+    loadParent();
+  },[id]);
+
+  const loadParent = async () => {
+    try {
+      const response = await fetch(`http://localhost:8085/api/v1/parent/get-parent-by/${id}`);
+      if (!response.ok) throw new Error(`Failed to fetch teacher data. Status: ${response.status}`);
+      const data = await response.json();
+      setParent(data);
+    } catch (error) {
+      console.error("Error fetching parent:", error);
+    }
+  };
   return (
     <div className='flex min-h-screen'>
       <div className="fixed top-0 left-0 h-full"
         style={{ width: '280px' }}>  
-       <Sidebar BackgroundColor={"#5D13A6"} ImgURL={imageURL} Name={student.Name} Id={student.Id} Logout={()=>{console.log("Click Logout Button")}} Tab1={"Home"} Tab1Icon={FaHome} Tab1functions={"/parent-dashboard/"+id} Tab2={"Payment"} Tab2Icon={MdOutlinePayment} Tab2functions={"payment"} Tab3={"Timetable"} Tab3Icon={HiCalendarDateRange} Tab3functions={"timetable"} Tab4={"Setting"} Tab4Icon={IoIosSettings} Tab4functions={"settings"} Tab5={"Payment History"} Tab5Icon={HiMiniDocumentCurrencyDollar} Tab5functions={"payment-history"} AddNewTab={true} Tab6={"Attendence"} Tab6Icon={PiBookBookmarkFill} Tab6functions={"attendence"}/>
+       <Sidebar 
+        BackgroundColor={"#5D13A6"} 
+        ImgURL={parent.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${parent.image.imageId}` : null}
+        Name={parent.parentName} 
+        Id={parent.parentId} 
+        Logout={()=>{console.log("Click Logout Button")}} 
+        Tab1={"Home"} Tab1Icon={FaHome} Tab1functions={"/parent-dashboard/"+id} 
+        Tab2={"Payment"} Tab2Icon={MdOutlinePayment} Tab2functions={"payment"} 
+        Tab3={"Timetable"} Tab3Icon={HiCalendarDateRange} Tab3functions={"timetable"} 
+        Tab6={"Setting"} Tab6Icon={IoIosSettings} Tab6functions={"settings"} 
+        Tab5={"Payment History"} Tab5Icon={HiMiniDocumentCurrencyDollar} Tab5functions={"payment-history"} AddNewTab={true} 
+        Tab4={"Attendence"} Tab4Icon={PiBookBookmarkFill} Tab4functions={"attendence"}/>
       </div>
       
        {/* Main content area that takes up the remaining space */}

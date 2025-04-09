@@ -25,7 +25,10 @@ const Header = () => {
           </Box>
           
         </Typography>
-        <Typography variant='h4'sx={{ flexGrow: 2}}>InstaLearn</Typography>
+        <Typography variant="h4" sx={{ flexGrow: 2 }}>
+          <span style={{ color: 'white' }}>Insta</span>
+          <span style={{ color: 'black', fontWeight: 'bold' }}>Learn</span>
+        </Typography>
         
         {/* Navigation Links */}
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>

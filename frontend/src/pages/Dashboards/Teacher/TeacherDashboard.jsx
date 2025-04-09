@@ -173,7 +173,7 @@ const TeacherDashboard = () => {
         />
         <StatCard
           title="Average Score"
-          value={`${stats.averageScore}%`}
+          value={`${Number(stats?.averageScore ?? 0).toFixed(1)}%`}
           description="Average score across all quizzes"
         />
         {/* <StatCard

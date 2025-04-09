@@ -84,7 +84,7 @@ const ParentUserPaymentHistoryPage = () => {
         <div className="bg-white shadow-2xl rounded-2xl overflow-hidden border-2 border-gray-200 w-full">
           <div className="overflow-x-auto w-full">
             <table className="w-full min-w-max">
-              <thead style={{backgroundColor:"#13A68A"}}>
+              <thead style={{backgroundColor:"#5D13A6"}}>
                 <tr>
                   <th className="px-12 py-8 text-left text-2xl font-bold text-white uppercase tracking-wider min-w-[300px]">
                     Month

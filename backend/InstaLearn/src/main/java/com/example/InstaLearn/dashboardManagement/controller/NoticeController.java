@@ -1,9 +1,12 @@
 package com.example.InstaLearn.dashboardManagement.controller;
 
 import com.example.InstaLearn.dashboardManagement.dto.NoticeSaveRequestDTO;
+import com.example.InstaLearn.dashboardManagement.entity.Notice;
 import com.example.InstaLearn.dashboardManagement.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/notice")
@@ -32,5 +35,10 @@ public class NoticeController {
     public String deleteNotice(@RequestParam(value = "id") int noticeId) {
         String deleted=noticeService.deleteNotice(noticeId);
         return deleted;
+    }
+
+    @GetMapping("/get-all-notices")
+    public List<Notice> getAllNotices() {
+        return noticeService.getAllNotices();
     }
 }
