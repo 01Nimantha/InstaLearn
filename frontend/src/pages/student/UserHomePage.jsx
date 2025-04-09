@@ -19,10 +19,24 @@ const UserHomePage=()=>{
   const [marks,setMarks] = useState([]);
   const dispatch = useDispatch();
   const {id}=useParams();
-  
 
-  const student = useSelector((store)=>store.studentreducer.studentArr[0]);
-  const imageURL = useSelector((store)=>store.imagereducer.imagePath);
+  const [studentData, setStudentData] = useState([]);
+
+  useEffect(()=>{
+    loadStudent();
+  },[id]);
+
+  const loadStudent = async () => {
+    try {
+      const response = await fetch(`http://localhost:8085/api/v1/student/get-student-by/${id}`);
+      if (!response.ok) throw new Error(`Failed to fetch student data. Status: ${response.status}`);
+      const data = await response.json();
+      setStudentData(data);
+    } catch (error) {
+      console.error("Error fetching student:", error);
+    }
+  };
+
   const navigate =useNavigate();
 
   useEffect(() => {
@@ -63,10 +77,11 @@ const UserHomePage=()=>{
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
+  
 
   return <div>
   <div style={{display: "flex"}}>
-    <ImgCard ImgCardName={student.Name} ImgCardImg={imageURL} ImgCardID={student.Id} BgColor={"#13A68A"}/>
+    <ImgCard ImgCardName={studentData.studentName} ImgCardImg={studentData.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${studentData.image.imageId}` : null} ImgCardID={studentData.studentId} BgColor={"#13A68A"}/>
     <EventCard BgColor={"#78D9C6"} BgHColor={"#13A68A"}/>
   </div>
   <div>

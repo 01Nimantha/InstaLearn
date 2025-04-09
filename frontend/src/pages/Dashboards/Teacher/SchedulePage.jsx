@@ -108,7 +108,24 @@ function App() {
       });
   
       console.log(response.data);  // Log the response from the server
-      alert(response.data);        // Show success message to user
+      
+      // Update the events list with the new data
+      const updatedEvents = events.map(event => 
+        event.eventId === currentEvent.eventId 
+          ? {
+              ...event,
+              classType: formData.classType,
+              Day: formData.Day,
+              startTime: formData.startTime,
+              Duration: formData.Duration
+            }
+          : event
+      );
+      
+      setEvents(updatedEvents);
+      setShowEditModal(false);
+      resetForm();
+      alert('Event updated successfully!');
   
     } catch (error) {
       console.error("Error updating event:", error.response ? error.response.data : error.message);
@@ -264,9 +281,10 @@ function App() {
   <Timetable 
     days={days}
     times={times.map(t => t.display)}
-    events={events} // Pass events directly without transforming startTime
+    events={events}
     onEditEvent={openEditModal}
     onDeleteEvent={handleDeleteEvent}
+    isEditable={true}
   />
 </div>
           

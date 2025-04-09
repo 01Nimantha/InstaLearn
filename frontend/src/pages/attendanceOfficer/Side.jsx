@@ -9,10 +9,11 @@ const Side = ({isSidebarOpen,navigationItems,officer_name,AO_ID,editPath,changeP
 
   return (
     <div className={`mr-2
-      fixed lg:static inset-y-0 left-0 z-40 w-64 bg-green-500 text-white flex flex-col
+      fixed lg:static inset-y-0 left-0 z-40 w-64 bg-green-700 text-white flex flex-col
       transform transition-transform duration-300 ease-in-out
       ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
     `}>
+      <Link to="/" className='text-decoration-none'>
       <div className="p-6 flex justify-center items-center">
         <img src={logo} className='w-14 h-14'></img>
         <h1 className="text-2xl font-bold flex items-center">
@@ -20,6 +21,7 @@ const Side = ({isSidebarOpen,navigationItems,officer_name,AO_ID,editPath,changeP
           <span className="text-gray-950">Learn</span>
         </h1>
       </div>
+      </Link>
       
       <nav className="flex-1 mt-3">
         {navigationItems.map((item) => (
@@ -51,16 +53,16 @@ const Side = ({isSidebarOpen,navigationItems,officer_name,AO_ID,editPath,changeP
 
             {/* Settings Dropdown */}
             {item.name === 'Settings' && isSettingsDropdownOpen && (
-              <div className="ml-12 mt-1 bg-green-600 rounded-lg shadow-lg">
+              <div className="ml-12 mt-1 bg-green-800 rounded-lg shadow-lg">
                 <Link
                   to={editPath}
-                  className="block px-6 py-3 text-sm text-white hover:bg-green-700 rounded-lg text-decoration-none"
+                  className="block px-6 py-3 text-sm text-white hover:bg-green-900 rounded-lg text-decoration-none"
                 >
                   Edit Profile
                 </Link>
                 <Link
                   onClick={changePath}
-                  className="block px-6 py-3 text-sm text-white hover:bg-green-700 rounded-lg text-decoration-none"
+                  className="block px-6 py-3 text-sm text-white hover:bg-green-900 rounded-lg text-decoration-none"
                 >
                   Change Password
                 </Link>

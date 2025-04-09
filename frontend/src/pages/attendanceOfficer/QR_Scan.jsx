@@ -183,7 +183,7 @@ const QR_Scan = () => {
     <div className="h-screen bg-gradient-to-br from-green-50 via-white to-green-50 overflow-hidden animate-gradient-slow">
       <div className="container mx-auto px-4 py-2 max-w-7xl h-full flex flex-col">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-2">
-          <h1 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-blue-600 animate-gradient hover:scale-105 transition-transform cursor-default">
+          <h1 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-700 to-blue-600 animate-gradient hover:scale-105 transition-transform cursor-default">
             {classTypeInfo || "Loading class information..."}
           </h1>
           <div className="text-right bg-white/80 backdrop-blur-sm p-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 group">
@@ -234,7 +234,7 @@ const QR_Scan = () => {
               </div>
               <div className="grid grid-cols-2 gap-3 w-full max-w-sm mt-3">
                 <button
-                  className="bg-gray-800 hover:bg-gray-900 text-white py-2 px-3 rounded-lg shadow transition-all duration-300 flex items-center justify-center text-sm hover:scale-105 active:scale-95"
+                  className="bg-gray-800 hover:bg-gray-900 text-white py-2 px-3 rounded shadow transition-all duration-300 flex items-center justify-center text-sm hover:scale-105 active:scale-95"
                   onClick={() => setIsModalOpen(true)}
                 >
                   <svg className="w-4 h-4 mr-1 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -243,7 +243,7 @@ const QR_Scan = () => {
                   Manual Entry
                 </button>
                 <button
-                  className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-2 px-3 rounded-lg shadow transition-all duration-300 flex items-center justify-center text-sm hover:scale-105 active:scale-95"
+                  className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-2 px-3 rounded shadow transition-all duration-300 flex items-center justify-center text-sm hover:scale-105 active:scale-95"
                   onClick={handleFinalizeAttendance}
                 >
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
