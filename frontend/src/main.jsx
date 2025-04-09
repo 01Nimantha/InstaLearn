@@ -49,6 +49,7 @@ import ParentOnlineQuizPage from './pages/parent/ParentOnlineQuizPage.jsx';
 import ParentQuestionPaperPage from './pages/parent/ParentQuestionPaperPage.jsx';
 import UserAttendence from './pages/student/UserAttendence.jsx';
 import ParentAttendence from './pages/parent/ParentAttendence.jsx';
+import DemoPage from './pages/DemoPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -84,6 +85,7 @@ const router = createBrowserRouter([
   { path: "/about", element: <AboutPage /> },
   { path: "/contact", element: <ContactPage/> },
   { path: "/login", element: <LoginForm /> },
+  { path: "/demo", element: <DemoPage /> },
 
 
   {path: "/admin-dashboard", element: <AdminDashboard />},

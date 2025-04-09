@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Sidebar from "./components/Sidebar"
 // import Button from "./components/Button"
@@ -14,14 +14,36 @@ import { useSelector } from "react-redux";
 
 
 const App2 = () => {
+  // const {id} = useParams();
+  // const student = useSelector((store)=>store.studentreducer.studentArr[0]);
+  // const imageURL = useSelector((store)=>store.imagereducer.imagePath);
+
   const {id} = useParams();
-  const student = useSelector((store)=>store.studentreducer.studentArr[0]);
-  const imageURL = useSelector((store)=>store.imagereducer.imagePath);
+
+  const [student, setStudent] = useState([]);
+
+  useEffect(()=>{
+    loadStudent();
+  },[id]);
+
+  const loadStudent = async () => {
+    try {
+      const response = await fetch(`http://localhost:8085/api/v1/student/get-student-by/${id}`);
+      if (!response.ok) throw new Error(`Failed to fetch student data. Status: ${response.status}`);
+      const data = await response.json();
+      setStudent(data);
+    } catch (error) {
+      console.error("Error fetching student:", error);
+    }
+  };
   return (
     <div className='flex min-h-screen'>
       <div className="fixed top-0 left-0 h-full"
         style={{ width: '280px' }}>  
-       <Sidebar BackgroundColor={"#13A68A"} ImgURL={imageURL} Name={student.Name} Id={student.Id} Logout={()=>{console.log("Click Logout Button")}} Tab1={"Home"} Tab1Icon={FaHome} Tab1functions={"/student-dashboard/"+id} Tab2={"Payment"} Tab2Icon={MdOutlinePayment} Tab2functions={"payment"} Tab3={"Timetable"} Tab3Icon={HiCalendarDateRange} Tab3functions={"timetable"} Tab4={"Setting"} Tab4Icon={IoIosSettings} Tab4functions={"settings"} Tab5={"Payment History"} Tab5Icon={HiMiniDocumentCurrencyDollar} Tab5functions={"payment-history"} AddNewTab={true} Tab6={"Attendence"} Tab6Icon={PiBookBookmarkFill} Tab6functions={"attendence"}/>
+       <Sidebar BackgroundColor={"#13A68A"} 
+       ImgURL={student.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${student.image.imageId}` : null} 
+       Name={student.studentName} 
+       Id={student.studentId} Logout={()=>{console.log("Click Logout Button")}} Tab1={"Home"} Tab1Icon={FaHome} Tab1functions={"/student-dashboard/"+id} Tab2={"Payment"} Tab2Icon={MdOutlinePayment} Tab2functions={"payment"} Tab3={"Timetable"} Tab3Icon={HiCalendarDateRange} Tab3functions={"timetable"} Tab6={"Setting"} Tab6Icon={IoIosSettings} Tab6functions={"settings"} Tab5={"Payment History"} Tab5Icon={HiMiniDocumentCurrencyDollar} Tab5functions={"payment-history"} AddNewTab={true} Tab4={"Attendence"} Tab4Icon={PiBookBookmarkFill} Tab4functions={"attendence"}/>
       </div>
       
        {/* Main content area that takes up the remaining space */}

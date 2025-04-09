@@ -12,10 +12,12 @@ const ParentUserPaymentPage = () => {
   ];
 
   const priceList = [
-    { class: "2025 A/L THEORY", price: "Rs. 3000" },
+    { class: "2025 A/L THEORY", price: "Rs. 1500" },
     { class: "2025 A/L PAPER", price: "Rs. 1500" },
-    { class: "2026 A/L THEORY", price: "Rs. 2500" },
-    { class: "2026 A/L PAPER", price: "Rs. 1000" }
+    { class: "2026 A/L THEORY", price: "Rs. 2000" },
+    { class: "2026 A/L PAPER", price: "Rs. 2000" },
+    { class: "2025 REVISION THEORY", price: "Rs. 1000" },
+    { class: "2025 REVISION PAPER", price: "Rs. 1000" }
   ];
 
   const [parentId, setParentId] = useState("");
@@ -89,10 +91,12 @@ const ParentUserPaymentPage = () => {
     setSelectedClass(selectedClassName);
 
     const priceMap = {
-      "2025 A/L THEORY": 3000,
+      "2025 A/L THEORY": 1500,
       "2025 A/L PAPER": 1500,
-      "2026 A/L THEORY": 2500,
-      "2026 A/L PAPER": 1000,
+      "2026 A/L THEORY": 2000,
+      "2026 A/L PAPER": 2000,
+      "2025 REVISION THEORY": 1000,
+      "2025 REVISION PAPER": 1000
     };
 
     setAmount(priceMap[selectedClassName] || "");
@@ -167,7 +171,7 @@ const ParentUserPaymentPage = () => {
           <h1 className="text-4xl font-bold text-purple-700 mb-4 md:mb-0">Payment Portal</h1>
           <button
             onClick={handleViewHistory}
-            className="bg-purple-600 text-white font-medium py-3 px-8 rounded-lg hover:bg-purple-700 transition-colors text-xl"
+            className="bg-purple-600 text-white font-medium py-3 px-8 rounded hover:bg-purple-700 transition-colors text-xl"
           >
             View Payment History
           </button>
@@ -248,7 +252,7 @@ const ParentUserPaymentPage = () => {
 
               <button
                 onClick={handleCheckout}
-                className="w-full bg-purple-600 text-white py-4 text-xl font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+                className="w-full bg-purple-600 text-white py-4 text-xl font-semibold rounded hover:bg-purple-700 transition-colors"
               >
                 Pay Now
               </button>

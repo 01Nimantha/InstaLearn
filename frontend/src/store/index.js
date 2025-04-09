@@ -7,8 +7,7 @@ import imageSlice from "./imageSlice";
 import quistionSlice from "./quistionSlice";
 import parentimageSlice from "./parentimageSlice";
 import parentSlice from "./parentSlice";
-
-
+import noticeSlice from "./noticeSlice";
 
 const mystore=configureStore({reducer:{
   logingreducer: logingSlice.reducer,
@@ -19,7 +18,7 @@ const mystore=configureStore({reducer:{
   quistionreducer: quistionSlice.reducer,
   parentimagereducer: parentimageSlice.reducer,
   parentreducer: parentSlice.reducer,
+  notice: noticeSlice,
 }});
-
 
 export default mystore;

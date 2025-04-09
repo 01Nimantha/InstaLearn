@@ -37,7 +37,7 @@ public class PaymentController {
             SessionCreateParams params = SessionCreateParams.builder()
                     .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                     .setMode(SessionCreateParams.Mode.PAYMENT)
-                    .setSuccessUrl("http://localhost:8085/api/v1/payment/success")
+                    .setSuccessUrl("http://localhost:5173/student-dashboard/ST_2025_10001")
                     .setCancelUrl("http://localhost:8085/api/v1/payment/cancel")
                     .addLineItem(
                             SessionCreateParams.LineItem.builder()

@@ -390,6 +390,7 @@ const Homepage = () => {
               <Button
                 variant="outlined"
                 startIcon={<PlayArrowIcon />}
+                onClick={() => navigate("/demo")}
                 sx={{
                   color: "white",
                   borderColor: "white",

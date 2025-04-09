@@ -70,10 +70,12 @@ const UserPaymentPage = () => {
     setSelectedClass(selectedClassName);
 
     const priceMap = {
-      "2025 A/L THEORY": 3000,
+      "2025 A/L THEORY":  1500,
       "2025 A/L PAPER": 1500,
-      "2026 A/L THEORY": 2500,
-      "2026 A/L PAPER": 1000,
+      "2026 A/L THEORY": 2000,
+      "2026 A/L PAPER": 2000,
+      "2025 REVISION THEORY": 1000,
+      "2025 REVISION PAPER": 1000
     };
 
     setAmount(priceMap[selectedClassName] || "");
