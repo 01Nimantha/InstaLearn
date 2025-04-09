@@ -8,6 +8,8 @@ import com.example.InstaLearn.dashboardManagement.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class NoticeServiceIMPL implements NoticeService {
 
@@ -52,4 +54,10 @@ public class NoticeServiceIMPL implements NoticeService {
             throw new RuntimeException("No customer found for that id");
         }
     }
+
+    @Override
+    public List<Notice> getAllNotices() {
+        return noticeRepo.findAll();
+    }
+
 }
