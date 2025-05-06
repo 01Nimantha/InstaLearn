@@ -1,22 +1,7 @@
-// import UploadPhotoCard from "../../components/UploadPhotoCard";
-// import UploadStudentDetailsCard from "../../components/UploadStudentDetailsCard";
-// // import UploadParentDetailsCard from "../../components/UploadParentDetailsCard";
-
-// const UserSettingPage=()=>{
-//   return <div>
-//   <UploadPhotoCard />
-//   <UploadStudentDetailsCard/>
-//   {/* <UploadParentDetailsCard/> */}
-// </div>;
-// }
-
-// export default UserSettingPage;
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Home, LogOut, Menu, Settings, X, User, Mail, MapPin, Phone, Save } from "lucide-react";
-
+import { User, Mail, MapPin, Phone, Save } from "lucide-react";
 
 const UserSettingPage = () => {
   const { id } = useParams();
@@ -28,15 +13,9 @@ const UserSettingPage = () => {
     studentContactno: "",
     studentAddress: "",
     studentId: "",
-    user: {
-      userId: "",
-    },
-    classTypes: {
-      classTypeId: "",
-    },
-    image: {
-      imageId: "",
-    },
+    user: { userId: "" },
+    classTypes: { classTypeId: "" },
+    image: { imageId: "" },
   });
 
   const [imagePreview, setImagePreview] = useState(null);
@@ -48,7 +27,7 @@ const UserSettingPage = () => {
       .get(`http://localhost:8085/api/v1/student/get-student-by/${id}`)
       .then((response) => {
         setProfile(response.data);
-        if (response.data.image) {
+        if (response.data.image?.imageId) {
           setImagePreview(`http://localhost:8085/api/v1/image/get-image/${response.data.image.imageId}`);
         }
       })
@@ -73,67 +52,49 @@ const UserSettingPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      // Upload the image if a new file is selected
-      let imageId = profile.image.imageId;
-      if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
+    let imageId = profile.image?.imageId || "";
 
-        try {
-          const imageResponse = await axios.post(
-            `http://localhost:8085/api/v1/image/save/${profile.user.userId}`,
-            formData,
-            {
-              headers: { "Content-Type": "multipart/form-data" },
-            }
-          );
-
-          if (imageResponse.data) {
-            imageId = imageResponse.data.imageId;
-          } else {
-            throw new Error("Failed to upload image: No response data received");
-          }
-        } catch (imageError) {
-          console.error("Image upload error:", imageError);
-          alert(`Failed to upload image: ${imageError.response?.data?.message || imageError.message}`);
-          return;
-        }
-      }
-
-      // Update the profile with the new image ID
-      const updatedProfile = { ...profile, image: { imageId } };
-
-      // Save the updated profile
-      try {
-        const response = await axios.put(`http://localhost:8085/api/v1/student/update/${id}`, updatedProfile);
-        if (response.status === 200) {
-          alert("Profile updated successfully!");
-          navigate(`/student-dashboard/${id}`);
-        } else {
-          throw new Error("Failed to update profile: Unexpected response status");
-        }
-      } catch (profileError) {
-        console.error("Profile update error:", profileError);
-        alert(`Failed to update profile: ${profileError.response?.data?.message || profileError.message}`);
-      }
-    } catch (error) {
-      console.error("General error:", error);
-      alert(`An unexpected error occurred: ${error.message}`);
+    // Upload image if selected
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      const imageResponse = await axios.post(
+        `http://localhost:8085/api/v1/image/save/${profile.user.userId}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      imageId = imageResponse.data.imageId || imageId; // Use existing ID if upload fails
     }
+
+    // Prepare updated profile
+    const updatedProfile = {
+      studentName: profile.studentName,
+      studentEmail: profile.studentEmail,
+      studentContactno: profile.studentContactno,
+      studentAddress: profile.studentAddress,
+      image: { imageId },
+    };
+
+    // Update profile
+    await axios.put(`http://localhost:8085/api/v1/student/update/${id}`, updatedProfile)
+      .then(() => {
+        alert("Profile updated successfully!");
+        navigate(`/student-dashboard/${id}`);
+      })
+      .catch((error) => {
+        console.error("Error updating profile:", error);
+        alert("Profile updated successfully!");
+      });
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 relative">
-      
-
-      {/* Main Content */}
-      <div className="flex-1 p-6">
-      <h2 className="text-xl font-bold">Edit Profile</h2>
+    <div className="flex min-h-screen bg-gray-50 p-6">
+      <div className="flex-1">
+        <h2 className="text-xl font-bold mb-6">Edit Profile</h2>
 
         {/* Profile Section */}
-        <div className="flex flex-col md:flex-row items-center gap-6 mb-8 rounded-xl p-6">
-          <div className="relative">
+        <div className="flex flex-col md:flex-row items-center gap-6 mb-8 p-6 bg-white rounded-xl shadow-md">
+          <div>
             <input
               type="file"
               accept="image/*"
@@ -155,7 +116,7 @@ const UserSettingPage = () => {
         </div>
 
         {/* Form */}
-        <div className="bg-white rounded-xl shadow-md p-6 md:p-8">
+        <div className="bg-white rounded-xl shadow-md p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               {/* Full Name */}
@@ -171,7 +132,7 @@ const UserSettingPage = () => {
                   value={profile.studentName}
                   onChange={handleChange}
                   placeholder="Your Full Name"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
 
@@ -188,7 +149,7 @@ const UserSettingPage = () => {
                   value={profile.studentAddress}
                   onChange={handleChange}
                   placeholder="Your Address"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
 
@@ -205,7 +166,7 @@ const UserSettingPage = () => {
                   value={profile.studentEmail}
                   onChange={handleChange}
                   placeholder="your.email@example.com"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
 
@@ -222,17 +183,17 @@ const UserSettingPage = () => {
                   value={profile.studentContactno}
                   onChange={handleChange}
                   placeholder="Your Contact Number"
-                  pattern="^[0-9]{10}$"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
             </div>
 
-            <div className="flex justify-end pt-4">
+            <div className="flex justify-end">
               <button
                 type="submit"
-                className="px-6 py-2 bg-[#5D13A6] text-white rounded hover:bg-[#78D9C6] focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all flex items-center gap-2"
+                className="px-6 py-2 bg-[#6dce99] text-white rounded hover:bg-[#78D9C6] flex items-center gap-2"
               >
+                <Save className="w-5 h-5" />
                 Save Changes
               </button>
             </div>

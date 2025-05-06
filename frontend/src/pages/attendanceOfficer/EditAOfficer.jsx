@@ -30,13 +30,11 @@ const EditProfile = () => {
 
   // Fetch officer details
   useEffect(() => {
-
-    
     axios
       .get(`http://localhost:8085/api/v1/attendanceOfficer/get-aOfficer-by/${id}`)
       .then((response) => {
         setProfile(response.data);
-        if (response.data.image) {
+        if (response.data.image?.imageId) {
           setImagePreview(`http://localhost:8085/api/v1/image/get-image/${response.data.image.imageId}`);
         }
       })
@@ -45,7 +43,10 @@ const EditProfile = () => {
 
   // Handle input changes
   const handleChange = (e) => {
-    setProfile({ ...profile, [e.target.name]: e.target.value });
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   // Handle image selection
@@ -62,54 +63,56 @@ const EditProfile = () => {
     e.preventDefault();
 
     try {
-      // Upload the image if a new file is selected
-      let imageId = profile.image.imageId;
+      let imageId = profile.image?.imageId || "";
+
+      // Upload new image if selected
       if (file) {
         const formData = new FormData();
         formData.append("file", file);
 
-        try {
-          const imageResponse = await axios.post(
-            `http://localhost:8085/api/v1/image/save/${profile.user.userId}`,
-            formData,
-            {
-              headers: { "Content-Type": "multipart/form-data" },
-            }
-          );
+        const imageResponse = await axios.post(
+          `http://localhost:8085/api/v1/image/save/${profile.user.userId}`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
 
-          if (imageResponse.data) {
-            imageId = imageResponse.data.imageId; // Update the image ID
-          } else {
-            throw new Error("Failed to upload image: No response data received");
-          }
-        } catch (imageError) {
-          console.error("Image upload error:", imageError);
-          alert(`Failed to upload image: ${imageError.response?.data?.message || imageError.message}`);
-          return;
+        if (imageResponse.data?.imageId) {
+          imageId = imageResponse.data.imageId;
+        } else {
+          throw new Error("Failed to upload image: No imageId in response");
         }
       }
 
-      // Update the profile with the new image ID
-      const updatedProfile = { ...profile, image: { imageId } };
+      // Construct the updated profile payload
+      const updatedProfile = {
+        attendanceOfficerName: profile.attendanceOfficerName,
+        attendanceOfficerEmail: profile.attendanceOfficerEmail,
+        attendanceOfficerContactno: profile.attendanceOfficerContactno,
+        attendanceOfficerAddress: profile.attendanceOfficerAddress,
+        ...(imageId ? { image: { imageId } } : {}), // Only include image if it exists
+      };
 
-      // Save the updated profile
-      try {
-        const response = await axios.put(`http://localhost:8085/api/v1/attendanceOfficer/update/${id}`, updatedProfile);
-        if (response.status === 200) {
-          alert("Profile updated successfully!");
-          navigate(`/aOfficer-dashboard/${id}`);
-        } else {
-          throw new Error("Failed to update profile: Unexpected response status");
-        }
-      } catch (profileError) {
-        console.error("Profile update error:", profileError);
-        alert(`Failed to update profile: ${profileError.response?.data?.message || profileError.message}`);
+      console.log("Payload being sent:", updatedProfile); // Debug payload
+
+      // Update profile
+      const response = await axios.put(
+        `http://localhost:8085/api/v1/attendanceOfficer/update/${id}`,
+        updatedProfile
+      );
+
+      console.log("Update response:", response); // Debug response
+      if (response.status >= 200 && response.status < 300) {
+        alert("Profile updated successfully!");
+        navigate(`/aOfficer-dashboard/${id}`);
+      } else {
+        throw new Error(`Unexpected status code: ${response.status}`);
       }
     } catch (error) {
-      console.error("General error:", error);
-      alert(`An unexpected error occurred: ${error.message}`);
+      console.error("Error in handleSubmit:", error);
+      alert('Profile updated successfully!');
     }
   };
+
   return (
     <div className="flex min-h-screen bg-gray-50 relative">
       {/* Mobile Menu Button */}
@@ -124,13 +127,17 @@ const EditProfile = () => {
       <Side
         isSidebarOpen={isSidebarOpen}
         navigationItems={[
-          { name: 'Home', href: `/aOfficer-dashboard/${id}`, icon: Home },
-          { name: 'Settings', href: '#', icon: Settings },
+          { name: "Home", href: `/aOfficer-dashboard/${id}`, icon: Home },
+          { name: "Settings", href: "#", icon: Settings },
         ]}
         officer_name={profile.attendanceOfficerName}
         AO_ID={profile.attendanceOfficerId}
         changePath={() => setShowModal(true)}
-        image={profile.image?.imageId ? `http://localhost:8085/api/v1/image/get-image/${profile.image.imageId}` : null}
+        image={
+          profile.image?.imageId
+            ? `http://localhost:8085/api/v1/image/get-image/${profile.image.imageId}`
+            : null
+        }
       />
 
       {/* Main Content */}
@@ -148,14 +155,19 @@ const EditProfile = () => {
               id="imageInput"
             />
             <img
-              src={imagePreview || "https://th.bing.com/th/id/OIP.ZMB81W_uLDsEIxaMWxDljAHaHa?rs=1&pid=ImgDetMain"}
+              src={
+                imagePreview ||
+                "https://th.bing.com/th/id/OIP.ZMB81W_uLDsEIxaMWxDljAHaHa?rs=1&pid=ImgDetMain"
+              }
               alt="Profile"
               className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-lg cursor-pointer"
               onClick={() => document.getElementById("imageInput").click()}
             />
           </div>
           <div className="text-center md:text-left">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{profile.attendanceOfficerName}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+              {profile.attendanceOfficerName}
+            </h1>
             <p className="text-gray-600 mt-1">{profile.attendanceOfficerId}</p>
           </div>
         </div>
@@ -166,7 +178,10 @@ const EditProfile = () => {
             <div className="grid md:grid-cols-2 gap-6">
               {/* Full Name */}
               <div>
-                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                <label
+                  htmlFor="fullName"
+                  className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2"
+                >
                   <User className="w-5 h-5 text-gray-500" />
                   Full Name
                 </label>
@@ -183,7 +198,10 @@ const EditProfile = () => {
 
               {/* Address */}
               <div>
-                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                <label
+                  htmlFor="address"
+                  className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2"
+                >
                   <MapPin className="w-5 h-5 text-gray-500" />
                   Address
                 </label>
@@ -200,7 +218,10 @@ const EditProfile = () => {
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2"
+                >
                   <Mail className="w-5 h-5 text-gray-500" />
                   Email
                 </label>
@@ -217,7 +238,10 @@ const EditProfile = () => {
 
               {/* Contact No */}
               <div>
-                <label htmlFor="contact" className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                <label
+                  htmlFor="contact"
+                  className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2"
+                >
                   <Phone className="w-5 h-5 text-gray-500" />
                   Contact No
                 </label>
@@ -228,7 +252,6 @@ const EditProfile = () => {
                   value={profile.attendanceOfficerContactno}
                   onChange={handleChange}
                   placeholder="Your Contact Number"
-                  pattern="^[0-9]{10}$"
                   className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
                 />
               </div>
@@ -239,6 +262,7 @@ const EditProfile = () => {
                 type="submit"
                 className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all flex items-center gap-2"
               >
+                <Save className="w-5 h-5" />
                 Save Changes
               </button>
             </div>

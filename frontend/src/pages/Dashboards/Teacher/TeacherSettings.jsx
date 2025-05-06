@@ -59,8 +59,15 @@ const TeacherSettings = () => {
     e.preventDefault();
 
     try {
-      // Upload the image if a new file is selected
-      let imageId = profile.image.imageId;
+      // Validate required fields
+      if (!profile.teacherName || !profile.teacherEmail || !profile.teacherContactno) {
+        alert("Please fill in all required fields");
+        return;
+      }
+
+      let imageId = profile.image?.imageId;
+      
+      // Handle image upload if a new file is selected
       if (file) {
         const formData = new FormData();
         formData.append("file", file);
@@ -75,36 +82,34 @@ const TeacherSettings = () => {
           );
 
           if (imageResponse.data) {
-            imageId = imageResponse.data.imageId; // Update the image ID
-          } else {
-            throw new Error("Failed to upload image: No response data received");
+            imageId = imageResponse.data.imageId;
           }
-        } catch (imageError) {
-          console.error("Image upload error:", imageError);
-          alert(`Failed to upload image: ${imageError.response?.data?.message || imageError.message}`);
+        } catch (error) {
+          console.error("Error uploading image:", error);
+          alert("Failed to upload image. Please try again.");
           return;
         }
       }
 
-      // Update the profile with the new image ID
-      const updatedProfile = { ...profile, image: { imageId } };
+      // Prepare the updated profile data
+      const updatedProfile = {
+        ...profile,
+        image: { imageId },
+      };
 
-      // Save the updated profile
-      try {
-        const response = await axios.put(`http://localhost:8085/api/v1/teacher/update/${id}`, updatedProfile);
-        if (response.status === 200) {
-          alert("Profile updated successfully!");
-          navigate(`/teacher-dashboard/${id}`);
-        } else {
-          throw new Error("Failed to update profile: Unexpected response status");
-        }
-      } catch (profileError) {
-        console.error("Profile update error:", profileError);
-        alert(`Failed to update profile: ${profileError.response?.data?.message || profileError.message}`);
+      // Update the profile
+      const response = await axios.put(
+        `http://localhost:8085/api/v1/teacher/update/${id}`,
+        updatedProfile
+      );
+      
+      if (response.status === 200) {
+        alert("Profile updated successfully!");
+        navigate(`/teacher-dashboard/${id}`);
       }
     } catch (error) {
-      console.error("General error:", error);
-      alert(`An unexpected error occurred: ${error.message}`);
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. Please try again.");
     }
   };
 
